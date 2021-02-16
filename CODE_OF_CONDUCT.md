@@ -1,8 +1,6 @@
 
 # Code of Conduct
 
-## Our Pledge
-
 All participants are expected to abide by our Code of Conduct, both online and during in-person events.
 
 Examples of behavior that contributes to creating a positive environment
