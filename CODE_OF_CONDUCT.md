@@ -14,6 +14,16 @@ include:
   * Listen to and don’t be judgemental about people’s opinions
   * Don’t impose your opinion on others
 * Gracefully accepting constructive criticism
+* Put in the work
+  * Attend the meetings (every Tuesday 2pm and Thursday after TA meeting) unless unable due to a major cause.
+  * Be open to other additional meetings.
+  * Put in enough work that would, in your opinion, result in the grade of your desire.
+* Follow the sprint schedule
+  * Start a sprint on Thursday.
+  * Finish coding by Tuesday.
+  * Make Merge requests by Tuesday.
+  * By Wednesday give merge requests feedback and accept good merges.
+  * By Wednesday evening edit the code according to the reviews and accept edited merge requests.
 * Be a responsible team member
   * Don’t wait till the last moment / miss deadlines
   * Be active in discussions
