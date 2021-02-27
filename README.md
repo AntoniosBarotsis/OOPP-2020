@@ -14,7 +14,7 @@ Add your own name (do not add the names for others!) to the section below.
 
 | 📸 | Name | Email |
 |---|---|---|
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Your Name Here | Y.NameHere@student.tudelft.nl |
+| <img src="https://i.ibb.co/Cn6q6d4/foto.jpg" alt="foto" border="0" width="100" /> | Martin Wiesner | m.a.wiesner@student.tudelft.nl |
 
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
