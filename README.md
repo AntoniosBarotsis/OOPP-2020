@@ -14,7 +14,7 @@ Add your own name (do not add the names for others!) to the section below.
 
 | 📸 | Name | Email |
 |---|---|---|
-| ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/3603/avatar.png?width=400) | Kiril Vasilev Vasilev | k.v.vasilev-1@student.tudelft.nl |
+| <img src = "https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/3603/avatar.png" width="50px" height="50px"> | Kiril Vasilev Vasilev | k.v.vasilev-1@student.tudelft.nl |
 
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
