@@ -62,7 +62,7 @@ public class DataConfig {
             questionRepository.saveAll(List.of(q1));
 
             Room r1 = new Room("Room Title", false, u1);
-            Object question1;
+
             r1.setQuestions(Stream.of(q1)
                 .collect(Collectors.toSet())
             );
