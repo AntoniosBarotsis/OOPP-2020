@@ -27,7 +27,7 @@ import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
  * The Room class. Note that the set of banned IPs is not exposed to the client by default
  * and will require the use of a getter since it's sensitive information.
  */
-@Entity
+@Entity(name = "Room")
 @Table(name = "rooms")
 public class Room {
     @Id
@@ -58,6 +58,12 @@ public class Room {
     @ElementCollection
     @Column(name = "banned_ips")
     private Set<String> bannedIps;
+    @OneToMany
+    @Column(name = "questions")
+    private Set<Question> questions;
+    @OneToMany
+    @Column(name = "polls")
+    private Set<Poll> polls;
     @Column(name = "too_fast")
     private int tooFast;
     @Column(name = "too_slow")
@@ -85,6 +91,8 @@ public class Room {
         this.startingDate = new Date();
         this.bannedIps = new HashSet<>();
         this.moderators = new HashSet<>();
+        this.questions = new HashSet<>();
+        this.polls = new HashSet<>();
         this.tooFast = 0;
         this.tooSlow = 0;
 
@@ -105,7 +113,7 @@ public class Room {
         String uuid = UUID.randomUUID().toString();
 
         this.elevatedPassword = uuid.substring(0, uuid.length() / 2);
-        this.normalPassword = uuid.substring(uuid.length());
+        this.normalPassword = uuid.substring(uuid.length() / 2);
     }
 
     /**
@@ -233,6 +241,42 @@ public class Room {
      */
     public void setBannedIps(Set<String> bannedIps) {
         this.bannedIps = bannedIps;
+    }
+
+    /**
+     * Gets questions.
+     *
+     * @return the questions
+     */
+    public Set<Question> getQuestions() {
+        return questions;
+    }
+
+    /**
+     * Sets questions.
+     *
+     * @param questions the questions
+     */
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
+
+    /**
+     * Gets questions.
+     *
+     * @return the questions
+     */
+    public Set<Poll> getPolls() {
+        return polls;
+    }
+
+    /**
+     * Sets questions.
+     *
+     * @param polls the questions
+     */
+    public void setPolls(Set<Poll> polls) {
+        this.polls = polls;
     }
 
     /**
