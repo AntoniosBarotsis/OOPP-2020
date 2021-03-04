@@ -2,8 +2,8 @@ package nl.tudelft.oopp.demo.services;
 
 import java.util.List;
 import java.util.Set;
+import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.entities.questions.Question;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
