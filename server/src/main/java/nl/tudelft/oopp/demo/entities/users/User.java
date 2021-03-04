@@ -14,7 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
-import nl.tudelft.oopp.demo.entities.questions.Question;
+import nl.tudelft.oopp.demo.entities.Question;
 
 /**
  * The type User.

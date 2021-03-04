@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import nl.tudelft.oopp.demo.entities.questions.Question;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 
 /**
@@ -62,6 +61,9 @@ public class Room {
     @OneToMany
     @Column(name = "questions")
     private Set<Question> questions;
+    @OneToMany
+    @Column(name = "polls")
+    private Set<Poll> polls;
     @Column(name = "too_fast")
     private int tooFast;
     @Column(name = "too_slow")
@@ -90,6 +92,7 @@ public class Room {
         this.bannedIps = new HashSet<>();
         this.moderators = new HashSet<>();
         this.questions = new HashSet<>();
+        this.polls = new HashSet<>();
         this.tooFast = 0;
         this.tooSlow = 0;
 
@@ -256,6 +259,24 @@ public class Room {
      */
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
+    }
+
+    /**
+     * Gets questions.
+     *
+     * @return the questions
+     */
+    public Set<Poll> getPolls() {
+        return polls;
+    }
+
+    /**
+     * Sets questions.
+     *
+     * @param polls the questions
+     */
+    public void setPolls(Set<Poll> polls) {
+        this.polls = polls;
     }
 
     /**
