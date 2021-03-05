@@ -4,6 +4,7 @@ import java.util.Set;
 
 public class User {
     private long id;
+    private UserType userType;
     private String username;
     private Set<Question> questionsAsked;
     private Set<Question> questionsUpvoted;
@@ -15,9 +16,10 @@ public class User {
      * @param questionsAsked set of questions asked
      * @param questionsUpvoted set of questions upvoted
      */
-    public User(long id, String username, Set<Question> questionsAsked,
-                Set<Question> questionsUpvoted) {
+    public User(long id, UserType userType, String username,
+                Set<Question> questionsAsked, Set<Question> questionsUpvoted) {
         this.id = id;
+        this.userType = userType;
         this.username = username;
         this.questionsAsked = questionsAsked;
         this.questionsUpvoted = questionsUpvoted;
@@ -37,6 +39,22 @@ public class User {
      */
     public void setId(long id) {
         this.id = id;
+    }
+
+    /**
+     * Getter for type of user.
+     * @return type of user
+     */
+    public UserType getUserType() {
+        return userType;
+    }
+
+    /**
+     * Setter for type of user.
+     * @param userType type of user
+     */
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     /**
@@ -71,5 +89,21 @@ public class User {
         return questionsUpvoted;
     }
 
-
+    /**
+     * Enum for type of user.
+     */
+    private enum UserType {
+        /**
+         * Student type.
+         */
+        STUDENT,
+        /**
+         * Moderator type.
+         */
+        MODERATOR,
+        /**
+         * Lecturer type.
+         */
+        LECTURER
+    }
 }
