@@ -1,3 +1,5 @@
+// Documentation: https://documenter.getpostman.com/view/11437031/Tz5jdf4p#dead1e70-129b-49fd-bbd5-b119bf0c839f
+
 package nl.tudelft.oopp.demo.controllers;
 
 import java.util.List;
@@ -101,7 +103,7 @@ public class RoomController {
      *
      * @param roomId the room id
      */
-    @PutMapping("/increment/tooFast/{roomId}")
+    @PutMapping("/tooFast/increment/{roomId}")
     public void incrementTooFast(@PathVariable long roomId) {
         roomService.incrementTooFast(roomId);
     }
@@ -111,7 +113,7 @@ public class RoomController {
      *
      * @param roomId the room id
      */
-    @PutMapping("/decrement/tooFast/{roomId}")
+    @PutMapping("/tooFast/decrement/{roomId}")
     public void decrementTooFast(@PathVariable long roomId) {
         roomService.decrementTooFast(roomId);
     }
@@ -121,7 +123,7 @@ public class RoomController {
      *
      * @param roomId the room id
      */
-    @PutMapping("/increment/tooSlow/{roomId}")
+    @PutMapping("/tooSlow/increment/{roomId}")
     public void incrementTooSlow(@PathVariable long roomId) {
         roomService.incrementTooSlow(roomId);
     }
@@ -131,7 +133,7 @@ public class RoomController {
      *
      * @param roomId the room id
      */
-    @PutMapping("/decrement/tooSlow/{roomId}")
+    @PutMapping("/tooSlow/decrement/{roomId}")
     public void decrementTooSlow(@PathVariable long roomId) {
         roomService.decrementTooSlow(roomId);
     }
