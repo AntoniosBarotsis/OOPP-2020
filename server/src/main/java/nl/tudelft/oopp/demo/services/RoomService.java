@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.services;
 
 import java.util.List;
 import java.util.Set;
+import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
@@ -73,6 +74,10 @@ public class RoomService {
      */
     public Set<Question> findAllQuestions(long roomId) {
         return roomRepository.findAllQuestions(roomId);
+    }
+
+    public Set<Poll> findAllPolls(long roomId) {
+        return roomRepository.findAllPolls(roomId);
     }
 
     /**

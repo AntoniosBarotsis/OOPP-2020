@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.util.List;
 import java.util.Set;
+import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.services.RoomService;
@@ -82,6 +83,17 @@ public class RoomController {
     @GetMapping("questions/{roomId}")
     public Set<Question> findAllQuestions(@PathVariable long  roomId) {
         return roomService.findAllQuestions(roomId);
+    }
+
+    /**
+     * Find all polls set.
+     *
+     * @param roomId the room id
+     * @return the set
+     */
+    @GetMapping("polls/{roomId}")
+    public Set<Poll> findAllPolls(@PathVariable long roomId) {
+        return roomService.findAllPolls(roomId);
     }
 
     /**

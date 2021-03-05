@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.repositories;
 import java.util.List;
 import java.util.Set;
 import javax.transaction.Transactional;
+import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,7 +23,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      * @return the public password
      */
     @Transactional
-    @Query(value = "SELECT normal_password FROM rooms WHERE id = ?1", nativeQuery = true)
+    @Query(value = "SELECT r.normalPassword FROM Room r WHERE r.id = ?1")
     String getPublicPassword(long roomId);
 
     /**
@@ -32,7 +33,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      * @return the private password
      */
     @Transactional
-    @Query(value = "SELECT elevated_password FROM rooms WHERE id = ?1", nativeQuery = true)
+    @Query(value = "SELECT r.elevatedPassword FROM Room r WHERE r.id = ?1")
     String getPrivatePassword(long roomId);
 
     /**
@@ -42,8 +43,18 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      * @return the set
      */
     @Transactional
-    @Query(value = "SELECT q FROM Question q, Room r where r.id = ?1 AND q.id = r.id")
+    @Query(value = "SELECT r.questions FROM Room r WHERE r.id = ?1")
     Set<Question> findAllQuestions(long roomId);
+
+    /**
+     * Find all polls set.
+     *
+     * @param roomId the room id
+     * @return the set
+     */
+    @Transactional
+    @Query(value = "SELECT r.polls FROM Room r WHERE r.id = ?1")
+    Set<Poll> findAllPolls(long roomId);
 
     /**
      * Increment too fast.

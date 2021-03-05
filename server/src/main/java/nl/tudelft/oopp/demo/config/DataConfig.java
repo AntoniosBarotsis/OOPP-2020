@@ -59,11 +59,12 @@ public class DataConfig {
             pollRepository.saveAll(List.of(p1));
 
             Question q1 = new Question("Question title", "Question text", u1);
-            questionRepository.saveAll(List.of(q1));
+            Question q2 = new Question("Question title 2", "Question text 2", u1);
+            questionRepository.saveAll(List.of(q1, q2));
 
             Room r1 = new Room("Room Title", false, u1);
 
-            r1.setQuestions(Stream.of(q1)
+            r1.setQuestions(Stream.of(q2)
                 .collect(Collectors.toSet())
             );
             r1.setPolls(Stream.of(p1)
