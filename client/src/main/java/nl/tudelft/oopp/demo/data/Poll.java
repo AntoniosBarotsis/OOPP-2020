@@ -36,8 +36,8 @@ public class Poll {
     }
 
     /**
-     * Setter for text of poll.
-     * @param text
+     * Setter for question of poll.
+     * @param text question of poll
      */
     public void setText(String text) {
         this.text = text;

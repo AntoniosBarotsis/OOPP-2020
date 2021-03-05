@@ -55,7 +55,7 @@ public class Room {
 
     /**
      * Setter for starting date of room.
-     * @param startingDate
+     * @param startingDate starting date of room
      */
     public void setStartingDate(Date startingDate) {
         this.startingDate = startingDate;
@@ -103,7 +103,7 @@ public class Room {
 
     /**
      * Setter for too slow pace.
-     * @param tooSlow
+     * @param tooSlow too slow pace
      */
     public void setTooSlow(int tooSlow) {
         this.tooSlow = tooSlow;

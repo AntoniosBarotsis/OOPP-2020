@@ -7,7 +7,8 @@ public class User {
     private Set<Question> questionsAsked;
     private Set<Question> questionsUpvoted;
 
-    /** Initializes a user
+    /**
+     * Initializes a user.
      * @param username username of user
      * @param questionsAsked set of questions asked
      * @param questionsUpvoted set of questions upvoted
@@ -18,28 +19,32 @@ public class User {
         this.questionsUpvoted = questionsUpvoted;
     }
 
-    /** Getter for username
+    /**
+     * Getter for username.
      * @return username of user
      */
     public String getUsername() {
         return username;
     }
 
-    /** Setter for username
+    /**
+     * Setter for username.
      * @param username username of user
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /** Getter for asked questions by user
+    /**
+     * Getter for asked questions by user.
      * @return set of asked questions by user
      */
     public Set<Question> getQuestionsAsked() {
         return questionsAsked;
     }
 
-    /** Getter for upvoted questions by user
+    /**
+     * Getter for upvoted questions by user.
      * @return set of upvoted questions by user
      */
     public Set<Question> getQuestionsUpvoted() {
