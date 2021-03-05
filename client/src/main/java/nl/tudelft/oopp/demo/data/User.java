@@ -3,20 +3,40 @@ package nl.tudelft.oopp.demo.data;
 import java.util.Set;
 
 public class User {
+    private long id;
     private String username;
     private Set<Question> questionsAsked;
     private Set<Question> questionsUpvoted;
 
     /**
      * Initializes a user.
+     * @param id id of user
      * @param username username of user
      * @param questionsAsked set of questions asked
      * @param questionsUpvoted set of questions upvoted
      */
-    public User(String username, Set<Question> questionsAsked, Set<Question> questionsUpvoted) {
+    public User(long id, String username, Set<Question> questionsAsked,
+                Set<Question> questionsUpvoted) {
+        this.id = id;
         this.username = username;
         this.questionsAsked = questionsAsked;
         this.questionsUpvoted = questionsUpvoted;
+    }
+
+    /**
+     * Getter for id of user.
+     * @return id of user
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Setter for id of user.
+     * @param id id of user
+     */
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**

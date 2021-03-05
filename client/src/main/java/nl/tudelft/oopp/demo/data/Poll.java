@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Poll {
+    private long id;
     private String text;
     private Date timeCreated;
     private List<String> options;
@@ -12,19 +13,37 @@ public class Poll {
 
     /**
      * Initializes a new poll.
+     * @param id id of poll
      * @param text question of poll
      * @param timeCreated creation time of poll
      * @param options options of poll
      * @param correctAnswer correct answers of poll
      * @param status status of poll
      */
-    public Poll(String text, Date timeCreated, List<String> options,
+    public Poll(long id, String text, Date timeCreated, List<String> options,
                 List<String> correctAnswer, PollStatus status) {
+        this.id = id;
         this.text = text;
         this.timeCreated = timeCreated;
         this.options = options;
         this.correctAnswer = correctAnswer;
         this.status = status;
+    }
+
+    /**
+     * Getter for id of poll.
+     * @return id of poll
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Setter for id of poll.
+     * @param id id of poll
+     */
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**

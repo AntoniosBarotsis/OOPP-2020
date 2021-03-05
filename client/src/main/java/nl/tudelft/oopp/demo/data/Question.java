@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.data;
 import java.util.Date;
 
 public class Question {
+    private long id;
     private String text;
     private User author;
     private int upvotes;
@@ -14,6 +15,7 @@ public class Question {
 
     /**
      * Initializes a new Question.
+     * @param id id of question
      * @param text text of question
      * @param author author of question
      * @param upvotes upvotes of question
@@ -22,8 +24,9 @@ public class Question {
      * @param status status of question
      * @param answer answer of question
      */
-    public Question(String text, User author, int upvotes, int score,
+    public Question(long id, String text, User author, int upvotes, int score,
                     Date timeCreated, QuestionStatus status, String answer) {
+        this.id = id;
         this.text = text;
         this.author = author;
         this.upvotes = upvotes;
@@ -31,6 +34,22 @@ public class Question {
         this.timeCreated = timeCreated;
         this.status = status;
         this.answer = answer;
+    }
+
+    /**
+     * Getter for id of question.
+     * @return id of user
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Setter for id of question.
+     * @param id id of user
+     */
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
