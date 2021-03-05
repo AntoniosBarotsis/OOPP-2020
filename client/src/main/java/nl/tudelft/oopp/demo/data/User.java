@@ -92,7 +92,7 @@ public class User {
     /**
      * Enum for type of user.
      */
-    private enum UserType {
+    public enum UserType {
         /**
          * Student type.
          */

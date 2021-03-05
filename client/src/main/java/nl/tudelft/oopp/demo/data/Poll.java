@@ -129,7 +129,7 @@ public class Poll {
     /**
      * Poll enum status.
      */
-    private enum PollStatus {
+    public enum PollStatus {
         /** Open poll status.
          */
         OPEN,
