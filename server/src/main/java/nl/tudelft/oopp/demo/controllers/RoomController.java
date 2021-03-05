@@ -1,5 +1,3 @@
-// Documentation: https://documenter.getpostman.com/view/11437031/Tz5jdf4p#dead1e70-129b-49fd-bbd5-b119bf0c839f
-
 package nl.tudelft.oopp.demo.controllers;
 
 import java.util.List;
