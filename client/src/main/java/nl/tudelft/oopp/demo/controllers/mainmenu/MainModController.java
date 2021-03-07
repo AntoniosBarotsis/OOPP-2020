@@ -39,22 +39,6 @@ public class MainModController {
     }
 
     /**
-     * Getter for room.
-     * @return current room
-     */
-    public Room getRoom() {
-        return room;
-    }
-
-    /**
-     * Getter for user.
-     * @return current user
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
      * Handles button "Links" clicks.
      */
     @FXML
