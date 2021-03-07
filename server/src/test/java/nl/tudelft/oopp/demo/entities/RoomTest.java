@@ -1,7 +1,6 @@
 package nl.tudelft.oopp.demo.entities;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -14,8 +13,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
-import nl.tudelft.oopp.demo.entities.users.Student;
-import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.PollRepository;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
@@ -52,9 +49,9 @@ class RoomTest {
     void setUp() {
         u1 = new ElevatedUser("Admin", "ip", true);
         u2 = new ElevatedUser("Mod", "ip");
-//        User u22 = new ElevatedUser("Mod2", "ip", false);
-//        User u3 = new Student("Student", "ip");
-//        userRepository.saveAll(List.of(u1, u2, u3, u22));
+        //User u22 = new ElevatedUser("Mod2", "ip", false);
+        //User u3 = new Student("Student", "ip");
+        //userRepository.saveAll(List.of(u1, u2, u3, u22));
         userRepository.saveAll(List.of(u1));
 
         p1 = new Poll("Poll title", "Poll text", new ArrayList<>(),
@@ -63,7 +60,7 @@ class RoomTest {
 
         q1 = new Question("Question title", "Question text", u1);
         q2 = new Question("Question title 2", "Question text 2", u1);
-//        questionRepository.saveAll(List.of(q1, q2));
+        //questionRepository.saveAll(List.of(q1, q2));
         questionRepository.saveAll(List.of(q2));
 
         r1 = new Room("Room Title", false, u1);
@@ -79,7 +76,7 @@ class RoomTest {
 
     @Test
     @DirtiesContext
-    void injectedComponentsAreNotNull(){
+    void injectedComponentsAreNotNull() {
         assertThat(roomRepository).isNotNull();
         assertThat(userRepository).isNotNull();
         assertThat(pollRepository).isNotNull();
