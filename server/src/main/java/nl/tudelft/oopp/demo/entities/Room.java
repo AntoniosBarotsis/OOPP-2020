@@ -360,9 +360,11 @@ public class Room {
             return false;
         }
         Room room = (Room) o;
-        return id == room.id && repeatingLecture == room.repeatingLecture
+        return id == room.id
+            && repeatingLecture == room.repeatingLecture
             && tooFast == room.tooFast
-            && tooSlow == room.tooSlow && Objects.equals(title, room.title)
+            && tooSlow == room.tooSlow
+            && Objects.equals(title, room.title)
             && Objects.equals(startingDate, room.startingDate)
             && Objects.equals(admin, room.admin)
             && Objects.equals(moderators, room.moderators)
