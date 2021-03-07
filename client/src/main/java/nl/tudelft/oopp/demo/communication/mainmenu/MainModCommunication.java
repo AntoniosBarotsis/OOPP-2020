@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.communication.mainMenu;
+package nl.tudelft.oopp.demo.communication.mainmenu;
 
 import com.google.gson.Gson;
 

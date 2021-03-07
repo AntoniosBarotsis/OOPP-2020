@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.controllers.mainMenu;
+package nl.tudelft.oopp.demo.controllers.mainmenu;
 
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
