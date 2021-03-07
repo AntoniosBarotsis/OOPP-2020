@@ -37,7 +37,7 @@ public class MainModCommunication {
      * @param request httprequest to be made
      * @return response body of request made
      */
-    public static String requestStringData(HttpRequest request){
+    public static String requestStringData(HttpRequest request) {
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());

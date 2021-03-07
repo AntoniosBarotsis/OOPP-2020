@@ -43,10 +43,10 @@ public class MainModController {
      */
     @FXML
     public void buttonLinksClicked() {
-        String studentCode = "Code for students: " +
-                MainModCommunication.getStudentPassword(room.getId()) + "\n";
-        String moderatorCode = "Code for moderators: " +
-                MainModCommunication.getAdminPassword(room.getId()) + "\n";
+        String studentCode = "Code for students: "
+                + MainModCommunication.getStudentPassword(room.getId()) + "\n";
+        String moderatorCode = "Code for moderators: "
+                + MainModCommunication.getAdminPassword(room.getId()) + "\n";
 
         // Create custom alert with copy-pastable text.
         TextArea textArea = new TextArea(studentCode + moderatorCode);
