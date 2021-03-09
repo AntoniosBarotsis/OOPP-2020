@@ -29,17 +29,4 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Transactional
     @Query(value = "SELECT r.elevatedPassword FROM Room r WHERE r.id = ?1")
     String getPrivatePassword(long roomId);
-
-    /**
-     * Creates a new room
-     *
-     * @param roomId the room id
-     * @param title the title of the room
-     * @param repeatingLecture whether the room will be used again later
-     */
-    // TODO Check annotations
-    // TODO Add scheduling
-    @Transactional
-    @Query(value = "INSERT INTO Room (id, title, repeatingLecture, tooFast, tooSlow) VALUES (?1, ?2, ?3, 0, 0)")
-    void createRoom(long roomId, String title, boolean repeatingLecture);
 }
