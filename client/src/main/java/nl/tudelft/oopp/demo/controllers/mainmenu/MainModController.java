@@ -38,7 +38,7 @@ public class MainModController {
 
         // Fetch questions from database in load them into the ListView
         List<Question> questionData = MainModCommunication.getQuestions(this.room.getId());
-        for(Question question : questionData){
+        for (Question question : questionData) {
             System.out.println(question.getText());
             questionList.getItems().add(question.getText());
         }

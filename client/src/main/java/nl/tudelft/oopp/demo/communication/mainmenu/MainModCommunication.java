@@ -2,13 +2,14 @@ package nl.tudelft.oopp.demo.communication.mainmenu;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import nl.tudelft.oopp.demo.data.Question;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+
+import nl.tudelft.oopp.demo.data.Question;
 
 public class MainModCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
@@ -40,7 +41,7 @@ public class MainModCommunication {
      * @param id id of a room
      * @return list of questions in a room
      */
-    public static ArrayList<Question> getQuestions(long id){
+    public static ArrayList<Question> getQuestions(long id) {
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/api/v1/rooms/questions/" + id)).build();
 
         HttpResponse<String> response = null;
