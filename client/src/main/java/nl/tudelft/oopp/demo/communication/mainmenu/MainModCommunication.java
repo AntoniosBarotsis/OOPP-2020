@@ -8,8 +8,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Date;
 
 import nl.tudelft.oopp.demo.data.Question;
+import nl.tudelft.oopp.demo.data.Room;
 
 public class MainModCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
@@ -55,6 +57,27 @@ public class MainModCommunication {
             System.out.println("Status: " + response.statusCode());
         }
         return gson.fromJson(response.body(), new TypeToken<ArrayList<Question>>(){}.getType());
+    }
+
+    /**
+     * Request a room.
+     * @param id id of a room
+     * @return room information
+     */
+    public static Room getRoom(long id) {
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/api/v1/rooms/" + id)).build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Room(0, "Error loading room", new Date(), false, -1, -1);
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+        }
+        return gson.fromJson(response.body(), Room.class);
     }
 
     /**

@@ -1,18 +1,18 @@
 package nl.tudelft.oopp.demo.controllers.mainmenu;
 
+import java.util.List;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import nl.tudelft.oopp.demo.communication.ServerCommunication;
+
 import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
-
-import java.util.List;
 
 public class MainModController {
 
@@ -31,20 +31,33 @@ public class MainModController {
      * @param user current user
      */
     public void loadData(Room room, User user) {
-        this.room = room;
-        this.user = user;
-        labelSlow.setText(String.valueOf(room.getTooSlow()));
-        labelFast.setText(String.valueOf(room.getTooFast()));
+        fetchData(room, user);
+        // TODO: implement automatically to call fetchData every 5 seconds
+    }
 
-        // Fetch questions from database in load them into the ListView
+    /**
+     * Fetches data from server and injects in FXML.
+     * @param room current room
+     * @param user current user
+     */
+    public void fetchData(Room room, User user){
+        // Fetch room data from server.
+        this.room = MainModCommunication.getRoom(room.getId());
+        this.user = user;
+
+        // Set pace labels using the data fetched from server.
+        labelSlow.setText(String.valueOf(this.room.getTooSlow()));
+        labelFast.setText(String.valueOf(this.room.getTooFast()));
+
+        // Fetch questions from database and load them into the ListView.
+        questionList.getItems().clear();
         List<Question> questionData = MainModCommunication.getQuestions(this.room.getId());
         for (Question question : questionData) {
-            System.out.println(question.getText());
+            /*
+            TODO: questionList should loaded with FMXL panels instead of string.
+             */
             questionList.getItems().add(question.getText());
         }
-        /*
-        TODO: questionList should loaded with FMXL panels instead of string
-         */
     }
 
     /**

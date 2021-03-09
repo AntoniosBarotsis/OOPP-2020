@@ -25,6 +25,11 @@ class MainModCommunicationTest {
     }
 
     @Test
+    void getRoom() {
+        assertNotNull(MainModCommunication.getRoom(1));
+    }
+
+    @Test
     void requestStringData() {
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/api/v1/rooms/public/" + 1)).build();
         assertNotNull(MainModCommunication.requestStringData(request));
