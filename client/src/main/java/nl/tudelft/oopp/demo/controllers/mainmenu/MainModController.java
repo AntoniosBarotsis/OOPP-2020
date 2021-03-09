@@ -6,9 +6,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import nl.tudelft.oopp.demo.communication.ServerCommunication;
 import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
+import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
+
+import java.util.List;
 
 public class MainModController {
 
@@ -32,9 +36,14 @@ public class MainModController {
         labelSlow.setText(String.valueOf(room.getTooSlow()));
         labelFast.setText(String.valueOf(room.getTooFast()));
 
+        // Fetch questions from database in load them into the ListView
+        List<Question> questionData = MainModCommunication.getQuestions(this.room.getId());
+        for(Question question : questionData){
+            System.out.println(question.getText());
+            questionList.getItems().add(question.getText());
+        }
         /*
-        TODO: implement fetching questions from room.
-        questionList should be automatically filled after the fetch
+        TODO: questionList should loaded with FMXL panels instead of string
          */
     }
 
