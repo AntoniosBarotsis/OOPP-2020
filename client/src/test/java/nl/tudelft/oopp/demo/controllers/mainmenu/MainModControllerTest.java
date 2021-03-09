@@ -14,6 +14,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class MainModControllerTest {
 
     @Test
+    void loadData() {
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if loading data from server works:
+        1. Launch the client application.
+        2. Join a room.
+        3. Upon joining tooFast and tooSlow labels should be successfully set.
+        4. The questions for the chosen room should appear as a list in the centre of the window.
+         */
+    }
+
+    @Test
     void buttonLinksClicked() {
         /* Manual test plan to be carried out when testing if everything works correctly.
         Test plan for testing if buttonLinks works:
@@ -26,11 +37,6 @@ class MainModControllerTest {
 
     @Test
     void buttonExportClicked() {
-        //To be implemented.
-    }
-
-    @Test
-    void testLoadData() {
         //To be implemented.
     }
 
