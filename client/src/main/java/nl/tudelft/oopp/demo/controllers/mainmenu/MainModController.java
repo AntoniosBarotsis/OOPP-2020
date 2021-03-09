@@ -2,12 +2,17 @@ package nl.tudelft.oopp.demo.controllers.mainmenu;
 
 import java.util.List;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+
+import javafx.util.Duration;
 
 import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
 import nl.tudelft.oopp.demo.data.Question;
@@ -32,7 +37,13 @@ public class MainModController {
      */
     public void loadData(Room room, User user) {
         fetchData(room, user);
-        // TODO: implement automatically to call fetchData every 5 seconds
+
+        // Automatically fetch data every 5 seconds.
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(5), e -> fetchData(this.room, this.user))
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
     /**
@@ -40,7 +51,7 @@ public class MainModController {
      * @param room current room
      * @param user current user
      */
-    public void fetchData(Room room, User user){
+    public void fetchData(Room room, User user) {
         // Fetch room data from server.
         this.room = MainModCommunication.getRoom(room.getId());
         this.user = user;
