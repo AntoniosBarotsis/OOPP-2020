@@ -2,10 +2,10 @@ package nl.tudelft.oopp.demo.communication.mainmenu;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.jupiter.api.Test;
-
 import java.net.URI;
 import java.net.http.HttpRequest;
+
+import org.junit.jupiter.api.Test;
 
 class MainModCommunicationTest {
 

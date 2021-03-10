@@ -1,15 +1,6 @@
 package nl.tudelft.oopp.demo.controllers.mainmenu;
 
-import nl.tudelft.oopp.demo.data.Question;
-import nl.tudelft.oopp.demo.data.Room;
-import nl.tudelft.oopp.demo.data.User;
 import org.junit.jupiter.api.Test;
-
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MainModControllerTest {
 

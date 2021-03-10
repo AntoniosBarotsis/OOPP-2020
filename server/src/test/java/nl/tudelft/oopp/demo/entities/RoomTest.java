@@ -227,7 +227,7 @@ class RoomTest {
 
         assertThat(r1.getElevatedPassword()).isNotNull();
         assertThat(r1.getElevatedPassword().length()).isEqualTo(uuid
-            .substring(0, uuid.length() / 2).length());
+            .substring(0, uuid.length() / 2).replace("-", "").length());
     }
 
     @Test
@@ -243,7 +243,7 @@ class RoomTest {
 
         assertThat(r1.getNormalPassword()).isNotNull();
         assertThat(r1.getNormalPassword().length()).isEqualTo(uuid
-            .substring(uuid.length() / 2).length());
+            .substring(uuid.length() / 2).replace("-", "").length());
     }
 
     @Test
