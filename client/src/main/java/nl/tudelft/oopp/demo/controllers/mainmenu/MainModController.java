@@ -87,9 +87,10 @@ public class MainModController {
             /*
             TODO: questionList should loaded with FMXL panels instead of string.
              */
-            if (!filterAnswered) {
+            boolean answered = question.getStatus().equals(Question.QuestionStatus.ANSWERED);
+            if (!filterAnswered && !answered) {
                 questionList.getItems().add(question.getText());
-            } else if (question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
+            } else if (filterAnswered && answered) {
                 questionList.getItems().add(question.getText());
             }
         }
