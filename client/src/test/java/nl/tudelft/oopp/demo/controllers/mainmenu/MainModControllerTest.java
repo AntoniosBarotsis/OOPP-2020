@@ -52,6 +52,13 @@ class MainModControllerTest {
 
     @Test
     void buttonAnsweredClicked() {
-        //To be implemented.
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if button Answered Questions works:
+        1. Launch the client application.
+        2. Join a room.
+        3. Upon pressing the button it's text should change to "Unanswered questions".
+        4. Only answered questions should be displayed in the listView.
+        5. If you press again, unanswered questions should appear and button text should change.
+         */
     }
 }

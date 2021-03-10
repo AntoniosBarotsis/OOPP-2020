@@ -14,7 +14,7 @@
             </children></AnchorPane>
     </bottom>
     <center>
-        <ListView fx:id="questionList" prefHeight="200.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
+        <ListView fx:id="questionList" prefHeight="200.0" prefWidth="800.0" style="-fx-selection-bar: #00A6D6; -fx-selection-bar-text: WHITE;" BorderPane.alignment="CENTER" />
     </center>
     <top>
         <AnchorPane prefHeight="54.0" prefWidth="800.0" BorderPane.alignment="CENTER">
