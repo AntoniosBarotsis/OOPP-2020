@@ -112,8 +112,11 @@ public class Room {
     private void generatePassword() {
         String uuid = UUID.randomUUID().toString();
 
-        this.elevatedPassword = uuid.substring(0, uuid.length() / 2);
-        this.normalPassword = uuid.substring(uuid.length() / 2);
+        String elevatedPassword = uuid.substring(0, uuid.length() / 2);
+        String normalPassword = uuid.substring(uuid.length() / 2);
+
+        this.elevatedPassword = elevatedPassword.replace("-", "");
+        this.normalPassword = normalPassword.replace("-", "");
     }
 
     /**
