@@ -87,10 +87,9 @@ public class MainModController {
             /*
             TODO: questionList should loaded with FMXL panels instead of string.
              */
-            if(!filterAnswered) {
+            if (!filterAnswered) {
                 questionList.getItems().add(question.getText());
-            }
-            else if(question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
+            } else if (question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
                 questionList.getItems().add(question.getText());
             }
         }
@@ -152,10 +151,9 @@ public class MainModController {
     public void buttonAnsweredClicked() {
         filterAnswered = !filterAnswered;
         populateListView();
-        if(filterAnswered) {
+        if (filterAnswered) {
             buttonAnswered.setText("Unanswered questions");
-        }
-        else {
+        } else {
             buttonAnswered.setText("Answered questions");
         }
     }
