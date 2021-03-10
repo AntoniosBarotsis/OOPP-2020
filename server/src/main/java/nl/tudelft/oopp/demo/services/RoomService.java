@@ -27,7 +27,7 @@ public class RoomService {
     }
 
     /**
-     * Find all list.
+     * Returns a list of all rooms.
      *
      * @return the list
      */
@@ -36,7 +36,7 @@ public class RoomService {
     }
 
     /**
-     * Gets one.
+     * Gets the specified room.
      *
      * @param id the id
      * @return the one
@@ -46,7 +46,7 @@ public class RoomService {
     }
 
     /**
-     * Gets public password.
+     * Gets public password of a room.
      *
      * @param roomId the room id
      * @return the public password
@@ -56,7 +56,7 @@ public class RoomService {
     }
 
     /**
-     * Gets private password.
+     * Gets private password of a room.
      *
      * @param roomId the room id
      * @return the private password
@@ -67,7 +67,7 @@ public class RoomService {
     }
 
     /**
-     * Find all questions set.
+     * Returns a set of all the  questions of a room.
      *
      * @param roomId the room id
      * @return the set

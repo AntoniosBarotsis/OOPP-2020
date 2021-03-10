@@ -76,7 +76,7 @@ public class Room {
 
     /**
      * Instantiates a new Room. `startingDate` becomes the current date,
-     * `bannedIps` and `bannedIps` get instantiated as empty HashSets,
+     * `bannedIps`, `moderators`, `questions` and `polls` get instantiated as empty HashSets,
      * `tooFast` and `tooSlow` get initialized to 0. Lastly, passwords are generated.
      *
      * @param title            the title
@@ -107,7 +107,7 @@ public class Room {
 
     /**
      * Generates an elevated user password and a normal password by creating a random UUID and
-     * splitting it in 2.
+     * splitting it in 2. Dashes are removed to make the passwords cleaner.
      */
     private void generatePassword() {
         String uuid = UUID.randomUUID().toString();
