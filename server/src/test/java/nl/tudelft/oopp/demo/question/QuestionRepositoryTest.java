@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.LinkedList;
 import java.util.List;
+import com.fasterxml.jackson.databind.util.ArrayIterator;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
@@ -61,17 +62,12 @@ class QuestionRepositoryTest {
         id3 = question3.getId();
     }
 
-    @Test
-    void getQuestion() {
-        assertEquals("This is the text 1", repository.getQuestion(id1));
 
-    }
 
     @Test
     void editQuestion() {
         repository.editQuestion(id1, "this question has changed");
         assertEquals("this question has changed", repository.getQuestion(id1));
-
     }
 
     @Test
@@ -83,7 +79,7 @@ class QuestionRepositoryTest {
     @Test
     void incrementUpvotes() {
         assertEquals(repository.getUpvotes(id1), question1.getUpvotes());
-        repository.incrementUpvotes(id1);
+        repository.upvote(id1);
         assertEquals(repository.getUpvotes(id1), question1.getUpvotes() + 1);
 
     }

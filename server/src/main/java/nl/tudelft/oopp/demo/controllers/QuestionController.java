@@ -1,22 +1,22 @@
-package nl.tudelft.oopp.demo.controllers.question;
+package nl.tudelft.oopp.demo.controllers;
 
 import java.util.Date;
 
+import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
  * Question Controller.
  */
-@Controller
+@RestController
 @RequestMapping("api/v1/questions")
 public class QuestionController {
     @Autowired
@@ -31,13 +31,15 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
+
+
+
     /**
      * Gets the text of the question.
      *
      * @param questionId the question id
      * @return a String of the text of the question
      */
-    @ResponseBody
     @GetMapping("getQuestion/{questionId}")
     public String getQuestion(@PathVariable long questionId) {
         return questionService.getQuestion(questionId);
@@ -50,7 +52,6 @@ public class QuestionController {
      * @param questionId the question id
      * @param newQuestion the value of text that will be set as question's text
      */
-    @ResponseBody
     @PutMapping("setQuestion/{questionId}/{newQuestion}")
     public void editQuestion(@PathVariable long questionId, @PathVariable String newQuestion) {
         questionService.editQuestion(questionId, newQuestion);
@@ -63,7 +64,6 @@ public class QuestionController {
      * @param questionId the question id
      * @return the author of the question
      */
-    @ResponseBody
     @GetMapping("getAuthor/{questionId}")
     public User getAuthor(@PathVariable long questionId) {
         return questionService.getAuthor(questionId);
@@ -75,10 +75,9 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @ResponseBody
     @PutMapping("upvote/{questionId}")
-    public void incrementUpvotes(@PathVariable long questionId) {
-        questionService.incrementUpvotes(questionId);
+    public void upvote(@PathVariable long questionId) {
+        questionService.upvote(questionId);
     }
 
 
@@ -87,7 +86,6 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @ResponseBody
     @PutMapping("downvote/{questionId}")
     public void downvote(@PathVariable long questionId) {
         questionService.downvote(questionId);
@@ -100,7 +98,6 @@ public class QuestionController {
      * @param questionId the question id
      * @return the value of upvotes
      */
-    @ResponseBody
     @GetMapping("getUpvotes/{questionId}")
     public int getUpvotes(@PathVariable long questionId) {
         return questionService.getUpvotes(questionId);
@@ -113,7 +110,6 @@ public class QuestionController {
      * @param questionId the question id
      * @return the score value of question
      */
-    @ResponseBody
     @GetMapping("getScore/{questionId}")
     public int getScore(@PathVariable long questionId) {
         return questionService.getScore(questionId);
@@ -126,7 +122,6 @@ public class QuestionController {
      * @param questionId the question id
      * @param score the new score value of question
      */
-    @ResponseBody
     @PutMapping("setScore/{questionId}/{score}")
     public void setScore(@PathVariable long questionId, @PathVariable int score) {
         questionService.setScore(questionId, score);
@@ -140,7 +135,6 @@ public class QuestionController {
      * @param number the number of question this should return
      * @return question id of highest score Question
      */
-    @ResponseBody
     @GetMapping("get/{number}")
     public long get(@PathVariable int number) {
         return questionService.get(number);
@@ -153,7 +147,6 @@ public class QuestionController {
      * @param questionId the question id
      * @return the question date
      */
-    @ResponseBody
     @GetMapping("getTime/{questionId}")
     public Date getTime(@PathVariable long questionId) {
         return questionService.getTime(questionId);
@@ -166,9 +159,8 @@ public class QuestionController {
      * @param questionId the question id
      * @return the status of question
      */
-    @ResponseBody
     @GetMapping("getStatus/{questionId}")
-    public Enum getStatus(@PathVariable long questionId) {
+    public Question.QuestionStatus getStatus(@PathVariable long questionId) {
         return questionService.getStatus(questionId);
     }
 
@@ -178,7 +170,6 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @ResponseBody
     @PutMapping("setAnswered/{questionId}")
     public void setAnswered(@PathVariable long questionId) {
         questionService.setAnswered(questionId);
@@ -186,14 +177,25 @@ public class QuestionController {
 
 
     /**
-     *Sets the value of status as ANSWERED unless too popular.
+     *Sets the value of status as ANSWERED unless score is greater than 5.
      *
      * @param questionId the question id
      */
-    @ResponseBody
     @PutMapping("user/setAnswered/{questionId}")
     public void userSetAnswered(@PathVariable long questionId) {
         questionService.userSetAnswered(questionId);
+    }
+
+
+    /**
+     *Sets the value of status as ANSWERED unless score is greater than maxScore.
+     *
+     * @param maxScore the max score for checking weather to mark as answered
+     * @param questionId the question id
+     */
+    @PutMapping("user/setAnswered/{questionId}/{maxScore}")
+    public void userSetAnswered(@PathVariable long questionId, @PathVariable int maxScore) {
+        questionService.userSetAnswered(questionId, maxScore);
     }
 
 
@@ -202,7 +204,6 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @ResponseBody
     @PutMapping("setSpam/{questionId}")
     public void setSpam(@PathVariable long questionId) {
         questionService.setSpam(questionId);
@@ -214,7 +215,6 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @ResponseBody
     @PutMapping("setOpen/{questionId}")
     public void setOpen(@PathVariable long questionId) {
         questionService.setOpen(questionId);
@@ -227,7 +227,6 @@ public class QuestionController {
      * @param questionId the question id
      * @return the answer
      */
-    @ResponseBody
     @GetMapping("getAnswer/{questionId}")
     public String getAnswer(@PathVariable long questionId) {
         return questionService.getAnswer(questionId);
@@ -240,7 +239,6 @@ public class QuestionController {
      * @param questionId the question id
      * @param answer the new answer of question
      */
-    @ResponseBody
     @PutMapping("setAnswer/{questionId}/{answer}")
     public void setAnswer(@PathVariable long questionId, @PathVariable String answer) {
         questionService.setAnswer(questionId, answer);
@@ -255,7 +253,6 @@ public class QuestionController {
      * @param questionId the question id
      * @return the title of question
      */
-    @ResponseBody
     @GetMapping("getTitle/{questionId}")
     public String getTitle(@PathVariable long questionId) {
         return questionService.getTitle(questionId);
@@ -268,7 +265,6 @@ public class QuestionController {
      * @param questionId the question id
      * @param title the new title of question
      */
-    @ResponseBody
     @PutMapping("setTitle/{questionId}/{title}")
     public void setTitle(@PathVariable long questionId, @PathVariable String title) {
         questionService.setTitle(questionId, title);

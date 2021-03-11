@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.services;
 
 import java.util.Date;
+
+import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class QuestionService {
     public QuestionService(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
+
+
 
 
     /**
@@ -67,8 +71,8 @@ public class QuestionService {
      *
      * @param questionId the question id
      */
-    public void incrementUpvotes(long questionId) {
-        questionRepository.incrementUpvotes(questionId);
+    public void upvote(long questionId) {
+        questionRepository.upvote(questionId);
     }
 
 
@@ -150,7 +154,7 @@ public class QuestionService {
      * @param questionId the question id
      * @return the status of question
      */
-    public Enum getStatus(long questionId) {
+    public Question.QuestionStatus getStatus(long questionId) {
         return questionRepository.getStatus(questionId);
     }
 
@@ -165,12 +169,25 @@ public class QuestionService {
     }
 
     /**
-     *Sets the value of status as ANSWERED, unless too popular.
+     *Sets the value of status as ANSWERED, unless its score is greater than 5.
      *
      * @param questionId the question id
      */
     public void userSetAnswered(long questionId) {
         if (questionRepository.getScore(questionId) <= 5) {
+            questionRepository.setAnswered(questionId);
+        }
+    }
+
+
+    /**
+     *Sets the value of status as ANSWERED, unless its score is greater than maxScore
+     *
+     * @param maxScore the max score for changing the status to answered
+     * @param questionId the question id
+     */
+    public void userSetAnswered(long questionId, int maxScore) {
+        if (questionRepository.getScore(questionId) <= maxScore) {
             questionRepository.setAnswered(questionId);
         }
     }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
+
     /**
      * Gets the text of the question.
      *
@@ -61,7 +62,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE Question q SET q.upvotes = q.upvotes + 1 WHERE q.id =?1")
-    void incrementUpvotes(long questionId);
+    void upvote(long questionId);
 
 
     /**
@@ -138,7 +139,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      */
     @Transactional
     @Query(value = "SELECT q.status FROM Question q WHERE q.id=?1")
-    Enum getStatus(long questionId);
+    Question.QuestionStatus getStatus(long questionId);
 
 
     /**
