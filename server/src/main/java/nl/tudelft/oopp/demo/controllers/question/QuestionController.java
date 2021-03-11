@@ -191,7 +191,7 @@ public class QuestionController {
      * @param questionId the question id
      */
     @ResponseBody
-    @PutMapping("isSpam/{questionId}")
+    @PutMapping("setSpam/{questionId}")
     public void setSpam(@PathVariable long questionId) {
         questionService.setSpam(questionId);
     }
@@ -203,7 +203,7 @@ public class QuestionController {
      * @param questionId the question id
      */
     @ResponseBody
-    @PutMapping("isOpen/{questionId}")
+    @PutMapping("setOpen/{questionId}")
     public void setOpen(@PathVariable long questionId) {
         questionService.setOpen(questionId);
     }
