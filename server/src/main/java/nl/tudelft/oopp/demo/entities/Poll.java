@@ -234,7 +234,7 @@ public class Poll {
             + '}';
     }
 
-    private enum PollStatus {
+    public enum PollStatus {
         /**
          * Open poll status.
          */

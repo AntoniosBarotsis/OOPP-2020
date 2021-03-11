@@ -58,13 +58,15 @@ public class DataConfig {
                 List.of("Correct answer"));
             pollRepository.saveAll(List.of(p1));
 
-            Question q1 = new Question("Question title", "Question text", u1);
-            Question q2 = new Question("Question title 2", "Question text 2", u1);
-            questionRepository.saveAll(List.of(q1, q2));
+            Question q1 = new Question("Question title 1", "Question text 1", u1);
+            Question q2 = new Question("Question title 2", "Question text 2", u2);
+            Question q3 = new Question("Question title 3 ", "Question text 3", u2);
+            Question q4 = new Question("Question title 4", "Question text 4", u3);
+            questionRepository.saveAll(List.of(q1, q2, q3, q4));
 
             Room r1 = new Room("Room Title", false, u1);
 
-            r1.setQuestions(Stream.of(q2)
+            r1.setQuestions(Stream.of(q1, q2, q3, q4)
                 .collect(Collectors.toSet())
             );
             r1.setPolls(Stream.of(p1)

@@ -1,19 +1,20 @@
 package nl.tudelft.oopp.demo.data;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import javax.swing.text.html.ListView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class PollTest {
 
     private List<String> correct = new ArrayList<>();
     private List<String> options = new ArrayList<>();
-    private Poll poll = new Poll(858585, "what is the meaning of life", new Date(42), options, correct, Poll.PollStatus.OPEN);
+    private Poll poll = new Poll(858585, "what is the meaning of life",
+            new Date(42), options, correct, Poll.PollStatus.OPEN);
+
     @Test
     void getId() {
         assertEquals(858585, poll.getId());

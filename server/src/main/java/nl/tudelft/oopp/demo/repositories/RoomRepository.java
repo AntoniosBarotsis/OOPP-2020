@@ -63,7 +63,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Room r SET r.tooFast = r.tooFast + 1 WHERE r.id =?1")
+    @Query(value = "UPDATE Room r SET r.tooFast = r.tooFast + 1 WHERE r.id = ?1")
     void incrementTooFast(long roomId);
 
     /**
@@ -73,7 +73,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Room r SET r.tooFast = r.tooFast - 1 WHERE r.id =?1")
+    @Query(value = "UPDATE Room r SET r.tooFast = r.tooFast - 1 WHERE r.id = ?1")
     void decrementTooFast(long roomId);
 
     /**
@@ -83,7 +83,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Room r SET r.tooSlow = r.tooSlow + 1 WHERE r.id =?1")
+    @Query(value = "UPDATE Room r SET r.tooSlow = r.tooSlow + 1 WHERE r.id = ?1")
     void incrementTooSlow(long roomId);
 
     /**
@@ -93,6 +93,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Room r SET r.tooSlow = r.tooSlow - 1 WHERE r.id =?1")
+    @Query(value = "UPDATE Room r SET r.tooSlow = r.tooSlow - 1 WHERE r.id = ?1")
     void decrementTooSlow(long roomId);
 }
