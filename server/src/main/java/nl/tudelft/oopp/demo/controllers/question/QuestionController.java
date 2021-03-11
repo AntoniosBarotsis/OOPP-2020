@@ -179,9 +179,9 @@ public class QuestionController {
      * @param questionId the question id
      */
     @ResponseBody
-    @PutMapping("isAnswered/{questionId}")
-    public void isAnswered(@PathVariable long questionId) {
-        questionService.isAnswered(questionId);
+    @PutMapping("setAnswered/{questionId}")
+    public void setAnswered(@PathVariable long questionId) {
+        questionService.setAnswered(questionId);
     }
 
 
@@ -192,8 +192,8 @@ public class QuestionController {
      */
     @ResponseBody
     @PutMapping("isSpam/{questionId}")
-    public void isSpam(@PathVariable long questionId) {
-        questionService.isSpam(questionId);
+    public void setSpam(@PathVariable long questionId) {
+        questionService.setSpam(questionId);
     }
 
 
@@ -204,8 +204,8 @@ public class QuestionController {
      */
     @ResponseBody
     @PutMapping("isOpen/{questionId}")
-    public void isOpen(@PathVariable long questionId) {
-        questionService.isOpen(questionId);
+    public void setOpen(@PathVariable long questionId) {
+        questionService.setOpen(questionId);
     }
 
 
@@ -260,15 +260,4 @@ public class QuestionController {
         questionService.setTitle(questionId, title);
     }
 
-
-    /**
-     * Deletes question.
-     *
-     * @param questionId the question id
-     */
-    @ResponseBody
-    @GetMapping("delete/{questionId}")
-    public void deleteQuestion(@PathVariable long questionId) {
-        questionService.delete(questionId);
-    }
 }

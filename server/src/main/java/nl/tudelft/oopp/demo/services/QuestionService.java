@@ -160,8 +160,8 @@ public class QuestionService {
      *
      * @param questionId the question id
      */
-    public void isAnswered(long questionId) {
-        questionRepository.isAnswered(questionId);
+    public void setAnswered(long questionId) {
+        questionRepository.setAnswered(questionId);
     }
 
 
@@ -170,8 +170,8 @@ public class QuestionService {
      *
      * @param questionId the question id
      */
-    public void isSpam(long questionId) {
-        questionRepository.isSpam(questionId);
+    public void setSpam(long questionId) {
+        questionRepository.setSpam(questionId);
     }
 
 
@@ -180,8 +180,8 @@ public class QuestionService {
      *
      * @param questionId the question id
      */
-    public void isOpen(long questionId) {
-        questionRepository.isOpen(questionId);
+    public void setOpen(long questionId) {
+        questionRepository.setOpen(questionId);
     }
 
 
@@ -228,15 +228,6 @@ public class QuestionService {
         questionRepository.setTitle(questionId, title);
     }
 
-
-    /**
-     * Deletes question.
-     *
-     * @param questionId the question id
-     */
-    public void delete(long questionId) {
-        questionRepository.delete(questionId);
-    }
 
 
 }

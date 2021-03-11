@@ -149,7 +149,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE Question q SET q.status=1 WHERE q.id =?1")
-    void isAnswered(long questionId);
+    void setAnswered(long questionId);
 
 
     /**
@@ -160,7 +160,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE Question q SET q.status=2 WHERE q.id =?1")
-    void isSpam(long questionId);
+    void setSpam(long questionId);
 
 
     /**
@@ -171,7 +171,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE Question q SET q.status=0 WHERE q.id =?1")
-    void isOpen(long questionId);
+    void setOpen(long questionId);
 
 
     /**
@@ -219,14 +219,4 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query(value = "UPDATE Question q SET q.title = ?2 WHERE q.id=?1")
     void setTitle(long questionId, String title);
 
-
-    /**
-     * Deletes question.
-     *
-     * @param questionId the question id
-     */
-    @Modifying
-    @Transactional
-    @Query(value = "DELETE from Question q WHERE q.id=?1")
-    void delete(long questionId);
 }

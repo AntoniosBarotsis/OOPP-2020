@@ -141,21 +141,21 @@ class QuestionRepositoryTest {
 
     @Test
     void isAnswered() {
-        repository.isAnswered(id1);
+        repository.setAnswered(id1);
         question1.setStatus(Question.QuestionStatus.ANSWERED);
         assertEquals(repository.getStatus(id1), question1.getStatus());
     }
 
     @Test
     void isSpam() {
-        repository.isSpam(id1);
+        repository.setSpam(id1);
         question1.setStatus(Question.QuestionStatus.SPAM);
         assertEquals(repository.getStatus(id1), question1.getStatus());
     }
 
     @Test
     void isOpen() {
-        repository.isOpen(id1);
+        repository.setOpen(id1);
         question1.setStatus(Question.QuestionStatus.OPEN);
         assertEquals(repository.getStatus(id1), question1.getStatus());
     }
@@ -182,13 +182,6 @@ class QuestionRepositoryTest {
         assertEquals(question1.getTitle(), repository.getTitle(id1));
         repository.setTitle(id1, "Some New Title");
         assertEquals(repository.getTitle(id1), "Some New Title");
-    }
-
-    @Test
-    void delete() {
-        assertNotEquals(repository.getQuestion(id1), null);
-        repository.delete(id1);
-        assertEquals(repository.getQuestion(id1),null);
     }
 
 
