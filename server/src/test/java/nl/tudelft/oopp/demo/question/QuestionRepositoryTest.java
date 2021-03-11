@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.questionTest;
+package nl.tudelft.oopp.demo.question;
 
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.Student;

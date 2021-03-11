@@ -11,14 +11,14 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Question repository
+ * Question repository.
  */
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Gets the text of the question
+     * Gets the text of the question.
      *
      * @param questionId the question id
      * @return a String of the text of the question
@@ -29,7 +29,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Sets the text of the question to be newQuestion
+     * Sets the text of the question to be newQuestion.
      *
      * @param questionId the question id
      * @param newQuestion the value of text that will be set as question's text
@@ -41,7 +41,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Gets the author
+     * Gets the author.
      *
      * @param questionId the question id
      * @return the author of the question
@@ -52,7 +52,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Increases the value of upvote by 1
+     * Increases the value of upvote by 1.
      *
      * @param questionId the question id
      */
@@ -63,7 +63,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Decreases the value of upvote by 1
+     * Decreases the value of upvote by 1.
      *
      * @param questionId the question id
      */
@@ -74,7 +74,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Gets the number of upvotes
+     * Gets the number of upvotes.
      *
      * @param questionId the question id
      * @return the value of upvotes
@@ -85,7 +85,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Gets the score
+     * Gets the score.
      *
      * @param questionId the question id
      * @return the score value of question
@@ -96,7 +96,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Sets the score of question with value score
+     * Sets the score of question with value score.
      *
      * @param questionId the question id
      * @param score the new score value of question
@@ -108,7 +108,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Gets the id of Question with the highest score
+     * Gets the id of Question with the highest score.
      *
      * @return question id of highest score Question
      */
@@ -118,7 +118,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Gets the date
+     * Gets the date.
      *
      * @param questionId the question id
      * @return the question date
@@ -129,7 +129,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Gets the status of question
+     * Gets the status of question.
      *
      * @param questionId the question id
      * @return the status of question
@@ -140,7 +140,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     *Sets the value of status as ANSWERED
+     *Sets the value of status as ANSWERED.
      *
      * @param questionId the question id
      */
@@ -151,7 +151,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Sets the value of status as SPAM
+     * Sets the value of status as SPAM.
      *
      * @param questionId the question id
      */
@@ -162,7 +162,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Sets the value of status as OPEN
+     * Sets the value of status as OPEN.
      *
      * @param questionId the question id
      */
@@ -173,7 +173,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Gets the answer of the question
+     * Gets the answer of the question.
+     *
      * @param questionId the question id
      * @return the answer
      */
@@ -183,7 +184,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Sets the answer of question as answer
+     * Sets the answer of question as answer.
      *
      * @param questionId the question id
      * @param answer the new answer of question
@@ -195,7 +196,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Gets the title of question
+     * Gets the title of question.
      *
      * @param questionId the question id
      * @return the title of question
@@ -206,7 +207,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Sets the title of question as title
+     * Sets the title of question as title.
      *
      * @param questionId the question id
      * @param title the new title of question
@@ -218,7 +219,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Deletes question
+     * Deletes question.
      *
      * @param questionId the question id
      */
