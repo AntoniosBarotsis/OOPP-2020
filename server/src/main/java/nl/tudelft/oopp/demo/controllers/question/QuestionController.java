@@ -186,6 +186,18 @@ public class QuestionController {
 
 
     /**
+     *Sets the value of status as ANSWERED unless too popular.
+     *
+     * @param questionId the question id
+     */
+    @ResponseBody
+    @PutMapping("user/setAnswered/{questionId}")
+    public void userSetAnswered(@PathVariable long questionId) {
+        questionService.userSetAnswered(questionId);
+    }
+
+
+    /**
      * Sets the value of status as SPAM.
      *
      * @param questionId the question id
@@ -233,6 +245,8 @@ public class QuestionController {
     public void setAnswer(@PathVariable long questionId, @PathVariable String answer) {
         questionService.setAnswer(questionId, answer);
     }
+
+
 
 
     /**

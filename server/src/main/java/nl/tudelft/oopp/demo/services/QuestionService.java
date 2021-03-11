@@ -164,6 +164,16 @@ public class QuestionService {
         questionRepository.setAnswered(questionId);
     }
 
+    /**
+     *Sets the value of status as ANSWERED, unless too popular.
+     *
+     * @param questionId the question id
+     */
+    public void userSetAnswered(long questionId) {
+        if (questionRepository.getScore(questionId) <= 5)
+        questionRepository.setAnswered(questionId);
+    }
+
 
     /**
      * Sets the value of status as SPAM.
