@@ -1,15 +1,16 @@
 package nl.tudelft.oopp.demo.repositories;
 
+import javax.transaction.Transactional;
+import java.util.Date;
+import java.util.List;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
-import java.util.List;
+
 
 /**
  * Question repository.
@@ -92,7 +93,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      * @return the score value of question
      */
     @Transactional
-    @Query(value ="SELECT q.score FROM Question q WHERE q.id=?1")
+    @Query(value = "SELECT q.score FROM Question q WHERE q.id=?1")
     int getScore(long questionId);
 
 

@@ -1,5 +1,9 @@
 package nl.tudelft.oopp.demo.question;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.LinkedList;
+import java.util.List;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
@@ -10,14 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest
-class QuestionRepositoryTest{
+class QuestionRepositoryTest {
 
     @Autowired
     private QuestionRepository repository;
@@ -83,7 +83,7 @@ class QuestionRepositoryTest{
     void incrementUpvotes() {
         assertEquals(repository.getUpvotes(id1), question1.getUpvotes());
         repository.incrementUpvotes(id1);
-        assertEquals(repository.getUpvotes(id1), question1.getUpvotes()+1);
+        assertEquals(repository.getUpvotes(id1), question1.getUpvotes() + 1);
 
     }
 
@@ -91,7 +91,7 @@ class QuestionRepositoryTest{
     void downvote() {
         assertEquals(repository.getUpvotes(id1), question1.getUpvotes());
         repository.downvote(id1);
-        assertEquals(repository.getUpvotes(id1), question1.getUpvotes()-1);
+        assertEquals(repository.getUpvotes(id1), question1.getUpvotes() - 1);
     }
 
     @Test

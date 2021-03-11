@@ -102,7 +102,7 @@ public class QuestionController {
      */
     @ResponseBody
     @GetMapping("getUpvotes/{questionId}")
-    public int getUpvotes(@PathVariable long questionId){
+    public int getUpvotes(@PathVariable long questionId) {
         return questionService.getUpvotes(questionId);
     }
 
@@ -230,7 +230,7 @@ public class QuestionController {
      */
     @ResponseBody
     @PutMapping("setAnswer/{questionId}/{answer}")
-    public void setAnswer(@PathVariable long questionId, @PathVariable String answer){
+    public void setAnswer(@PathVariable long questionId, @PathVariable String answer) {
         questionService.setAnswer(questionId, answer);
     }
 
@@ -256,7 +256,7 @@ public class QuestionController {
      */
     @ResponseBody
     @PutMapping("setTitle/{questionId}/{title}")
-    public void setTitle(@PathVariable long questionId, @PathVariable String title){
+    public void setTitle(@PathVariable long questionId, @PathVariable String title) {
         questionService.setTitle(questionId, title);
     }
 

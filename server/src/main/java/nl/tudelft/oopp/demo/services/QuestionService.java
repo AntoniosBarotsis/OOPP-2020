@@ -1,11 +1,12 @@
 package nl.tudelft.oopp.demo.services;
 
+import java.util.Date;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+
 
 
 /**
@@ -76,8 +77,8 @@ public class QuestionService {
      *
      * @param questionId the question id
      */
-    public void downvote(long questionId){
-        if(questionRepository.getUpvotes(questionId) > 0){
+    public void downvote(long questionId) {
+        if (questionRepository.getUpvotes(questionId) > 0) {
             questionRepository.downvote(questionId);
         }
     }
@@ -112,7 +113,7 @@ public class QuestionService {
      * @param score the new score value of question
      */
     public void setScore(long questionId, int score) {
-        if(score >= 0){
+        if (score >= 0) {
             questionRepository.setScore(questionId, score);
         } else {
             questionRepository.setScore(questionId, 0);
