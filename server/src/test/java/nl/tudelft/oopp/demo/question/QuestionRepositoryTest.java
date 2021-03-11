@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.question;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.LinkedList;
 import java.util.List;
