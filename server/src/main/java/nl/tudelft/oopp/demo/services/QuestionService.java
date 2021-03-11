@@ -170,8 +170,9 @@ public class QuestionService {
      * @param questionId the question id
      */
     public void userSetAnswered(long questionId) {
-        if (questionRepository.getScore(questionId) <= 5)
-        questionRepository.setAnswered(questionId);
+        if (questionRepository.getScore(questionId) <= 5) {
+            questionRepository.setAnswered(questionId);
+        }
     }
 
 
