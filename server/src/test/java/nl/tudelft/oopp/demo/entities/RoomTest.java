@@ -293,13 +293,22 @@ class RoomTest {
 
     @Test
     void testToString() {
-        String str = "Room{id=1, title='Room Title', startingDate=" + r1.getStartingDate() + ", "
-            + "repeatingLecture=false, admin=User{id=1, username='Admin', ip='ip', "
-            + "questionsAsked=[], questionsUpvoted=[], type=ADMIN}, moderators=[], bannedIps=[], "
-            + "tooFast=0, tooSlow=0, elevatedPassword='"
-            + "" + r1.getElevatedPassword() + "', normalPassword='"
-            + r1.getNormalPassword() + "'}";
+        String questionToString = "";
+        for (Question question : r1.getQuestions()) {
+            questionToString += question.toString();
+        }
 
-        assertThat(r1.toString()).isEqualTo(str);
+        String pollToString = "";
+        for (Poll poll : r1.getPolls()) {
+            pollToString += poll.toString();
+        }
+
+        String str = "Room(id=1, title=Room Title, startingDate=" + r1.getStartingDate() + ", "
+            + "repeatingLecture=false, admin=1, moderators=[], bannedIps=[], questions=["
+            + "" + questionToString + "], polls=[" + pollToString + "], tooFast=0, tooSlow=0, "
+            + "elevatedPassword=" + r1.getElevatedPassword() + ", "
+            + "normalPassword=" + r1.getNormalPassword() + ")";
+
+        assertThat(str).isEqualTo(r1.toString());
     }
 }

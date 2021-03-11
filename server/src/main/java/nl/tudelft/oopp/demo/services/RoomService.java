@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.services;
 
 import java.util.List;
 import java.util.Set;
+import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -13,18 +14,10 @@ import org.springframework.stereotype.Service;
  * The type Room service.
  */
 @Service
+@AllArgsConstructor
 public class RoomService {
     @Autowired
     private final RoomRepository roomRepository;
-
-    /**
-     * Instantiates a new Room service.
-     *
-     * @param roomRepository the room repository
-     */
-    public RoomService(RoomRepository roomRepository) {
-        this.roomRepository = roomRepository;
-    }
 
     /**
      * Returns a list of all rooms.

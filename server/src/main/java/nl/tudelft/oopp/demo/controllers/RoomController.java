@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.util.List;
 import java.util.Set;
+import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -18,18 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController("Room")
 @RequestMapping("api/v1/rooms")
+@AllArgsConstructor
 public class RoomController {
     @Autowired
     private final RoomService roomService;
-
-    /**
-     * Instantiates a new Room controller.
-     *
-     * @param roomService the room service
-     */
-    public RoomController(RoomService roomService) {
-        this.roomService = roomService;
-    }
 
     /**
      * Find all list.
