@@ -64,6 +64,11 @@ class QuestionRepositoryTest {
 
 
     @Test
+    void getQuestion() {
+        assertEquals("This is the text 1", repository.getQuestion(id1));
+    }
+
+    @Test
     void editQuestion() {
         repository.editQuestion(id1, "this question has changed");
         assertEquals("this question has changed", repository.getQuestion(id1));
