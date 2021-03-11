@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RoomService {
+
     @Autowired
     private final RoomRepository roomRepository;
 
@@ -38,8 +39,8 @@ public class RoomService {
     /**
      * Gets the specified room.
      *
-     * @param id the id
-     * @return the one
+     * @param id the room id
+     * @return the room
      */
     public Room getOne(long id) {
         return roomRepository.getOne(id);
@@ -62,7 +63,7 @@ public class RoomService {
      * @return the private password
      */
     public String getPrivatePassword(long roomId) {
-        // Later perform some sort of check here to see if the user has permission
+        // TODO Later perform some sort of check here to see if the user has permission
         return roomRepository.getPrivatePassword(roomId);
     }
 
@@ -70,12 +71,18 @@ public class RoomService {
      * Returns a set of all the  questions of a room.
      *
      * @param roomId the room id
-     * @return the set
+     * @return the set of questions
      */
     public Set<Question> findAllQuestions(long roomId) {
         return roomRepository.findAllQuestions(roomId);
     }
 
+    /**
+     * Returns a set of all the polls of a room.
+     *
+     * @param roomId the room id
+     * @return the set of polls
+     */
     public Set<Poll> findAllPolls(long roomId) {
         return roomRepository.findAllPolls(roomId);
     }

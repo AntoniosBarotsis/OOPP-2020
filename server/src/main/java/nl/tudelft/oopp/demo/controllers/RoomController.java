@@ -42,10 +42,10 @@ public class RoomController {
     }
 
     /**
-     * Gets one.
+     * Gets the room with a specific id.
      *
-     * @param id the id
-     * @return the one
+     * @param id the room id
+     * @return the room
      */
     @GetMapping("{id}")
     public Room getOne(@PathVariable long id) {
