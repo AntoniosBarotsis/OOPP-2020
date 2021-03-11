@@ -63,7 +63,7 @@ class RoomTest {
         //questionRepository.saveAll(List.of(q1, q2));
         questionRepository.saveAll(List.of(q2));
 
-        r1 = new Room("Room Title", false, u1);
+        r1 = new Room("Room Title", u1);
 
         r1.setQuestions(Stream.of(q2)
             .collect(Collectors.toSet())
@@ -115,17 +115,6 @@ class RoomTest {
         Date date = new Date(42L);
         r1.setStartingDate(date);
         assertThat(r1.getStartingDate()).isEqualTo(date);
-    }
-
-    @Test
-    void isRepeatingLecture() {
-        assertThat(r1.isRepeatingLecture()).isFalse();
-    }
-
-    @Test
-    void setRepeatingLecture() {
-        r1.setRepeatingLecture(true);
-        assertThat(r1.isRepeatingLecture()).isTrue();
     }
 
     @Test
@@ -255,7 +244,7 @@ class RoomTest {
 
     @Test
     void testEquals() {
-        Room r2 = new Room("Room Title", false, u1);
+        Room r2 = new Room("Room Title", u1);
         assertThat(r1).isNotEqualTo(r2);
 
         r2.setQuestions(Stream.of(q2)
@@ -285,7 +274,7 @@ class RoomTest {
 
     @Test
     void testHashCode() {
-        Room r2 = new Room("Room Title", false, u1);
+        Room r2 = new Room("Room Title", u1);
 
         assertThat(r1.hashCode()).isEqualTo(r1.hashCode());
         assertThat(r1.hashCode()).isNotEqualTo(r2.hashCode());
@@ -294,7 +283,7 @@ class RoomTest {
     @Test
     void testToString() {
         String str = "Room{id=1, title='Room Title', startingDate=" + r1.getStartingDate() + ", "
-            + "repeatingLecture=false, admin=User{id=1, username='Admin', ip='ip', "
+            + "admin=User{id=1, username='Admin', ip='ip', "
             + "questionsAsked=[], questionsUpvoted=[], type=ADMIN}, moderators=[], bannedIps=[], "
             + "tooFast=0, tooSlow=0, elevatedPassword='"
             + "" + r1.getElevatedPassword() + "', normalPassword='"
