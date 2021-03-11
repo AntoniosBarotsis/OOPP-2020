@@ -76,7 +76,7 @@ public class Room {
 
     /**
      * Instantiates a new Room. `startingDate` becomes the current date,
-     * `bannedIps` and `bannedIps` get instantiated as empty HashSets,
+     * `bannedIps`, `moderators`, `questions` and `polls` get instantiated as empty HashSets,
      * `tooFast` and `tooSlow` get initialized to 0. Lastly, passwords are generated.
      *
      * @param title            the title
@@ -107,13 +107,16 @@ public class Room {
 
     /**
      * Generates an elevated user password and a normal password by creating a random UUID and
-     * splitting it in 2.
+     * splitting it in 2. Dashes are removed to make the passwords cleaner.
      */
     private void generatePassword() {
         String uuid = UUID.randomUUID().toString();
 
-        this.elevatedPassword = uuid.substring(0, uuid.length() / 2);
-        this.normalPassword = uuid.substring(uuid.length() / 2);
+        String elevatedPassword = uuid.substring(0, uuid.length() / 2);
+        String normalPassword = uuid.substring(uuid.length() / 2);
+
+        this.elevatedPassword = elevatedPassword.replace("-", "");
+        this.normalPassword = normalPassword.replace("-", "");
     }
 
     /**
@@ -360,9 +363,11 @@ public class Room {
             return false;
         }
         Room room = (Room) o;
-        return id == room.id && repeatingLecture == room.repeatingLecture
+        return id == room.id
+            && repeatingLecture == room.repeatingLecture
             && tooFast == room.tooFast
-            && tooSlow == room.tooSlow && Objects.equals(title, room.title)
+            && tooSlow == room.tooSlow
+            && Objects.equals(title, room.title)
             && Objects.equals(startingDate, room.startingDate)
             && Objects.equals(admin, room.admin)
             && Objects.equals(moderators, room.moderators)

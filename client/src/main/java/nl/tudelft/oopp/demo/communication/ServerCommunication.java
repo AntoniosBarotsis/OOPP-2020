@@ -12,7 +12,6 @@ public class ServerCommunication {
     /**
      * Retrieves a quote from the server.
      * @return the body of a get request to the server.
-     * @throws Exception if communication with the server fails.
      */
     public static String getQuote() {
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/quote")).build();

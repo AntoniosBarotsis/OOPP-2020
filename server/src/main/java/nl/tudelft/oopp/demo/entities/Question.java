@@ -305,7 +305,7 @@ public class Question {
     /**
      * The enum Question status.
      */
-    private enum QuestionStatus {
+    public enum QuestionStatus {
         /**
          * Open question status.
          */
