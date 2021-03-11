@@ -23,12 +23,12 @@ public class Poll {
     @Id
     @SequenceGenerator(
         name = "question_sequence",
-        sequenceName = "question_sequence",
+        sequenceName = "poll_sequence",
         allocationSize = 1
     )
     @GeneratedValue(
         strategy = SEQUENCE,
-        generator = "question_sequence"
+        generator = "poll_sequence"
     )
     @Column(name = "id", updatable = false)
     private long id;
@@ -234,7 +234,7 @@ public class Poll {
             + '}';
     }
 
-    private enum PollStatus {
+    public enum PollStatus {
         /**
          * Open poll status.
          */
