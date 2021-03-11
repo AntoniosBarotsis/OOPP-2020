@@ -181,7 +181,7 @@ public class QuestionService {
 
 
     /**
-     *Sets the value of status as ANSWERED, unless its score is greater than maxScore
+     *Sets the value of status as ANSWERED, unless its score is greater than maxScore.
      *
      * @param maxScore the max score for changing the status to answered
      * @param questionId the question id
