@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.repositories;
 
-import java.util.List;
 import java.util.Set;
 import javax.transaction.Transactional;
 import nl.tudelft.oopp.demo.entities.Poll;

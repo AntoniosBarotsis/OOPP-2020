@@ -46,8 +46,6 @@ public class Room {
     private String title;
     @Column(name = "starting_date")
     private Date startingDate;
-    @Column(name = "repeating_lecture")
-    private boolean repeatingLecture;
     @OneToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "admin_id")
     private ElevatedUser admin;
@@ -80,12 +78,10 @@ public class Room {
      * `tooFast` and `tooSlow` get initialized to 0. Lastly, passwords are generated.
      *
      * @param title            the title
-     * @param repeatingLecture the repeating lecture
      * @param admin            the admin id
      */
-    public Room(String title, boolean repeatingLecture, ElevatedUser admin) {
+    public Room(String title, ElevatedUser admin) {
         this.title = title;
-        this.repeatingLecture = repeatingLecture;
         this.admin = admin;
 
         this.startingDate = new Date();
@@ -173,23 +169,6 @@ public class Room {
         this.startingDate = startingDate;
     }
 
-    /**
-     * Is repeating lecture boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isRepeatingLecture() {
-        return repeatingLecture;
-    }
-
-    /**
-     * Sets repeating lecture.
-     *
-     * @param repeatingLecture the repeating lecture
-     */
-    public void setRepeatingLecture(boolean repeatingLecture) {
-        this.repeatingLecture = repeatingLecture;
-    }
 
     /**
      * Gets admin id.
@@ -364,7 +343,6 @@ public class Room {
         }
         Room room = (Room) o;
         return id == room.id
-            && repeatingLecture == room.repeatingLecture
             && tooFast == room.tooFast
             && tooSlow == room.tooSlow
             && Objects.equals(title, room.title)
@@ -379,7 +357,7 @@ public class Room {
     @Override
     public int hashCode() {
         return Objects
-            .hash(id, title, startingDate, repeatingLecture, admin, moderators, bannedIps, tooFast,
+            .hash(id, title, startingDate, admin, moderators, bannedIps, tooFast,
                 tooSlow, elevatedPassword, normalPassword);
     }
 
@@ -389,7 +367,6 @@ public class Room {
             + "id=" + id
             + ", title='" + title + '\''
             + ", startingDate=" + startingDate
-            + ", repeatingLecture=" + repeatingLecture
             + ", admin=" + admin
             + ", moderators=" + moderators
             + ", bannedIps=" + bannedIps

@@ -64,7 +64,7 @@ public class DataConfig {
             Question q4 = new Question("Question title 4", "Question text 4", u3);
             questionRepository.saveAll(List.of(q1, q2, q3, q4));
 
-            Room r1 = new Room("Room Title", false, u1);
+            Room r1 = new Room("Room Title", u1);
 
             r1.setQuestions(Stream.of(q1, q2, q3, q4)
                 .collect(Collectors.toSet())
