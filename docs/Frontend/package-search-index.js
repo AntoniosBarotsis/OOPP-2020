@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"nl.tudelft.oopp.demo"},{"l":"nl.tudelft.oopp.demo.communication"},{"l":"nl.tudelft.oopp.demo.communication.mainmenu"},{"l":"nl.tudelft.oopp.demo.controllers"},{"l":"nl.tudelft.oopp.demo.controllers.mainmenu"},{"l":"nl.tudelft.oopp.demo.data"},{"l":"nl.tudelft.oopp.demo.views"}]
