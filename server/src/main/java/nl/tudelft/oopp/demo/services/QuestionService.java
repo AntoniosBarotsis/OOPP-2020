@@ -110,8 +110,9 @@ public class QuestionService {
      * Gets the id of Question with the highest score
      *
      * @return question id of highest score Question
+     * @param number
      */
-    public long getHighestScore() { return questionRepository.getHighestScore().get(0);}
+    public long get(int number) { return questionRepository.getHighestScore().get(number);}
 
 
     /**

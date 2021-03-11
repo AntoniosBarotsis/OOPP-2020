@@ -120,13 +120,13 @@ public class QuestionController {
 
 
     /**
-     * Gets the id of Question with the highest score
+     * Gets the id of Question with the number highest score. So if 0 is passed, the question id of the highest score question is returned
      *
      * @return question id of highest score Question
      */
     @ResponseBody
-    @GetMapping("getHighestScore")
-    public long getHighestScore(){return questionService.getHighestScore();}
+    @GetMapping("get/{number}")
+    public long get(@PathVariable int number){return questionService.getHighestScore(number);}
 
 
     /**

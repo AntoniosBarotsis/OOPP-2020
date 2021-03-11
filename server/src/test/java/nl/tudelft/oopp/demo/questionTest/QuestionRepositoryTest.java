@@ -174,7 +174,6 @@ class QuestionRepositoryTest{
     @Test
     void getTitle() {
         assertEquals(question1.getTitle(), repository.getTitle(id1));
-
     }
 
     @Test
@@ -189,7 +188,6 @@ class QuestionRepositoryTest{
         assertNotEquals(repository.getQuestion(id1), null);
         repository.delete(id1);
         assertEquals(repository.getQuestion(id1),null);
-
     }
 
 

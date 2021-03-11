@@ -113,7 +113,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      * @return question id of highest score Question
      */
     @Transactional
-    @Query(value = "SELECT q.id FROM Question q ORDER BY q.score DESC")
+    @Query(value = "SELECT q.id FROM Question q ORDER BY q.score DESC ")
     List<Long> getHighestScore();
 
 
