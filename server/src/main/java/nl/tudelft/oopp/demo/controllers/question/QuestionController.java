@@ -77,7 +77,9 @@ public class QuestionController {
      */
     @ResponseBody
     @PutMapping("upvote/{questionId}")
-    public void incrementUpvotes(@PathVariable long questionId) { questionService.incrementUpvotes(questionId); }
+    public void incrementUpvotes(@PathVariable long questionId) {
+        questionService.incrementUpvotes(questionId);
+    }
 
 
     /**
@@ -87,7 +89,9 @@ public class QuestionController {
      */
     @ResponseBody
     @PutMapping("downvote/{questionId}")
-    public void downvote(@PathVariable long questionId) { questionService.downvote(questionId); }
+    public void downvote(@PathVariable long questionId) {
+        questionService.downvote(questionId);
+    }
 
 
     /**
@@ -111,7 +115,9 @@ public class QuestionController {
      */
     @ResponseBody
     @GetMapping("getScore/{questionId}")
-    public int getScore(@PathVariable long questionId) { return questionService.getScore(questionId); }
+    public int getScore(@PathVariable long questionId) {
+        return questionService.getScore(questionId);
+    }
 
 
     /**
@@ -128,13 +134,17 @@ public class QuestionController {
 
 
     /**
-     * Gets the id of Question with the number highest score. So if 0 is passed, the question id of the highest score question is returned.
+     * Gets the id of Question with the number highest score. So if 0 is passed
+     * the question id of the highest score question is returned.
      *
+     * @param number the number of question this should return
      * @return question id of highest score Question
      */
     @ResponseBody
     @GetMapping("get/{number}")
-    public long get(@PathVariable int number) { return questionService.get(number); }
+    public long get(@PathVariable int number) {
+        return questionService.get(number);
+    }
 
 
     /**
@@ -145,7 +155,9 @@ public class QuestionController {
      */
     @ResponseBody
     @GetMapping("getTime/{questionId}")
-    public Date getTime(@PathVariable long questionId) { return questionService.getTime(questionId); }
+    public Date getTime(@PathVariable long questionId) {
+        return questionService.getTime(questionId);
+    }
 
 
     /**
@@ -156,7 +168,9 @@ public class QuestionController {
      */
     @ResponseBody
     @GetMapping("getStatus/{questionId}")
-    public Enum getStatus(@PathVariable long questionId) { return questionService.getStatus(questionId); }
+    public Enum getStatus(@PathVariable long questionId) {
+        return questionService.getStatus(questionId);
+    }
 
 
     /**
@@ -166,7 +180,9 @@ public class QuestionController {
      */
     @ResponseBody
     @PutMapping("isAnswered/{questionId}")
-    public void isAnswered(@PathVariable long questionId) { questionService.isAnswered(questionId); }
+    public void isAnswered(@PathVariable long questionId) {
+        questionService.isAnswered(questionId);
+    }
 
 
     /**
@@ -176,7 +192,9 @@ public class QuestionController {
      */
     @ResponseBody
     @PutMapping("isSpam/{questionId}")
-    public void isSpam(@PathVariable long questionId) { questionService.isSpam(questionId); }
+    public void isSpam(@PathVariable long questionId) {
+        questionService.isSpam(questionId);
+    }
 
 
     /**
@@ -186,7 +204,9 @@ public class QuestionController {
      */
     @ResponseBody
     @PutMapping("isOpen/{questionId}")
-    public void isOpen(@PathVariable long questionId) { questionService.isOpen(questionId); }
+    public void isOpen(@PathVariable long questionId) {
+        questionService.isOpen(questionId);
+    }
 
 
     /**
@@ -197,7 +217,9 @@ public class QuestionController {
      */
     @ResponseBody
     @GetMapping("getAnswer/{questionId}")
-    public String getAnswer(@PathVariable long questionId) { return questionService.getAnswer(questionId); }
+    public String getAnswer(@PathVariable long questionId) {
+        return questionService.getAnswer(questionId);
+    }
 
 
     /**
@@ -221,7 +243,9 @@ public class QuestionController {
      */
     @ResponseBody
     @GetMapping("getTitle/{questionId}")
-    public String getTitle(@PathVariable long questionId) { return questionService.getTitle(questionId); }
+    public String getTitle(@PathVariable long questionId) {
+        return questionService.getTitle(questionId);
+    }
 
 
     /**
@@ -244,6 +268,7 @@ public class QuestionController {
      */
     @ResponseBody
     @GetMapping("delete/{questionId}")
-    public void deleteQuestion(@PathVariable long questionId) { questionService.delete(questionId); }
-
+    public void deleteQuestion(@PathVariable long questionId) {
+        questionService.delete(questionId);
+    }
 }

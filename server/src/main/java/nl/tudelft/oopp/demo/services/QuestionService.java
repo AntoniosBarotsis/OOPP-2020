@@ -23,7 +23,9 @@ public class QuestionService {
      *
      * @param questionRepository the question repository
      */
-    public QuestionService(QuestionRepository questionRepository) { this.questionRepository = questionRepository; }
+    public QuestionService(QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
+    }
 
 
     /**
@@ -32,7 +34,9 @@ public class QuestionService {
      * @param questionId the question id
      * @return a String of the text of the question
      */
-    public String getQuestion(long questionId) { return questionRepository.getQuestion(questionId); }
+    public String getQuestion(long questionId) {
+        return questionRepository.getQuestion(questionId);
+    }
 
 
     /**
@@ -52,7 +56,9 @@ public class QuestionService {
      * @param questionId the question id
      * @return the author of the question
      */
-    public User getAuthor(long questionId) { return questionRepository.getAuthor(questionId); }
+    public User getAuthor(long questionId) {
+        return questionRepository.getAuthor(questionId);
+    }
 
 
     /**
@@ -60,7 +66,9 @@ public class QuestionService {
      *
      * @param questionId the question id
      */
-    public void incrementUpvotes(long questionId) { questionRepository.incrementUpvotes(questionId); }
+    public void incrementUpvotes(long questionId) {
+        questionRepository.incrementUpvotes(questionId);
+    }
 
 
     /**
@@ -69,7 +77,7 @@ public class QuestionService {
      * @param questionId the question id
      */
     public void downvote(long questionId){
-        if(questionRepository.getUpvotes(questionId) >0){
+        if(questionRepository.getUpvotes(questionId) > 0){
             questionRepository.downvote(questionId);
         }
     }
@@ -81,7 +89,9 @@ public class QuestionService {
      * @param questionId the question id
      * @return the value of upvotes
      */
-    public int getUpvotes(long questionId) { return questionRepository.getUpvotes(questionId); }
+    public int getUpvotes(long questionId) {
+        return questionRepository.getUpvotes(questionId);
+    }
 
 
     /**
@@ -90,7 +100,9 @@ public class QuestionService {
      * @param questionId the question id
      * @return the score value of question
      */
-    public int getScore(long questionId) { return questionRepository.getScore(questionId); }
+    public int getScore(long questionId) {
+        return questionRepository.getScore(questionId);
+    }
 
 
     /**
@@ -100,7 +112,7 @@ public class QuestionService {
      * @param score the new score value of question
      */
     public void setScore(long questionId, int score) {
-        if(score>=0){
+        if(score >= 0){
             questionRepository.setScore(questionId, score);
         } else {
             questionRepository.setScore(questionId, 0);
@@ -109,12 +121,15 @@ public class QuestionService {
 
 
     /**
-     * Gets the id of Question with the highest score.
+     * Gets the id of Question with the number highest score. So if 0 is passed
+     * the question id of the highest score question is returned.
      *
+     * @param number the number of question this should return
      * @return question id of highest score Question
-     * @param number
      */
-    public long get(int number) { return questionRepository.getHighestScore().get(number); }
+    public long get(int number) {
+        return questionRepository.getHighestScore().get(number);
+    }
 
 
     /**
@@ -123,7 +138,9 @@ public class QuestionService {
      * @param questionId the question id
      * @return the question date
      */
-    public Date getTime(long questionId) { return questionRepository.getTime(questionId); }
+    public Date getTime(long questionId) {
+        return questionRepository.getTime(questionId);
+    }
 
 
     /**
@@ -132,7 +149,9 @@ public class QuestionService {
      * @param questionId the question id
      * @return the status of question
      */
-    public Enum getStatus(long questionId) { return questionRepository.getStatus(questionId); }
+    public Enum getStatus(long questionId) {
+        return questionRepository.getStatus(questionId);
+    }
 
 
     /**
@@ -140,7 +159,9 @@ public class QuestionService {
      *
      * @param questionId the question id
      */
-    public void isAnswered(long questionId) { questionRepository.isAnswered(questionId); }
+    public void isAnswered(long questionId) {
+        questionRepository.isAnswered(questionId);
+    }
 
 
     /**
@@ -148,7 +169,9 @@ public class QuestionService {
      *
      * @param questionId the question id
      */
-    public void isSpam(long questionId) { questionRepository.isSpam(questionId); }
+    public void isSpam(long questionId) {
+        questionRepository.isSpam(questionId);
+    }
 
 
     /**
@@ -156,7 +179,9 @@ public class QuestionService {
      *
      * @param questionId the question id
      */
-    public void isOpen(long questionId) { questionRepository.isOpen(questionId); }
+    public void isOpen(long questionId) {
+        questionRepository.isOpen(questionId);
+    }
 
 
     /**
@@ -165,7 +190,9 @@ public class QuestionService {
      * @param questionId the question id
      * @return the answer
      */
-    public String getAnswer(long questionId) { return  questionRepository.getAnswer(questionId); }
+    public String getAnswer(long questionId) {
+        return  questionRepository.getAnswer(questionId);
+    }
 
 
     /**
@@ -185,7 +212,9 @@ public class QuestionService {
      * @param questionId the question id
      * @return the title of question
      */
-    public String getTitle(long questionId) { return questionRepository.getTitle(questionId); }
+    public String getTitle(long questionId) {
+        return questionRepository.getTitle(questionId);
+    }
 
 
     /**
@@ -194,7 +223,9 @@ public class QuestionService {
      * @param questionId the question id
      * @param title the new title of question
      */
-    public void setTitle(long questionId, String title) { questionRepository.setTitle(questionId, title); }
+    public void setTitle(long questionId, String title) {
+        questionRepository.setTitle(questionId, title);
+    }
 
 
     /**
@@ -202,7 +233,9 @@ public class QuestionService {
      *
      * @param questionId the question id
      */
-    public void delete(long questionId) { questionRepository.delete(questionId); }
+    public void delete(long questionId) {
+        questionRepository.delete(questionId);
+    }
 
 
 }
