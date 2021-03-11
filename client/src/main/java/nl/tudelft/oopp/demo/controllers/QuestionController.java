@@ -9,6 +9,7 @@ public class QuestionController {
     }
 
     public void questionAnswered(){
+        System.out.println("Hello World");
     }
 
     public void edit(){
