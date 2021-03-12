@@ -2,12 +2,12 @@ package nl.tudelft.oopp.demo.controllers;
 
 import java.util.List;
 import java.util.Set;
+import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.services.RoomService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -126,5 +126,47 @@ public class RoomController {
     @PutMapping("/tooSlow/decrement/{roomId}")
     public void decrementTooSlow(@PathVariable long roomId) {
         roomService.decrementTooSlow(roomId);
+    }
+
+
+    /**
+     * Returns true if the user has been banned in the given room.
+     *
+     * @param roomId the room id
+     * @param ip     the ip
+     * @return the boolean
+     */
+    @GetMapping("isBanned")
+    public boolean isBanned(@PathParam("roomId") long roomId,
+                            @PathParam("ip") String ip) {
+        return roomService.isBanned(roomId, ip);
+    }
+
+    /**
+     * Bans a user in the given room given the correct elevated password.
+     *
+     * @param roomId           the room id
+     * @param ip               the ip
+     * @param elevatedPassword the elevated password
+     */
+    @PutMapping("ban")
+    public void ban(@PathParam("roomId") long roomId,
+                    @PathParam("ip") String ip,
+                    @PathParam("elevatedPassword") String elevatedPassword) {
+        roomService.banUser(roomId, ip, elevatedPassword);
+    }
+
+    /**
+     * Unbans a user in the given room given the correct elevated password.
+     *
+     * @param roomId           the room id
+     * @param ip               the ip
+     * @param elevatedPassword the elevated password
+     */
+    @PutMapping("unban")
+    public void unban(@PathParam("roomId") long roomId,
+                      @PathParam("ip") String ip,
+                      @PathParam("elevatedPassword") String elevatedPassword) {
+        roomService.unbanUser(roomId, ip, elevatedPassword);
     }
 }
