@@ -7,7 +7,6 @@ import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -68,6 +67,12 @@ public class RoomService {
         return roomRepository.findAllQuestions(roomId);
     }
 
+    /**
+     * Find all polls set.
+     *
+     * @param roomId the room id
+     * @return the set
+     */
     public Set<Poll> findAllPolls(long roomId) {
         return roomRepository.findAllPolls(roomId);
     }
@@ -106,5 +111,51 @@ public class RoomService {
      */
     public void decrementTooSlow(long roomId) {
         roomRepository.decrementTooSlow(roomId);
+    }
+
+
+    /**
+     * Returns true if the user has been banned in the given room.
+     *
+     * @param roomId the room id
+     * @param ip     the ip
+     * @return boolean
+     */
+    public boolean isBanned(long roomId, String ip) {
+        return roomRepository.getOne(roomId).getBannedIps().contains(ip);
+    }
+
+    /**
+     * Bans a user in the given room given the correct elevated password.
+     *
+     * @param roomId           the room id
+     * @param ip               the ip
+     * @param elevatedPassword the elevated password
+     */
+    public void banUser(long roomId, String ip, String elevatedPassword) {
+        Room room = roomRepository.getOne(roomId);
+
+        if (!elevatedPassword.equals(room.getElevatedPassword())) {
+            return;
+        }
+
+        roomRepository.banUser(roomId, ip);
+    }
+
+    /**
+     * Unbans a user in the given room given the correct elevated password.
+     *
+     * @param roomId           the room id
+     * @param ip               the ip
+     * @param elevatedPassword the elevated password
+     */
+    public void unbanUser(long roomId, String ip, String elevatedPassword) {
+        Room room = roomRepository.getOne(roomId);
+
+        if (!elevatedPassword.equals(room.getElevatedPassword())) {
+            return;
+        }
+
+        roomRepository.unbanUser(roomId, ip);
     }
 }
