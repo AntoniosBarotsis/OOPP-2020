@@ -65,7 +65,7 @@ public class MainStudentController {
      * @param room current room
      * @param user current user
      */
-    private void fetchData(Room room, User user) {
+    protected void fetchData(Room room, User user) {
         // Fetch room data from server.
         this.room = MainStudentCommunication.getRoom(room.getId());
         this.user = user;
@@ -83,7 +83,7 @@ public class MainStudentController {
     /**
      * Populates ListView with Questions data.
      */
-    private void populateListView() {
+    protected void populateListView() {
         questionList.getItems().clear();
         for (Question question : questionData) {
             /*
@@ -96,7 +96,7 @@ public class MainStudentController {
     /**
      * Initialises a countdown animation.
      */
-    private void setCountdown() {
+    protected void setCountdown() {
         // Disable buttons.
         buttonFast.setDisable(true);
         buttonSlow.setDisable(true);

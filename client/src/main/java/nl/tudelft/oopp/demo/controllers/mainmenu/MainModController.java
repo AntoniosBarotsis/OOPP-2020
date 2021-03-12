@@ -59,7 +59,7 @@ public class MainModController {
      * @param room current room
      * @param user current user
      */
-    public void fetchData(Room room, User user) {
+    protected void fetchData(Room room, User user) {
         // Fetch room data from server.
         this.room = MainModCommunication.getRoom(room.getId());
         this.user = user;
@@ -81,7 +81,7 @@ public class MainModController {
     /**
      * Populates ListView with Questions data.
      */
-    public void populateListView() {
+    protected void populateListView() {
         questionList.getItems().clear();
         for (Question question : questionData) {
             /*
