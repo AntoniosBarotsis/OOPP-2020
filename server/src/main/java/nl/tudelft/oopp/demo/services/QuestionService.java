@@ -1,8 +1,12 @@
 package nl.tudelft.oopp.demo.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
+import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
+    private final RoomRepository roomRepository;
 
     /**
      * Add question.
@@ -44,5 +49,27 @@ public class QuestionService {
      */
     public void deleteAllQuestions(long roomId) {
         questionRepository.deleteAllQuestions(roomId);
+    }
+
+    /**
+     * Exports a single question in JSON format.
+     * @param questionId the question id
+     */
+    public String exportToJson(long questionId) throws JsonProcessingException {
+        if (questionRepository.findById(questionId).isPresent()) {
+            return questionRepository.findById(questionId).get().exportToJson();
+        } else {
+            return "{\"error\": \"JsonProcessingException\"}";
+        }
+    }
+
+    /**
+     * Exports all questions from a given room in JSON format.
+     * @param roomId the room id
+     */
+    public String exportAllToJson(long roomId) throws JsonProcessingException {
+        ObjectMapper objMapper = new ObjectMapper();
+
+        return objMapper.writeValueAsString(roomRepository.findAllQuestions(roomId));
     }
 }
