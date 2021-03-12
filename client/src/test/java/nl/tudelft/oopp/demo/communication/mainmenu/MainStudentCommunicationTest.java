@@ -12,7 +12,7 @@ class MainStudentCommunicationTest {
         MainStudentCommunication.increaseTooFast(1);
 
         // The test will give adequate results only if the server is running.
-        if(currentTooFast != -1){
+        if (currentTooFast != -1) {
             assertEquals(currentTooFast + 1, MainModCommunication.getRoom(1).getTooFast());
         }
     }
@@ -23,7 +23,7 @@ class MainStudentCommunicationTest {
         MainStudentCommunication.increaseTooSlow(1);
 
         // The test will give adequate results only if the server is running.
-        if(currentTooSlow != -1){
+        if (currentTooSlow != -1) {
             assertEquals(currentTooSlow + 1, MainModCommunication.getRoom(1).getTooSlow());
         }
     }
@@ -34,7 +34,7 @@ class MainStudentCommunicationTest {
         MainStudentCommunication.decreaseTooFast(1);
 
         // The test will give adequate results only if the server is running.
-        if(currentTooFast != -1){
+        if (currentTooFast != -1) {
             assertEquals(currentTooFast - 1, MainModCommunication.getRoom(1).getTooFast());
         }
     }
@@ -45,7 +45,7 @@ class MainStudentCommunicationTest {
         MainStudentCommunication.decreaseTooSlow(1);
 
         // The test will give adequate results only if the server is running.
-        if(currentTooSlow != -1){
+        if (currentTooSlow != -1) {
             assertEquals(currentTooSlow - 1, MainModCommunication.getRoom(1).getTooSlow());
         }
     }
