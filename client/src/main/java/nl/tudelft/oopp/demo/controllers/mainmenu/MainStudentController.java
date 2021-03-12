@@ -87,10 +87,49 @@ public class MainStudentController {
         questionList.getItems().clear();
         for (Question question : questionData) {
             /*
-            TODO: questionList should loaded with FMXL panels instead of string.
+            TODO: questionList should be loaded with FMXL panels instead of string.
              */
             questionList.getItems().add(question.getText());
         }
+    }
+
+    /**
+     * Initialises a countdown animation.
+     */
+    private void setCountdown() {
+        // Disable buttons.
+        buttonFast.setDisable(true);
+        buttonSlow.setDisable(true);
+
+        // Set starting timer.
+        labelMin.setText(String.valueOf(4));
+        labelSec.setText(String.valueOf(59));
+
+        // Set minutes timer.
+        Timeline timelineMinutes = new Timeline(
+                new KeyFrame(Duration.seconds(60), e1 -> {
+                    int current = Integer.parseInt(labelMin.getText());
+                    labelMin.setText(String.valueOf(current - 1));
+                })
+        );
+        timelineMinutes.setCycleCount(4);
+        timelineMinutes.play();
+
+        // Set seconds timer.
+        Timeline timelineSeconds = new Timeline(
+                new KeyFrame(Duration.seconds(1), e2 -> {
+                    int current = Integer.parseInt(labelSec.getText());
+                    if (current == 0) {
+                        labelSec.setText(String.valueOf(59));
+                    } else if (current < 11) {
+                        labelSec.setText("0" + (current - 1));
+                    } else {
+                        labelSec.setText(String.valueOf(current - 1));
+                    }
+                })
+        );
+        timelineSeconds.setCycleCount(299);
+        timelineSeconds.play();
     }
 
     /**
@@ -98,7 +137,21 @@ public class MainStudentController {
      */
     @FXML
     public void buttonFastClicked() {
+        // Initialise the countdown.
+        setCountdown();
 
+        // Increase the tooFast counter.
+        MainStudentCommunication.increaseTooFast(room.getId());
+
+        // Decrease the tooFast counter and enable buttons in 5min.
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(299), e -> {
+                    MainStudentCommunication.decreaseTooFast(room.getId());
+                    buttonFast.setDisable(false);
+                    buttonSlow.setDisable(false);
+                })
+        );
+        timeline.play();
     }
 
     /**
@@ -106,7 +159,21 @@ public class MainStudentController {
      */
     @FXML
     public void buttonSlowClicked() {
+        // Initialise the countdown.
+        setCountdown();
 
+        // Increase the tooSlow counter.
+        MainStudentCommunication.increaseTooSlow(room.getId());
+
+        // Decrease the tooSlow counter and enable buttons in 5min.
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(299), e -> {
+                    MainStudentCommunication.decreaseTooSlow(room.getId());
+                    buttonFast.setDisable(false);
+                    buttonSlow.setDisable(false);
+                })
+        );
+        timeline.play();
     }
 
     /**
