@@ -6,6 +6,7 @@ import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +19,17 @@ public class RoomService {
     @Autowired
     private final RoomRepository roomRepository;
 
+    @Autowired
+    private final UserRepository userRepository;
+
     /**
      * Instantiates a new Room service.
      *
      * @param roomRepository the room repository
      */
-    public RoomService(RoomRepository roomRepository) {
+    public RoomService(RoomRepository roomRepository, UserRepository userRepository) {
         this.roomRepository = roomRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -44,6 +49,11 @@ public class RoomService {
      */
     public Room getOne(long id) {
         return roomRepository.getOne(id);
+    }
+
+    public Room createRoom(long userId, String title) {
+        // TODO Add logic
+        return null;
     }
 
     /**

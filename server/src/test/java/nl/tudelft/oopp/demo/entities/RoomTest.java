@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.repositories.PollRepository;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
@@ -38,8 +37,8 @@ class RoomTest {
     @Autowired
     private QuestionRepository questionRepository;
 
-    private ElevatedUser u1;
-    private ElevatedUser u2;
+    private User u1;
+    private User u2;
     private Poll p1;
     private Question q1;
     private Question q2;
@@ -47,8 +46,8 @@ class RoomTest {
 
     @BeforeEach
     void setUp() {
-        u1 = new ElevatedUser("Admin", "ip", true);
-        u2 = new ElevatedUser("Mod", "ip");
+        u1 = new User("Admin", "ip", User.Type.ADMIN);
+        u2 = new User("Mod", "ip", User.Type.MODERATOR);
         //User u22 = new ElevatedUser("Mod2", "ip", false);
         //User u3 = new Student("Student", "ip");
         //userRepository.saveAll(List.of(u1, u2, u3, u22));
@@ -135,7 +134,7 @@ class RoomTest {
 
     @Test
     void setModerators() {
-        Set<ElevatedUser> set = new HashSet<>();
+        Set<User> set = new HashSet<>();
         set.add(u2);
 
         r1.setModerators(set);

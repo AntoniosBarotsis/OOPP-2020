@@ -52,6 +52,12 @@ public class RoomController {
         return roomService.getOne(id);
     }
 
+    // TODO Add javadoc
+    @GetMapping("create/{userId}/{title}")
+    public Room createRoom(@PathVariable long userId, @PathVariable String title) {
+        return roomService.createRoom(userId, title);
+    }
+
     /**
      * Gets public password.
      *

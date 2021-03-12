@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 
 /**
  * The Room class. Note that the set of banned IPs is not exposed to the client by default
@@ -48,10 +47,10 @@ public class Room {
     private Date startingDate;
     @OneToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "admin_id")
-    private ElevatedUser admin;
+    private User admin;
     @OneToMany
     @Column(name = "moderators")
-    private Set<ElevatedUser> moderators;
+    private Set<User> moderators;
     @JsonIgnore
     @ElementCollection
     @Column(name = "banned_ips")
@@ -80,7 +79,7 @@ public class Room {
      * @param title            the title
      * @param admin            the admin id
      */
-    public Room(String title, ElevatedUser admin) {
+    public Room(String title, User admin) {
         this.title = title;
         this.admin = admin;
 
@@ -185,7 +184,7 @@ public class Room {
      *
      * @param admin the admin
      */
-    public void setAdmin(ElevatedUser admin) {
+    public void setAdmin(User admin) {
         this.admin = admin;
     }
 
@@ -194,7 +193,7 @@ public class Room {
      *
      * @return the moderators
      */
-    public Set<ElevatedUser> getModerators() {
+    public Set<User> getModerators() {
         return moderators;
     }
 
@@ -203,7 +202,7 @@ public class Room {
      *
      * @param moderators the moderators
      */
-    public void setModerators(Set<ElevatedUser> moderators) {
+    public void setModerators(Set<User> moderators) {
         this.moderators = moderators;
     }
 
