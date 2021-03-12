@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -31,13 +32,13 @@ import javax.persistence.Table;
 public class Room {
     @Id
     @SequenceGenerator(
-        name = "room_sequence",
-        sequenceName = "room_sequence",
-        allocationSize = 1
+            name = "room_sequence",
+            sequenceName = "room_sequence",
+            allocationSize = 1
     )
     @GeneratedValue(
-        strategy = SEQUENCE,
-        generator = "room_sequence"
+            strategy = SEQUENCE,
+            generator = "room_sequence"
     )
     @Column(name = "id", updatable = false)
     private long id;
@@ -76,8 +77,8 @@ public class Room {
      * `bannedIps`, `moderators`, `questions` and `polls` get instantiated as empty HashSets,
      * `tooFast` and `tooSlow` get initialized to 0. Lastly, passwords are generated.
      *
-     * @param title            the title
-     * @param admin            the admin id
+     * @param title the title
+     * @param admin the admin id
      */
     public Room(String title, User admin) {
         this.title = title;
@@ -342,38 +343,38 @@ public class Room {
         }
         Room room = (Room) o;
         return id == room.id
-            && tooFast == room.tooFast
-            && tooSlow == room.tooSlow
-            && Objects.equals(title, room.title)
-            && Objects.equals(startingDate, room.startingDate)
-            && Objects.equals(admin, room.admin)
-            && Objects.equals(moderators, room.moderators)
-            && Objects.equals(bannedIps, room.bannedIps)
-            && Objects.equals(elevatedPassword, room.elevatedPassword)
-            && Objects.equals(normalPassword, room.normalPassword);
+                && tooFast == room.tooFast
+                && tooSlow == room.tooSlow
+                && Objects.equals(title, room.title)
+                && Objects.equals(startingDate, room.startingDate)
+                && Objects.equals(admin, room.admin)
+                && Objects.equals(moderators, room.moderators)
+                && Objects.equals(bannedIps, room.bannedIps)
+                && Objects.equals(elevatedPassword, room.elevatedPassword)
+                && Objects.equals(normalPassword, room.normalPassword);
     }
 
     @Override
     public int hashCode() {
         return Objects
-            .hash(id, title, startingDate, admin, moderators, bannedIps, tooFast,
-                tooSlow, elevatedPassword, normalPassword);
+                .hash(id, title, startingDate, admin, moderators, bannedIps, tooFast,
+                        tooSlow, elevatedPassword, normalPassword);
     }
 
     @Override
     public String toString() {
         return "Room{"
-            + "id=" + id
-            + ", title='" + title + '\''
-            + ", startingDate=" + startingDate
-            + ", admin=" + admin
-            + ", moderators=" + moderators
-            + ", bannedIps=" + bannedIps
-            + ", tooFast=" + tooFast
-            + ", tooSlow=" + tooSlow
-            + ", elevatedPassword='" + elevatedPassword + '\''
-            + ", normalPassword='" + normalPassword + '\''
-            + '}';
+                + "id=" + id
+                + ", title='" + title + '\''
+                + ", startingDate=" + startingDate
+                + ", admin=" + admin
+                + ", moderators=" + moderators
+                + ", bannedIps=" + bannedIps
+                + ", tooFast=" + tooFast
+                + ", tooSlow=" + tooSlow
+                + ", elevatedPassword='" + elevatedPassword + '\''
+                + ", normalPassword='" + normalPassword + '\''
+                + '}';
     }
 }
 

@@ -5,6 +5,7 @@ import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,9 +52,18 @@ public class RoomService {
         return roomRepository.getOne(id);
     }
 
+    /**
+     * Create a new room.
+     *
+     * @param userId the id of the admin of the room
+     * @param title the title of the room
+     * @return the newly created room
+     */
     public Room createRoom(long userId, String title) {
-        // TODO Add logic
-        return null;
+        User user = userRepository.getOne(userId);
+        Room room = new Room(title, user);
+        roomRepository.save(room);
+        return room;
     }
 
     /**

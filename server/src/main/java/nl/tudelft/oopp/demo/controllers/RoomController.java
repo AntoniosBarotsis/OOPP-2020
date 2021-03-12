@@ -52,7 +52,13 @@ public class RoomController {
         return roomService.getOne(id);
     }
 
-    // TODO Add javadoc
+    /**
+     * Create a new room.
+     *
+     * @param userId the id of the admin of the room
+     * @param title the title of the room
+     * @return the newly created room
+     */
     @GetMapping("create/{userId}/{title}")
     public Room createRoom(@PathVariable long userId, @PathVariable String title) {
         return roomService.createRoom(userId, title);
