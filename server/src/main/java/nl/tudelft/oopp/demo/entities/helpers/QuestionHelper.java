@@ -3,7 +3,7 @@ package nl.tudelft.oopp.demo.entities.helpers;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
-import nl.tudelft.oopp.demo.entities.users.User;
+import nl.tudelft.oopp.demo.entities.users.Student;
 
 /**
  * The type Question helper.
@@ -13,7 +13,7 @@ import nl.tudelft.oopp.demo.entities.users.User;
 public class QuestionHelper {
     private String title;
     private String text;
-    private User author;
+    private Student author;
 
     /**
      * Instantiates a new Question helper.
@@ -22,7 +22,7 @@ public class QuestionHelper {
      * @param text   the text
      * @param author the author
      */
-    public QuestionHelper(String title, String text, User author) {
+    public QuestionHelper(String title, String text, Student author) {
         this.title = title;
         this.text = text;
         this.author = author;
