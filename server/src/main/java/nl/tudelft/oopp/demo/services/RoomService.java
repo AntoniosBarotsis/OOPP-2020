@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class RoomService {
-    @Autowired
     private final RoomRepository roomRepository;
 
     /**
