@@ -3,10 +3,9 @@ package nl.tudelft.oopp.demo.entities.helpers;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
-import nl.tudelft.oopp.demo.entities.users.Student;
 
 /**
- * The type Question helper.
+ * The Question helper class.
  */
 @Data
 @NoArgsConstructor
@@ -16,7 +15,7 @@ public class QuestionHelper {
     private StudentHelper author;
 
     /**
-     * Create question question.
+     * Create question.
      *
      * @return the question
      */

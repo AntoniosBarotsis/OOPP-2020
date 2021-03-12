@@ -11,12 +11,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type Question controller.
+ */
 @RestController("Question")
 @RequestMapping("api/v1/questions")
 @AllArgsConstructor
 public class QuestionController {
     private final QuestionService questionService;
 
+    /**
+     * Add question.
+     *
+     * @param question the question
+     * @param roomId   the room id
+     */
     @PostMapping("add/{roomId}")
     public void addQuestion(@RequestBody QuestionHelper question,
                                      @PathVariable long roomId) {
@@ -24,12 +33,23 @@ public class QuestionController {
         questionService.addQuestion(question.createQuestion(), roomId);
     }
 
+    /**
+     * Delete one question.
+     *
+     * @param roomId     the room id
+     * @param questionId the question id
+     */
     @DeleteMapping("deleteOne")
     public void deleteOneQuestion(@PathParam("roomId") long roomId,
                                   @PathParam("questionId") long questionId) {
         questionService.deleteOneQuestion(roomId, questionId);
     }
 
+    /**
+     * Delete all questions.
+     *
+     * @param roomId the room id
+     */
     @DeleteMapping("deleteAll")
     public void deleteAllQuestions(@PathParam("roomId") long roomId) {
         questionService.deleteAllQuestions(roomId);
