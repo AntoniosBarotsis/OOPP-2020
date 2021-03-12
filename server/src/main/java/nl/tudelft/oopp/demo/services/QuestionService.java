@@ -21,12 +21,16 @@ public class QuestionService {
     private final RoomRepository roomRepository;
 
     /**
-     * Add question.
+     * Adds a question unless the user has been banned.
      *
      * @param question the question
      * @param roomId   the room id
      */
     public void addQuestion(Question question, long roomId) {
+        if (userIsBanned(question, roomId)) {
+            return;
+        }
+
         userRepository.save(question.getAuthor());
         questionRepository.save(question);
         questionRepository.addQuestion(roomId, question.getId());
@@ -53,7 +57,10 @@ public class QuestionService {
 
     /**
      * Exports a single question in JSON format.
+     *
      * @param questionId the question id
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
      */
     public String exportToJson(long questionId) throws JsonProcessingException {
         if (questionRepository.findById(questionId).isPresent()) {
@@ -65,11 +72,26 @@ public class QuestionService {
 
     /**
      * Exports all questions from a given room in JSON format.
+     *
      * @param roomId the room id
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
      */
     public String exportAllToJson(long roomId) throws JsonProcessingException {
         ObjectMapper objMapper = new ObjectMapper();
 
         return objMapper.writeValueAsString(roomRepository.findAllQuestions(roomId));
+    }
+
+    /**
+     * Returns true if the user is banned in the given room.
+     * 
+     * @param question The question
+     * @param roomId The room id
+     */
+    private boolean userIsBanned(Question question, long roomId) {
+        return roomRepository.getOne(roomId)
+            .getBannedIps()
+            .contains(question.getAuthor().getIp());
     }
 }
