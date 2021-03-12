@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Poll;
@@ -63,6 +64,20 @@ public class RoomService {
         User user = userRepository.getOne(userId);
         Room room = new Room(title, user);
         roomRepository.save(room);
+        return room;
+    }
+
+    /**
+     * Schedule a new room.
+     *
+     * @param userId the id of the admin of the room
+     * @param title the title of the room
+     * @param date the starting date/time for the room
+     * @return the newly created room
+     */
+    public Room scheduleRoom(long userId, String title, Date date) {
+        Room room = createRoom(userId, title);
+        room.setStartingDate(date);
         return room;
     }
 

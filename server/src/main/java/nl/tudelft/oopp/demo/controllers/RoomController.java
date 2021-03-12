@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Poll;
@@ -7,11 +8,7 @@ import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * The type Room controller.
@@ -62,6 +59,19 @@ public class RoomController {
     @GetMapping("create/{userId}/{title}")
     public Room createRoom(@PathVariable long userId, @PathVariable String title) {
         return roomService.createRoom(userId, title);
+    }
+
+    /**
+     * Schedule a new room.
+     *
+     * @param userId the id of the admin of the room
+     * @param title the title of the room
+     * @param date the starting date/time for the room
+     * @return the newly created room
+     */
+    @PostMapping("schedule/{userId}/{title}")
+    public Room scheduleRoom(@PathVariable long userId, @PathVariable String title, @RequestBody Date date) {
+        return roomService.scheduleRoom(userId, title, date);
     }
 
     /**
