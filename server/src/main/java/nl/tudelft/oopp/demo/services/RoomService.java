@@ -68,6 +68,12 @@ public class RoomService {
         return roomRepository.findAllQuestions(roomId);
     }
 
+    /**
+     * Find all polls.
+     *
+     * @param roomId the room id
+     * @return the set
+     */
     public Set<Poll> findAllPolls(long roomId) {
         return roomRepository.findAllPolls(roomId);
     }
