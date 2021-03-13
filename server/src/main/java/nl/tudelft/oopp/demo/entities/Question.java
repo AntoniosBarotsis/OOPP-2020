@@ -40,8 +40,6 @@ public class Question {
     )
     @Column(name = "id", updatable = false)
     private long id;
-    @Column(name = "title")
-    private String title;
     @Column(name = "text")
     private String text;
     @ManyToOne(cascade = CascadeType.MERGE, optional = false)
@@ -61,12 +59,10 @@ public class Question {
     /**
      * Instantiates a new Question.
      *
-     * @param title  the title
      * @param text   the text
      * @param author the author
      */
-    public Question(String title, String text, User author) {
-        this.title = title;
+    public Question(String text, User author) {
         this.text = text;
         this.author = author;
 
@@ -74,7 +70,6 @@ public class Question {
         this.score = 0;
         this.status = QuestionStatus.OPEN;
         this.timeCreated = new Date();
-        this.answer = "";
     }
 
     /**
@@ -96,6 +91,15 @@ public class Question {
         ObjectMapper objMapper = new ObjectMapper();
 
         return objMapper.writeValueAsString(this);
+    }
+
+    /**
+     * Returns true if the question has been answered.
+     *
+     * @return the boolean
+     */
+    public boolean isAnswered() {
+        return this.answer != null;
     }
 
     /**

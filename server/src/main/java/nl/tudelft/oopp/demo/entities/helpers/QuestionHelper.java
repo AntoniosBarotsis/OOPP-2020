@@ -10,7 +10,6 @@ import nl.tudelft.oopp.demo.entities.Question;
 @Data
 @NoArgsConstructor
 public class QuestionHelper {
-    private String title;
     private String text;
     private StudentHelper author;
 
@@ -20,6 +19,6 @@ public class QuestionHelper {
      * @return the question
      */
     public Question createQuestion() {
-        return new Question(title, text, author.createStudent());
+        return new Question(text, author.createStudent());
     }
 }
