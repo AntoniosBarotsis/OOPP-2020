@@ -2,9 +2,17 @@ package nl.tudelft.oopp.demo.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
@@ -53,11 +61,14 @@ public class QuestionService {
 
     /**
      * Exports a single question in JSON format.
+     *
      * @param questionId the question id
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
      */
-    public String exportToJson(long questionId) throws JsonProcessingException {
+    public String export(long questionId) throws JsonProcessingException {
         if (questionRepository.findById(questionId).isPresent()) {
-            return questionRepository.findById(questionId).get().exportToJson();
+            return map(List.of(questionRepository.findById(questionId).get()));
         } else {
             return "{\"error\": \"JsonProcessingException\"}";
         }
@@ -65,11 +76,68 @@ public class QuestionService {
 
     /**
      * Exports all questions from a given room in JSON format.
+     *
      * @param roomId the room id
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
      */
-    public String exportAllToJson(long roomId) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
+    public String exportAll(long roomId) throws JsonProcessingException {
+        return map(roomRepository.findAllQuestions(roomId));
+    }
 
-        return objMapper.writeValueAsString(roomRepository.findAllQuestions(roomId));
+    /**
+     * Exports a given amount of questions in JSON format sorted by score.
+     *
+     * @param roomId - the room id
+     * @param amount - the amount of questions
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String exportTop(long roomId, int amount) throws JsonProcessingException {
+        if (amount < 1) {
+            return "{\"error: \"Invalid amount supplied\"}";
+        }
+
+        List<Question> questions = roomRepository
+            .findAllQuestions(roomId)
+            .stream()
+            .sorted(Comparator.comparingInt(Question::getScore).reversed())
+            .limit(amount)
+            .collect(Collectors.toList());
+
+        return map(questions);
+    }
+
+    /**
+     * Export answered questions string.
+     *
+     * @param roomId the room id
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String exportAnswered(long roomId) throws JsonProcessingException {
+        List<Question> questions = roomRepository
+            .findAllQuestions(roomId)
+            .stream()
+            .filter(Question::isAnswered)
+            .collect(Collectors.toList());
+
+        return map(questions);
+    }
+
+    /**
+     * Maps a collection of questions using a custom mapper.
+     *
+     * @param questions the questions
+     * @return string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String map(Collection<Question> questions) throws JsonProcessingException {
+        ObjectMapper objMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Question.class, new QuestionSerializer());
+        objMapper.registerModule(module);
+
+        return objMapper.writeValueAsString(questions);
     }
 }
