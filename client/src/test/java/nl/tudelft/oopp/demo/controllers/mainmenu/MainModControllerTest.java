@@ -52,4 +52,20 @@ class MainModControllerTest {
         5. If you press again, unanswered questions should appear and button text should change.
          */
     }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void fetchData() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void populateListView() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
 }

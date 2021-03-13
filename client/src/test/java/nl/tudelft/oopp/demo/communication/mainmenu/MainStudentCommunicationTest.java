@@ -1,7 +1,10 @@
 package nl.tudelft.oopp.demo.communication.mainmenu;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
+import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 import org.junit.jupiter.api.Test;
 
 class MainStudentCommunicationTest {
@@ -48,5 +51,11 @@ class MainStudentCommunicationTest {
         if (currentTooSlow != -1) {
             assertEquals(currentTooSlow - 1, MainModCommunication.getRoom(1).getTooSlow());
         }
+    }
+
+    @Test
+    void sendQuestion() {
+        QuestionHelper question = new QuestionHelper("text", new StudentHelper("name", "ip"));
+        assertDoesNotThrow(() -> MainStudentCommunication.sendQuestion(1, question));
     }
 }
