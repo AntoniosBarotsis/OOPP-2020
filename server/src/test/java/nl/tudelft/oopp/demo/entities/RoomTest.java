@@ -58,8 +58,8 @@ class RoomTest {
             List.of("Correct answer"));
         pollRepository.saveAll(List.of(p1));
 
-        q1 = new Question("Question title", "Question text", u1);
-        q2 = new Question("Question title 2", "Question text 2", u1);
+        q1 = new Question("Question text", u1);
+        q2 = new Question("Question text 2", u1);
         //questionRepository.saveAll(List.of(q1, q2));
         questionRepository.saveAll(List.of(q2));
 
