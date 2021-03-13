@@ -7,13 +7,12 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.Flow;
 
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
+import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 
 public abstract class MainMenuCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
@@ -89,17 +88,35 @@ public abstract class MainMenuCommunication {
      * @param url endpoint of request
      */
     public static void sendEmptyPutRequest(String url) {
-        HttpRequest request = HttpRequest.newBuilder().PUT(new HttpRequest.BodyPublisher() {
-            @Override
-            public long contentLength() {
-                return 0;
-            }
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .build();
 
-            @Override
-            public void subscribe(Flow.Subscriber<? super ByteBuffer> subscriber) {
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+        }
+    }
 
-            }
-        }).uri(URI.create(url)).build();
+    /**
+     * Sends a POST request to server.
+     * @param url endpoint of request
+     * @param question question to be added.
+     */
+    public static void sendPostRequest(String url, QuestionHelper question) {
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(question)))
+                .build();
 
         HttpResponse<String> response = null;
         try {

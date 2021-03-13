@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.controllers.mainmenu;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Comparator;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import nl.tudelft.oopp.demo.communication.mainmenu.MainStudentCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
+import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
+import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 
 public class MainStudentController {
 
@@ -87,7 +91,7 @@ public class MainStudentController {
         questionList.getItems().clear();
         for (Question question : questionData) {
             /*
-            TODO: questionList should be loaded with FMXL panels instead of string.
+            TODO: questionList should be loaded with FXML panels instead of string.
              */
             questionList.getItems().add(question.getText());
         }
@@ -180,8 +184,18 @@ public class MainStudentController {
      * Handles button "Send" clicks.
      */
     @FXML
-    public void buttonSendClicked() {
-        String question = textQuestion.getText();
-        // TODO: implement message sending
+    public void buttonSendClicked() throws UnknownHostException {
+        // Create a helper student object.
+        StudentHelper studentHelper = new StudentHelper(this.user.getUsername(),
+                InetAddress.getLocalHost().getHostAddress());
+
+        // Create a helper question object.
+        QuestionHelper question = new QuestionHelper(textQuestion.getText(), studentHelper);
+
+        // Send the data to server.
+        MainStudentCommunication.sendQuestion(room.getId(), question);
+
+        // Clear textQuestion contents.
+        textQuestion.setText("");
     }
 }

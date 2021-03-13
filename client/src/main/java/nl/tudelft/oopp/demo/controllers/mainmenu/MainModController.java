@@ -85,7 +85,7 @@ public class MainModController {
         questionList.getItems().clear();
         for (Question question : questionData) {
             /*
-            TODO: questionList should loaded with FMXL panels instead of string.
+            TODO: questionList should be loaded with FXML panels instead of string.
              */
             boolean answered = question.getStatus().equals(Question.QuestionStatus.ANSWERED);
             if (!filterAnswered && !answered) {

@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.communication.mainmenu;
 
+import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
+
 public class MainStudentCommunication extends MainMenuCommunication {
     /**
      * Increases tooFast counter for room.
@@ -35,5 +37,14 @@ public class MainStudentCommunication extends MainMenuCommunication {
     public static void decreaseTooSlow(long id) {
         String link = "http://localhost:8080/api/v1/rooms/tooSlow/decrement/";
         sendEmptyPutRequest(link + id);
+    }
+
+    /**
+     * Send a new question to server.
+     * @param id id of room
+     */
+    public static void sendQuestion(long id, QuestionHelper question) {
+        String link = "http://localhost:8080/api/v1/questions/add/";
+        sendPostRequest(link + id, question);
     }
 }
