@@ -64,10 +64,10 @@ public class QuestionController {
      * @return the string
      * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping("exportToJson")
-    public String exportToJson(@PathParam("questionId") long questionId)
+    @GetMapping("export")
+    public String export(@PathParam("questionId") long questionId)
         throws JsonProcessingException {
-        return questionService.exportToJson(questionId);
+        return questionService.export(questionId);
     }
 
     /**
@@ -77,9 +77,38 @@ public class QuestionController {
      * @return the string
      * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping("exportAllToJson")
-    public String exportAllToJson(@PathParam("roomId") long roomId)
+    @GetMapping("exportAll")
+    public String exportAll(@PathParam("roomId") long roomId)
         throws JsonProcessingException {
-        return questionService.exportAllToJson(roomId);
+        return questionService.exportAll(roomId);
+    }
+
+
+    /**
+     * Export top {amount} of questions to json string.
+     *
+     * @param roomId the room id
+     * @param amount the amount
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    @GetMapping("exportTop")
+    public String exportTop(@PathParam("roomId") long roomId,
+                            @PathParam("amount") int amount)
+        throws JsonProcessingException {
+        return questionService.exportTop(roomId, amount);
+    }
+
+    /**
+     * Export answered questions only string.
+     *
+     * @param roomId the room id
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    @GetMapping("exportAnswered")
+    public String exportAnswered(@PathParam("roomId") long roomId)
+        throws JsonProcessingException {
+        return questionService.exportAnswered(roomId);
     }
 }
