@@ -58,10 +58,15 @@ public class DataConfig {
                 List.of("Correct answer"));
             pollRepository.saveAll(List.of(p1));
 
-            Question q1 = new Question("Question title 1", "Question text 1", u1);
-            Question q2 = new Question("Question title 2", "Question text 2", u2);
-            Question q3 = new Question("Question title 3 ", "Question text 3", u2);
-            Question q4 = new Question("Question title 4", "Question text 4", u3);
+            final Question q1 = new Question("Question text 1", u1);
+            final Question q2 = new Question("Question text 2", u2);
+            final Question q3 = new Question("Question text 3", u2);
+            final Question q4 = new Question("Question text 4", u3);
+            q1.setScore(1);
+            q2.setScore(2);
+            q3.setScore(5);
+            q4.setScore(4);
+            q3.setAnswer("Answer");
             questionRepository.saveAll(List.of(q1, q2, q3, q4));
 
             Room r1 = new Room("Room Title", false, u1);
