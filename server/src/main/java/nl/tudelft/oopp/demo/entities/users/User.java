@@ -228,6 +228,11 @@ public abstract class User {
             + '}';
     }
 
+    /**
+     * Type toString.
+     *
+     * @return the string
+     */
     public String typeToString() {
         if (type == Type.ADMIN) {
             return "ADMIN";
