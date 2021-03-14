@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.Set;
+import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
@@ -41,8 +42,8 @@ public class RoomController {
      * @param id the id
      * @return the one
      */
-    @GetMapping("{id}")
-    public Room getOne(@PathVariable long id) {
+    @GetMapping
+    public Room getOne(@PathParam("id") long id) {
         return roomService.getOne(id);
     }
 
@@ -52,8 +53,8 @@ public class RoomController {
      * @param roomId the room id
      * @return the public password
      */
-    @GetMapping("public/{roomId}")
-    public String getPublicPassword(@PathVariable long roomId) {
+    @GetMapping("public")
+    public String getPublicPassword(@PathParam("roomId") long roomId) {
         return roomService.getPublicPassword(roomId);
     }
 
@@ -63,8 +64,8 @@ public class RoomController {
      * @param roomId the room id
      * @return the private password
      */
-    @GetMapping("private/{roomId}")
-    public String getPrivatePassword(@PathVariable long roomId) {
+    @GetMapping("private")
+    public String getPrivatePassword(@PathParam("roomId") long roomId) {
         return roomService.getPrivatePassword(roomId);
     }
 
@@ -74,8 +75,8 @@ public class RoomController {
      * @param roomId the room id
      * @return the set
      */
-    @GetMapping(value = "questions/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAllQuestions(@PathVariable long  roomId) throws JsonProcessingException {
+    @GetMapping(value = "questions", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String findAllQuestions(@PathParam("roomId") long  roomId) throws JsonProcessingException {
         return roomService.findAllQuestions(roomId);
     }
 
@@ -85,8 +86,8 @@ public class RoomController {
      * @param roomId the room id
      * @return the set
      */
-    @GetMapping("polls/{roomId}")
-    public Set<Poll> findAllPolls(@PathVariable long roomId) {
+    @GetMapping("polls")
+    public Set<Poll> findAllPolls(@PathParam("roomId") long roomId) {
         return roomService.findAllPolls(roomId);
     }
 
@@ -95,8 +96,8 @@ public class RoomController {
      *
      * @param roomId the room id
      */
-    @PutMapping("/tooFast/increment/{roomId}")
-    public void incrementTooFast(@PathVariable long roomId) {
+    @PutMapping("/tooFast/increment")
+    public void incrementTooFast(@PathParam("roomId") long roomId) {
         roomService.incrementTooFast(roomId);
     }
 
@@ -105,8 +106,8 @@ public class RoomController {
      *
      * @param roomId the room id
      */
-    @PutMapping("/tooFast/decrement/{roomId}")
-    public void decrementTooFast(@PathVariable long roomId) {
+    @PutMapping("/tooFast/decrement")
+    public void decrementTooFast(@PathParam("roomId") long roomId) {
         roomService.decrementTooFast(roomId);
     }
 
@@ -115,8 +116,8 @@ public class RoomController {
      *
      * @param roomId the room id
      */
-    @PutMapping("/tooSlow/increment/{roomId}")
-    public void incrementTooSlow(@PathVariable long roomId) {
+    @PutMapping("/tooSlow/increment")
+    public void incrementTooSlow(@PathParam("roomId") long roomId) {
         roomService.incrementTooSlow(roomId);
     }
 
@@ -125,8 +126,8 @@ public class RoomController {
      *
      * @param roomId the room id
      */
-    @PutMapping("/tooSlow/decrement/{roomId}")
-    public void decrementTooSlow(@PathVariable long roomId) {
+    @PutMapping("/tooSlow/decrement")
+    public void decrementTooSlow(@PathParam("roomId") long roomId) {
         roomService.decrementTooSlow(roomId);
     }
 }
