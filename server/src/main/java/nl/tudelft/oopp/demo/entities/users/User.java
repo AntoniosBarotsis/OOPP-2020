@@ -203,10 +203,9 @@ public abstract class User {
             return false;
         }
         User user = (User) o;
-        return id == user.id && Objects.equals(username, user.username)
+        return id == user.id
+            && Objects.equals(username, user.username)
             && Objects.equals(ip, user.ip)
-            && Objects.equals(questionsAsked, user.questionsAsked)
-            && Objects.equals(questionsUpvoted, user.questionsUpvoted)
             && type == user.type;
     }
 
