@@ -7,6 +7,7 @@ import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import nl.tudelft.oopp.demo.services.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,7 +75,7 @@ public class QuestionController {
      * @return the string
      * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping("export")
+    @GetMapping(value = "export", produces = MediaType.APPLICATION_JSON_VALUE)
     public String export(@PathParam("questionId") long questionId)
         throws JsonProcessingException {
         return questionService.export(questionId);
@@ -87,7 +88,7 @@ public class QuestionController {
      * @return the string
      * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping("exportAll")
+    @GetMapping(value = "exportAll", produces = MediaType.APPLICATION_JSON_VALUE)
     public String exportAll(@PathParam("roomId") long roomId)
         throws JsonProcessingException {
         return questionService.exportAll(roomId);
@@ -102,7 +103,7 @@ public class QuestionController {
      * @return the string
      * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping("exportTop")
+    @GetMapping(value = "exportTop", produces = MediaType.APPLICATION_JSON_VALUE)
     public String exportTop(@PathParam("roomId") long roomId,
                             @PathParam("amount") int amount)
         throws JsonProcessingException {
@@ -116,7 +117,7 @@ public class QuestionController {
      * @return the string
      * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping("exportAnswered")
+    @GetMapping(value = "exportAnswered", produces = MediaType.APPLICATION_JSON_VALUE)
     public String exportAnswered(@PathParam("roomId") long roomId)
         throws JsonProcessingException {
         return questionService.exportAnswered(roomId);

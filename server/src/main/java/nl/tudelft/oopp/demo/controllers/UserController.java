@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.helpers.StudentHelper;
 import nl.tudelft.oopp.demo.services.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +26,7 @@ public class UserController {
      * @return the string
      * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public String findAll() throws JsonProcessingException {
         return userService.findAll();
     }

@@ -9,6 +9,7 @@ import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -73,7 +74,7 @@ public class RoomController {
      * @param roomId the room id
      * @return the set
      */
-    @GetMapping("questions/{roomId}")
+    @GetMapping(value = "questions/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String findAllQuestions(@PathVariable long  roomId) throws JsonProcessingException {
         return roomService.findAllQuestions(roomId);
     }
