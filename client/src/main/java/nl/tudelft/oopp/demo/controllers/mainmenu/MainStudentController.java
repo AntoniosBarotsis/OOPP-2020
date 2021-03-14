@@ -1,7 +1,9 @@
 package nl.tudelft.oopp.demo.controllers.mainmenu;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
 
@@ -184,16 +186,26 @@ public class MainStudentController {
      * Handles button "Send" clicks.
      */
     @FXML
-    public void buttonSendClicked() throws UnknownHostException {
+    public void buttonSendClicked() {
+        String ip = "Error fetching IP!";
+
+        try {
+            // Get the public IP address of the user.
+            ip = new BufferedReader(new InputStreamReader(
+                    new URL("http://checkip.amazonaws.com").openStream())).readLine();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
         // Create a helper student object.
         StudentHelper studentHelper = new StudentHelper(this.user.getUsername(),
-                InetAddress.getLocalHost().getHostAddress());
+                ip);
 
         // Create a helper question object.
         QuestionHelper question = new QuestionHelper(textQuestion.getText(), studentHelper);
 
         // Send the data to server.
-        MainStudentCommunication.sendQuestion(room.getId(), question);
+        MainStudentCommunication.sendQuestion(room.getId(), user.getId(), question);
 
         // Clear textQuestion contents.
         textQuestion.setText("");

@@ -41,10 +41,13 @@ public class MainStudentCommunication extends MainMenuCommunication {
 
     /**
      * Send a new question to server.
-     * @param id id of room
+     * @param roomId id of room
+     * @param userId id of user
      */
-    public static void sendQuestion(long id, QuestionHelper question) {
-        String link = "http://localhost:8080/api/v1/questions/add/";
-        sendPostRequest(link + id, question);
+    public static void sendQuestion(long roomId, long userId, QuestionHelper question) {
+        String link = "http://localhost:8080/api/v1/questions/add?";
+        link = link + "roomId=" + roomId;
+        link = link + "&authorId=" + userId;
+        sendPostRequest(link, question);
     }
 }

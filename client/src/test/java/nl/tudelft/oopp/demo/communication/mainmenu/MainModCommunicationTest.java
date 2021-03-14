@@ -15,4 +15,19 @@ class MainModCommunicationTest {
     void getAdminPassword() {
         assertNotNull(MainModCommunication.getAdminPassword(1));
     }
+
+    @Test
+    void getAllQuestions() {
+        assertNotNull(MainModCommunication.getAllQuestions(1));
+    }
+
+    @Test
+    void getTopQuestions() {
+        assertNotNull(MainModCommunication.getTopQuestions(1));
+    }
+
+    @Test
+    void getAnsweredQuestions() {
+        assertNotNull(MainModCommunication.getAnsweredQuestions(1));
+    }
 }
