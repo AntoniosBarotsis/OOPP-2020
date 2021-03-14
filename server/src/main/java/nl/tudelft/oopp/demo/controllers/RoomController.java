@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -73,7 +74,7 @@ public class RoomController {
      * @return the set
      */
     @GetMapping("questions/{roomId}")
-    public Set<Question> findAllQuestions(@PathVariable long  roomId) {
+    public String findAllQuestions(@PathVariable long  roomId) throws JsonProcessingException {
         return roomService.findAllQuestions(roomId);
     }
 
