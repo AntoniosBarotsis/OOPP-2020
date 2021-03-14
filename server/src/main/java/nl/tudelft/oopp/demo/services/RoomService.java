@@ -1,13 +1,17 @@
 package nl.tudelft.oopp.demo.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -63,9 +67,10 @@ public class RoomService {
      *
      * @param roomId the room id
      * @return the set
+     * @throws JsonProcessingException the json processing exception
      */
-    public Set<Question> findAllQuestions(long roomId) {
-        return roomRepository.findAllQuestions(roomId);
+    public String findAllQuestions(long roomId) throws JsonProcessingException {
+        return mapQuestion(roomRepository.findAllQuestions(roomId));
     }
 
     /**
@@ -112,5 +117,21 @@ public class RoomService {
      */
     public void decrementTooSlow(long roomId) {
         roomRepository.decrementTooSlow(roomId);
+    }
+
+    /**
+     * Map question string.
+     *
+     * @param questions the questions
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String mapQuestion(Collection<Question> questions) throws JsonProcessingException {
+        ObjectMapper objMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Question.class, new QuestionSerializer());
+        objMapper.registerModule(module);
+
+        return objMapper.writeValueAsString(questions);
     }
 }
