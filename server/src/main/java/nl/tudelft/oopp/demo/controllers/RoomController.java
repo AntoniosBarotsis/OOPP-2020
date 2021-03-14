@@ -76,7 +76,8 @@ public class RoomController {
      * @return the set
      */
     @GetMapping(value = "questions", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAllQuestions(@PathParam("roomId") long  roomId) throws JsonProcessingException {
+    public String findAllQuestions(@PathParam("roomId") long  roomId)
+        throws JsonProcessingException {
         return roomService.findAllQuestions(roomId);
     }
 
