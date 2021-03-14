@@ -213,7 +213,7 @@ public abstract class User {
     @Override
     public int hashCode() {
         return Objects
-            .hash(id, username, ip, questionsAsked, questionsUpvoted, type);
+            .hash(id, username, ip, type);
     }
 
     @Override
@@ -226,5 +226,15 @@ public abstract class User {
             + ", questionsUpvoted=" + questionsUpvoted
             + ", type=" + type
             + '}';
+    }
+
+    public String typeToString() {
+        if (type == Type.ADMIN) {
+            return "ADMIN";
+        } else if (type == Type.MODERATOR) {
+            return "MODERATOR";
+        } else {
+            return "STUDENT";
+        }
     }
 }
