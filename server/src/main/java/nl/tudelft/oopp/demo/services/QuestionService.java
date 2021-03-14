@@ -35,7 +35,7 @@ public class QuestionService {
      * @param roomId   the room id
      */
     public void addQuestion(Question question, long roomId) {
-        userRepository.save(question.getAuthor());
+        question.getAuthor().setId(question.getAuthor().getId());
         questionRepository.save(question);
         questionRepository.addQuestion(roomId, question.getId());
     }
