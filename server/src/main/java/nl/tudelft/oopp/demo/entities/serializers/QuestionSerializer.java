@@ -38,6 +38,7 @@ public class QuestionSerializer extends StdSerializer<Question> {
         String strDate = dateFormat.format(value.getTimeCreated());
 
         gen.writeStartObject();
+        gen.writeNumberField("id", value.getId());
         gen.writeStringField("text", value.getText());
         gen.writeStringField("answer", value.getAnswer());
         gen.writeStringField("timeCreated", strDate);
@@ -45,7 +46,7 @@ public class QuestionSerializer extends StdSerializer<Question> {
         // Author
         gen.writeFieldName("author");
         gen.writeStartObject();
-        gen.writeNumberField("id", value.getId());
+        gen.writeNumberField("id", value.getAuthor().getId());
         gen.writeStringField("username", value.getAuthor().getUsername());
         gen.writeStringField("ip", value.getAuthor().getIp());
         gen.writeStringField("TYPE", value.getAuthor().typeToString());
