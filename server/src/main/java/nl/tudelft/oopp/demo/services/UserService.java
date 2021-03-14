@@ -1,6 +1,11 @@
 package nl.tudelft.oopp.demo.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.util.Collection;
 import lombok.AllArgsConstructor;
+import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -28,7 +33,7 @@ public class UserService {
      * different user.
      *
      * @param author the author
-     * @return boolean
+     * @return boolean boolean
      */
     public boolean isInvalidAuthorId(User author) {
         if (userRepository.findById(author.getId()).isPresent()) {
@@ -36,5 +41,31 @@ public class UserService {
         } else {
             return true;
         }
+    }
+
+    /**
+     * Find all string.
+     *
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String findAll() throws JsonProcessingException {
+        return mapUser(userRepository.findAll());
+    }
+
+    /**
+     * Map user string.
+     *
+     * @param users the users
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String mapUser(Collection<User> users) throws JsonProcessingException {
+        ObjectMapper objMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(User.class, new UserSerializer());
+        objMapper.registerModule(module);
+
+        return objMapper.writeValueAsString(users);
     }
 }
