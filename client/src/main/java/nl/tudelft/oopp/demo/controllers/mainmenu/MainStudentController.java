@@ -206,7 +206,7 @@ public class MainStudentController {
         QuestionHelper question = new QuestionHelper(textQuestion.getText(), studentHelper);
 
         // Send the data to server.
-        MainStudentCommunication.sendQuestion(room.getId(), question);
+        MainStudentCommunication.sendQuestion(room.getId(), user.getId(), question);
 
         // Clear textQuestion contents.
         textQuestion.setText("");

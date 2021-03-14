@@ -30,7 +30,7 @@ public class QuestionController {
      *
      * @param roomId   the room id
      */
-    @PostMapping("add/")
+    @PostMapping("add")
     public void addQuestion(@RequestBody QuestionHelper questionHelper,
                             @PathParam("roomId") long roomId,
                             @PathParam("authorId") long authorId) {

@@ -55,7 +55,7 @@ class MainStudentCommunicationTest {
 
     @Test
     void sendQuestion() {
-        QuestionHelper question = new QuestionHelper("text", new StudentHelper("name", "ip"));
-        assertDoesNotThrow(() -> MainStudentCommunication.sendQuestion(1, question));
+        QuestionHelper question = new QuestionHelper("text", new StudentHelper("Student", "ip"));
+        assertDoesNotThrow(() -> MainStudentCommunication.sendQuestion(1,3, question));
     }
 }
