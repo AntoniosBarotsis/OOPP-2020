@@ -3,7 +3,6 @@ package nl.tudelft.oopp.demo.entities.users;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -47,24 +46,6 @@ public abstract class User {
     private Set<Question> questionsUpvoted;
     @Column(name = "type")
     private Type type;
-
-    /**
-     * The enum Type.
-     */
-    protected enum Type {
-        /**
-         * Student type.
-         */
-        STUDENT,
-        /**
-         * Moderator type.
-         */
-        MODERATOR,
-        /**
-         * Admin type.
-         */
-        ADMIN
-    }
 
     /**
      * Instantiates a new User.
@@ -240,5 +221,23 @@ public abstract class User {
         } else {
             return "STUDENT";
         }
+    }
+
+    /**
+     * The enum Type.
+     */
+    protected enum Type {
+        /**
+         * Student type.
+         */
+        STUDENT,
+        /**
+         * Moderator type.
+         */
+        MODERATOR,
+        /**
+         * Admin type.
+         */
+        ADMIN
     }
 }

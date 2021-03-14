@@ -6,13 +6,10 @@ import java.util.Set;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
-import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.services.RoomService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,7 +73,7 @@ public class RoomController {
      * @return the set
      */
     @GetMapping(value = "questions", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAllQuestions(@PathParam("roomId") long  roomId)
+    public String findAllQuestions(@PathParam("roomId") long roomId)
         throws JsonProcessingException {
         return roomService.findAllQuestions(roomId);
     }
