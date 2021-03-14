@@ -1,14 +1,17 @@
 package nl.tudelft.oopp.demo.data;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class RoomTest {
 
-    private Room room = new Room(42, "OOPP lecture 1", new Date(1614969845), true, 5, 1);
+    private Room room = new Room(42, "OOPP lecture 1",
+        new Date(1614969845), true, 5, 1);
 
     @Test
     void getId() {
