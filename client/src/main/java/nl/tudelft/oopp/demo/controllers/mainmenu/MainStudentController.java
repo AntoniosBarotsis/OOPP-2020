@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers.mainmenu;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

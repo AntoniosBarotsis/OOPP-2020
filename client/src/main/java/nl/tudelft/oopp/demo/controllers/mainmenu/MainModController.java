@@ -212,7 +212,9 @@ public class MainModController {
         selectedFile = chooser.showSaveDialog(null);
 
         // Return if no file was chosen.
-        if (selectedFile == null) return;
+        if (selectedFile == null) {
+            return;
+        }
 
         // Write the data.
         writeToFile(title, data, selectedFile);
