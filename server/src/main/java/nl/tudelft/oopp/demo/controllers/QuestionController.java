@@ -3,8 +3,10 @@ package nl.tudelft.oopp.demo.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
+import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.services.QuestionService;
+import nl.tudelft.oopp.demo.services.UserService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,18 +23,26 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class QuestionController {
     private final QuestionService questionService;
+    private final UserService userService;
 
     /**
      * Add question.
      *
-     * @param question the question
      * @param roomId   the room id
      */
-    @PostMapping("add/{roomId}")
-    public void addQuestion(@RequestBody QuestionHelper question,
-                                     @PathVariable long roomId) {
+    @PostMapping("add/")
+    public void addQuestion(@RequestBody QuestionHelper questionHelper,
+                            @PathParam("roomId") long roomId,
+                            @PathParam("authorId") long authorId) {
 
-        questionService.addQuestion(question.createQuestion(), roomId);
+        Question question = questionHelper.createQuestion();
+        question.getAuthor().setId(authorId);
+
+        if (userService.isInvalidAuthorId(question.getAuthor())) {
+            throw new RuntimeException("The supplied author id is invalid");
+        }
+
+        questionService.addQuestion(question, roomId);
     }
 
     /**
