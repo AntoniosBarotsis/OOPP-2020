@@ -41,6 +41,16 @@ public class QuestionSerializer extends StdSerializer<Question> {
         gen.writeStringField("text", value.getText());
         gen.writeStringField("answer", value.getAnswer());
         gen.writeStringField("timeCreated", strDate);
+
+        // Author
+        gen.writeFieldName("author");
+        gen.writeStartObject();
+        gen.writeNumberField("id", value.getId());
+        gen.writeStringField("username", value.getAuthor().getUsername());
+        gen.writeStringField("ip", value.getAuthor().getIp());
+        gen.writeStringField("TYPE", value.getAuthor().typeToString());
+        gen.writeEndObject();
+
         gen.writeEndObject();
     }
 }
