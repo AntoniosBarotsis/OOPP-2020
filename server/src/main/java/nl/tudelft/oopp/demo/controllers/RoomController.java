@@ -39,7 +39,7 @@ public class RoomController {
      * @param id the id
      * @return the one
      */
-    @GetMapping
+    @GetMapping("get")
     public Room getOne(@PathParam("id") long id) {
         return roomService.getOne(id);
     }
