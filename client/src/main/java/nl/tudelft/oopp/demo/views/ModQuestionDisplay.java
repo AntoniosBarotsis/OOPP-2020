@@ -21,7 +21,7 @@ public class ModQuestionDisplay extends Application{
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        URL xmlUrl = getClass().getResource("/modQuestionView.fxml");
+        URL xmlUrl = getClass().getResource("/questionView/modQuestionView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
 

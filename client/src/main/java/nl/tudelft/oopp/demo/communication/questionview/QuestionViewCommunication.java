@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.communication.questionview;
 
 import com.google.gson.Gson;
+import javafx.scene.control.TextArea;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
@@ -40,8 +41,60 @@ public class QuestionViewCommunication {
         }
     }
 
+    public static void upvote(long id){
+        HttpRequest request =  HttpRequest.newBuilder().GET().uri
+                (URI.create("http://localhost:8080/api/v1/questions/upvote/" + id)).build();
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void userMarkAsAnswer(long id){
+        HttpRequest request =  HttpRequest.newBuilder().GET().uri
+                (URI.create("http://localhost:8080/api/v1/questions/user/setAnswered/" + id)).build();
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void modMarkAsAnswer(long id){
+        HttpRequest request =  HttpRequest.newBuilder().GET().uri
+                (URI.create("http://localhost:8080/api/v1/questions/user/setAnswered/" + id)).build();
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     public static void banUser(long id){
         User user = getUser(id);
         setSpam(id);
+    }
+
+    public static void downvote(long id) {
+        HttpRequest request =  HttpRequest.newBuilder().GET().uri
+                (URI.create("http://localhost:8080/api/v1/questions/downote/" + id)).build();
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void editText(long id, String questionText) {
+        HttpRequest request =  HttpRequest.newBuilder().GET().uri
+                (URI.create("http://localhost:8080/api/v1/questions/user/setText/" + id + "/" + questionText)).build();
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

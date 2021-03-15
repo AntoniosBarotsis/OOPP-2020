@@ -18,24 +18,24 @@ public class OwnQuestionController {
     private User user;
     private Room room;
 
-    @FXML
-    private TextArea questionText;
-
-    @FXML
-    private ImageView upvoteButton;
-
-    @FXML
-    private TextArea score;
-
-    @FXML
-    private MenuButton options;
+//    @FXML
+//    private TextArea questionText;
+//
+//    @FXML
+//    private ImageView upvoteButton;
+//
+//    @FXML
+//    private TextArea score;
+//
+//    @FXML
+//    private MenuButton options;
 
     public void loadData(Question question, User user, Room room) {
         this.room = room;
         this.user = user;
         this.question = question;
-        questionText.setText(question.getText());
-        score.setText(Integer.toString(question.getScore()));
+//        questionText.setText(question.getText());
+//        score.setText(Integer.toString(question.getScore()));
     }
 
     @FXML
@@ -51,7 +51,7 @@ public class OwnQuestionController {
     }
 
     public void edit() {
-        questionText.setEditable(true);
+//        questionText.setEditable(true);
 
 
 

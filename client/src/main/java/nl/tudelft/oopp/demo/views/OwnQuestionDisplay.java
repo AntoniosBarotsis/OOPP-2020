@@ -21,7 +21,7 @@ public class OwnQuestionDisplay extends Application{
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        URL xmlUrl = getClass().getResource("/ownQuestionView.fxml");
+        URL xmlUrl = getClass().getResource("/questionView/ownQuestionView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
 
