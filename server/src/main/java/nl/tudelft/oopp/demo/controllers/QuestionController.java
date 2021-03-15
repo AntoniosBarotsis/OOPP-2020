@@ -53,7 +53,9 @@ public class QuestionController {
      * @return a String of the text of the question
      */
     @GetMapping("getText/{questionId}")
-    public String getText(@PathVariable long questionId) { return questionService.getText(questionId); }
+    public String getText(@PathVariable long questionId) {
+        return questionService.getText(questionId);
+    }
 
     /**
      * Sets the text of the question to be newQuestion.

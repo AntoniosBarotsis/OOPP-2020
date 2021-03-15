@@ -65,7 +65,7 @@ class QuestionRepositoryTest {
 
     @Test
     void getText() {
-        assertEquals(question1, repository.getText(id1));
+        assertEquals("This is the text 1", repository.getText(id1));
     }
 
     @Test
@@ -81,7 +81,7 @@ class QuestionRepositoryTest {
     }
 
     @Test
-    void incrementUpvotes() {
+    void upvote() {
         assertEquals(repository.getUpvotes(id1), question1.getUpvotes());
         repository.upvote(id1);
         assertEquals(repository.getUpvotes(id1), question1.getUpvotes() + 1);

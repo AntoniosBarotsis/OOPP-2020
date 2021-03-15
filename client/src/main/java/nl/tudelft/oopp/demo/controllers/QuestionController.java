@@ -35,7 +35,7 @@ public class QuestionController {
     public void deleteQuestion() {
     }
 
-    public void questionAnswered(){
+    public void questionAnswered() {
         System.out.println("Hello World");
     }
 
