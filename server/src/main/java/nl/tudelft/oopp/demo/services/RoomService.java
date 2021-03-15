@@ -11,6 +11,9 @@ import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
+import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
+import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
+import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +30,8 @@ public class RoomService {
      *
      * @return the list
      */
-    public List<Room> findAll() {
-        return roomRepository.findAll();
+    public String findAll() throws JsonProcessingException {
+        return mapRoom(roomRepository.findAll());
     }
 
     /**
@@ -37,8 +40,8 @@ public class RoomService {
      * @param id the id
      * @return the one
      */
-    public Room getOne(long id) {
-        return roomRepository.getOne(id);
+    public String getOne(long id) throws JsonProcessingException {
+        return mapRoom(List.of(roomRepository.getOne(id)));
     }
 
     /**
@@ -133,5 +136,21 @@ public class RoomService {
         objMapper.registerModule(module);
 
         return objMapper.writeValueAsString(questions);
+    }
+
+    /**
+     * Map user string.
+     *
+     * @param rooms the users
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String mapRoom(Collection<Room> rooms) throws JsonProcessingException {
+        ObjectMapper objMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Room.class, new RoomSerializer());
+        objMapper.registerModule(module);
+
+        return objMapper.writeValueAsString(rooms);
     }
 }

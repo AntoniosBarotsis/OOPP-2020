@@ -28,8 +28,8 @@ public class RoomController {
      *
      * @return the list
      */
-    @GetMapping
-    public List<Room> findAll() {
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public String findAll() throws JsonProcessingException {
         return roomService.findAll();
     }
 
@@ -39,8 +39,8 @@ public class RoomController {
      * @param id the id
      * @return the one
      */
-    @GetMapping("get")
-    public Room getOne(@PathParam("id") long id) {
+    @GetMapping(value = "get", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getOne(@PathParam("id") long id) throws JsonProcessingException {
         return roomService.getOne(id);
     }
 
