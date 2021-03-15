@@ -51,13 +51,13 @@ public class ModQuestionController {
     private void upvote() {
         if(upvoted) {
             score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
-            QuestionViewCommunication.upvote(question.getId());
+            QuestionViewCommunication.downvote(question.getId());
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
 
         } else {
             score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));
-            QuestionViewCommunication.downvote(question.getId());
+            QuestionViewCommunication.upvote(question.getId());
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #808080");
         }
@@ -80,17 +80,19 @@ public class ModQuestionController {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     questionText.setText(questionText.getText().replaceAll("\n", ""));
                     questionText.setEditable(false);
+                    QuestionViewCommunication.editText(question.getId(), questionText.getText());
                 }
             }
 
         });
-        QuestionViewCommunication.editText(question.getId(), questionText.getText());
 
     }
 
 
     public void banUser() {
-        QuestionViewCommunication.banUser(question.getId());
+        User user = QuestionViewCommunication.getUser(question.getId());
+        questionText.setText(user.getUsername());
+//        QuestionViewCommunication.banUser(question.getId());
     }
 
     public void answer() {

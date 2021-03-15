@@ -63,8 +63,8 @@ public class QuestionController {
      * @param questionId the question id
      * @param newQuestion the value of text that will be set as question's text
      */
-    @PutMapping("setText/{questionId}/{newQuestion}")
-    public void editText(@PathVariable long questionId, @PathVariable String newQuestion) {
+    @GetMapping("setText/{questionId}/{newQuestion}")
+    public void setText(@PathVariable long questionId, @PathVariable String newQuestion) {
         questionService.setText(questionId, newQuestion);
     }
 
@@ -86,7 +86,7 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @PutMapping("upvote/{questionId}")
+    @GetMapping("upvote/{questionId}")
     public void upvote(@PathVariable long questionId) {
         questionService.upvote(questionId);
     }
@@ -97,7 +97,7 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @PutMapping("downvote/{questionId}")
+    @GetMapping("downvote/{questionId}")
     public void downvote(@PathVariable long questionId) {
         questionService.downvote(questionId);
     }
@@ -133,7 +133,7 @@ public class QuestionController {
      * @param questionId the question id
      * @param score the new score value of question
      */
-    @PutMapping("setScore/{questionId}/{score}")
+    @GetMapping("setScore/{questionId}/{score}")
     public void setScore(@PathVariable long questionId, @PathVariable int score) {
         questionService.setScore(questionId, score);
     }
@@ -181,7 +181,7 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @PutMapping("setAnswered/{questionId}")
+    @GetMapping("setAnswered/{questionId}")
     public void setAnswered(@PathVariable long questionId) {
         questionService.setAnswered(questionId);
     }
@@ -192,7 +192,7 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @PutMapping("user/setAnswered/{questionId}")
+    @GetMapping("user/setAnswered/{questionId}")
     public void userSetAnswered(@PathVariable long questionId) {
         questionService.userSetAnswered(questionId);
     }
@@ -204,7 +204,7 @@ public class QuestionController {
      * @param maxScore the max score for checking weather to mark as answered
      * @param questionId the question id
      */
-    @PutMapping("user/setAnswered/{questionId}/{maxScore}")
+    @GetMapping("user/setAnswered/{questionId}/{maxScore}")
     public void userSetAnswered(@PathVariable long questionId, @PathVariable int maxScore) {
         questionService.userSetAnswered(questionId, maxScore);
     }
@@ -215,7 +215,7 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @PutMapping("setSpam/{questionId}")
+    @GetMapping("setSpam/{questionId}")
     public void setSpam(@PathVariable long questionId) {
         questionService.setSpam(questionId);
     }
@@ -226,7 +226,7 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @PutMapping("setOpen/{questionId}")
+    @GetMapping("setOpen/{questionId}")
     public void setOpen(@PathVariable long questionId) {
         questionService.setOpen(questionId);
     }
@@ -250,7 +250,7 @@ public class QuestionController {
      * @param questionId the question id
      * @param answer the new answer of question
      */
-    @PutMapping("setAnswer/{questionId}/{answer}")
+    @GetMapping("setAnswer/{questionId}/{answer}")
     public void setAnswer(@PathVariable long questionId, @PathVariable String answer) {
         questionService.setAnswer(questionId, answer);
     }
@@ -276,7 +276,7 @@ public class QuestionController {
      * @param questionId the question id
      * @param title the new title of question
      */
-    @PutMapping("setTitle/{questionId}/{title}")
+    @GetMapping("setTitle/{questionId}/{title}")
     public void setTitle(@PathVariable long questionId, @PathVariable String title) {
         questionService.setTitle(questionId, title);
     }

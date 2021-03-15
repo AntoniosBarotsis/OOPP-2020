@@ -10,7 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.controllers.questions.QuestionController;
+import nl.tudelft.oopp.demo.controllers.questions.OthersQuestionController;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
@@ -21,11 +21,11 @@ public class QuestionDisplay extends Application{
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        URL xmlUrl = getClass().getResource("/QuestionView.fxml");
+        URL xmlUrl = getClass().getResource("/questionView/questionView.fxml");
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
 
-        QuestionController controller = loader.getController();
+        OthersQuestionController controller = loader.getController();
 
         Question.QuestionStatus open = Question.QuestionStatus.OPEN;
         Room room = new Room(1, "room", new Date(), false, 0, 0);
