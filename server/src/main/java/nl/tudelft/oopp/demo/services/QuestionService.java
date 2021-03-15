@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
@@ -67,7 +68,7 @@ public class QuestionService {
      */
     public String export(long questionId) throws JsonProcessingException {
         if (questionRepository.findById(questionId).isPresent()) {
-            return this.mapQuestion(List.of(questionRepository.findById(questionId).get()));
+            return this.mapQuestionExport(List.of(questionRepository.findById(questionId).get()));
         } else {
             return "{\"error\": \"JsonProcessingException\"}";
         }
@@ -81,7 +82,7 @@ public class QuestionService {
      * @throws JsonProcessingException the json processing exception
      */
     public String exportAll(long roomId) throws JsonProcessingException {
-        return this.mapQuestion(roomRepository.findAllQuestions(roomId));
+        return this.mapQuestionExport(roomRepository.findAllQuestions(roomId));
     }
 
     /**
@@ -104,7 +105,7 @@ public class QuestionService {
             .limit(amount)
             .collect(Collectors.toList());
 
-        return this.mapQuestion(questions);
+        return this.mapQuestionExport(questions);
     }
 
     /**
@@ -121,14 +122,14 @@ public class QuestionService {
             .filter(Question::isAnswered)
             .collect(Collectors.toList());
 
-        return this.mapQuestion(questions);
+        return this.mapQuestionExport(questions);
     }
 
     /**
      * Maps a collection of questions using a custom mapper.
      *
      * @param questions the questions
-     * @return string
+     * @return string string
      * @throws JsonProcessingException the json processing exception
      */
     public String mapQuestion(Collection<Question> questions) throws JsonProcessingException {
@@ -138,5 +139,22 @@ public class QuestionService {
         objMapper.registerModule(module);
 
         return objMapper.writeValueAsString(questions);
+    }
+
+    /**
+     * Maps a collection of questions using a custom mapper.
+     *
+     * @param questions the questions
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String mapQuestionExport(Collection<Question> questions) throws JsonProcessingException {
+        ObjectMapper objMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Question.class, new QuestionExportSerializer());
+        objMapper.registerModule(module);
+
+        return objMapper.writeValueAsString(questions);
+
     }
 }
