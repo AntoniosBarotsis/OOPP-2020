@@ -25,7 +25,7 @@ public class QuestionController {
     @FXML
     private MenuButton options;
 
-    public void loadDate(Question question){
+    public void loadDate(Question question) {
         this.question = question;
     }
 
