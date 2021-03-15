@@ -12,7 +12,7 @@ import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
 
-public class QuestionController {
+public class ModQuestionController {
 
     private Question question;
     private User user;
@@ -38,7 +38,7 @@ public class QuestionController {
         score.setText(Integer.toString(question.getScore()));
     }
 
-
+    @FXML
     private void upvote() {
 
     }
@@ -52,6 +52,9 @@ public class QuestionController {
 
     public void edit() {
         questionText.setEditable(true);
+
+
+
 
     }
 
