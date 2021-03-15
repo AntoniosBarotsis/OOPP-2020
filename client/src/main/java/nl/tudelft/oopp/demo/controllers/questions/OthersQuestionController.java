@@ -13,7 +13,7 @@ import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
 
-public class QuestionController {
+public class OthersQuestionController {
 
     private Question question;
     private User user;
@@ -46,13 +46,13 @@ public class QuestionController {
     private void upvote() {
 
         if(upvoted){
-            //QuestionViewCommunication.upvote(question.getId());
+            QuestionViewCommunication.downvote(question.getId());
             score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
             upvoted = false;
         }
         else{
-            //QuestionViewCommunication.downvote(question.getId());
+            QuestionViewCommunication.upvote(question.getId());
             score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));
             upvoteButton.setStyle("-fx-text-fill: #808080");
             upvoted = true;

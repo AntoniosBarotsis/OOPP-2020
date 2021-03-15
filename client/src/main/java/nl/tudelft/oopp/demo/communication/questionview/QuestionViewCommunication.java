@@ -90,7 +90,7 @@ public class QuestionViewCommunication {
 
     public static void editText(long id, String questionText) {
         HttpRequest request =  HttpRequest.newBuilder().GET().uri
-                (URI.create("http://localhost:8080/api/v1/questions/user/setText/" + id + "/" + questionText)).build();
+                (URI.create("http://localhost:8080/api/v1/questions/setText/" + id + "/" + questionText)).build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {

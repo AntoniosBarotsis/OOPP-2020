@@ -63,8 +63,8 @@ public class QuestionController {
      * @param questionId the question id
      * @param newQuestion the value of text that will be set as question's text
      */
-    @PutMapping("setText/{questionId}/{newQuestion}")
-    public void editText(@PathVariable long questionId, @PathVariable String newQuestion) {
+    @PutMapping("setText/{questionId}/{newQuestion}/")
+    public void setText(@PathVariable long questionId, @PathVariable String newQuestion) {
         questionService.setText(questionId, newQuestion);
     }
 
