@@ -41,7 +41,12 @@ public class RoomService {
      * @return the one
      */
     public String getOne(long id) throws JsonProcessingException {
-        return mapRoom(List.of(roomRepository.getOne(id)));
+        ObjectMapper objMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Room.class, new RoomSerializer());
+        objMapper.registerModule(module);
+
+        return objMapper.writeValueAsString(roomRepository.getOne(id));
     }
 
     /**
