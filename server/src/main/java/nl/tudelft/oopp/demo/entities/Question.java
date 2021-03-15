@@ -133,5 +133,20 @@ public class Question {
             return "SPAM";
         }
     }
+
+    /**
+     * Status to factor int.
+     *
+     * @return the int
+     */
+    public int statusToFactor() {
+        if (status == Question.QuestionStatus.OPEN) {
+            return 0;
+        } else if (status == Question.QuestionStatus.ANSWERED) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
 }
 
