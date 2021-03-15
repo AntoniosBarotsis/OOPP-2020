@@ -30,7 +30,7 @@ public class RoomSerializer extends StdSerializer<Room> {
         gen.writeStringField("timeCreated", dateFormat.format(value.getStartingDate()));
         gen.writeBooleanField("repeatingLecture", value.isRepeatingLecture());
         gen.writeNumberField("tooFast", value.getTooFast());
-        gen.writeNumberField("tooFast", value.getTooSlow());
+        gen.writeNumberField("tooSlow", value.getTooSlow());
         gen.writeEndObject();
     }
 }
