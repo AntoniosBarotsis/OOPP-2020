@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -17,10 +16,10 @@
                 <RowConstraints maxHeight="65.2" minHeight="2.0000038146972656" prefHeight="38.6" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <ImageView fx:id="upvoteButton" fitHeight="32.0" fitWidth="34.0" onMouseClicked="#upvote" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                    <image>
-                        <Image url="@upvote.png" />
-                    </image></ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#upvote" prefHeight="54.0" prefWidth="57.0" style="-fx-border-color: transparent; -fx-border-width: 0; -fx-background-color: #ffffff;" text="▲" textFill="#00a6d6" GridPane.halignment="CENTER">
+                    <font>
+                        <Font size="25.0" />
+                    </font></Button>
                 <TextArea prefHeight="55.0" prefWidth="444.0" GridPane.columnIndex="1" />
                 <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="18.0" prefWidth="589.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />

@@ -38,6 +38,8 @@ public class QuestionController {
     }
 
     public void deleteQuestion() {
+        this.question = null;
+
     }
 
     public void questionAnswered() {
