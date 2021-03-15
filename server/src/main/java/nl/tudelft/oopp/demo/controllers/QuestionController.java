@@ -63,7 +63,7 @@ public class QuestionController {
      * @param questionId the question id
      * @param newQuestion the value of text that will be set as question's text
      */
-    @GetMapping("setText/{questionId}/{newQuestion}/")
+    @GetMapping("setText/{questionId}/{newQuestion}")
     public void setText(@PathVariable long questionId, @PathVariable String newQuestion) {
         questionService.setText(questionId, newQuestion);
     }
@@ -86,7 +86,7 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @PutMapping("upvote/{questionId}")
+    @GetMapping("upvote/{questionId}")
     public void upvote(@PathVariable long questionId) {
         questionService.upvote(questionId);
     }

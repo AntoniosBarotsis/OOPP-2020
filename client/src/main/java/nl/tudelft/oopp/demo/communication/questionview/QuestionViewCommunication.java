@@ -80,7 +80,7 @@ public class QuestionViewCommunication {
 
     public static void downvote(long id) {
         HttpRequest request =  HttpRequest.newBuilder().GET().uri
-                (URI.create("http://localhost:8080/api/v1/questions/downote/" + id)).build();
+                (URI.create("http://localhost:8080/api/v1/questions/downvote/" + id)).build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {

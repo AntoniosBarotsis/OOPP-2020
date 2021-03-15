@@ -3,10 +3,9 @@ package nl.tudelft.oopp.demo.controllers.questions;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
-import javafx.scene.image.ImageView;
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
@@ -27,7 +26,7 @@ public class OthersQuestionController {
     private TextArea questionText;
 
     @FXML
-    private ImageView upvoteButton;
+    private Button upvoteButton;
 
     @FXML
     private TextArea score;
