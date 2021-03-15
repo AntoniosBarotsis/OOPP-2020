@@ -1,6 +1,8 @@
 package nl.tudelft.oopp.demo.services;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.User;
@@ -34,13 +36,26 @@ public class QuestionService {
 
 
     /**
+     * Gets the first question entity with id questionId.
+     *
+     * @param questionId the question id
+     * @return a question entity with id questionId.
+     */
+    public Question getQuestion(long questionId) {
+        List<Long> listOfId = new ArrayList<>();
+        listOfId.add(questionId);
+        List<Question> listOfQuestion =  questionRepository.findAllById(listOfId);
+        return listOfQuestion.get(0);
+    }
+
+    /**
      * Gets the text of the question.
      *
      * @param questionId the question id
      * @return a String of the text of the question
      */
-    public String getQuestion(long questionId) {
-        return questionRepository.getQuestion(questionId);
+    public String getText(long questionId) {
+        return questionRepository.getText(questionId);
     }
 
 
@@ -50,8 +65,8 @@ public class QuestionService {
      * @param questionId the question id
      * @param newQuestion the value of text that will be set as question's text
      */
-    public void editQuestion(long questionId, String newQuestion) {
-        questionRepository.editQuestion(questionId, newQuestion);
+    public void setText(long questionId, String newQuestion) {
+        questionRepository.setText(questionId, newQuestion);
     }
 
 

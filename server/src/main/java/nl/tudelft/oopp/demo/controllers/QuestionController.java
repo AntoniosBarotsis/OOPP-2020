@@ -35,16 +35,25 @@ public class QuestionController {
 
 
     /**
+     * Gets the entity question with id questionId.
+     *
+     * @param questionId the question id
+     * @return Question entity with id questionId
+     */
+    @GetMapping("getQuestion/{questionId}")
+    public Question getQuestion(@PathVariable long questionId) {
+        return questionService.getQuestion(questionId);
+    }
+
+
+    /**
      * Gets the text of the question.
      *
      * @param questionId the question id
      * @return a String of the text of the question
      */
-    @GetMapping("getQuestion/{questionId}")
-    public String getQuestion(@PathVariable long questionId) {
-        return questionService.getQuestion(questionId);
-    }
-
+    @GetMapping("getText/{questionId}")
+    public String getText(@PathVariable long questionId) { return questionService.getText(questionId); }
 
     /**
      * Sets the text of the question to be newQuestion.
@@ -52,9 +61,9 @@ public class QuestionController {
      * @param questionId the question id
      * @param newQuestion the value of text that will be set as question's text
      */
-    @PutMapping("setQuestion/{questionId}/{newQuestion}")
-    public void editQuestion(@PathVariable long questionId, @PathVariable String newQuestion) {
-        questionService.editQuestion(questionId, newQuestion);
+    @PutMapping("setText/{questionId}/{newQuestion}")
+    public void editText(@PathVariable long questionId, @PathVariable String newQuestion) {
+        questionService.setText(questionId, newQuestion);
     }
 
 
