@@ -34,14 +34,16 @@ public class QuestionSerializer extends StdSerializer<Question> {
     @Override
     public void serialize(Question value, JsonGenerator gen, SerializerProvider provider)
         throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-        String strDate = dateFormat.format(value.getTimeCreated());
 
         gen.writeStartObject();
         gen.writeNumberField("id", value.getId());
         gen.writeStringField("text", value.getText());
         gen.writeStringField("answer", value.getAnswer());
-        gen.writeStringField("timeCreated", strDate);
+        gen.writeNumberField("upvotes", value.getUpvotes());
+        gen.writeNumberField("score", value.getScore());
+        gen.writeStringField("timeCreated", value.getTimeCreated().toString());
+        gen.writeStringField("TYPE", value.statusToString());
+        gen.writeStringField("answer", value.getAnswer());
 
         // Author
         gen.writeFieldName("author");

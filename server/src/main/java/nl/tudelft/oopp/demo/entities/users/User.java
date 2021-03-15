@@ -215,7 +215,7 @@ public abstract class User {
      */
     public String typeToString() {
         if (type == Type.ADMIN) {
-            return "ADMIN";
+            return "LECTURER";
         } else if (type == Type.MODERATOR) {
             return "MODERATOR";
         } else {

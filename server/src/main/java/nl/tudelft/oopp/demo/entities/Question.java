@@ -118,5 +118,20 @@ public class Question {
          */
         SPAM
     }
+
+    /**
+     * Type to string string.
+     *
+     * @return the string
+     */
+    public String statusToString() {
+        if (status == Question.QuestionStatus.OPEN) {
+            return "OPEN";
+        } else if (status == Question.QuestionStatus.ANSWERED) {
+            return "ANSWERED";
+        } else {
+            return "SPAM";
+        }
+    }
 }
 
