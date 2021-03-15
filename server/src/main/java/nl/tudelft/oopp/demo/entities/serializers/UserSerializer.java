@@ -25,25 +25,18 @@ public class UserSerializer extends StdSerializer<User> {
     @Override
     public void serialize(User value, JsonGenerator gen, SerializerProvider provider)
         throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 
         gen.writeStartObject();
         gen.writeNumberField("id", value.getId());
         gen.writeStringField("username", value.getUsername());
         gen.writeStringField("ip", value.getIp());
-        gen.writeStringField("TYPE", value.typeToString());
+        gen.writeStringField("userType", value.typeToString());
 
         // Asked Questions
         gen.writeFieldName("questionsAsked");
         gen.writeStartArray();
         for (Question question : value.getQuestionsAsked()) {
-            gen.writeStartObject();
-            gen.writeNumberField("id", question.getId());
-            gen.writeStringField("text", question.getText());
-            gen.writeStringField("answer", question.getAnswer());
-            gen.writeStringField("timeCreated", dateFormat.format(
-                question.getTimeCreated()));
-            gen.writeEndObject();
+            gen.writeNumber(question.getId());
         }
         gen.writeEndArray();
 
@@ -51,13 +44,7 @@ public class UserSerializer extends StdSerializer<User> {
         gen.writeFieldName("questionsUpvoted");
         gen.writeStartArray();
         for (Question question : value.getQuestionsUpvoted()) {
-            gen.writeStartObject();
-            gen.writeNumberField("id", question.getId());
-            gen.writeStringField("text", question.getText());
-            gen.writeStringField("answer", question.getAnswer());
-            gen.writeStringField("timeCreated", dateFormat.format(
-                question.getTimeCreated()));
-            gen.writeEndObject();
+            gen.writeNumber(question.getId());
         }
         gen.writeEndArray();
         gen.writeEndObject();
