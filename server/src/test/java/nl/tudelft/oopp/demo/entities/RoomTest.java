@@ -141,7 +141,9 @@ class RoomTest {
 
     @Test
     void getModerators() {
-        assertThat(r1.getModerators()).isEqualTo(new HashSet<>());
+        Set<ElevatedUser> set = new HashSet<>();
+        set.add(u1);
+        assertThat(r1.getModerators()).isEqualTo(set);
     }
 
     @Test
@@ -304,7 +306,8 @@ class RoomTest {
         }
 
         String str = "Room(id=1, title=Room Title, startingDate=" + r1.getStartingDate() + ", "
-            + "repeatingLecture=false, admin=1, moderators=[], bannedIps=[], questions=["
+            + "repeatingLecture=false, admin=1, moderators=[User(id=1, username=Admin, ip=ip, "
+            + "questionsAsked=[], questionsUpvoted=[], type=ADMIN)], bannedIps=[], questions=["
             + "" + questionToString + "], polls=[" + pollToString + "], tooFast=0, tooSlow=0, "
             + "elevatedPassword=" + r1.getElevatedPassword() + ", "
             + "normalPassword=" + r1.getNormalPassword() + ")";
