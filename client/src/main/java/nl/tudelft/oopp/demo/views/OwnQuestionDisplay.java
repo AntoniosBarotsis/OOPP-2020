@@ -15,7 +15,7 @@ import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
-public class OwnQuestionDisplay extends Application{
+public class OwnQuestionDisplay extends Application {
 
 
     @Override

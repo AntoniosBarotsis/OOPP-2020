@@ -80,8 +80,8 @@ public class QuestionViewCommunication {
 
     /**
      * Marks the question as spam, and adds the ip of user to bannedIps.
-     *
      * NOT FINISHED
+     *
      * @param id the question id.
      */
 
@@ -92,8 +92,8 @@ public class QuestionViewCommunication {
 
     /**
      * Increments the value of upvote by 1 in the backend.
-     *
      * NOT FINISHED
+     *
      * @param id the question id
      */
     public static void downvote(long id) {
@@ -107,7 +107,8 @@ public class QuestionViewCommunication {
     }
 
     /**
-     * Encodes question text and sends it to the backend to be decoded, then made the new question text.
+     * Encodes question text and sends it to the backend to be decoded,
+     * then made the new question text.
      *
      * @param id the question id
      * @param questionText the edited question text
