@@ -27,12 +27,16 @@ public class QuestionService {
     private final RoomRepository roomRepository;
 
     /**
-     * Add question.
+     * Adds a question unless the user has been banned.
      *
      * @param question the question
      * @param roomId   the room id
      */
     public void addQuestion(Question question, long roomId) {
+        if (userIsBanned(question, roomId)) {
+            return;
+        }
+        
         question.getAuthor().setId(question.getAuthor().getId());
         questionRepository.save(question);
         questionRepository.addQuestion(roomId, question.getId());
@@ -156,5 +160,17 @@ public class QuestionService {
 
         return objMapper.writeValueAsString(questions);
 
+    }
+
+    /**
+     * Returns true if the user is banned in the given room.
+     * 
+     * @param question The question
+     * @param roomId The room id
+     */
+    private boolean userIsBanned(Question question, long roomId) {
+        return roomRepository.getOne(roomId)
+            .getBannedIps()
+            .contains(question.getAuthor().getIp());
     }
 }

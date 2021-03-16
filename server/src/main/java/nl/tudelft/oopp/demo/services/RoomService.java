@@ -128,6 +128,51 @@ public class RoomService {
     }
 
     /**
+     * Returns true if the user has been banned in the given room.
+     *
+     * @param roomId the room id
+     * @param ip     the ip
+     * @return boolean
+     */
+    public boolean isBanned(long roomId, String ip) {
+        return roomRepository.getOne(roomId).getBannedIps().contains(ip);
+    }
+
+    /**
+     * Bans a user in the given room given the correct elevated password.
+     *
+     * @param roomId           the room id
+     * @param ip               the ip
+     * @param elevatedPassword the elevated password
+     */
+    public void banUser(long roomId, String ip, String elevatedPassword) {
+        Room room = roomRepository.getOne(roomId);
+
+        if (!elevatedPassword.equals(room.getElevatedPassword())) {
+            return;
+        }
+
+        roomRepository.banUser(roomId, ip);
+    }
+
+    /**
+     * Unbans a user in the given room given the correct elevated password.
+     *
+     * @param roomId           the room id
+     * @param ip               the ip
+     * @param elevatedPassword the elevated password
+     */
+    public void unbanUser(long roomId, String ip, String elevatedPassword) {
+        Room room = roomRepository.getOne(roomId);
+
+        if (!elevatedPassword.equals(room.getElevatedPassword())) {
+            return;
+        }
+
+        roomRepository.unbanUser(roomId, ip);
+    }
+
+    /**
      * Map question string.
      *
      * @param questions the questions

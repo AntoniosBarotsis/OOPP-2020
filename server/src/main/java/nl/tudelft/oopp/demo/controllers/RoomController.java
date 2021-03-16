@@ -128,4 +128,46 @@ public class RoomController {
     public void decrementTooSlow(@PathParam("roomId") long roomId) {
         roomService.decrementTooSlow(roomId);
     }
+
+
+    /**
+     * Returns true if the user has been banned in the given room.
+     *
+     * @param roomId the room id
+     * @param ip     the ip
+     * @return the boolean
+     */
+    @GetMapping("isBanned")
+    public boolean isBanned(@PathParam("roomId") long roomId,
+                            @PathParam("ip") String ip) {
+        return roomService.isBanned(roomId, ip);
+    }
+
+    /**
+     * Bans a user in the given room given the correct elevated password.
+     *
+     * @param roomId           the room id
+     * @param ip               the ip
+     * @param elevatedPassword the elevated password
+     */
+    @PutMapping("ban")
+    public void ban(@PathParam("roomId") long roomId,
+                    @PathParam("ip") String ip,
+                    @PathParam("elevatedPassword") String elevatedPassword) {
+        roomService.banUser(roomId, ip, elevatedPassword);
+    }
+
+    /**
+     * Unbans a user in the given room given the correct elevated password.
+     *
+     * @param roomId           the room id
+     * @param ip               the ip
+     * @param elevatedPassword the elevated password
+     */
+    @PutMapping("unban")
+    public void unban(@PathParam("roomId") long roomId,
+                      @PathParam("ip") String ip,
+                      @PathParam("elevatedPassword") String elevatedPassword) {
+        roomService.unbanUser(roomId, ip, elevatedPassword);
+    }
 }

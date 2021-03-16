@@ -94,4 +94,28 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Transactional
     @Query(value = "UPDATE Room r SET r.tooSlow = r.tooSlow - 1 WHERE r.id = ?1")
     void decrementTooSlow(long roomId);
+
+    /**
+     * Bans a user in the given room given the correct elevated password.
+     *
+     * @param roomId the room id
+     * @param ip     the ip
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO room_banned_ips (room_id, banned_ips) VALUES (?1, ?2)",
+        nativeQuery = true)
+    void banUser(long roomId, String ip);
+
+    /**
+     * Unbans a user in the given room given the correct elevated password.
+     *
+     * @param roomId the room id
+     * @param ip     the ip
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM room_banned_ips WHERE banned_ips = ?2 AND room_id = ?1",
+        nativeQuery = true)
+    void unbanUser(long roomId, String ip);
 }
