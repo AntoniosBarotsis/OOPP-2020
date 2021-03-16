@@ -1,6 +1,9 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
+import java.util.Set;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -51,6 +54,8 @@ public class ModQuestionController {
         date.setText(question.getTimeCreated().toString());
         questionText.setText(question.getText());
         score.setText(Integer.toString(question.getScore()));
+
+        checkAlreadyUpvoted(user, question);
     }
 
     /**
@@ -73,6 +78,23 @@ public class ModQuestionController {
             score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #808080");
+        }
+    }
+
+
+    /**
+     * Checks if the user already upvoted the question, and if the case the upvote
+     * button turns grey and upvoted is true.
+     *
+     * @param user the User entity.
+     * @param question the Question entity.
+     */
+    @FXML
+    private void checkAlreadyUpvoted(User user, Question question) {
+        Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
+        if (upvotedQuestions.contains(question)){
+            upvoted = true;
+            upvoteButton.setStyle("-fx-text-fill: #00A6D6");
         }
     }
 
