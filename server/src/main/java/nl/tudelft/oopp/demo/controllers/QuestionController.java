@@ -5,6 +5,8 @@ import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
+import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
+import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import nl.tudelft.oopp.demo.services.UserService;
 import org.springframework.http.MediaType;
@@ -33,14 +35,11 @@ public class QuestionController {
     @PostMapping("add")
     public void addQuestion(@RequestBody QuestionHelper questionHelper,
                             @PathParam("roomId") long roomId,
-                            @PathParam("authorId") long authorId) {
+                            @PathParam("authorId") long authorId)
+        throws InvalidIdException, UnauthorizedException {
 
         Question question = questionHelper.createQuestion();
         question.getAuthor().setId(authorId);
-
-        if (userService.isInvalidAuthorId(question.getAuthor())) {
-            throw new RuntimeException("The supplied author id is invalid");
-        }
 
         questionService.addQuestion(question, roomId);
     }

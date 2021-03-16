@@ -5,6 +5,8 @@ import java.util.Set;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
+import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
+import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.RoomService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,8 +62,10 @@ public class RoomController {
      * @return the private password
      */
     @GetMapping("private")
-    public String getPrivatePassword(@PathParam("roomId") long roomId) {
-        return roomService.getPrivatePassword(roomId);
+    public String getPrivatePassword(@PathParam("roomId") long roomId,
+                                     @PathParam("ip") String ip) throws UnauthorizedException {
+
+        return roomService.getPrivatePassword(roomId, ip);
     }
 
     /**
@@ -151,7 +155,8 @@ public class RoomController {
     @PutMapping("ban")
     public void ban(@PathParam("roomId") long roomId,
                     @PathParam("ip") String ip,
-                    @PathParam("elevatedPassword") String elevatedPassword) {
+                    @PathParam("elevatedPassword") String elevatedPassword)
+        throws UnauthorizedException {
         roomService.banUser(roomId, ip, elevatedPassword);
     }
 
@@ -165,7 +170,8 @@ public class RoomController {
     @PutMapping("unban")
     public void unban(@PathParam("roomId") long roomId,
                       @PathParam("ip") String ip,
-                      @PathParam("elevatedPassword") String elevatedPassword) {
+                      @PathParam("elevatedPassword") String elevatedPassword)
+        throws UnauthorizedException, InvalidPasswordException {
         roomService.unbanUser(roomId, ip, elevatedPassword);
     }
 }

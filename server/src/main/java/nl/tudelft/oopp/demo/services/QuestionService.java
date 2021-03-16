@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
+import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
+import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
@@ -25,6 +27,7 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
+    private final UserService userService;
 
     /**
      * Adds a question unless the user has been banned.
@@ -32,9 +35,15 @@ public class QuestionService {
      * @param question the question
      * @param roomId   the room id
      */
-    public void addQuestion(Question question, long roomId) {
+    public void addQuestion(Question question, long roomId)
+        throws InvalidIdException, UnauthorizedException {
+        if (userService.isInvalidAuthorId(question.getAuthor())) {
+            throw new InvalidIdException("The supplied author id is invalid");
+        }
+
         if (userIsBanned(question, roomId)) {
-            return;
+            throw new UnauthorizedException("User not authorized "
+                + "(you have been banned from this room)");
         }
         
         question.getAuthor().setId(question.getAuthor().getId());
