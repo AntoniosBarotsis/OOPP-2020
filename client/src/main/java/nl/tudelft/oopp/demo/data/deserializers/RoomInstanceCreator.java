@@ -1,12 +1,15 @@
 package nl.tudelft.oopp.demo.data.deserializers;
 
-import com.google.gson.*;
-import nl.tudelft.oopp.demo.data.Room;
-
+import com.google.gson.JsonElement;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import nl.tudelft.oopp.demo.data.Room;
 
 public class RoomInstanceCreator implements JsonDeserializer<Room> {
 
