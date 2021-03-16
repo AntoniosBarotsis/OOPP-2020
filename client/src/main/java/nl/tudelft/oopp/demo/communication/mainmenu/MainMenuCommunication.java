@@ -25,7 +25,7 @@ public abstract class MainMenuCommunication {
      * @return list of questions in a room
      */
     public static ArrayList<Question> getQuestions(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/questions/";
+        String link = "http://localhost:8080/api/v1/rooms/questions?roomId=";
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(link + id)).build();
 
         HttpResponse<String> response = null;
@@ -47,7 +47,7 @@ public abstract class MainMenuCommunication {
      * @return room information
      */
     public static Room getRoom(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/";
+        String link = "http://localhost:8080/api/v1/rooms/get?id=";
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(link + id)).build();
 
         HttpResponse<String> response = null;

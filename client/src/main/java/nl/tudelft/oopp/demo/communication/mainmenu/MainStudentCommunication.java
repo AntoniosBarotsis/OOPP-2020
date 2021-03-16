@@ -8,7 +8,7 @@ public class MainStudentCommunication extends MainMenuCommunication {
      * @param id id of room
      */
     public static void increaseTooFast(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/tooFast/increment/";
+        String link = "http://localhost:8080/api/v1/rooms/tooFast/increment?roomId=";
         sendEmptyPutRequest(link + id);
     }
 
@@ -17,7 +17,7 @@ public class MainStudentCommunication extends MainMenuCommunication {
      * @param id id of room
      */
     public static void increaseTooSlow(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/tooSlow/increment/";
+        String link = "http://localhost:8080/api/v1/rooms/tooSlow/increment?roomId=";
         sendEmptyPutRequest(link + id);
     }
 
@@ -26,7 +26,7 @@ public class MainStudentCommunication extends MainMenuCommunication {
      * @param id id of room
      */
     public static void decreaseTooFast(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/tooFast/decrement/";
+        String link = "http://localhost:8080/api/v1/rooms/tooFast/decrement?roomId=";
         sendEmptyPutRequest(link + id);
     }
 
@@ -35,7 +35,7 @@ public class MainStudentCommunication extends MainMenuCommunication {
      * @param id id of room
      */
     public static void decreaseTooSlow(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/tooSlow/decrement/";
+        String link = "http://localhost:8080/api/v1/rooms/tooSlow/decrement?roomId=";
         sendEmptyPutRequest(link + id);
     }
 

@@ -21,13 +21,13 @@ class MainMenuCommunicationTest {
 
     @Test
     void requestStringData() {
-        String link = "http://localhost:8080/api/v1/rooms/1/";
+        String link = "http://localhost:8080/api/v1/rooms?id=1";
         assertNotNull(MainMenuCommunication.requestStringData(link));
     }
 
     @Test
     void sendEmptyPutRequest() {
-        String link = "http://localhost:8080/api/v1/rooms/tooFast/increment/";
+        String link = "http://localhost:8080/api/v1/rooms/tooFast/increment?roomId=1";
         assertDoesNotThrow(() -> MainMenuCommunication.sendEmptyPutRequest(link));
     }
 

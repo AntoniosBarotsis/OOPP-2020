@@ -7,7 +7,7 @@ public class MainModCommunication extends MainMenuCommunication {
      * @return student code for a chosen room
      */
     public static String getStudentPassword(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/public/";
+        String link = "http://localhost:8080/api/v1/rooms/public?roomId=";
         return  requestStringData(link + id);
     }
 
@@ -17,7 +17,7 @@ public class MainModCommunication extends MainMenuCommunication {
      * @return moderator code for a chosen room
      */
     public static String getAdminPassword(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/private/";
+        String link = "http://localhost:8080/api/v1/rooms/private?roomId=";
         return  requestStringData(link + id);
     }
 
