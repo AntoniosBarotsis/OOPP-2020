@@ -39,6 +39,13 @@ public class ModQuestionController {
     @FXML
     private TextArea score;
 
+    /**
+     * Loads the data of question user and room into controller as well as sets the date, score and text into the fxml file.
+     *
+     * @param question the question entity
+     * @param user the user entity
+     * @param room the room entity
+     */
     @FXML
     public void loadData(Question question, User user, Room room) {
         this.room = room;
@@ -49,31 +56,48 @@ public class ModQuestionController {
         score.setText(Integer.toString(question.getScore()));
     }
 
+    /**
+     * Takes a question and increases/decreases the votes, depending on the user interaction with the upvoting button.
+     * Turns the button grey when upvoted and blue when decreased.
+     */
     @FXML
     private void upvote() {
         if(upvoted) {
-            score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
             QuestionViewCommunication.downvote(question.getId());
+
+            score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
 
         } else {
-            score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));
             QuestionViewCommunication.upvote(question.getId());
+
+            score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #808080");
         }
     }
 
+    /**
+     * Sets the question as spam in backend.
+     */
     public void setAsSpam() {
         QuestionViewCommunication.setSpam(question.getId());
     }
 
+    /**
+     * Sets the question as answered in backend.
+     */
     public void questionAnswered() {
-        QuestionViewCommunication.userMarkAsAnswer(question.getId());
+        QuestionViewCommunication.modMarkAsAnswer(question.getId());
     }
 
 
+    /**
+     * Makes the questionText editable, then once enter is pressed,
+     * it removed all new lines and updates the new question text both in the frontend and backend.
+     * Lastly the questionText is made uneditable again.
+     */
     public void edit() {
         questionText.setEditable(true);
         questionText.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -94,13 +118,16 @@ public class ModQuestionController {
 
     }
 
-
+    /**
+     * Bans the user in the backend.
+     */
     public void banUser() {
-        User user = QuestionViewCommunication.getUser(question.getId());
-        questionText.setText(user.getUsername());
 //        QuestionViewCommunication.banUser(question.getId());
     }
 
+    /**
+     * Allow answering of question.
+     */
     public void answer() {
     }
 }

@@ -35,7 +35,8 @@ public class OwnQuestionController {
     private TextArea score;
 
     /**
-     * Takes the relevant information from the question, user and app and creates a JavaFX object with all the relevant information
+     * Takes the relevant information from the question, user and app and creates a JavaFX object with all the relevant information.
+     *
      * @param question the question asked by the user
      * @param user the user information in case of a need to ban
      * @param room the room information
@@ -75,14 +76,14 @@ public class OwnQuestionController {
     }
 
     /**
-     * Deletes the marked question
+     * Deletes the marked question.
      */
     public void deleteQuestion() {
 
     }
 
     /**
-     * Marks the question as answered, hiding it from this
+     * Marks the question as answered, hiding it from this.
      */
     public void questionAnswered() {
         QuestionViewCommunication.userMarkAsAnswer(question.getId());
