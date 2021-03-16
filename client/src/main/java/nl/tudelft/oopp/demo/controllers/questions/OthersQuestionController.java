@@ -1,7 +1,7 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
 import javafx.fxml.FXML;
-
+import java.util.Set;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -10,7 +10,7 @@ import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
-import java.util.Set;
+
 
 
 public class OthersQuestionController {
@@ -82,7 +82,7 @@ public class OthersQuestionController {
     @FXML
     private void checkAlreadyUpvoted(User user, Question question) {
         Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
-        if (upvotedQuestions.contains(question)){
+        if (upvotedQuestions.contains(question)) {
             upvoted = true;
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
         }

@@ -92,7 +92,7 @@ public class ModQuestionController {
     @FXML
     private void checkAlreadyUpvoted(User user, Question question) {
         Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
-        if (upvotedQuestions.contains(question)){
+        if (upvotedQuestions.contains(question)) {
             upvoted = true;
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
         }
