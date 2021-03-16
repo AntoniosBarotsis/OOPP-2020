@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
+
     /**
      * Gets public password.
      *
@@ -34,6 +35,26 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Transactional
     @Query(value = "SELECT r.elevatedPassword FROM Room r WHERE r.id = ?1")
     String getPrivatePassword(long roomId);
+
+    /**
+     * Get room id when given elevatedPassword
+     *
+     * @param elevatedPassword the room's elevatedPassword
+     * @return room id or null if the password is not a valid elevatedPassword
+     */
+    @Transactional
+    @Query(value = "SELECT r.id FROM Room r WHERE r.elevatedPassword = ?1")
+    Long getElevatedRoomId(String elevatedPassword);
+
+    /**
+     * Get room id when given normalPassword
+     *
+     * @param normalPassword the room's normalPassword
+     * @return room id or null if the password is not a valid normalPassword
+     */
+    @Transactional
+    @Query(value = "SELECT r.id FROM Room r WHERE r.normalPassword = ?1")
+    Long getNormalRoomId(String normalPassword);
 
     /**
      * Find all questions set.

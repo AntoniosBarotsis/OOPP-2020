@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.websocket.server.PathParam;
+
 /**
  * The type Room controller.
  */
@@ -79,6 +81,20 @@ public class RoomController {
     public Room scheduleRoom(@PathVariable long userId, @PathVariable String title
             , @RequestBody Date date) {
         return roomService.scheduleRoom(userId, title, date);
+    }
+
+    /**
+     * Create a new user and have him join the room.
+     *
+     * @param password the room's password
+     * @param username the user's username
+     * @param ip the user's ip
+     * @return the room which the user joined
+     */
+    @GetMapping("join")
+    public Room join(@PathParam("password") String password, @PathParam("username") String username,
+                     @PathParam("ip") String ip) {
+        return roomService.join(password, username, ip);
     }
 
     /**

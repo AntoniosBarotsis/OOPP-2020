@@ -157,4 +157,27 @@ public class RoomService {
     public void decrementTooSlow(long roomId) {
         roomRepository.decrementTooSlow(roomId);
     }
+
+    /**
+     * Create a new user, who joins a room.
+     *
+     * @param password the room's password, either normal or elevated
+     * @param username the user's username
+     * @param ip the user's ip
+     * @return the room the user wants to join
+     */
+    public Room join(String password, String username, String ip) {
+        boolean isElevated = true;
+        Long id = roomRepository.getElevatedRoomId(password);
+        if (id == null) {
+            id = roomRepository.getNormalRoomId(password);
+            isElevated = false;
+        }
+        if (id == null) return null; // TODO Throw error
+        Room room = getOne(id);
+        User.Type type = isElevated ? User.Type.MODERATOR : User.Type.STUDENT;
+        User user = new User(username, ip, type);
+        userRepository.save(user);
+        return room;
+    }
 }
