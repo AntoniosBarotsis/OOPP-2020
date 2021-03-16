@@ -1,17 +1,15 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
-
 import javafx.event.EventHandler;
 
+import java.io.UnsupportedEncodingException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import java.io.UnsupportedEncodingException;
+
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;

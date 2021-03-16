@@ -1,14 +1,11 @@
 package nl.tudelft.oopp.demo.communication.questionview;
 
 import com.google.gson.Gson;
-import javafx.scene.control.TextArea;
-import nl.tudelft.oopp.demo.data.Room;
-import nl.tudelft.oopp.demo.data.User;
 
+import java.io.UnsupportedEncodingException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -42,8 +39,8 @@ public class QuestionViewCommunication {
 
     // Not finished
     public static void upvote(long id) {
-        HttpRequest request =  HttpRequest.newBuilder().GET().uri
-                (URI.create("http://localhost:8080/api/v1/questions/upvote/" + id)).build();
+        HttpRequest request =  HttpRequest.newBuilder().GET()
+                .uri(URI.create("http://localhost:8080/api/v1/questions/upvote/" + id)).build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
@@ -57,8 +54,8 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
     public static void userMarkAsAnswer(long id) {
-        HttpRequest request =  HttpRequest.newBuilder().GET().uri
-                (URI.create("http://localhost:8080/api/v1/questions/user/setAnswered/" + id)).build();
+        HttpRequest request =  HttpRequest.newBuilder().GET()
+                .uri(URI.create("http://localhost:8080/api/v1/questions/user/setAnswered/" + id)).build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
@@ -72,8 +69,8 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
     public static void modMarkAsAnswer(long id) {
-        HttpRequest request =  HttpRequest.newBuilder().GET().uri
-                (URI.create("http://localhost:8080/api/v1/questions/user/setAnswered/" + id)).build();
+        HttpRequest request =  HttpRequest.newBuilder().GET()
+                .uri(URI.create("http://localhost:8080/api/v1/questions/user/setAnswered/" + id)).build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
@@ -85,9 +82,10 @@ public class QuestionViewCommunication {
     /**
      * Marks the question as spam, and adds the ip of user to bannedIps.
      *
+     * //Not finished
      * @param id the question id.
      */
-//Not finished
+
     public static void banUser(long id) {
         setSpam(id);
     }
@@ -96,9 +94,9 @@ public class QuestionViewCommunication {
     /**
      * Increments the value of upvote by 1 in the backend.
      *
+     * //Not finished
      * @param id the question id
      */
-    //Not finished
     public static void downvote(long id) {
         HttpRequest request =  HttpRequest.newBuilder().GET()
                 .uri(URI.create("http://localhost:8080/api/v1/questions/downvote/" + id)).build();
@@ -118,8 +116,9 @@ public class QuestionViewCommunication {
      */
     public static void editText(long id, String questionText) throws UnsupportedEncodingException {
         String questionTextUrl = URLEncoder.encode(questionText, StandardCharsets.UTF_8.toString());;
-        HttpRequest request =  HttpRequest.newBuilder().GET().uri
-                (URI.create("http://localhost:8080/api/v1/questions/setText/" + id + "/" + questionTextUrl)).build();
+        HttpRequest request =  HttpRequest.newBuilder().GET()
+                .uri(URI.create("http://localhost:8080/api/v1/questions/setText/" + id + "/" + questionTextUrl))
+                .build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
