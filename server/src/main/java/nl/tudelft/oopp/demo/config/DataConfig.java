@@ -79,9 +79,7 @@ public class DataConfig {
             r1.setPolls(Stream.of(p1)
                 .collect(Collectors.toSet())
             );
-            Set<ElevatedUser> set = new HashSet<>();
-            set.add(u1);
-            r1.setModerators(set);
+
             roomRepository.save(r1);
         };
     }

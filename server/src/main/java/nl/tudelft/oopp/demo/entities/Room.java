@@ -93,7 +93,9 @@ public class Room {
 
         this.startingDate = new Date();
         this.bannedIps = new HashSet<>();
-        this.moderators = new HashSet<>();
+        Set<ElevatedUser> ips = new HashSet<>();
+        ips.add(admin);
+        this.moderators = ips;
         this.questions = new HashSet<>();
         this.polls = new HashSet<>();
         this.tooFast = 0;
