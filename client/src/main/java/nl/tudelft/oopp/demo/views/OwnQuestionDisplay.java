@@ -15,7 +15,7 @@ import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
-public class OwnQuestionDisplay extends Application{
+public class OwnQuestionDisplay extends Application {
 
 
     @Override
@@ -28,9 +28,12 @@ public class OwnQuestionDisplay extends Application{
         OwnQuestionController controller = loader.getController();
 
         Question.QuestionStatus open = Question.QuestionStatus.OPEN;
+
+        Date date = new Date();
         Room room = new Room(1, "room", new Date(), false, 0, 0);
         User user = new User(1, User.UserType.STUDENT, "STUDENT", new HashSet<>(), new HashSet<>());
-        Question question = new Question(2, "This is a question", user,  0, 0, new Date(), open,"" );
+        Question question = new Question(2, "This is a question", user,
+                0, 0, date, open,"");
 
         controller.loadData(question, user, room);
 
@@ -38,7 +41,7 @@ public class OwnQuestionDisplay extends Application{
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         launch(args);
     }
 }

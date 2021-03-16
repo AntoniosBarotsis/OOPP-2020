@@ -1,14 +1,11 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
-
 import javafx.fxml.FXML;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 
-import javafx.scene.image.ImageView;
-import nl.tudelft.oopp.demo.communication.ServerCommunication;
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
@@ -35,7 +32,9 @@ public class OwnQuestionController {
     private TextArea score;
 
     /**
-     * Takes the relevant information from the question, user and app and creates a JavaFX object with all the relevant information
+     * Takes the relevant information from the question,
+     * user and app and creates a JavaFX object with all the relevant information.
+     *
      * @param question the question asked by the user
      * @param user the user information in case of a need to ban
      * @param room the room information
@@ -50,22 +49,19 @@ public class OwnQuestionController {
     }
 
     /**
-     * Takes a question and increases/decreases the votes, depending on the user interaction with the upvoting button.
+     * Takes a question and increases/decreases the votes,
+     * depending on the user interaction with the upvoting button.
      * Turns the button grey when upvoted and blue when decreased.
      */
     @FXML
     private void upvote() {
-
-        if(upvoted){
-
+        if (upvoted) {
             QuestionViewCommunication.upvote(question.getId());
 
             score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
             upvoted = true;
-        }
-        else{
-
+        } else {
             QuestionViewCommunication.downvote(question.getId());
 
             score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));
@@ -75,14 +71,14 @@ public class OwnQuestionController {
     }
 
     /**
-     * Deletes the marked question
+     * Deletes the marked question.
      */
     public void deleteQuestion() {
 
     }
 
     /**
-     * Marks the question as answered, hiding it from this
+     * Marks the question as answered, hiding it from this.
      */
     public void questionAnswered() {
         QuestionViewCommunication.userMarkAsAnswer(question.getId());

@@ -1,22 +1,21 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
+import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import nl.tudelft.oopp.demo.communication.ServerCommunication;
+
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
-
-import java.io.UnsupportedEncodingException;
 
 
 public class ModQuestionController {
@@ -39,6 +38,14 @@ public class ModQuestionController {
     @FXML
     private TextArea score;
 
+    /**
+     * Loads the data of question user and room into controller as well as sets the date,
+     * score and text into the fxml file.
+     *
+     * @param question the question entity
+     * @param user the user entity
+     * @param room the room entity
+     */
     @FXML
     public void loadData(Question question, User user, Room room) {
         this.room = room;
@@ -47,33 +54,70 @@ public class ModQuestionController {
         date.setText(question.getTimeCreated().toString());
         questionText.setText(question.getText());
         score.setText(Integer.toString(question.getScore()));
+
+        checkAlreadyUpvoted(user, question);
     }
 
+    /**
+     * Takes a question and increases/decreases the votes,
+     * depending on the user interaction with the upvoting button.
+     * Turns the button grey when upvoted and blue when decreased.
+     */
     @FXML
     private void upvote() {
-        if(upvoted) {
-            score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
+        if (upvoted) {
             QuestionViewCommunication.downvote(question.getId());
+
+            score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
 
         } else {
-            score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));
             QuestionViewCommunication.upvote(question.getId());
+
+            score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #808080");
         }
     }
 
+
+    /**
+     * Checks if the user already upvoted the question, and if the case the upvote
+     * button turns grey and upvoted is true.
+     *
+     * @param user the User entity.
+     * @param question the Question entity.
+     */
+    @FXML
+    private void checkAlreadyUpvoted(User user, Question question) {
+        Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
+        if (upvotedQuestions.contains(question)) {
+            upvoted = true;
+            upvoteButton.setStyle("-fx-text-fill: #00A6D6");
+        }
+    }
+
+    /**
+     * Sets the question as spam in backend.
+     */
     public void setAsSpam() {
         QuestionViewCommunication.setSpam(question.getId());
     }
 
+    /**
+     * Sets the question as answered in backend.
+     */
     public void questionAnswered() {
-        QuestionViewCommunication.userMarkAsAnswer(question.getId());
+        QuestionViewCommunication.modMarkAsAnswer(question.getId());
     }
 
 
+    /**
+     * Makes the questionText editable, then once enter is pressed,
+     * it removed all new lines and updates the new question text both in the frontend and backend.
+     * Lastly the questionText is made uneditable again.
+     */
     public void edit() {
         questionText.setEditable(true);
         questionText.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -83,7 +127,8 @@ public class ModQuestionController {
                     questionText.setText(questionText.getText().replaceAll("\n", ""));
                     questionText.setEditable(false);
                     try {
-                        QuestionViewCommunication.editText(question.getId(), questionText.getText());
+                        QuestionViewCommunication
+                                .editText(question.getId(), questionText.getText());
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -94,13 +139,15 @@ public class ModQuestionController {
 
     }
 
-
+    /**
+     * Bans the user in the backend.
+     */
     public void banUser() {
-        User user = QuestionViewCommunication.getUser(question.getId());
-        questionText.setText(user.getUsername());
-        QuestionViewCommunication.banUser(question.getId());
     }
 
+    /**
+     * Allow answering of question.
+     */
     public void answer() {
     }
 
@@ -108,6 +155,5 @@ public class ModQuestionController {
      * Deletes the marked question
      */
     public void deleteQuestion() {
-
     }
 }
