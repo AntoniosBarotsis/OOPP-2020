@@ -98,9 +98,16 @@ public class ModQuestionController {
     public void banUser() {
         User user = QuestionViewCommunication.getUser(question.getId());
         questionText.setText(user.getUsername());
-//        QuestionViewCommunication.banUser(question.getId());
+        QuestionViewCommunication.banUser(question.getId());
     }
 
     public void answer() {
+    }
+
+    /**
+     * Deletes the marked question
+     */
+    public void deleteQuestion() {
+
     }
 }

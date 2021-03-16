@@ -41,8 +41,9 @@
                         <MenuItem mnemonicParsing="false" onAction="#edit" text="Edit" />
                         <MenuItem mnemonicParsing="false" onAction="#answer" text="Answer" />
                                 <MenuItem mnemonicParsing="false" onAction="#questionAnswered" text="Mark as answered" />
-                                <MenuItem mnemonicParsing="false" onAction="#setAsSpam" text="set as spam" />
+                                <MenuItem mnemonicParsing="false" onAction="#setAsSpam" text="Set as spam" />
                         <MenuItem mnemonicParsing="false" onAction="#banUser" text="Ban" />
+                        <MenuItem mnemonicParsing="false" onAction="#deleteQuestion" text="Delete question" />
                             </items>
                         </MenuButton>
                     </children>
