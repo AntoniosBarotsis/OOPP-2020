@@ -33,8 +33,8 @@ class MainMenuCommunicationTest {
 
     @Test
     void sendPostRequest() {
-        String link = "http://localhost:8080/api/v1/questions/add/1";
-        QuestionHelper question = new QuestionHelper("text", new StudentHelper("name", "ip"));
+        String link = "http://localhost:8080/api/v1/questions/add?roomId=1&authorId=3";
+        QuestionHelper question = new QuestionHelper("test", new StudentHelper("Student", "ip"));
         assertDoesNotThrow(() -> MainMenuCommunication.sendPostRequest(link, question));
     }
 }
