@@ -2,7 +2,9 @@ package nl.tudelft.oopp.demo.config;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import nl.tudelft.oopp.demo.entities.Poll;
@@ -48,10 +50,10 @@ public class DataConfig {
             );
             quoteRepository.saveAll(List.of(quote1, quote2, quote3));
 
-            ElevatedUser u1 = new ElevatedUser("Admin", "ip", true);
-            User u2 = new ElevatedUser("Mod", "ip");
-            User u22 = new ElevatedUser("Mod2", "ip", false);
-            User u3 = new Student("Student", "ip");
+            ElevatedUser u1 = new ElevatedUser("Admin", "ip1", true);
+            User u2 = new ElevatedUser("Mod", "ip2");
+            User u22 = new ElevatedUser("Mod2", "ip22", false);
+            User u3 = new Student("Student", "ip3");
             userRepository.saveAll(List.of(u1, u2, u3, u22));
 
             Poll p1 = new Poll("Poll title", "Poll text", new ArrayList<>(),
@@ -77,6 +79,9 @@ public class DataConfig {
             r1.setPolls(Stream.of(p1)
                 .collect(Collectors.toSet())
             );
+            Set<ElevatedUser> set = new HashSet<>();
+            set.add(u1);
+            r1.setModerators(set);
             roomRepository.save(r1);
         };
     }
