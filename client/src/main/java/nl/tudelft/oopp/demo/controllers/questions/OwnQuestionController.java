@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
-
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
@@ -33,7 +32,8 @@ public class OwnQuestionController {
     private TextArea score;
 
     /**
-     * Takes the relevant information from the question, user and app and creates a JavaFX object with all the relevant information.
+     * Takes the relevant information from the question,
+     * user and app and creates a JavaFX object with all the relevant information.
      *
      * @param question the question asked by the user
      * @param user the user information in case of a need to ban
@@ -49,7 +49,8 @@ public class OwnQuestionController {
     }
 
     /**
-     * Takes a question and increases/decreases the votes, depending on the user interaction with the upvoting button.
+     * Takes a question and increases/decreases the votes,
+     * depending on the user interaction with the upvoting button.
      * Turns the button grey when upvoted and blue when decreased.
      */
     @FXML

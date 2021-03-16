@@ -3,11 +3,11 @@ package nl.tudelft.oopp.demo.communication.questionview;
 import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.net.URI;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class QuestionViewCommunication {
@@ -76,13 +76,12 @@ public class QuestionViewCommunication {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**
      * Marks the question as spam, and adds the ip of user to bannedIps.
      *
-     * //Not finished
+     * NOT FINISHED
      * @param id the question id.
      */
 
@@ -94,7 +93,7 @@ public class QuestionViewCommunication {
     /**
      * Increments the value of upvote by 1 in the backend.
      *
-     * //Not finished
+     * NOT FINISHED
      * @param id the question id
      */
     public static void downvote(long id) {
@@ -108,14 +107,15 @@ public class QuestionViewCommunication {
     }
 
     /**
-     * Encodes question text, and sends it to the backend to be decoded and then made the new question text.
+     * Encodes question text and sends it to the backend to be decoded, then made the new question text.
      *
      * @param id the question id
      * @param questionText the edited question text
      * @throws UnsupportedEncodingException if StandardCharsets.UTF_8 is not supported
      */
     public static void editText(long id, String questionText) throws UnsupportedEncodingException {
-        String questionTextUrl = URLEncoder.encode(questionText, StandardCharsets.UTF_8.toString());;
+        String questionTextUrl = URLEncoder
+                .encode(questionText, StandardCharsets.UTF_8.toString());;
         HttpRequest request =  HttpRequest.newBuilder().GET()
                 .uri(URI.create("http://localhost:8080/api/v1/questions/setText/" + id + "/" + questionTextUrl))
                 .build();

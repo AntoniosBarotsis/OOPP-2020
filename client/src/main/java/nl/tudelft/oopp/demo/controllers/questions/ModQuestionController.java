@@ -1,8 +1,7 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
-import javafx.event.EventHandler;
-
 import java.io.UnsupportedEncodingException;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -106,7 +105,8 @@ public class ModQuestionController {
                     questionText.setText(questionText.getText().replaceAll("\n", ""));
                     questionText.setEditable(false);
                     try {
-                        QuestionViewCommunication.editText(question.getId(), questionText.getText());
+                        QuestionViewCommunication
+                                .editText(question.getId(), questionText.getText());
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
