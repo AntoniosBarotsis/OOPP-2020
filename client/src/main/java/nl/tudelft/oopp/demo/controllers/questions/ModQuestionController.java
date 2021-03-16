@@ -16,6 +16,8 @@ import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
+import java.io.UnsupportedEncodingException;
+
 
 public class ModQuestionController {
 
@@ -80,7 +82,11 @@ public class ModQuestionController {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     questionText.setText(questionText.getText().replaceAll("\n", ""));
                     questionText.setEditable(false);
-                    QuestionViewCommunication.editText(question.getId(), questionText.getText());
+                    try {
+                        QuestionViewCommunication.editText(question.getId(), questionText.getText());
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

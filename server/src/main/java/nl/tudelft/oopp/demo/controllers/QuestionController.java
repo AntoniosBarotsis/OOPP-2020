@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import nl.tudelft.oopp.demo.entities.Question;
@@ -58,13 +59,13 @@ public class QuestionController {
     }
 
     /**
-     * Sets the text of the question to be newQuestion.
+     * Sets the text of the question to be decoded newQuestion.
      *
      * @param questionId the question id
-     * @param newQuestion the value of text that will be set as question's text
+     * @param newQuestion the encoded value of text that will be set as question's text
      */
     @GetMapping("setText/{questionId}/{newQuestion}")
-    public void setText(@PathVariable long questionId, @PathVariable String newQuestion) {
+    public void setText(@PathVariable long questionId, @PathVariable String newQuestion) throws UnsupportedEncodingException {
         questionService.setText(questionId, newQuestion);
     }
 

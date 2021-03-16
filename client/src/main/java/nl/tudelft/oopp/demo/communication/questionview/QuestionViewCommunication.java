@@ -5,10 +5,13 @@ import javafx.scene.control.TextArea;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 
 public class QuestionViewCommunication {
 
@@ -88,9 +91,10 @@ public class QuestionViewCommunication {
         }
     }
 
-    public static void editText(long id, String questionText) {
+    public static void editText(long id, String questionText) throws UnsupportedEncodingException {
+        String questionTextUrl = URLEncoder.encode(questionText, StandardCharsets.UTF_8.toString());;
         HttpRequest request =  HttpRequest.newBuilder().GET().uri
-                (URI.create("http://localhost:8080/api/v1/questions/setText/" + id + "/" + questionText)).build();
+                (URI.create("http://localhost:8080/api/v1/questions/setText/" + id + "/" + questionTextUrl)).build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {

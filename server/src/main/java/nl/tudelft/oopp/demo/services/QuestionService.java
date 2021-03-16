@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.services;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,13 +63,13 @@ public class QuestionService {
 
 
     /**
-     * Sets the text of the question to be newQuestion.
+     * Sets the text of the question to be decoded newQuestion.
      *
      * @param questionId the question id
-     * @param newQuestion the value of text that will be set as question's text
+     * @param newQuestion the encoded value of text that will be set as question's text.
      */
-    public void setText(long questionId, String newQuestion) {
-        questionRepository.setText(questionId, newQuestion);
+    public void setText(long questionId, String newQuestion) throws UnsupportedEncodingException {
+        questionRepository.setText(questionId, URLDecoder.decode(newQuestion, StandardCharsets.UTF_8.toString()));
     }
 
 
