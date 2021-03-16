@@ -153,6 +153,7 @@ public class RoomService {
      * @param roomId           the room id
      * @param ip               the ip
      * @param elevatedPassword the elevated password
+     * @throws UnauthorizedException the unauthorized exception
      */
     public void banUser(long roomId, String ip, String elevatedPassword)
         throws UnauthorizedException {
@@ -175,6 +176,8 @@ public class RoomService {
      * @param roomId           the room id
      * @param ip               the ip
      * @param elevatedPassword the elevated password
+     * @throws UnauthorizedException    the unauthorized exception
+     * @throws InvalidPasswordException the invalid password exception
      */
     public void unbanUser(long roomId, String ip, String elevatedPassword)
         throws UnauthorizedException, InvalidPasswordException {
