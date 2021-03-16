@@ -29,7 +29,6 @@ public class UserSerializer extends StdSerializer<User> {
         gen.writeStartObject();
         gen.writeNumberField("id", value.getId());
         gen.writeStringField("username", value.getUsername());
-        gen.writeStringField("ip", value.getIp());
         gen.writeStringField("userType", value.typeToString());
 
         // Asked Questions
