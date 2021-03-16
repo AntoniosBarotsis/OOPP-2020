@@ -152,7 +152,7 @@ public class ModQuestionController {
     }
 
     /**
-     * Deletes the marked question
+     * Deletes the marked question.
      */
     public void deleteQuestion() {
     }
