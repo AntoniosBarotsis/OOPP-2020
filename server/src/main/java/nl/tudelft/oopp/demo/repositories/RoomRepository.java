@@ -37,7 +37,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     String getPrivatePassword(long roomId);
 
     /**
-     * Get room id when given elevatedPassword
+     * Get room id when given elevatedPassword.
      *
      * @param elevatedPassword the room's elevatedPassword
      * @return room id or null if the password is not a valid elevatedPassword
@@ -47,7 +47,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     Long getElevatedRoomId(String elevatedPassword);
 
     /**
-     * Get room id when given normalPassword
+     * Get room id when given normalPassword.
      *
      * @param normalPassword the room's normalPassword
      * @return room id or null if the password is not a valid normalPassword

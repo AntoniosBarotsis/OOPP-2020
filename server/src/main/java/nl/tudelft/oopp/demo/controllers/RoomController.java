@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.controllers;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import javax.websocket.server.PathParam;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.websocket.server.PathParam;
 
 /**
  * The type Room controller.
