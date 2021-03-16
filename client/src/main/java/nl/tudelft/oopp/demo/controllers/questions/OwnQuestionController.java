@@ -2,13 +2,12 @@ package nl.tudelft.oopp.demo.controllers.questions;
 
 
 import javafx.fxml.FXML;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 
-import javafx.scene.image.ImageView;
-import nl.tudelft.oopp.demo.communication.ServerCommunication;
+
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
@@ -56,17 +55,13 @@ public class OwnQuestionController {
      */
     @FXML
     private void upvote() {
-
-        if(upvoted){
-
+        if (upvoted) {
             QuestionViewCommunication.upvote(question.getId());
 
             score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
             upvoted = true;
-        }
-        else{
-
+        } else {
             QuestionViewCommunication.downvote(question.getId());
 
             score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));

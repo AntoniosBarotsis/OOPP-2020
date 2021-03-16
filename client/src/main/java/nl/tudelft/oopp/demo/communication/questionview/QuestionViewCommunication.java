@@ -5,12 +5,12 @@ import javafx.scene.control.TextArea;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class QuestionViewCommunication {
@@ -24,9 +24,9 @@ public class QuestionViewCommunication {
      *
      * @param id the question id
      */
-    public static void setSpam(long id){
-        HttpRequest request =  HttpRequest.newBuilder().GET().uri
-                (URI.create("http://localhost:8080/api/v1/questions/setSpam/" + id)).build();
+    public static void setSpam(long id) {
+        HttpRequest request =  HttpRequest.newBuilder().GET()
+                .uri(URI.create("http://localhost:8080/api/v1/questions/setSpam/" + id)).build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
@@ -41,7 +41,7 @@ public class QuestionViewCommunication {
      */
 
     // Not finished
-    public static void upvote(long id){
+    public static void upvote(long id) {
         HttpRequest request =  HttpRequest.newBuilder().GET().uri
                 (URI.create("http://localhost:8080/api/v1/questions/upvote/" + id)).build();
         try {
@@ -56,7 +56,7 @@ public class QuestionViewCommunication {
      *
      * @param id the question id
      */
-    public static void userMarkAsAnswer(long id){
+    public static void userMarkAsAnswer(long id) {
         HttpRequest request =  HttpRequest.newBuilder().GET().uri
                 (URI.create("http://localhost:8080/api/v1/questions/user/setAnswered/" + id)).build();
         try {
@@ -71,7 +71,7 @@ public class QuestionViewCommunication {
      *
      * @param id the question id
      */
-    public static void modMarkAsAnswer(long id){
+    public static void modMarkAsAnswer(long id) {
         HttpRequest request =  HttpRequest.newBuilder().GET().uri
                 (URI.create("http://localhost:8080/api/v1/questions/user/setAnswered/" + id)).build();
         try {
@@ -88,7 +88,7 @@ public class QuestionViewCommunication {
      * @param id the question id.
      */
 //Not finished
-    public static void banUser(long id){
+    public static void banUser(long id) {
         setSpam(id);
     }
 
@@ -100,8 +100,8 @@ public class QuestionViewCommunication {
      */
     //Not finished
     public static void downvote(long id) {
-        HttpRequest request =  HttpRequest.newBuilder().GET().uri
-                (URI.create("http://localhost:8080/api/v1/questions/downvote/" + id)).build();
+        HttpRequest request =  HttpRequest.newBuilder().GET()
+                .uri(URI.create("http://localhost:8080/api/v1/questions/downvote/" + id)).build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {

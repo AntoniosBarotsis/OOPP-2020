@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers.questions;
 
 
 import javafx.event.EventHandler;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,13 +11,11 @@ import javafx.scene.control.TextArea;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import nl.tudelft.oopp.demo.communication.ServerCommunication;
+import java.io.UnsupportedEncodingException;
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
-
-import java.io.UnsupportedEncodingException;
 
 
 public class ModQuestionController {
@@ -40,7 +39,8 @@ public class ModQuestionController {
     private TextArea score;
 
     /**
-     * Loads the data of question user and room into controller as well as sets the date, score and text into the fxml file.
+     * Loads the data of question user and room into controller as well as sets the date,
+     * score and text into the fxml file.
      *
      * @param question the question entity
      * @param user the user entity
@@ -57,12 +57,13 @@ public class ModQuestionController {
     }
 
     /**
-     * Takes a question and increases/decreases the votes, depending on the user interaction with the upvoting button.
+     * Takes a question and increases/decreases the votes,
+     * depending on the user interaction with the upvoting button.
      * Turns the button grey when upvoted and blue when decreased.
      */
     @FXML
     private void upvote() {
-        if(upvoted) {
+        if (upvoted) {
             QuestionViewCommunication.downvote(question.getId());
 
             score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
@@ -122,7 +123,6 @@ public class ModQuestionController {
      * Bans the user in the backend.
      */
     public void banUser() {
-//        QuestionViewCommunication.banUser(question.getId());
     }
 
     /**

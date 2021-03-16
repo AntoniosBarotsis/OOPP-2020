@@ -69,7 +69,8 @@ public class QuestionService {
      * @param newQuestion the encoded value of text that will be set as question's text.
      */
     public void setText(long questionId, String newQuestion) throws UnsupportedEncodingException {
-        questionRepository.setText(questionId, URLDecoder.decode(newQuestion, StandardCharsets.UTF_8.toString()));
+        questionRepository.setText(questionId, URLDecoder
+                .decode(newQuestion, StandardCharsets.UTF_8.toString()));
     }
 
 

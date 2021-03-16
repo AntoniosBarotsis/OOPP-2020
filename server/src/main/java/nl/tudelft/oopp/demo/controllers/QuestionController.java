@@ -65,7 +65,8 @@ public class QuestionController {
      * @param newQuestion the encoded value of text that will be set as question's text
      */
     @GetMapping("setText/{questionId}/{newQuestion}")
-    public void setText(@PathVariable long questionId, @PathVariable String newQuestion) throws UnsupportedEncodingException {
+    public void setText(@PathVariable long questionId, @PathVariable String newQuestion)
+            throws UnsupportedEncodingException {
         questionService.setText(questionId, newQuestion);
     }
 

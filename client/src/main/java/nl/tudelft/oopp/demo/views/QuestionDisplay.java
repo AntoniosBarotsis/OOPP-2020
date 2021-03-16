@@ -15,7 +15,7 @@ import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
-public class QuestionDisplay extends Application{
+public class QuestionDisplay extends Application {
 
 
     @Override
@@ -30,7 +30,8 @@ public class QuestionDisplay extends Application{
         Question.QuestionStatus open = Question.QuestionStatus.OPEN;
         Room room = new Room(1, "room", new Date(), false, 0, 0);
         User user = new User(1, User.UserType.STUDENT, "STUDENT", new HashSet<>(), new HashSet<>());
-        Question question = new Question(2, "this is a question", user,  0, 0, new Date(), open,"" );
+        Question question = new Question(2, "this is a question",
+                user,  0, 0, new Date() , open,"" );
 
         controller.loadData(question, user, room);
 
