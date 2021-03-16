@@ -34,18 +34,11 @@ public class QuestionExportSerializer extends StdSerializer<Question> {
     @Override
     public void serialize(Question value, JsonGenerator gen, SerializerProvider provider)
         throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-        String strDate = dateFormat.format(value.getTimeCreated());
 
         gen.writeStartObject();
         gen.writeStringField("text", value.getText());
         gen.writeStringField("answer", value.getAnswer());
         gen.writeStringField("timeCreated", value.getTimeCreated().toString());
-
-        // Author
-        gen.writeFieldName("author");
-        gen.writeNumber(value.getAuthor().getId());
-
         gen.writeEndObject();
     }
 }
