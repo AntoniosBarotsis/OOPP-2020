@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.data.deserializers;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -12,7 +11,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import nl.tudelft.oopp.demo.data.Question;
-import nl.tudelft.oopp.demo.data.User;
 
 public class QuestionInstanceCreator implements JsonDeserializer<Question> {
 
@@ -31,10 +29,9 @@ public class QuestionInstanceCreator implements JsonDeserializer<Question> {
         JsonObject jsonObject = json.getAsJsonObject();
 
         // Get the parameters of the json and parse them to object Question parameters.
-        Gson gson = new Gson();
         long id = jsonObject.get("id").getAsLong();
         String text = jsonObject.get("text").getAsString();
-        User author = new User(jsonObject.get("author").getAsInt(), null, null, null, null);
+        long authorId = jsonObject.get("author").getAsLong();
         int upvotes = jsonObject.get("upvotes").getAsInt();
         int score = jsonObject.get("score").getAsInt();
         String statusString = jsonObject.get("QuestionStatus").getAsString();
@@ -62,6 +59,6 @@ public class QuestionInstanceCreator implements JsonDeserializer<Question> {
             date = new Date();
         }
 
-        return new Question(id, text, author, upvotes, score, date, status, answer);
+        return new Question(id, text, authorId, upvotes, score, date, status, answer);
     }
 }
