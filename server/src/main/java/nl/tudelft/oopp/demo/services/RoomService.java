@@ -72,7 +72,7 @@ public class RoomService {
      * @throws UnauthorizedException the unauthorized exception
      */
     public String getPrivatePassword(long roomId, String ip) throws UnauthorizedException {
-        if (!isAuthorized(roomId, ip)) {
+        if (isNotAuthorized(roomId, ip)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
 
@@ -156,7 +156,7 @@ public class RoomService {
      */
     public void banUser(long roomId, String ip, String elevatedPassword)
         throws UnauthorizedException {
-        if (!isAuthorized(roomId, ip)) {
+        if (isNotAuthorized(roomId, ip)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
 
@@ -178,7 +178,7 @@ public class RoomService {
      */
     public void unbanUser(long roomId, String ip, String elevatedPassword)
         throws UnauthorizedException, InvalidPasswordException {
-        if (!isAuthorized(roomId, ip)) {
+        if (isNotAuthorized(roomId, ip)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
 
@@ -231,7 +231,7 @@ public class RoomService {
      * @param ip     the ip
      * @return the boolean
      */
-    public boolean isAuthorized(long roomId, String ip) {
+    public boolean isNotAuthorized(long roomId, String ip) {
         List<String> authorizedIps = roomRepository
             .getOne(roomId)
             .getModerators()
@@ -239,6 +239,7 @@ public class RoomService {
             .map(User::getIp)
             .collect(Collectors.toList());
 
-        return authorizedIps.contains(ip);
+        System.out.println(authorizedIps);
+        return !authorizedIps.contains(ip);
     }
 }
