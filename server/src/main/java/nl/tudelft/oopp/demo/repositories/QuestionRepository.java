@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.repositories;
 
 import javax.transaction.Transactional;
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
