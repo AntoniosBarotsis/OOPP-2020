@@ -1,9 +1,9 @@
 package nl.tudelft.oopp.demo.data.deserializers;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -49,7 +49,9 @@ public class QuestionInstanceCreator implements JsonDeserializer<Question> {
             status = Question.QuestionStatus.OPEN;
         } else if (statusString.equals("ANSWERED")) {
             status = Question.QuestionStatus.ANSWERED;
-        } else status = Question.QuestionStatus.SPAM;
+        } else {
+            status = Question.QuestionStatus.SPAM;
+        }
 
         // Try to parse the input Date format.
         Date date = null;
