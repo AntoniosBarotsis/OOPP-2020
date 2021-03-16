@@ -17,8 +17,10 @@ public class MainModCommunication extends MainMenuCommunication {
      * @return moderator code for a chosen room
      */
     public static String getAdminPassword(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/private?roomId=";
-        return  requestStringData(link + id);
+        String link = "http://localhost:8080/api/v1/rooms/private?";
+        link = link + "roomId=" + id;
+        link = link + "&ip=" + getIp();
+        return  requestStringData(link);
     }
 
     /**
