@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 
 /**
@@ -20,6 +22,8 @@ import nl.tudelft.oopp.demo.entities.Question;
  */
 @Entity
 @Inheritance
+@Data
+@NoArgsConstructor
 public abstract class User {
     @Id
     @SequenceGenerator(
@@ -61,120 +65,6 @@ public abstract class User {
         this.questionsUpvoted = new HashSet<>();
     }
 
-    /**
-     * Instantiates a new User.
-     */
-    public User() {
-    }
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets username.
-     *
-     * @return the username
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Sets username.
-     *
-     * @param username the username
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * Gets ip.
-     *
-     * @return the ip
-     */
-    public String getIp() {
-        return ip;
-    }
-
-    /**
-     * Sets ip.
-     *
-     * @param ip the ip
-     */
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    /**
-     * Gets questions asked.
-     *
-     * @return the questions asked
-     */
-    public Set<Question> getQuestionsAsked() {
-        return questionsAsked;
-    }
-
-    /**
-     * Sets questions asked.
-     *
-     * @param questionsAsked the questions asked
-     */
-    public void setQuestionsAsked(Set<Question> questionsAsked) {
-        this.questionsAsked = questionsAsked;
-    }
-
-    /**
-     * Gets questions upvoted.
-     *
-     * @return the questions upvoted
-     */
-    public Set<Question> getQuestionsUpvoted() {
-        return questionsUpvoted;
-    }
-
-    /**
-     * Sets questions upvoted.
-     *
-     * @param questionsUpvoted the questions upvoted
-     */
-    public void setQuestionsUpvoted(Set<Question> questionsUpvoted) {
-        this.questionsUpvoted = questionsUpvoted;
-    }
-
-    /**
-     * Gets type.
-     *
-     * @return the type
-     */
-    public Type getType() {
-        return type;
-    }
-
-    /**
-     * Sets type.
-     *
-     * @param type the type
-     */
-    public void setType(Type type) {
-        this.type = type;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -194,18 +84,6 @@ public abstract class User {
     public int hashCode() {
         return Objects
             .hash(id, username, ip, type);
-    }
-
-    @Override
-    public String toString() {
-        return "User{"
-            + "id=" + id
-            + ", username='" + username + '\''
-            + ", ip='" + ip + '\''
-            + ", questionsAsked=" + questionsAsked
-            + ", questionsUpvoted=" + questionsUpvoted
-            + ", type=" + type
-            + '}';
     }
 
     /**

@@ -120,21 +120,6 @@ public class Question {
     }
 
     /**
-     * Type to string string.
-     *
-     * @return the string
-     */
-    public String statusToString() {
-        if (status == Question.QuestionStatus.OPEN) {
-            return "OPEN";
-        } else if (status == Question.QuestionStatus.ANSWERED) {
-            return "ANSWERED";
-        } else {
-            return "SPAM";
-        }
-    }
-
-    /**
      * Status to factor int.
      *
      * @return the int
