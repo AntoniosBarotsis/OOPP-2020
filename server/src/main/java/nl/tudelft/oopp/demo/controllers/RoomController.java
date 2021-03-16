@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
 
@@ -78,8 +78,8 @@ public class RoomController {
      * @return the newly created room
      */
     @PostMapping("schedule/{userId}/{title}")
-    public Room scheduleRoom(@PathVariable long userId, @PathVariable String title
-            , @RequestBody Date date) {
+    public Room scheduleRoom(@PathVariable long userId, @PathVariable String title,
+                             @RequestBody Date date) {
         return roomService.scheduleRoom(userId, title, date);
     }
 
