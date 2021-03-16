@@ -101,7 +101,7 @@ public class QuestionService {
         List<Question> questions = roomRepository
             .findAllQuestions(roomId)
             .stream()
-            .sorted(Comparator.comparingInt(Question::getScore).reversed())
+            .sorted(Comparator.comparingInt(Question::getUpvotes).reversed())
             .limit(amount)
             .collect(Collectors.toList());
 
