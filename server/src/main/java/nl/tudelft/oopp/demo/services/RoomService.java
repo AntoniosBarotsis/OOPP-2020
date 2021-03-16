@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
@@ -12,8 +11,6 @@ import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
-import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
-import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.springframework.stereotype.Service;
 

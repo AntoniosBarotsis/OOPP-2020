@@ -133,22 +133,6 @@ public class QuestionService {
      * Maps a collection of questions using a custom mapper.
      *
      * @param questions the questions
-     * @return string string
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String mapQuestion(Collection<Question> questions) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Question.class, new QuestionSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(questions);
-    }
-
-    /**
-     * Maps a collection of questions using a custom mapper.
-     *
-     * @param questions the questions
      * @return the string
      * @throws JsonProcessingException the json processing exception
      */

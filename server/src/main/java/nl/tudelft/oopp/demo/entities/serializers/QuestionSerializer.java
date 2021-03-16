@@ -34,8 +34,6 @@ public class QuestionSerializer extends StdSerializer<Question> {
     @Override
     public void serialize(Question value, JsonGenerator gen, SerializerProvider provider)
         throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-        String strDate = dateFormat.format(value.getTimeCreated());
 
         gen.writeStartObject();
         gen.writeNumberField("id", value.getId());

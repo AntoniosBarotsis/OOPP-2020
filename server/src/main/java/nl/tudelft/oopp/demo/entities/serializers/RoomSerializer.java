@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import nl.tudelft.oopp.demo.entities.Poll;
-import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 
 public class RoomSerializer extends StdSerializer<Room> {
