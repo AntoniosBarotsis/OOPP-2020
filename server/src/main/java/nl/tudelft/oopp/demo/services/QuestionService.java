@@ -1,11 +1,12 @@
 package nl.tudelft.oopp.demo.services;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -156,11 +157,7 @@ public class QuestionService {
      * @param score the new score value of question
      */
     public void setScore(long questionId, int score) {
-        if (score >= 0) {
-            questionRepository.setScore(questionId, score);
-        } else {
-            questionRepository.setScore(questionId, 0);
-        }
+        questionRepository.setScore(questionId, Math.max(score, 0));
     }
 
 

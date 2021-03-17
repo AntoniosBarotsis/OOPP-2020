@@ -100,11 +100,11 @@ public class OwnQuestionController {
      */
     @FXML
     private void checkAlreadyUpvoted(User user, Question question) {
-//        Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
-//        if (upvotedQuestions.contains(question)) {
-//            upvoted = true;
-//            upvoteButton.setStyle("-fx-text-fill: #808080");
-//        }
+        //        Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
+        //        if (upvotedQuestions.contains(question)) {
+        //            upvoted = true;
+        //            upvoteButton.setStyle("-fx-text-fill: #808080");
+        //        }
     }
 
 }
