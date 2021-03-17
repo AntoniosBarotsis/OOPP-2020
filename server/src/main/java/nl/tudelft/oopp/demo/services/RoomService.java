@@ -173,7 +173,9 @@ public class RoomService {
             id = roomRepository.getNormalRoomId(password);
             isElevated = false;
         }
-        if (id == null) return null; // TODO Throw error
+        if (id == null) {
+            return null; // TODO Throw error
+        }
         Room room = getOne(id);
         User.Type type = isElevated ? User.Type.MODERATOR : User.Type.STUDENT;
         User user = new User(username, ip, type);
