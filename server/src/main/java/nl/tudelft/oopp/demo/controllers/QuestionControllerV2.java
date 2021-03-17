@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * The type Question controller.
  */
-@RestController("Question")
-@RequestMapping("api/v1/questions")
+@RestController("QuestionV2")
+@RequestMapping("api/v2/questions")
 @AllArgsConstructor
-public class QuestionController {
+public class QuestionControllerV2 {
     private final QuestionService questionService;
     private final UserService userService;
 

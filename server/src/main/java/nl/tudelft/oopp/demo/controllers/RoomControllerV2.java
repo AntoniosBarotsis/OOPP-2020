@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * The type Room controller.
  */
-@RestController("Room")
-@RequestMapping("api/v1/rooms")
+@RestController("RoomV2")
+@RequestMapping("api/v2/rooms")
 @AllArgsConstructor
-public class RoomController {
+public class RoomControllerV2 {
     private final RoomService roomService;
 
     /**
