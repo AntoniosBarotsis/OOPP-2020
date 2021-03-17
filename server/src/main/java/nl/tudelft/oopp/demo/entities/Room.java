@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.CascadeType;
@@ -21,6 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 
 /**
@@ -29,6 +30,8 @@ import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
  */
 @Entity(name = "Room")
 @Table(name = "rooms")
+@Data
+@NoArgsConstructor
 public class Room {
     @Id
     @SequenceGenerator(
@@ -90,19 +93,15 @@ public class Room {
 
         this.startingDate = new Date();
         this.bannedIps = new HashSet<>();
-        this.moderators = new HashSet<>();
+        Set<ElevatedUser> ips = new HashSet<>();
+        ips.add(admin);
+        this.moderators = ips;
         this.questions = new HashSet<>();
         this.polls = new HashSet<>();
         this.tooFast = 0;
         this.tooSlow = 0;
 
         generatePassword();
-    }
-
-    /**
-     * Instantiates a new Room.
-     */
-    public Room() {
     }
 
     /**
@@ -120,78 +119,6 @@ public class Room {
     }
 
     /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets title.
-     *
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * Sets title.
-     *
-     * @param title the title
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * Gets starting date.
-     *
-     * @return the starting date
-     */
-    public Date getStartingDate() {
-        return startingDate;
-    }
-
-    /**
-     * Sets starting date.
-     *
-     * @param startingDate the starting date
-     */
-    public void setStartingDate(Date startingDate) {
-        this.startingDate = startingDate;
-    }
-
-    /**
-     * Is repeating lecture boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isRepeatingLecture() {
-        return repeatingLecture;
-    }
-
-    /**
-     * Sets repeating lecture.
-     *
-     * @param repeatingLecture the repeating lecture
-     */
-    public void setRepeatingLecture(boolean repeatingLecture) {
-        this.repeatingLecture = repeatingLecture;
-    }
-
-    /**
      * Gets admin id.
      *
      * @return the admin id
@@ -199,205 +126,6 @@ public class Room {
     @JsonProperty("AdminId")
     public long getAdmin() {
         return admin.getId();
-    }
-
-    /**
-     * Sets admin.
-     *
-     * @param admin the admin
-     */
-    public void setAdmin(ElevatedUser admin) {
-        this.admin = admin;
-    }
-
-    /**
-     * Gets moderators.
-     *
-     * @return the moderators
-     */
-    public Set<ElevatedUser> getModerators() {
-        return moderators;
-    }
-
-    /**
-     * Sets moderators.
-     *
-     * @param moderators the moderators
-     */
-    public void setModerators(Set<ElevatedUser> moderators) {
-        this.moderators = moderators;
-    }
-
-    /**
-     * Gets banned ips.
-     *
-     * @return the banned ips
-     */
-    public Set<String> getBannedIps() {
-        return bannedIps;
-    }
-
-    /**
-     * Sets banned ips.
-     *
-     * @param bannedIps the banned ips
-     */
-    public void setBannedIps(Set<String> bannedIps) {
-        this.bannedIps = bannedIps;
-    }
-
-    /**
-     * Gets questions.
-     *
-     * @return the questions
-     */
-    public Set<Question> getQuestions() {
-        return questions;
-    }
-
-    /**
-     * Sets questions.
-     *
-     * @param questions the questions
-     */
-    public void setQuestions(Set<Question> questions) {
-        this.questions = questions;
-    }
-
-    /**
-     * Gets questions.
-     *
-     * @return the questions
-     */
-    public Set<Poll> getPolls() {
-        return polls;
-    }
-
-    /**
-     * Sets questions.
-     *
-     * @param polls the questions
-     */
-    public void setPolls(Set<Poll> polls) {
-        this.polls = polls;
-    }
-
-    /**
-     * Gets too fast.
-     *
-     * @return the too fast
-     */
-    public int getTooFast() {
-        return tooFast;
-    }
-
-    /**
-     * Sets too fast.
-     *
-     * @param tooFast the too fast
-     */
-    public void setTooFast(int tooFast) {
-        this.tooFast = tooFast;
-    }
-
-    /**
-     * Gets too slow.
-     *
-     * @return the too slow
-     */
-    public int getTooSlow() {
-        return tooSlow;
-    }
-
-    /**
-     * Sets too slow.
-     *
-     * @param tooSlow the too slow
-     */
-    public void setTooSlow(int tooSlow) {
-        this.tooSlow = tooSlow;
-    }
-
-    /**
-     * Gets elevated password.
-     *
-     * @return the elevated password
-     */
-    public String getElevatedPassword() {
-        return elevatedPassword;
-    }
-
-    /**
-     * Sets elevated password.
-     *
-     * @param elevatedPassword the elevated password
-     */
-    public void setElevatedPassword(String elevatedPassword) {
-        this.elevatedPassword = elevatedPassword;
-    }
-
-    /**
-     * Gets normal password.
-     *
-     * @return the normal password
-     */
-    public String getNormalPassword() {
-        return normalPassword;
-    }
-
-    /**
-     * Sets normal password.
-     *
-     * @param normalPassword the normal password
-     */
-    public void setNormalPassword(String normalPassword) {
-        this.normalPassword = normalPassword;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Room)) {
-            return false;
-        }
-        Room room = (Room) o;
-        return id == room.id
-            && repeatingLecture == room.repeatingLecture
-            && tooFast == room.tooFast
-            && tooSlow == room.tooSlow
-            && Objects.equals(title, room.title)
-            && Objects.equals(startingDate, room.startingDate)
-            && Objects.equals(admin, room.admin)
-            && Objects.equals(moderators, room.moderators)
-            && Objects.equals(bannedIps, room.bannedIps)
-            && Objects.equals(elevatedPassword, room.elevatedPassword)
-            && Objects.equals(normalPassword, room.normalPassword);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects
-            .hash(id, title, startingDate, repeatingLecture, admin, moderators, bannedIps, tooFast,
-                tooSlow, elevatedPassword, normalPassword);
-    }
-
-    @Override
-    public String toString() {
-        return "Room{"
-            + "id=" + id
-            + ", title='" + title + '\''
-            + ", startingDate=" + startingDate
-            + ", repeatingLecture=" + repeatingLecture
-            + ", admin=" + admin
-            + ", moderators=" + moderators
-            + ", bannedIps=" + bannedIps
-            + ", tooFast=" + tooFast
-            + ", tooSlow=" + tooSlow
-            + ", elevatedPassword='" + elevatedPassword + '\''
-            + ", normalPassword='" + normalPassword + '\''
-            + '}';
     }
 }
 

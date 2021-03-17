@@ -1,11 +1,13 @@
 package nl.tudelft.oopp.demo.entities.users;
 
 import javax.persistence.Entity;
+import lombok.NoArgsConstructor;
 
 /**
  * The type Elevated user.
  */
 @Entity
+@NoArgsConstructor
 public class ElevatedUser extends User {
     /**
      * Instantiates a new Elevated user.
@@ -34,12 +36,5 @@ public class ElevatedUser extends User {
         super(username, ip);
 
         setType(Type.MODERATOR);
-    }
-
-    /**
-     * Instantiates a new Elevated user.
-     */
-    public ElevatedUser() {
-
     }
 }

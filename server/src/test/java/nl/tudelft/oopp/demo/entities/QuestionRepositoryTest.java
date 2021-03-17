@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.question;
+package nl.tudelft.oopp.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -44,9 +44,9 @@ class QuestionRepositoryTest {
         user1 = new Student("UserName 1", "IP 1");
         user2 = new Student("UserName 2", "IP 2");
 
-        question1 = new Question("This is the title 1", "This is the text 1", user1);
-        question2 = new Question("This is the title 2", "This is the text 2", user1);
-        question3 = new Question("This is the title 3", "This is the text 3", user2);
+        question1 = new Question("This is the text 1", user1);
+        question2 = new Question("This is the text 2", user1);
+        question3 = new Question("This is the text 3", user2);
 
 
         repositoryU.save(user1);
@@ -171,19 +171,4 @@ class QuestionRepositoryTest {
         repository.setAnswer(id1, "Some New Answer");
         assertEquals(repository.getAnswer(id1), "Some New Answer");
     }
-
-    @Test
-    void getTitle() {
-        assertEquals(question1.getTitle(), repository.getTitle(id1));
-    }
-
-    @Test
-    void setTitle() {
-        assertEquals(question1.getTitle(), repository.getTitle(id1));
-        repository.setTitle(id1, "Some New Title");
-        assertEquals(repository.getTitle(id1), "Some New Title");
-    }
-
-
-
 }

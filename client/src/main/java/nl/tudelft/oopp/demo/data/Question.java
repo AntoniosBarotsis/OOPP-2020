@@ -1,11 +1,14 @@
 package nl.tudelft.oopp.demo.data;
 
+import com.google.gson.annotations.JsonAdapter;
 import java.util.Date;
+import nl.tudelft.oopp.demo.data.deserializers.QuestionInstanceCreator;
 
+@JsonAdapter(QuestionInstanceCreator.class)
 public class Question {
     private long id;
     private String text;
-    private User author;
+    private Long authorId;
     private int upvotes;
     private int score;
     private Date timeCreated;
@@ -17,18 +20,18 @@ public class Question {
      * Initializes a new Question.
      * @param id id of question
      * @param text text of question
-     * @param author author of question
+     * @param authorId author of question
      * @param upvotes upvotes of question
      * @param score score of question
      * @param timeCreated time the question was created
      * @param status status of question
      * @param answer answer of question
      */
-    public Question(long id, String text, User author, int upvotes, int score,
+    public Question(long id, String text, Long authorId, int upvotes, int score,
                     Date timeCreated, QuestionStatus status, String answer) {
         this.id = id;
         this.text = text;
-        this.author = author;
+        this.authorId = authorId;
         this.upvotes = upvotes;
         this.score = score;
         this.timeCreated = timeCreated;
@@ -72,16 +75,16 @@ public class Question {
      * Getter for author of question.
      * @return author of question
      */
-    public User getAuthor() {
-        return author;
+    public Long getAuthor() {
+        return authorId;
     }
 
     /**
      * Setter for author of question.
-     * @param author author of question
+     * @param authorId author of question
      */
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setAuthor(Long authorId) {
+        this.authorId = authorId;
     }
 
     /**

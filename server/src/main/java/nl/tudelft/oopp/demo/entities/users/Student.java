@@ -1,11 +1,13 @@
 package nl.tudelft.oopp.demo.entities.users;
 
 import javax.persistence.Entity;
+import lombok.NoArgsConstructor;
 
 /**
  * The type Student.
  */
 @Entity
+@NoArgsConstructor
 public class Student extends User {
     /**
      * Instantiates a new Student.
@@ -17,12 +19,5 @@ public class Student extends User {
         super(username, ip);
 
         setType(Type.STUDENT);
-    }
-
-    /**
-     * Instantiates a new Student.
-     */
-    public Student() {
-
     }
 }

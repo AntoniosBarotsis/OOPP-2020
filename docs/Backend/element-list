@@ -2,6 +2,9 @@ nl.tudelft.oopp.demo
 nl.tudelft.oopp.demo.config
 nl.tudelft.oopp.demo.controllers
 nl.tudelft.oopp.demo.entities
+nl.tudelft.oopp.demo.entities.helpers
+nl.tudelft.oopp.demo.entities.serializers
 nl.tudelft.oopp.demo.entities.users
+nl.tudelft.oopp.demo.exceptions
 nl.tudelft.oopp.demo.repositories
 nl.tudelft.oopp.demo.services

@@ -1,7 +1,10 @@
 package nl.tudelft.oopp.demo.data;
 
+import com.google.gson.annotations.JsonAdapter;
 import java.util.Date;
+import nl.tudelft.oopp.demo.data.deserializers.RoomInstanceCreator;
 
+@JsonAdapter(RoomInstanceCreator.class)
 public class Room {
     private long id;
     private String title;
