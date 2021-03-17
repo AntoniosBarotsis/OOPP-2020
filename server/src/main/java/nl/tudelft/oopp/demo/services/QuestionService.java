@@ -1,17 +1,21 @@
 package nl.tudelft.oopp.demo.services;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
-import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
@@ -58,23 +62,37 @@ public class QuestionService {
     }
 
     /**
+     * Gets the first question entity with id questionId.
+     *
+     * @param questionId the question id
+     * @return a question entity with id questionId.
+     */
+    public Question getQuestion(long questionId) {
+        List<Long> listOfId = new ArrayList<>();
+        listOfId.add(questionId);
+        List<Question> listOfQuestion =  questionRepository.findAllById(listOfId);
+        return listOfQuestion.get(0);
+    }
+
+    /**
      * Gets the text of the question.
      *
      * @param questionId the question id
      * @return a String of the text of the question
      */
-    public String getQuestion(long questionId) {
-        return questionRepository.getQuestion(questionId);
+    public String getText(long questionId) {
+        return questionRepository.getText(questionId);
     }
 
     /**
-     * Sets the text of the question to be newQuestion.
+     * Sets the text of the question to be decoded newQuestion.
      *
      * @param questionId the question id
-     * @param newQuestion the value of text that will be set as question's text
+     * @param newQuestion the encoded value of text that will be set as question's text.
      */
-    public void editQuestion(long questionId, String newQuestion) {
-        questionRepository.editQuestion(questionId, newQuestion);
+    public void setText(long questionId, String newQuestion) throws UnsupportedEncodingException {
+        questionRepository.setText(questionId, URLDecoder
+                .decode(newQuestion, StandardCharsets.UTF_8.toString()));
     }
 
     /**
