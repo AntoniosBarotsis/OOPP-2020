@@ -27,6 +27,7 @@ public class RoomControllerV2 {
      * Find all list.
      *
      * @return the list
+     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public String findAll() throws JsonProcessingException {
@@ -38,6 +39,7 @@ public class RoomControllerV2 {
      *
      * @param id the id
      * @return the one
+     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "get", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getOne(@PathParam("id") long id) throws JsonProcessingException {
@@ -59,7 +61,9 @@ public class RoomControllerV2 {
      * Gets private password.
      *
      * @param roomId the room id
+     * @param ip     the ip
      * @return the private password
+     * @throws UnauthorizedException the unauthorized exception
      */
     @GetMapping("private")
     public String getPrivatePassword(@PathParam("roomId") long roomId,
@@ -73,6 +77,7 @@ public class RoomControllerV2 {
      *
      * @param roomId the room id
      * @return the set
+     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "questions", produces = MediaType.APPLICATION_JSON_VALUE)
     public String findAllQuestions(@PathParam("roomId") long roomId)
@@ -151,6 +156,7 @@ public class RoomControllerV2 {
      * @param roomId           the room id
      * @param ip               the ip
      * @param elevatedPassword the elevated password
+     * @throws UnauthorizedException the unauthorized exception
      */
     @PutMapping("ban")
     public void ban(@PathParam("roomId") long roomId,
@@ -166,6 +172,8 @@ public class RoomControllerV2 {
      * @param roomId           the room id
      * @param ip               the ip
      * @param elevatedPassword the elevated password
+     * @throws UnauthorizedException    the unauthorized exception
+     * @throws InvalidPasswordException the invalid password exception
      */
     @PutMapping("unban")
     public void unban(@PathParam("roomId") long roomId,

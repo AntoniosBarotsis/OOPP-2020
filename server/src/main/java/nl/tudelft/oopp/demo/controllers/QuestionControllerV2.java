@@ -30,7 +30,11 @@ public class QuestionControllerV2 {
     /**
      * Add question.
      *
-     * @param roomId the room id
+     * @param questionHelper the question helper
+     * @param roomId         the room id
+     * @param authorId       the author id
+     * @throws InvalidIdException    the invalid id exception
+     * @throws UnauthorizedException the unauthorized exception
      */
     @PostMapping("add")
     public void addQuestion(@RequestBody QuestionHelper questionHelper,

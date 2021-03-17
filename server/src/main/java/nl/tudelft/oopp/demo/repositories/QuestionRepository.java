@@ -115,7 +115,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query(value = "SELECT q.upvotes FROM Question q Where q.id = ?1")
     int getUpvotes(long questionId);
 
-
     /**
      * Gets the score.
      *
@@ -225,5 +224,4 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Transactional
     @Query(value = "UPDATE Question q SET q.answer = ?2 WHERE q.id = ?1")
     void setAnswer(long questionId, String answer);
-
 }

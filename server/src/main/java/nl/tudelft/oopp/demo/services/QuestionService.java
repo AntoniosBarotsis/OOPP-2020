@@ -36,6 +36,8 @@ public class QuestionService {
      *
      * @param question the question
      * @param roomId   the room id
+     * @throws InvalidIdException    the invalid id exception
+     * @throws UnauthorizedException the unauthorized exception
      */
     public void addQuestion(Question question, long roomId)
         throws InvalidIdException, UnauthorizedException {
@@ -356,9 +358,9 @@ public class QuestionService {
 
     /**
      * Returns true if the user is banned in the given room.
-     * 
-     * @param question The question
-     * @param roomId The room id
+     * @param question the question
+     * @param roomId the room id
+     * @return boolean
      */
     private boolean userIsBanned(Question question, long roomId) {
         return roomRepository.getOne(roomId)

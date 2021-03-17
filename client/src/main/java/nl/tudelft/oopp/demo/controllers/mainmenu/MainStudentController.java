@@ -1,9 +1,5 @@
 package nl.tudelft.oopp.demo.controllers.mainmenu;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
 
@@ -187,15 +183,8 @@ public class MainStudentController {
      */
     @FXML
     public void buttonSendClicked() {
-        String ip = "Error fetching IP!";
-
-        try {
-            // Get the public IP address of the user.
-            ip = new BufferedReader(new InputStreamReader(
-                    new URL("http://checkip.amazonaws.com").openStream())).readLine();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+        // Fetch the ip.
+        String ip = MainStudentCommunication.getIp();
 
         // Create a helper student object.
         StudentHelper studentHelper = new StudentHelper(this.user.getUsername(),
