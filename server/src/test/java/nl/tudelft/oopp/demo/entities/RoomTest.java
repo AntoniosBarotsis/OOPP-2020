@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.repositories.PollRepository;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
@@ -37,8 +38,8 @@ class RoomTest {
     @Autowired
     private QuestionRepository questionRepository;
 
-    private User u1;
-    private User u2;
+    private ElevatedUser u1;
+    private ElevatedUser u2;
     private Poll p1;
     private Question q1;
     private Question q2;
@@ -46,8 +47,8 @@ class RoomTest {
 
     @BeforeEach
     void setUp() {
-        u1 = new User("Admin", "ip", User.Type.ADMIN);
-        u2 = new User("Mod", "ip", User.Type.MODERATOR);
+        u1 = new ElevatedUser("Admin", "ip", true);
+        u2 = new ElevatedUser("Mod", "ip");
         //User u22 = new ElevatedUser("Mod2", "ip", false);
         //User u3 = new Student("Student", "ip");
         //userRepository.saveAll(List.of(u1, u2, u3, u22));
@@ -62,7 +63,7 @@ class RoomTest {
         //questionRepository.saveAll(List.of(q1, q2));
         questionRepository.saveAll(List.of(q2));
 
-        r1 = new Room("Room Title", u1);
+        r1 = new Room("Room Title", false, u1);
 
         r1.setQuestions(Stream.of(q2)
             .collect(Collectors.toSet())
@@ -117,6 +118,17 @@ class RoomTest {
     }
 
     @Test
+    void isRepeatingLecture() {
+        assertThat(r1.isRepeatingLecture()).isFalse();
+    }
+
+    @Test
+    void setRepeatingLecture() {
+        r1.setRepeatingLecture(true);
+        assertThat(r1.isRepeatingLecture()).isTrue();
+    }
+
+    @Test
     void getAdmin() {
         assertThat(r1.getAdmin()).isEqualTo(u1.getId());
     }
@@ -134,7 +146,7 @@ class RoomTest {
 
     @Test
     void setModerators() {
-        Set<User> set = new HashSet<>();
+        Set<ElevatedUser> set = new HashSet<>();
         set.add(u2);
 
         r1.setModerators(set);
@@ -243,7 +255,7 @@ class RoomTest {
 
     @Test
     void testEquals() {
-        Room r2 = new Room("Room Title", u1);
+        Room r2 = new Room("Room Title", false, u1);
         assertThat(r1).isNotEqualTo(r2);
 
         r2.setQuestions(Stream.of(q2)
@@ -273,7 +285,7 @@ class RoomTest {
 
     @Test
     void testHashCode() {
-        Room r2 = new Room("Room Title", u1);
+        Room r2 = new Room("Room Title", false, u1);
 
         assertThat(r1.hashCode()).isEqualTo(r1.hashCode());
         assertThat(r1.hashCode()).isNotEqualTo(r2.hashCode());
@@ -282,7 +294,7 @@ class RoomTest {
     @Test
     void testToString() {
         String str = "Room{id=1, title='Room Title', startingDate=" + r1.getStartingDate() + ", "
-            + "admin=User{id=1, username='Admin', ip='ip', "
+            + "repeatingLecture=false, admin=User{id=1, username='Admin', ip='ip', "
             + "questionsAsked=[], questionsUpvoted=[], type=ADMIN}, moderators=[], bannedIps=[], "
             + "tooFast=0, tooSlow=0, elevatedPassword='"
             + "" + r1.getElevatedPassword() + "', normalPassword='"

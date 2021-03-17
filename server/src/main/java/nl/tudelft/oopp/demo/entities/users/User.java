@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.entities;
+package nl.tudelft.oopp.demo.entities.users;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -14,13 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import nl.tudelft.oopp.demo.entities.Question;
 
 /**
  * The type User.
  */
 @Entity
 @Inheritance
-public class User {
+public abstract class User {
     @Id
     @SequenceGenerator(
         name = "user_sequence",
@@ -50,7 +51,7 @@ public class User {
     /**
      * The enum Type.
      */
-    public enum Type {
+    protected enum Type {
         /**
          * Student type.
          */
@@ -71,10 +72,9 @@ public class User {
      * @param username the username
      * @param ip       the ip
      */
-    public User(String username, String ip, Type type) {
+    public User(String username, String ip) {
         this.username = username;
         this.ip = ip;
-        this.type = type;
 
         this.questionsAsked = new HashSet<>();
         this.questionsUpvoted = new HashSet<>();
