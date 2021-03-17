@@ -1,11 +1,14 @@
 package nl.tudelft.oopp.demo.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.User;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +17,21 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RoomService {
+
     @Autowired
     private final RoomRepository roomRepository;
+
+    @Autowired
+    private final UserRepository userRepository;
 
     /**
      * Instantiates a new Room service.
      *
      * @param roomRepository the room repository
      */
-    public RoomService(RoomRepository roomRepository) {
+    public RoomService(RoomRepository roomRepository, UserRepository userRepository) {
         this.roomRepository = roomRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -38,11 +46,39 @@ public class RoomService {
     /**
      * Gets the specified room.
      *
-     * @param id the id
-     * @return the one
+     * @param id the room id
+     * @return the room
      */
     public Room getOne(long id) {
         return roomRepository.getOne(id);
+    }
+
+    /**
+     * Create a new room.
+     *
+     * @param userId the id of the admin of the room
+     * @param title the title of the room
+     * @return the newly created room
+     */
+    public Room createRoom(long userId, String title) {
+        User user = userRepository.getOne(userId);
+        Room room = new Room(title, user);
+        roomRepository.save(room);
+        return room;
+    }
+
+    /**
+     * Schedule a new room.
+     *
+     * @param userId the id of the admin of the room
+     * @param title the title of the room
+     * @param date the starting date/time for the room
+     * @return the newly created room
+     */
+    public Room scheduleRoom(long userId, String title, Date date) {
+        Room room = createRoom(userId, title);
+        room.setStartingDate(date);
+        return room;
     }
 
     /**
@@ -62,7 +98,7 @@ public class RoomService {
      * @return the private password
      */
     public String getPrivatePassword(long roomId) {
-        // Later perform some sort of check here to see if the user has permission
+        // TODO Later perform some sort of check here to see if the user has permission
         return roomRepository.getPrivatePassword(roomId);
     }
 
@@ -70,12 +106,18 @@ public class RoomService {
      * Returns a set of all the  questions of a room.
      *
      * @param roomId the room id
-     * @return the set
+     * @return the set of questions
      */
     public Set<Question> findAllQuestions(long roomId) {
         return roomRepository.findAllQuestions(roomId);
     }
 
+    /**
+     * Returns a set of all the polls of a room.
+     *
+     * @param roomId the room id
+     * @return the set of polls
+     */
     public Set<Poll> findAllPolls(long roomId) {
         return roomRepository.findAllPolls(roomId);
     }
@@ -114,5 +156,30 @@ public class RoomService {
      */
     public void decrementTooSlow(long roomId) {
         roomRepository.decrementTooSlow(roomId);
+    }
+
+    /**
+     * Create a new user, who joins a room.
+     *
+     * @param password the room's password, either normal or elevated
+     * @param username the user's username
+     * @param ip the user's ip
+     * @return the room the user wants to join
+     */
+    public Room join(String password, String username, String ip) {
+        boolean isElevated = true;
+        Long id = roomRepository.getElevatedRoomId(password);
+        if (id == null) {
+            id = roomRepository.getNormalRoomId(password);
+            isElevated = false;
+        }
+        if (id == null) {
+            return null; // TODO Throw error
+        }
+        Room room = getOne(id);
+        User.Type type = isElevated ? User.Type.MODERATOR : User.Type.STUDENT;
+        User user = new User(username, ip, type);
+        userRepository.save(user);
+        return room;
     }
 }
