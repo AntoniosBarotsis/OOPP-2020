@@ -254,26 +254,6 @@ public class QuestionService {
     }
 
 
-    /**
-     * Gets the title of question.
-     *
-     * @param questionId the question id
-     * @return the title of question
-     */
-    public String getTitle(long questionId) {
-        return questionRepository.getTitle(questionId);
-    }
-
-
-    /**
-     * Sets the title of question as title.
-     *
-     * @param questionId the question id
-     * @param title the new title of question
-     */
-    public void setTitle(long questionId, String title) {
-        questionRepository.setTitle(questionId, title);
-    }
 
 
 

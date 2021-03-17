@@ -171,18 +171,7 @@ class QuestionRepositoryTest {
         repository.setAnswer(id1, "Some New Answer");
         assertEquals(repository.getAnswer(id1), "Some New Answer");
     }
-
-    @Test
-    void getTitle() {
-        assertEquals(question1.getTitle(), repository.getTitle(id1));
-    }
-
-    @Test
-    void setTitle() {
-        assertEquals(question1.getTitle(), repository.getTitle(id1));
-        repository.setTitle(id1, "Some New Title");
-        assertEquals(repository.getTitle(id1), "Some New Title");
-    }
+    
 
 
 

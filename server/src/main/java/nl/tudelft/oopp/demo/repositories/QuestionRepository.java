@@ -198,26 +198,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     void setAnswer(long questionId, String answer);
 
 
-    /**
-     * Gets the title of question.
-     *
-     * @param questionId the question id
-     * @return the title of question
-     */
-    @Transactional
-    @Query(value = "SELECT q.title FROM Question q WHERE q.id=?1")
-    String getTitle(long questionId);
 
-
-    /**
-     * Sets the title of question as title.
-     *
-     * @param questionId the question id
-     * @param title the new title of question
-     */
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE Question q SET q.title = ?2 WHERE q.id=?1")
-    void setTitle(long questionId, String title);
 
 }

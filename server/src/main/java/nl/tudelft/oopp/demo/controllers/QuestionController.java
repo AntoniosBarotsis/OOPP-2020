@@ -266,21 +266,6 @@ public class QuestionController {
      * @param questionId the question id
      * @return the title of question
      */
-    @GetMapping("getTitle/{questionId}")
-    public String getTitle(@PathVariable long questionId) {
-        return questionService.getTitle(questionId);
-    }
 
-
-    /**
-     * Sets the title of question as title.
-     *
-     * @param questionId the question id
-     * @param title the new title of question
-     */
-    @GetMapping("setTitle/{questionId}/{title}")
-    public void setTitle(@PathVariable long questionId, @PathVariable String title) {
-        questionService.setTitle(questionId, title);
-    }
 
 }
