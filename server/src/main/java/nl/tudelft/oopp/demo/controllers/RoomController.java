@@ -64,7 +64,7 @@ public class RoomController {
      * @param title the title of the room
      * @return the newly created room
      */
-    @GetMapping("create/{userId}/{title}")
+    @PostMapping("create/{userId}/{title}")
     public Room createRoom(@PathVariable long userId, @PathVariable String title) {
         return roomService.createRoom(userId, title);
     }
