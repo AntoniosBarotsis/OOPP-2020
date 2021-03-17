@@ -5,7 +5,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -22,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 
 /**
  * The Room class. Note that the set of banned IPs is not exposed to the client by default
@@ -32,13 +32,13 @@ import javax.persistence.Table;
 public class Room {
     @Id
     @SequenceGenerator(
-            name = "room_sequence",
-            sequenceName = "room_sequence",
-            allocationSize = 1
+        name = "room_sequence",
+        sequenceName = "room_sequence",
+        allocationSize = 1
     )
     @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "room_sequence"
+        strategy = SEQUENCE,
+        generator = "room_sequence"
     )
     @Column(name = "id", updatable = false)
     private long id;
@@ -46,12 +46,14 @@ public class Room {
     private String title;
     @Column(name = "starting_date")
     private Date startingDate;
+    @Column(name = "repeating_lecture")
+    private boolean repeatingLecture;
     @OneToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "admin_id")
-    private User admin;
+    private ElevatedUser admin;
     @OneToMany
     @Column(name = "moderators")
-    private Set<User> moderators;
+    private Set<ElevatedUser> moderators;
     @JsonIgnore
     @ElementCollection
     @Column(name = "banned_ips")
@@ -77,11 +79,13 @@ public class Room {
      * `bannedIps`, `moderators`, `questions` and `polls` get instantiated as empty HashSets,
      * `tooFast` and `tooSlow` get initialized to 0. Lastly, passwords are generated.
      *
-     * @param title the title
-     * @param admin the admin id
+     * @param title            the title
+     * @param repeatingLecture the repeating lecture
+     * @param admin            the admin id
      */
-    public Room(String title, User admin) {
+    public Room(String title, boolean repeatingLecture, ElevatedUser admin) {
         this.title = title;
+        this.repeatingLecture = repeatingLecture;
         this.admin = admin;
 
         this.startingDate = new Date();
@@ -169,6 +173,23 @@ public class Room {
         this.startingDate = startingDate;
     }
 
+    /**
+     * Is repeating lecture boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isRepeatingLecture() {
+        return repeatingLecture;
+    }
+
+    /**
+     * Sets repeating lecture.
+     *
+     * @param repeatingLecture the repeating lecture
+     */
+    public void setRepeatingLecture(boolean repeatingLecture) {
+        this.repeatingLecture = repeatingLecture;
+    }
 
     /**
      * Gets admin id.
@@ -185,7 +206,7 @@ public class Room {
      *
      * @param admin the admin
      */
-    public void setAdmin(User admin) {
+    public void setAdmin(ElevatedUser admin) {
         this.admin = admin;
     }
 
@@ -194,7 +215,7 @@ public class Room {
      *
      * @return the moderators
      */
-    public Set<User> getModerators() {
+    public Set<ElevatedUser> getModerators() {
         return moderators;
     }
 
@@ -203,7 +224,7 @@ public class Room {
      *
      * @param moderators the moderators
      */
-    public void setModerators(Set<User> moderators) {
+    public void setModerators(Set<ElevatedUser> moderators) {
         this.moderators = moderators;
     }
 
@@ -343,38 +364,40 @@ public class Room {
         }
         Room room = (Room) o;
         return id == room.id
-                && tooFast == room.tooFast
-                && tooSlow == room.tooSlow
-                && Objects.equals(title, room.title)
-                && Objects.equals(startingDate, room.startingDate)
-                && Objects.equals(admin, room.admin)
-                && Objects.equals(moderators, room.moderators)
-                && Objects.equals(bannedIps, room.bannedIps)
-                && Objects.equals(elevatedPassword, room.elevatedPassword)
-                && Objects.equals(normalPassword, room.normalPassword);
+            && repeatingLecture == room.repeatingLecture
+            && tooFast == room.tooFast
+            && tooSlow == room.tooSlow
+            && Objects.equals(title, room.title)
+            && Objects.equals(startingDate, room.startingDate)
+            && Objects.equals(admin, room.admin)
+            && Objects.equals(moderators, room.moderators)
+            && Objects.equals(bannedIps, room.bannedIps)
+            && Objects.equals(elevatedPassword, room.elevatedPassword)
+            && Objects.equals(normalPassword, room.normalPassword);
     }
 
     @Override
     public int hashCode() {
         return Objects
-                .hash(id, title, startingDate, admin, moderators, bannedIps, tooFast,
-                        tooSlow, elevatedPassword, normalPassword);
+            .hash(id, title, startingDate, repeatingLecture, admin, moderators, bannedIps, tooFast,
+                tooSlow, elevatedPassword, normalPassword);
     }
 
     @Override
     public String toString() {
         return "Room{"
-                + "id=" + id
-                + ", title='" + title + '\''
-                + ", startingDate=" + startingDate
-                + ", admin=" + admin
-                + ", moderators=" + moderators
-                + ", bannedIps=" + bannedIps
-                + ", tooFast=" + tooFast
-                + ", tooSlow=" + tooSlow
-                + ", elevatedPassword='" + elevatedPassword + '\''
-                + ", normalPassword='" + normalPassword + '\''
-                + '}';
+            + "id=" + id
+            + ", title='" + title + '\''
+            + ", startingDate=" + startingDate
+            + ", repeatingLecture=" + repeatingLecture
+            + ", admin=" + admin
+            + ", moderators=" + moderators
+            + ", bannedIps=" + bannedIps
+            + ", tooFast=" + tooFast
+            + ", tooSlow=" + tooSlow
+            + ", elevatedPassword='" + elevatedPassword + '\''
+            + ", normalPassword='" + normalPassword + '\''
+            + '}';
     }
 }
 

@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import nl.tudelft.oopp.demo.entities.users.User;
 
 /**
  * The Question class.
