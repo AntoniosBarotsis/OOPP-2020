@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.communication.questionview;
 
-import com.google.gson.Gson;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -14,7 +12,6 @@ public class QuestionViewCommunication {
 
     private static HttpClient client = HttpClient.newBuilder().build();
 
-    private static Gson gson = new Gson();
 
     /**
      * Sets the question with questionId id to be marked as spam.
@@ -55,7 +52,7 @@ public class QuestionViewCommunication {
      */
     public static void userMarkAsAnswer(long id) {
         HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v1/questions/user/setAnswered/" + id)).build();
+                .uri(URI.create("http://localhost:8080/api/v1/questions/studentSetAnswered/" + id)).build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
@@ -70,7 +67,7 @@ public class QuestionViewCommunication {
      */
     public static void modMarkAsAnswer(long id) {
         HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v1/questions/user/setAnswered/" + id)).build();
+                .uri(URI.create("http://localhost:8080/api/v1/questions/setAnswered/" + id)).build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {

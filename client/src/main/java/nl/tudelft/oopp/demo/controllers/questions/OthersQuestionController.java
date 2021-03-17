@@ -31,7 +31,7 @@ public class OthersQuestionController {
     private Button upvoteButton;
 
     @FXML
-    private TextArea score;
+    private TextArea upvoteNumber;
 
     /**
      * Takes the relevant information from the question,
@@ -47,7 +47,7 @@ public class OthersQuestionController {
         this.question = question;
         date.setText(question.getTimeCreated().toString());
         questionText.setText(question.getText());
-        score.setText(Integer.toString(question.getScore()));
+        upvoteNumber.setText(Integer.toString(question.getUpvotes()));
 
         checkAlreadyUpvoted(user, question);
     }
@@ -62,12 +62,12 @@ public class OthersQuestionController {
 
         if (upvoted) {
             QuestionViewCommunication.downvote(question.getId());
-            score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
+            upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) - 1));
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
             upvoted = false;
         } else {
             QuestionViewCommunication.upvote(question.getId());
-            score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));
+            upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) + 1));
             upvoteButton.setStyle("-fx-text-fill: #808080");
             upvoted = true;
         }

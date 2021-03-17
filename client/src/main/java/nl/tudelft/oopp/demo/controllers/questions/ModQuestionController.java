@@ -36,7 +36,7 @@ public class ModQuestionController {
     private Button upvoteButton;
 
     @FXML
-    private TextArea score;
+    private TextArea upvoteNumber;
 
     /**
      * Loads the data of question user and room into controller as well as sets the date,
@@ -53,7 +53,7 @@ public class ModQuestionController {
         this.question = question;
         date.setText(question.getTimeCreated().toString());
         questionText.setText(question.getText());
-        score.setText(Integer.toString(question.getScore()));
+        upvoteNumber.setText(Integer.toString(question.getUpvotes()));
 
         checkAlreadyUpvoted(user, question);
     }
@@ -68,14 +68,14 @@ public class ModQuestionController {
         if (upvoted) {
             QuestionViewCommunication.downvote(question.getId());
 
-            score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
+            upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) - 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
 
         } else {
             QuestionViewCommunication.upvote(question.getId());
 
-            score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));
+            upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) + 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #808080");
         }
@@ -94,7 +94,7 @@ public class ModQuestionController {
         Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
         if (upvotedQuestions.contains(question)) {
             upvoted = true;
-            upvoteButton.setStyle("-fx-text-fill: #00A6D6");
+            upvoteButton.setStyle("-fx-text-fill: #808080");
         }
     }
 

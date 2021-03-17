@@ -11,6 +11,8 @@ import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
+import java.util.Set;
+
 
 public class OwnQuestionController {
 
@@ -29,7 +31,7 @@ public class OwnQuestionController {
     private Button upvoteButton;
 
     @FXML
-    private TextArea score;
+    private TextArea upvoteNumber;
 
     /**
      * Takes the relevant information from the question,
@@ -45,7 +47,9 @@ public class OwnQuestionController {
         this.question = question;
         date.setText(question.getTimeCreated().toString());
         questionText.setText(question.getText());
-        score.setText(Integer.toString(question.getScore()));
+        upvoteNumber.setText(Integer.toString(question.getUpvotes()));
+
+        checkAlreadyUpvoted(user, question);
     }
 
     /**
@@ -58,13 +62,13 @@ public class OwnQuestionController {
         if (upvoted) {
             QuestionViewCommunication.upvote(question.getId());
 
-            score.setText(String.valueOf(Integer.parseInt(score.getText()) - 1));
+            upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) - 1));
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
             upvoted = true;
         } else {
             QuestionViewCommunication.downvote(question.getId());
 
-            score.setText(String.valueOf(Integer.parseInt(score.getText()) + 1));
+            upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) + 1));
             upvoteButton.setStyle("-fx-text-fill: #808080");
             upvoted = false;
         }
@@ -84,5 +88,23 @@ public class OwnQuestionController {
         QuestionViewCommunication.userMarkAsAnswer(question.getId());
 
     }
+
+
+    /**
+     * Checks if the user already upvoted the question, and if the case the upvote
+     * button turns grey and upvoted is true.
+     *
+     * @param user the User entity.
+     * @param question the Question entity.
+     */
+    @FXML
+    private void checkAlreadyUpvoted(User user, Question question) {
+        Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
+        if (upvotedQuestions.contains(question)) {
+            upvoted = true;
+            upvoteButton.setStyle("-fx-text-fill: #808080");
+        }
+    }
+
 }
 

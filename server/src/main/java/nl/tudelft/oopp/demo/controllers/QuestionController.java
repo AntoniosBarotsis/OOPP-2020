@@ -194,7 +194,7 @@ public class QuestionController {
      *
      * @param questionId the question id
      */
-    @GetMapping("user/setAnswered/{questionId}")
+    @GetMapping("studentSetAnswered/{questionId}")
     public void userSetAnswered(@PathVariable long questionId) {
         questionService.userSetAnswered(questionId);
     }
@@ -206,7 +206,7 @@ public class QuestionController {
      * @param maxScore the max score for checking weather to mark as answered
      * @param questionId the question id
      */
-    @GetMapping("user/setAnswered/{questionId}/{maxScore}")
+    @GetMapping("studentSetAnswered/{questionId}/{maxScore}")
     public void userSetAnswered(@PathVariable long questionId, @PathVariable int maxScore) {
         questionService.userSetAnswered(questionId, maxScore);
     }
