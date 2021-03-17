@@ -4,6 +4,7 @@ import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 
 public class MainStudentCommunication extends MainMenuCommunication {
     private static final String url = "http://localhost:8080/api/v2/";
+
     /**
      * Increases tooFast counter for room.
      * @param id id of room
