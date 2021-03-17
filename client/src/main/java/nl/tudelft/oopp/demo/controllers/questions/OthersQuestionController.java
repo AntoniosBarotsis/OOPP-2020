@@ -85,7 +85,7 @@ public class OthersQuestionController {
         Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
         if (upvotedQuestions.contains(question)) {
             upvoted = true;
-            upvoteButton.setStyle("-fx-text-fill: #00A6D6");
+            upvoteButton.setStyle("-fx-text-fill: #808080");
         }
     }
 }
