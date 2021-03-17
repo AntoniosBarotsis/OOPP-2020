@@ -259,13 +259,4 @@ public class QuestionController {
 
 
 
-
-    /**
-     * Gets the title of question.
-     *
-     * @param questionId the question id
-     * @return the title of question
-     */
-
-
 }
