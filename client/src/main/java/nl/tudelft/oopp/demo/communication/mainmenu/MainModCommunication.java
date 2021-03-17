@@ -1,13 +1,15 @@
 package nl.tudelft.oopp.demo.communication.mainmenu;
 
 public class MainModCommunication extends MainMenuCommunication {
+    private static final String url = "http://localhost:8080/api/v2/";
+
     /**
      * Request student code for a room.
      * @param id id of a room
      * @return student code for a chosen room
      */
     public static String getStudentPassword(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/public?roomId=";
+        String link = url + "rooms/public?roomId=";
         return  requestStringData(link + id);
     }
 
@@ -17,7 +19,7 @@ public class MainModCommunication extends MainMenuCommunication {
      * @return moderator code for a chosen room
      */
     public static String getAdminPassword(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/private?roomId=";
+        String link = url + "rooms/private?roomId=";
         return  requestStringData(link + id);
     }
 
@@ -27,7 +29,7 @@ public class MainModCommunication extends MainMenuCommunication {
      * @return all questions in json format
      */
     public static String getAllQuestions(long id) {
-        String link = "http://localhost:8080/api/v1/questions/exportAll?roomId=";
+        String link = url + "questions/exportAll?roomId=";
         return  requestStringData(link + id);
     }
 
@@ -37,7 +39,7 @@ public class MainModCommunication extends MainMenuCommunication {
      * @return top 20 questions in json format
      */
     public static String getTopQuestions(long id) {
-        String link = "http://localhost:8080/api/v1/questions/exportTop?amount=20&roomId=";
+        String link = url + "questions/exportTop?amount=20&roomId=";
         return  requestStringData(link + id);
     }
 
@@ -47,7 +49,7 @@ public class MainModCommunication extends MainMenuCommunication {
      * @return answered questions in json format
      */
     public static String getAnsweredQuestions(long id) {
-        String link = "http://localhost:8080/api/v1/questions/exportAnswered?roomId=";
+        String link = url + "questions/exportAnswered?roomId=";
         return  requestStringData(link + id);
     }
 

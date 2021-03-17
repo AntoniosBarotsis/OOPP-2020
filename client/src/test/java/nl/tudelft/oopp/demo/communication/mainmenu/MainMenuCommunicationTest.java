@@ -8,6 +8,7 @@ import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 import org.junit.jupiter.api.Test;
 
 class MainMenuCommunicationTest {
+    private final String url = "http://localhost:8080/api/v2/";
 
     @Test
     void getQuestions() {
@@ -21,19 +22,19 @@ class MainMenuCommunicationTest {
 
     @Test
     void requestStringData() {
-        String link = "http://localhost:8080/api/v1/rooms?id=1";
+        String link = url + "rooms?id=1";
         assertNotNull(MainMenuCommunication.requestStringData(link));
     }
 
     @Test
     void sendEmptyPutRequest() {
-        String link = "http://localhost:8080/api/v1/rooms/tooFast/increment?roomId=1";
+        String link = url + "rooms/tooFast/increment?roomId=1";
         assertDoesNotThrow(() -> MainMenuCommunication.sendEmptyPutRequest(link));
     }
 
     @Test
     void sendPostRequest() {
-        String link = "http://localhost:8080/api/v1/questions/add?roomId=1&authorId=3";
+        String link = url + "questions/add?roomId=1&authorId=3";
         QuestionHelper question = new QuestionHelper("test", new StudentHelper("Student", "ip"));
         assertDoesNotThrow(() -> MainMenuCommunication.sendPostRequest(link, question));
     }

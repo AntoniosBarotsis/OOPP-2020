@@ -19,13 +19,15 @@ public abstract class MainMenuCommunication {
 
     private static Gson gson = new Gson();
 
+    private static final String url = "http://localhost:8080/api/v2/";
+
     /**
      * Request all questions in a room.
      * @param id id of a room
      * @return list of questions in a room
      */
     public static ArrayList<Question> getQuestions(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/questions?roomId=";
+        String link = url + "rooms/questions?roomId=";
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(link + id)).build();
 
         HttpResponse<String> response = null;
@@ -47,7 +49,7 @@ public abstract class MainMenuCommunication {
      * @return room information
      */
     public static Room getRoom(long id) {
-        String link = "http://localhost:8080/api/v1/rooms/get?id=";
+        String link = url + "rooms/get?id=";
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(link + id)).build();
 
         HttpResponse<String> response = null;
