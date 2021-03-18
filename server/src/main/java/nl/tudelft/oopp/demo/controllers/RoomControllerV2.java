@@ -136,6 +136,26 @@ public class RoomControllerV2 {
         roomService.decrementTooSlow(roomId);
     }
 
+    /**
+     * Increment normal speed.
+     *
+     * @param roomId the room id
+     */
+    @PutMapping("/normalSpeed/increment")
+    public void incrementNormalSpeed(@PathParam("roomId") long roomId) {
+        roomService.incrementNormalSpeed(roomId);
+    }
+
+    /**
+     * Decrement normal speed.
+     *
+     * @param roomId the room id
+     */
+    @PutMapping("/normalSpeed/decrement")
+    public void decrementNormalSpeed(@PathParam("roomId") long roomId) {
+        roomService.decrementNormalSpeed(roomId);
+    }
+
 
     /**
      * Returns true if the user has been banned in the given room.
