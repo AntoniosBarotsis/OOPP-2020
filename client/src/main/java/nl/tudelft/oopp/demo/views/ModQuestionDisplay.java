@@ -19,23 +19,24 @@ public class ModQuestionDisplay extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        //        FXMLLoader loader = new FXMLLoader();
-        //        URL xmlUrl = getClass().getResource("/questionView/modQuestionView.fxml");
-        //        loader.setLocation(xmlUrl);
-        //        Parent root = loader.load();
-        //        ModQuestionController controller = loader.getController();
-        //        Question.QuestionStatus open = Question.QuestionStatus.OPEN;
-        //        Date date = new Date();
-        //        Room room = new Room(1, "room", new Date(), false, 0, 0);
-        //        User user = new User(1, User.UserType.STUDENT, "STUDENT", new HashSet<>(),
-        //            new HashSet<>());
-        //        Question question = new Question(1, "this is a question 1000",
-        //                user,  0, 0, date, open,"");
-        //
-        //        controller.loadData(question, user, room);
-        //
-        //        primaryStage.setScene(new Scene(root));
-        //        primaryStage.show();
+                FXMLLoader loader = new FXMLLoader();
+                URL xmlUrl = getClass().getResource("/questionView/modQuestionView.fxml");
+                loader.setLocation(xmlUrl);
+                Parent root = loader.load();
+                ModQuestionController controller = loader.getController();
+                Question.QuestionStatus open = Question.QuestionStatus.OPEN;
+                Date date = new Date();
+                Room room = new Room(1, "room", new Date(), false, 0, 0);
+                User user = new User(1, "DanielPuente", null, new HashSet<>(),
+                    User.UserType.MODERATOR);
+                long id = 1;
+                Question question = new Question(1, "this is a question 1000",
+                        id,  0, 0, date, open,"");
+
+                controller.loadData(question, user, room);
+
+                primaryStage.setScene(new Scene(root));
+               primaryStage.show();
     }
 
     public static void main(String[] args) {

@@ -27,6 +27,6 @@
             <Label fx:id="upvoteNumber" alignment="CENTER" prefHeight="43.0" prefWidth="87.0" textAlignment="CENTER" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Line endX="620.0" endY="1.100006103515625" layoutX="100.0" layoutY="115.0" startX="-100.0" stroke="#00a6d6" strokeWidth="5.0" />
+      <Line endX="760.0" endY="-1.52587890625E-5" layoutX="100.0" layoutY="115.0" startX="-100.0" stroke="#00a6d6" strokeWidth="5.0" />
    </children>
 </AnchorPane>
