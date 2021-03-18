@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,10 +14,14 @@ import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
+import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
+import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,7 +30,15 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class RoomService {
+
+    @Autowired
     private final RoomRepository roomRepository;
+
+    @Autowired
+    private final UserRepository userRepository;
+
+    @Autowired
+    private final UserService userService;
 
     /**
      * Returns a list of all rooms.
@@ -244,5 +257,55 @@ public class RoomService {
 
         System.out.println(authorizedIps);
         return !authorizedIps.contains(ip);
+    }
+
+    /**
+     * Schedule a new room.
+     *
+     * @param userId the id of the admin of the room
+     * @param title the title of the room
+     * @param date the starting date/time for the room
+     * @return the newly created room
+     */
+    public Room scheduleRoom(long userId, String title, Date date) {
+        Room room = createRoom(userId, title);
+        room.setStartingDate(date);
+        return room;
+    }
+
+    /**
+     * Create a new room.
+     *
+     * @param userId the id of the admin of the room
+     * @param title the title of the room
+     * @return the newly created room
+     */
+    public Room createRoom(long userId, String title) {
+        ElevatedUser user = (ElevatedUser) userService.getElevated(userId);
+        Room room = new Room(title, false, user);
+        roomRepository.save(room);
+        return room;
+    }
+
+    public Room join(String password, String username, String ip) {
+        boolean isElevated = true;
+        Long id = roomRepository.getElevatedRoomId(password);
+        if (id == null) {
+            id = roomRepository.getNormalRoomId(password);
+            isElevated = false;
+        }
+        if (id == null) {
+            return null; // TODO Throw error
+        }
+        // TODO Check whether room exists
+        Room room = roomRepository.getOne(id);
+        User user;
+        if (isElevated) {
+            user = new ElevatedUser(username, ip);
+        }else {
+            user = new Student(username, ip);
+        }
+        userRepository.save(user);
+        return room;
     }
 }

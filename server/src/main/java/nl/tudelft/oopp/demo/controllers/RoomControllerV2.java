@@ -1,15 +1,19 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import java.util.Date;
 import java.util.Set;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.RoomService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -181,5 +185,45 @@ public class RoomControllerV2 {
                       @PathParam("elevatedPassword") String elevatedPassword)
         throws UnauthorizedException, InvalidPasswordException {
         roomService.unbanUser(roomId, ip, elevatedPassword);
+    }
+
+    /**
+     * Create a new room.
+     *
+     * @param userId the id of the admin of the room
+     * @param title the title of the room
+     * @return the newly created room
+     */
+    @GetMapping("create")
+    public Room createRoom(@PathParam("userId") long userId, @PathParam("title") String title) {
+        return roomService.createRoom(userId, title);
+    }
+
+    /**
+     * Create a new user and have him join the room.
+     *
+     * @param password the room's password
+     * @param username the user's username
+     * @param ip the user's ip
+     * @return the room which the user joined
+     */
+    @GetMapping("join")
+    public Room join(@PathParam("password") String password, @PathParam("username") String username,
+                     @PathParam("ip") String ip) {
+        return roomService.join(password, username, ip);
+    }
+
+    /**
+     * Schedule a new room.
+     *
+     * @param userId the id of the admin of the room
+     * @param title the title of the room
+     * @param date the starting date/time for the room
+     * @return the newly created room
+     */
+    @PutMapping("schedule")
+    public Room scheduleRoom(@PathParam("userId") long userId, @PathParam("title") String title,
+                             @PathParam("date") Date date) {
+        return roomService.scheduleRoom(userId, title, date);
     }
 }
