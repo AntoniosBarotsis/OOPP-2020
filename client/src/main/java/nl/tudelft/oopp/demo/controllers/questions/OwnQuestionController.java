@@ -32,7 +32,7 @@ public class OwnQuestionController {
     private Button upvoteButton;
 
     @FXML
-    private TextArea upvoteNumber;
+    private Label upvoteNumber;
 
     /**
      * Takes the relevant information from the question,

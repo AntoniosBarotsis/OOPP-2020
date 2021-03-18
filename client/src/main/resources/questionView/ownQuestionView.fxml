@@ -4,9 +4,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="120.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.questions.OwnQuestionController">
+<?import javafx.scene.shape.Line?>
+<AnchorPane prefHeight="120.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.questions.OwnQuestionController">
     <children>
-        <GridPane prefHeight="120.0" prefWidth="720.0">
+        <GridPane prefHeight="120.0" prefWidth="760.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="87.2" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="632.2" minWidth="10.0" prefWidth="632.2" />
@@ -22,7 +23,7 @@
                     </font></Button>
                 <TextArea prefHeight="55.0" prefWidth="444.0" GridPane.columnIndex="1" />
                 <Label fx:id="date" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="0.0" prefWidth="590.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <TextArea fx:id="upvoteNumber" editable="false" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                <Label fx:id="upvoteNumber" alignment="CENTER" prefHeight="43.0" prefWidth="87.0" textAlignment="CENTER" GridPane.rowIndex="1" />
             <GridPane GridPane.columnIndex="1">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="577.2" minWidth="10.0" prefWidth="550.0" />
@@ -46,5 +47,6 @@
             </GridPane>
             </children>
         </GridPane>
+        <Line endX="620.0" endY="1.100006103515625" layoutX="100.0" layoutY="115.0" startX="-100.0" stroke="#00a6d6" strokeWidth="5.0" />
     </children>
 </AnchorPane>

@@ -36,7 +36,7 @@ public class ModQuestionController {
     private Button upvoteButton;
 
     @FXML
-    private TextArea upvoteNumber;
+    private Label upvoteNumber;
 
     /**
      * Loads the data of question user and room into controller as well as sets the date,
