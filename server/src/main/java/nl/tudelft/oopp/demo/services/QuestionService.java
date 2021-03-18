@@ -1,37 +1,79 @@
 package nl.tudelft.oopp.demo.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
+import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
+import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import nl.tudelft.oopp.demo.repositories.RoomRepository;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-
-
-
 /**
- * Question service.
+ * The type Question service.
  */
 @Service
+@AllArgsConstructor
 public class QuestionService {
-
-    @Autowired
     private final QuestionRepository questionRepository;
-
+    private final UserRepository userRepository;
+    private final RoomRepository roomRepository;
+    private final UserService userService;
 
     /**
-     * Instantiates a new Question repository.
+     * Adds a question unless the user has been banned.
      *
-     * @param questionRepository the question repository
+     * @param question the question
+     * @param roomId   the room id
+     * @throws InvalidIdException    the invalid id exception
+     * @throws UnauthorizedException the unauthorized exception
      */
-    public QuestionService(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
+    public void addQuestion(Question question, long roomId)
+        throws InvalidIdException, UnauthorizedException {
+        if (userService.isInvalidAuthorId(question.getAuthor())) {
+            throw new InvalidIdException("The supplied author id is invalid");
+        }
+
+        if (userIsBanned(question, roomId)) {
+            throw new UnauthorizedException("User not authorized "
+                + "(you have been banned from this room)");
+        }
+        
+        question.getAuthor().setId(question.getAuthor().getId());
+        questionRepository.save(question);
+        questionRepository.addQuestion(roomId, question.getId());
+
+        userRepository.addQuestionToUser(question.getAuthor().getId(), question.getId());
     }
 
-
-
+    /**
+     * Gets the first question entity with id questionId.
+     *
+     * @param questionId the question id
+     * @return a question entity with id questionId.
+     */
+    public Question getQuestion(long questionId) {
+        List<Long> listOfId = new ArrayList<>();
+        listOfId.add(questionId);
+        List<Question> listOfQuestion =  questionRepository.findAllById(listOfId);
+        return listOfQuestion.get(0);
+    }
 
     /**
      * Gets the text of the question.
@@ -39,21 +81,20 @@ public class QuestionService {
      * @param questionId the question id
      * @return a String of the text of the question
      */
-    public String getQuestion(long questionId) {
-        return questionRepository.getQuestion(questionId);
+    public String getText(long questionId) {
+        return questionRepository.getText(questionId);
     }
-
 
     /**
-     * Sets the text of the question to be newQuestion.
+     * Sets the text of the question to be decoded newQuestion.
      *
      * @param questionId the question id
-     * @param newQuestion the value of text that will be set as question's text
+     * @param newQuestion the encoded value of text that will be set as question's text.
      */
-    public void editQuestion(long questionId, String newQuestion) {
-        questionRepository.editQuestion(questionId, newQuestion);
+    public void setText(long questionId, String newQuestion) throws UnsupportedEncodingException {
+        questionRepository.setText(questionId, URLDecoder
+                .decode(newQuestion, StandardCharsets.UTF_8.toString()));
     }
-
 
     /**
      * Gets the author.
@@ -64,7 +105,6 @@ public class QuestionService {
     public User getAuthor(long questionId) {
         return questionRepository.getAuthor(questionId);
     }
-
 
     /**
      * Increases the value of upvote by 1.
@@ -117,11 +157,7 @@ public class QuestionService {
      * @param score the new score value of question
      */
     public void setScore(long questionId, int score) {
-        if (score >= 0) {
-            questionRepository.setScore(questionId, score);
-        } else {
-            questionRepository.setScore(questionId, 0);
-        }
+        questionRepository.setScore(questionId, Math.max(score, 0));
     }
 
 
@@ -135,7 +171,6 @@ public class QuestionService {
     public long get(int number) {
         return questionRepository.getHighestScore().get(number);
     }
-
 
     /**
      * Gets the date.
@@ -179,7 +214,6 @@ public class QuestionService {
         }
     }
 
-
     /**
      *Sets the value of status as ANSWERED, unless its score is greater than maxScore.
      *
@@ -201,6 +235,7 @@ public class QuestionService {
     public void setSpam(long questionId) {
         questionRepository.setSpam(questionId);
     }
+
 
 
     /**
@@ -234,28 +269,117 @@ public class QuestionService {
         questionRepository.setAnswer(questionId, answer);
     }
 
-
     /**
-     * Gets the title of question.
+     * Delete one question.
      *
+     * @param roomId     the room id
      * @param questionId the question id
-     * @return the title of question
      */
-    public String getTitle(long questionId) {
-        return questionRepository.getTitle(questionId);
+    public void deleteOneQuestion(long roomId, long questionId) {
+        questionRepository.deleteOneQuestion(roomId, questionId);
     }
 
-
     /**
-     * Sets the title of question as title.
+     * Delete all questions.
      *
-     * @param questionId the question id
-     * @param title the new title of question
+     * @param roomId the room id
      */
-    public void setTitle(long questionId, String title) {
-        questionRepository.setTitle(questionId, title);
+    public void deleteAllQuestions(long roomId) {
+        questionRepository.deleteAllQuestions(roomId);
     }
 
+    /**
+     * Exports a single question in JSON format.
+     *
+     * @param questionId the question id
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String export(long questionId) throws JsonProcessingException {
+        if (questionRepository.findById(questionId).isPresent()) {
+            return this.mapQuestionExport(List.of(questionRepository.findById(questionId).get()));
+        } else {
+            return "{\"error\": \"JsonProcessingException\"}";
+        }
+    }
 
+    /**
+     * Exports all questions from a given room in JSON format.
+     *
+     * @param roomId the room id
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String exportAll(long roomId) throws JsonProcessingException {
+        return this.mapQuestionExport(roomRepository.findAllQuestions(roomId));
+    }
 
+    /**
+     * Exports a given amount of questions in JSON format sorted by score.
+     *
+     * @param roomId - the room id
+     * @param amount - the amount of questions
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String exportTop(long roomId, int amount) throws JsonProcessingException {
+        if (amount < 1) {
+            return "{\"error: \"Invalid amount supplied\"}";
+        }
+
+        List<Question> questions = roomRepository
+            .findAllQuestions(roomId)
+            .stream()
+            .sorted(Comparator.comparingInt(Question::getUpvotes).reversed())
+            .limit(amount)
+            .collect(Collectors.toList());
+
+        return this.mapQuestionExport(questions);
+    }
+
+    /**
+     * Export answered questions string.
+     *
+     * @param roomId the room id
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String exportAnswered(long roomId) throws JsonProcessingException {
+        List<Question> questions = roomRepository
+            .findAllQuestions(roomId)
+            .stream()
+            .filter(Question::isAnswered)
+            .collect(Collectors.toList());
+
+        return this.mapQuestionExport(questions);
+    }
+
+    /**
+     * Maps a collection of questions using a custom mapper.
+     *
+     * @param questions the questions
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String mapQuestionExport(Collection<Question> questions) throws JsonProcessingException {
+        ObjectMapper objMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Question.class, new QuestionExportSerializer());
+        objMapper.registerModule(module);
+
+        return objMapper.writeValueAsString(questions);
+
+    }
+
+    /**
+     * Returns true if the user is banned in the given room.
+     * @param question the question
+     * @param roomId the room id
+     * @return boolean
+     */
+    private boolean userIsBanned(Question question, long roomId) {
+        return roomRepository.getOne(roomId)
+            .getBannedIps()
+            .contains(question.getAuthor().getIp());
+    }
 }

@@ -10,16 +10,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-
-
 /**
- * Question repository.
+ * The interface Question repository.
  */
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-
-
-
     /**
      * Gets the text of the question.
      *
@@ -28,8 +23,20 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      */
     @Transactional
     @Query(value = "SELECT q.text FROM Question q Where q.id=?1 ")
-    String getQuestion(long questionId);
+    String getText(long questionId);
 
+
+    /**
+     * Add question.
+     *
+     * @param roomId     the room id
+     * @param questionId the question id
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO rooms_questions (room_id, questions_id) VALUES (?1, ?2)",
+        nativeQuery = true)
+    void addQuestion(long roomId, long questionId);
 
     /**
      * Sets the text of the question to be newQuestion.
@@ -39,9 +46,35 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Question q SET q.text = ?2 WHERE q.id =?1")
-    void editQuestion(long questionId, String newQuestion);
 
+    @Query(value = "UPDATE Question q SET q.text = ?2 WHERE q.id =?1")
+    void setText(long questionId, String newQuestion);
+
+
+
+    /**
+     * Delete one question.
+     *
+     * @param roomId     the room id
+     * @param questionId the question id
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM rooms_questions WHERE rooms_questions.room_id = ?1 AND "
+        + "rooms_questions.questions_id = ?2",
+        nativeQuery = true)
+    void deleteOneQuestion(long roomId, long questionId);
+
+    /**
+     * Delete all questions.
+     *
+     * @param roomId the room id
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM rooms_questions WHERE rooms_questions.room_id = ?1",
+        nativeQuery = true)
+    void deleteAllQuestions(long roomId);
 
     /**
      * Gets the author.
@@ -50,7 +83,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      * @return the author of the question
      */
     @Transactional
-    @Query(value = "SELECT author FROM Question q WHERE q.id=?1")
+    @Query(value = "SELECT author FROM Question q WHERE q.id = ?1")
     User getAuthor(long questionId);
 
 
@@ -61,7 +94,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Question q SET q.upvotes = q.upvotes + 1 WHERE q.id =?1")
+    @Query(value = "UPDATE Question q SET q.upvotes = q.upvotes + 1 WHERE q.id = ?1")
     void upvote(long questionId);
 
 
@@ -72,9 +105,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Question q SET q.upvotes = q.upvotes - 1 WHERE q.id =?1")
+    @Query(value = "UPDATE Question q SET q.upvotes = q.upvotes - 1 WHERE q.id = ?1")
     void downvote(long questionId);
-
 
     /**
      * Gets the number of upvotes.
@@ -83,9 +115,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      * @return the value of upvotes
      */
     @Transactional
-    @Query(value = "SELECT q.upvotes FROM Question q Where q.id =?1")
+    @Query(value = "SELECT q.upvotes FROM Question q Where q.id = ?1")
     int getUpvotes(long questionId);
-
 
     /**
      * Gets the score.
@@ -94,7 +125,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      * @return the score value of question
      */
     @Transactional
-    @Query(value = "SELECT q.score FROM Question q WHERE q.id=?1")
+    @Query(value = "SELECT q.score FROM Question q WHERE q.id = ?1")
     int getScore(long questionId);
 
 
@@ -106,7 +137,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Question q SET q.score = ?2 WHERE q.id=?1")
+    @Query(value = "UPDATE Question q SET q.score = ?2 WHERE q.id = ?1")
     void setScore(long questionId, int score);
 
 
@@ -127,7 +158,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      * @return the question date
      */
     @Transactional
-    @Query(value = "SELECT timeCreated FROM Question q WHERE q.id=?1")
+    @Query(value = "SELECT timeCreated FROM Question q WHERE q.id = ?1")
     Date getTime(long questionId);
 
 
@@ -138,7 +169,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      * @return the status of question
      */
     @Transactional
-    @Query(value = "SELECT q.status FROM Question q WHERE q.id=?1")
+    @Query(value = "SELECT q.status FROM Question q WHERE q.id = ?1")
     Question.QuestionStatus getStatus(long questionId);
 
 
@@ -149,7 +180,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Question q SET q.status=1 WHERE q.id =?1")
+    @Query(value = "UPDATE Question q SET q.status=1 WHERE q.id = ?1")
     void setAnswered(long questionId);
 
 
@@ -160,7 +191,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Question q SET q.status=2 WHERE q.id =?1")
+    @Query(value = "UPDATE Question q SET q.status=2 WHERE q.id = ?1")
     void setSpam(long questionId);
 
 
@@ -171,7 +202,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Question q SET q.status=0 WHERE q.id =?1")
+    @Query(value = "UPDATE Question q SET q.status=0 WHERE q.id = ?1")
     void setOpen(long questionId);
 
 
@@ -182,7 +213,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      * @return the answer
      */
     @Transactional
-    @Query(value = "SELECT q.answer FROM Question q WHERE q.id=?1")
+    @Query(value = "SELECT q.answer FROM Question q WHERE q.id = ?1")
     String getAnswer(long questionId);
 
 
@@ -196,28 +227,5 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Transactional
     @Query(value = "UPDATE Question q SET q.answer = ?2 WHERE q.id = ?1")
     void setAnswer(long questionId, String answer);
-
-
-    /**
-     * Gets the title of question.
-     *
-     * @param questionId the question id
-     * @return the title of question
-     */
-    @Transactional
-    @Query(value = "SELECT q.title FROM Question q WHERE q.id=?1")
-    String getTitle(long questionId);
-
-
-    /**
-     * Sets the title of question as title.
-     *
-     * @param questionId the question id
-     * @param title the new title of question
-     */
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE Question q SET q.title = ?2 WHERE q.id=?1")
-    void setTitle(long questionId, String title);
 
 }

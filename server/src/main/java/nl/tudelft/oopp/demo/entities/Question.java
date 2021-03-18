@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Date;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.users.User;
 
 /**
@@ -23,6 +24,8 @@ import nl.tudelft.oopp.demo.entities.users.User;
  */
 @Entity(name = "Question")
 @Table(name = "questions")
+@Data
+@NoArgsConstructor
 public class Question {
     @Id
     @SequenceGenerator(
@@ -36,8 +39,6 @@ public class Question {
     )
     @Column(name = "id", updatable = false)
     private long id;
-    @Column(name = "title")
-    private String title;
     @Column(name = "text")
     private String text;
     @ManyToOne(cascade = CascadeType.MERGE, optional = false)
@@ -57,12 +58,10 @@ public class Question {
     /**
      * Instantiates a new Question.
      *
-     * @param title  the title
      * @param text   the text
      * @param author the author
      */
-    public Question(String title, String text, User author) {
-        this.title = title;
+    public Question(String text, User author) {
         this.text = text;
         this.author = author;
 
@@ -70,14 +69,6 @@ public class Question {
         this.score = 0;
         this.status = QuestionStatus.OPEN;
         this.timeCreated = new Date();
-        this.answer = "";
-    }
-
-    /**
-     * Instantiates a new Question.
-     */
-    public Question() {
-
     }
 
     /**
@@ -102,204 +93,12 @@ public class Question {
     }
 
     /**
-     * Gets id.
+     * Returns true if the question has been answered.
      *
-     * @return the id
+     * @return the boolean
      */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets title.
-     *
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * Sets title.
-     *
-     * @param title the title
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * Gets text.
-     *
-     * @return the text
-     */
-    public String getText() {
-        return text;
-    }
-
-    /**
-     * Sets text.
-     *
-     * @param text the text
-     */
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    /**
-     * Gets author.
-     *
-     * @return the author
-     */
-    public User getAuthor() {
-        return author;
-    }
-
-    /**
-     * Sets author.
-     *
-     * @param author the author
-     */
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    /**
-     * Gets upvotes.
-     *
-     * @return the upvotes
-     */
-    public int getUpvotes() {
-        return upvotes;
-    }
-
-    /**
-     * Sets upvotes.
-     *
-     * @param upvotes the upvotes
-     */
-    public void setUpvotes(int upvotes) {
-        this.upvotes = upvotes;
-    }
-
-    /**
-     * Gets score.
-     *
-     * @return the score
-     */
-    public int getScore() {
-        return score;
-    }
-
-    /**
-     * Sets score.
-     *
-     * @param score the score
-     */
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    /**
-     * Gets time created.
-     *
-     * @return the time created
-     */
-    public Date getTimeCreated() {
-        return timeCreated;
-    }
-
-    /**
-     * Sets time created.
-     *
-     * @param timeCreated the time created
-     */
-    public void setTimeCreated(Date timeCreated) {
-        this.timeCreated = timeCreated;
-    }
-
-    /**
-     * Gets status.
-     *
-     * @return the status
-     */
-    public QuestionStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * Sets status.
-     *
-     * @param status the status
-     */
-    public void setStatus(QuestionStatus status) {
-        this.status = status;
-    }
-
-    /**
-     * Gets answer.
-     *
-     * @return the answer
-     */
-    public String getAnswer() {
-        return answer;
-    }
-
-    /**
-     * Sets answer.
-     *
-     * @param answer the answer
-     */
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Question)) {
-            return false;
-        }
-        Question question = (Question) o;
-        return id == question.id && upvotes == question.upvotes && score == question.score
-            && Objects.equals(title, question.title)
-            && Objects.equals(text, question.text)
-            && Objects.equals(author, question.author)
-            && Objects.equals(timeCreated, question.timeCreated)
-            && status == question.status
-            && Objects.equals(answer, question.answer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects
-            .hash(id, title, text, author, upvotes, score, timeCreated, status, answer);
-    }
-
-    @Override
-    public String toString() {
-        return "Question{"
-            + ", id=" + id
-            + ", title='" + title + '\''
-            + ", text='" + text + '\''
-            + ", author=" + author
-            + ", upvotes=" + upvotes
-            + ", score=" + score
-            + ", timeCreated=" + timeCreated
-            + ", status=" + status
-            + ", answer='" + answer + '\''
-            + '}';
+    public boolean isAnswered() {
+        return this.answer != null;
     }
 
     /**
@@ -318,6 +117,21 @@ public class Question {
          * Spam question status.
          */
         SPAM
+    }
+
+    /**
+     * Status to factor int.
+     *
+     * @return the int
+     */
+    public int statusToFactor() {
+        if (status == Question.QuestionStatus.OPEN) {
+            return 0;
+        } else if (status == Question.QuestionStatus.ANSWERED) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 }
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #00A6D6;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.mainmenu.MainStudentController">
+    <bottom>
+        <AnchorPane prefHeight="85.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="buttonSend" layoutX="533.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#buttonSendClicked" prefHeight="63.0" prefWidth="69.0" text="Send" textAlignment="CENTER" />
+            <Separator layoutX="613.0" layoutY="3.0" orientation="VERTICAL" prefHeight="78.0" prefWidth="5.0" />
+            <TextArea fx:id="textQuestion" layoutX="14.0" layoutY="11.0" prefHeight="63.0" prefWidth="514.0" wrapText="true" />
+            <Text fill="WHITE" layoutX="634.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pace cooldown:" textAlignment="CENTER" wrappingWidth="60.00390625" />
+            <Button fx:id="buttonFast" layoutX="707.0" layoutY="47.0" mnemonicParsing="false" onMouseClicked="#buttonFastClicked" prefHeight="26.0" prefWidth="65.0" text="Too fast" textAlignment="CENTER" />
+            <Button fx:id="buttonSlow" layoutX="707.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#buttonSlowClicked" prefHeight="26.0" prefWidth="65.0" text="Too slow" textAlignment="CENTER" />
+            <Text fx:id="labelMin" fill="WHITE" layoutX="652.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fill="WHITE" layoutX="661.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
+            <Text fx:id="labelSec" fill="WHITE" layoutX="666.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00" />
+         </children></AnchorPane>
+    </bottom>
+    <center>
+        <ListView fx:id="questionList" prefHeight="200.0" prefWidth="800.0" style="-fx-selection-bar: #00A6D6; -fx-selection-bar-text: WHITE;" BorderPane.alignment="CENTER" />
+    </center>
+</BorderPane>

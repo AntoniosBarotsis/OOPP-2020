@@ -15,4 +15,5 @@ public class MainSceneController {
         alert.setContentText(ServerCommunication.getQuote());
         alert.showAndWait();
     }
+
 }

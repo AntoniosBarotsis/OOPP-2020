@@ -44,9 +44,9 @@ class QuestionRepositoryTest {
         user1 = new Student("UserName 1", "IP 1");
         user2 = new Student("UserName 2", "IP 2");
 
-        question1 = new Question("This is the title 1", "This is the text 1", user1);
-        question2 = new Question("This is the title 2", "This is the text 2", user1);
-        question3 = new Question("This is the title 3", "This is the text 3", user2);
+        question1 = new Question("This is the text 1", user1);
+        question2 = new Question("This is the text 2", user1);
+        question3 = new Question("This is the text 3", user2);
 
 
         repositoryU.save(user1);
@@ -64,14 +64,14 @@ class QuestionRepositoryTest {
 
 
     @Test
-    void getQuestion() {
-        assertEquals("This is the text 1", repository.getQuestion(id1));
+    void getText() {
+        assertEquals("This is the text 1", repository.getText(id1));
     }
 
     @Test
-    void editQuestion() {
-        repository.editQuestion(id1, "this question has changed");
-        assertEquals("this question has changed", repository.getQuestion(id1));
+    void setText() {
+        repository.setText(id1, "this question has changed");
+        assertEquals("this question has changed", repository.getText(id1));
     }
 
     @Test
@@ -81,7 +81,7 @@ class QuestionRepositoryTest {
     }
 
     @Test
-    void incrementUpvotes() {
+    void upvote() {
         assertEquals(repository.getUpvotes(id1), question1.getUpvotes());
         repository.upvote(id1);
         assertEquals(repository.getUpvotes(id1), question1.getUpvotes() + 1);
@@ -171,19 +171,4 @@ class QuestionRepositoryTest {
         repository.setAnswer(id1, "Some New Answer");
         assertEquals(repository.getAnswer(id1), "Some New Answer");
     }
-
-    @Test
-    void getTitle() {
-        assertEquals(question1.getTitle(), repository.getTitle(id1));
-    }
-
-    @Test
-    void setTitle() {
-        assertEquals(question1.getTitle(), repository.getTitle(id1));
-        repository.setTitle(id1, "Some New Title");
-        assertEquals(repository.getTitle(id1), "Some New Title");
-    }
-
-
-
 }
