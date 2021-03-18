@@ -137,6 +137,24 @@ public class RoomService {
     }
 
     /**
+     * Increment normal speed.
+     *
+     * @param roomId the room id
+     */
+    public void incrementNormalSpeed(long roomId) {
+        roomRepository.incrementNormalSpeed(roomId);
+    }
+
+    /**
+     * Decrement normal speed.
+     *
+     * @param roomId the room id
+     */
+    public void decrementNormalSpeed(long roomId) {
+        roomRepository.decrementNormalSpeed(roomId);
+    }
+
+    /**
      * Returns true if the user has been banned in the given room.
      *
      * @param roomId the room id
