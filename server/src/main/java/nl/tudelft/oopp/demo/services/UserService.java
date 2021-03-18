@@ -68,35 +68,4 @@ public class UserService {
 
         return objMapper.writeValueAsString(users);
     }
-
-    public String findAllStudents() throws JsonProcessingException {
-        return mapUser(userRepository.findAllStudents());
-    }
-
-    public String findAllElevatedUsers() throws JsonProcessingException {
-        return mapUser(userRepository.findAllElevateUsers());
-    }
-
-    // TODO Error handling
-    public User getElevated(long userId) {
-        User returnUser = null;
-        for (User user : userRepository.findAllElevateUsers()) {
-            if (user.getId() == userId) {
-                returnUser = user;
-                break;
-            }
-        }
-        return returnUser;
-    }
-
-    public User getStudent(long userId) {
-        User returnUser = null;
-        for (User user : userRepository.findAllStudents()) {
-            if (user.getId() == userId) {
-                returnUser = user;
-                break;
-            }
-        }
-        return returnUser;
-    }
 }
