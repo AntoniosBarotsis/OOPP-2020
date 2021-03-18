@@ -148,7 +148,7 @@ public class ModQuestionController {
 
     }
 
-    public boolean getModifyed(){
+    public boolean getModifyed() {
         return modifyed;
     }
 
