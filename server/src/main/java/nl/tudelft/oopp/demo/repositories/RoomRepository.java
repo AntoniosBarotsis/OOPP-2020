@@ -96,6 +96,26 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     void decrementTooSlow(long roomId);
 
     /**
+     * Increment normal speed.
+     *
+     * @param roomId the room id
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Room r SET r.normalSpeed = r.normalSpeed + 1 WHERE r.id = ?1")
+    void incrementNormalSpeed(long roomId);
+
+    /**
+     * Decrement normal speed.
+     *
+     * @param roomId the room id
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Room r SET r.normalSpeed = r.normalSpeed - 1 WHERE r.id = ?1")
+    void decrementNormalSpeed(long roomId);
+
+    /**
      * Bans a user in the given room given the correct elevated password.
      *
      * @param roomId the room id
