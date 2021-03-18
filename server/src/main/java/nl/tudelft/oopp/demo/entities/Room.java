@@ -71,6 +71,8 @@ public class Room {
     private int tooFast;
     @Column(name = "too_slow")
     private int tooSlow;
+    @Column(name = "normal_speed")
+    private int normalSpeed;
     @JsonIgnore
     @Column(name = "elevated_password")
     private String elevatedPassword;
@@ -100,6 +102,7 @@ public class Room {
         this.polls = new HashSet<>();
         this.tooFast = 0;
         this.tooSlow = 0;
+        this.normalSpeed = 0;
 
         generatePassword();
     }
