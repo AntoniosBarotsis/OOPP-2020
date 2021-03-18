@@ -106,6 +106,7 @@ class RoomTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void getStartingDate() {
         assertThat(r1.getStartingDate()).isCloseTo(new Date(), 1000);
     }
@@ -287,6 +288,7 @@ class RoomTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void testHashCode() {
         Room r2 = new Room("Room Title", false, u1);
 

@@ -100,6 +100,7 @@ class QuestionTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void getTimeCreated() {
         assertThat(q1.getTimeCreated()).isCloseTo(new Date(), 1000);
     }
@@ -148,7 +149,7 @@ class QuestionTest {
     void setTimeCreated() {
         Date date = new Date(42L);
         q1.setTimeCreated(date);
-        assertThat(q1.getTimeCreated()).isInSameDayAs(date);
+        assertThat(q1.getTimeCreated()).isEqualTo(date);
     }
 
     @Test
