@@ -26,6 +26,9 @@ public class OwnQuestionController {
     private Label date;
 
     @FXML
+    private Label username;
+
+    @FXML
     private TextArea questionText;
 
     @FXML
@@ -46,6 +49,8 @@ public class OwnQuestionController {
         this.room = room;
         this.user = user;
         this.question = question;
+
+        username.setText(user.getUsername());
         date.setText(question.getTimeCreated().toString());
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
