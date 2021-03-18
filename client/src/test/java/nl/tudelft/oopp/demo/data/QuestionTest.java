@@ -10,10 +10,8 @@ import org.junit.jupiter.api.Test;
 
 class QuestionTest {
 
-    private Set<Question> set = new HashSet<>();
-    private User user = new User(1234, User.UserType.MODERATOR,
-        "teachingAssistant1234", set, set);
-    private Question question = new Question(1, "question", user, 0, 0,
+    private Set<Long> set = new HashSet<>();
+    private Question question = new Question(1, "question", 1L, 0, 0,
         new Date(1234567890), Question.QuestionStatus.OPEN, "");
 
     @Test
@@ -40,14 +38,14 @@ class QuestionTest {
 
     @Test
     void getAuthor() {
-        assertEquals(user, question.getAuthor());
+        assertEquals(1L, question.getAuthor());
     }
 
     @Test
     void setAuthor() {
-        User user2 = new User(1236, User.UserType.STUDENT, "student1236", set, set);
-        question.setAuthor(user2);
-        assertEquals(user2, question.getAuthor());
+        User user2 = new User(1236, "student1236", set, set, User.UserType.STUDENT);
+        question.setAuthor(1236L);
+        assertEquals(user2.getId(), question.getAuthor());
     }
 
     @Test

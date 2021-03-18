@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Poll;
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * The type Room controller.
  */
-@RestController("Room")
+@RestController("RoomV1")
 @RequestMapping("api/v1/rooms")
-public class RoomController {
+public class RoomControllerV1 {
     @Autowired
     private final RoomService roomService;
 
@@ -27,7 +28,7 @@ public class RoomController {
      *
      * @param roomService the room service
      */
-    public RoomController(RoomService roomService) {
+    public RoomControllerV1(RoomService roomService) {
         this.roomService = roomService;
     }
 
@@ -37,7 +38,7 @@ public class RoomController {
      * @return the list
      */
     @GetMapping
-    public List<Room> findAll() {
+    public String findAll() throws JsonProcessingException {
         return roomService.findAll();
     }
 
@@ -48,7 +49,7 @@ public class RoomController {
      * @return the one
      */
     @GetMapping("{id}")
-    public Room getOne(@PathVariable long id) {
+    public String getOne(@PathVariable long id) throws JsonProcessingException {
         return roomService.getOne(id);
     }
 
@@ -69,9 +70,10 @@ public class RoomController {
      * @param roomId the room id
      * @return the private password
      */
-    @GetMapping("private/{roomId}")
-    public String getPrivatePassword(@PathVariable long roomId) {
-        return roomService.getPrivatePassword(roomId);
+    @GetMapping("private/{roomId}/{ip}")
+    public String getPrivatePassword(@PathVariable String ip,
+                                     @PathVariable long roomId) {
+        return roomService.getPrivatePassword(roomId, ip);
     }
 
     /**
@@ -81,7 +83,7 @@ public class RoomController {
      * @return the set
      */
     @GetMapping("questions/{roomId}")
-    public Set<Question> findAllQuestions(@PathVariable long  roomId) {
+    public String findAllQuestions(@PathVariable long  roomId) throws JsonProcessingException {
         return roomService.findAllQuestions(roomId);
     }
 

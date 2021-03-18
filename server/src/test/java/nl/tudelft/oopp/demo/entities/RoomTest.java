@@ -58,8 +58,8 @@ class RoomTest {
             List.of("Correct answer"));
         pollRepository.saveAll(List.of(p1));
 
-        q1 = new Question("Question title", "Question text", u1);
-        q2 = new Question("Question title 2", "Question text 2", u1);
+        q1 = new Question("Question text", u1);
+        q2 = new Question("Question text 2", u1);
         //questionRepository.saveAll(List.of(q1, q2));
         questionRepository.saveAll(List.of(q2));
 
@@ -141,7 +141,9 @@ class RoomTest {
 
     @Test
     void getModerators() {
-        assertThat(r1.getModerators()).isEqualTo(new HashSet<>());
+        Set<ElevatedUser> set = new HashSet<>();
+        set.add(u1);
+        assertThat(r1.getModerators()).isEqualTo(set);
     }
 
     @Test
@@ -293,13 +295,23 @@ class RoomTest {
 
     @Test
     void testToString() {
-        String str = "Room{id=1, title='Room Title', startingDate=" + r1.getStartingDate() + ", "
-            + "repeatingLecture=false, admin=User{id=1, username='Admin', ip='ip', "
-            + "questionsAsked=[], questionsUpvoted=[], type=ADMIN}, moderators=[], bannedIps=[], "
-            + "tooFast=0, tooSlow=0, elevatedPassword='"
-            + "" + r1.getElevatedPassword() + "', normalPassword='"
-            + r1.getNormalPassword() + "'}";
+        String questionToString = "";
+        for (Question question : r1.getQuestions()) {
+            questionToString += question.toString();
+        }
 
-        assertThat(r1.toString()).isEqualTo(str);
+        String pollToString = "";
+        for (Poll poll : r1.getPolls()) {
+            pollToString += poll.toString();
+        }
+
+        String str = "Room(id=1, title=Room Title, startingDate=" + r1.getStartingDate() + ", "
+            + "repeatingLecture=false, admin=1, moderators=[User(id=1, username=Admin, ip=ip, "
+            + "questionsAsked=[], questionsUpvoted=[], type=ADMIN)], bannedIps=[], questions=["
+            + "" + questionToString + "], polls=[" + pollToString + "], tooFast=0, tooSlow=0, "
+            + "elevatedPassword=" + r1.getElevatedPassword() + ", "
+            + "normalPassword=" + r1.getNormalPassword() + ")";
+
+        assertThat(str).isEqualTo(r1.toString());
     }
 }
