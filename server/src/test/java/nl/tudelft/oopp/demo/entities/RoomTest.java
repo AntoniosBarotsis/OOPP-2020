@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFORE_METHOD;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -27,7 +28,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class RoomTest {
     @Autowired
     private RoomRepository roomRepository;
@@ -75,7 +75,6 @@ class RoomTest {
     }
 
     @Test
-    @DirtiesContext
     void injectedComponentsAreNotNull() {
         assertThat(roomRepository).isNotNull();
         assertThat(userRepository).isNotNull();
@@ -84,6 +83,7 @@ class RoomTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void getId() {
         assertThat(r1.getId()).isEqualTo(1L);
     }
@@ -256,6 +256,7 @@ class RoomTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void testEquals() {
         Room r2 = new Room("Room Title", false, u1);
         assertThat(r1).isNotEqualTo(r2);
@@ -294,6 +295,7 @@ class RoomTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void testToString() {
         String questionToString = "";
         for (Question question : r1.getQuestions()) {
