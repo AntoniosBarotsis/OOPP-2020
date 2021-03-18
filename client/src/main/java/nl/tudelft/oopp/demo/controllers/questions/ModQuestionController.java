@@ -24,6 +24,7 @@ public class ModQuestionController {
     private User user;
     private Room room;
     private boolean upvoted = false;
+    private boolean modifyed;
 
 
     @FXML
@@ -54,6 +55,7 @@ public class ModQuestionController {
         date.setText(question.getTimeCreated().toString());
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
+        modifyed = false;
 
         checkAlreadyUpvoted(user, question);
     }
@@ -119,6 +121,7 @@ public class ModQuestionController {
      * Lastly the questionText is made uneditable again.
      */
     public void edit() {
+        modifyed = true;
         questionText.setEditable(true);
         questionText.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -126,6 +129,7 @@ public class ModQuestionController {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     questionText.setText(questionText.getText().replaceAll("\n", ""));
                     questionText.setEditable(false);
+                    modifyed = false;
                     try {
                         QuestionViewCommunication
                                 .editText(question.getId(), questionText.getText());
@@ -137,6 +141,10 @@ public class ModQuestionController {
 
         });
 
+    }
+
+    public boolean getModifyed(){
+        return modifyed;
     }
 
     /**
