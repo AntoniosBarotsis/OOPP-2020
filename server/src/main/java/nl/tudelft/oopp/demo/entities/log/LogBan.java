@@ -1,33 +1,50 @@
 package nl.tudelft.oopp.demo.entities.log;
 
 import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
+import nl.tudelft.oopp.demo.entities.users.User;
 
 /**
  * The type Log ban. An [ELEVATED_USER] bans a [STUDENT] at [DATE]
  */
+@NoArgsConstructor
+@Entity(name = "LogBan")
+@Table(name = "log_ban")
 class LogBan extends LogEntry {
+    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
+    @JoinColumn(name = "student")
+    private Student student;
 
     /**
      * Instantiates a new Log ban.
      *
-     * @param moderator the moderator
-     * @param student   the student
-     * @param date      the date
+     * @param user    the user
+     * @param student the student
+     * @param date    the date
      */
-    public LogBan(ElevatedUser moderator, Student student, Date date) {
-        super(moderator, new LogAction(LogAction.ActionType.BANNED, student), date);
+    public LogBan(User user, Student student, Date date) {
+        super(user, ActionType.BANNED, date);
+
+        this.student = student;
     }
 
     /**
      * Instantiates a new Log ban.
      *
-     * @param moderator the moderator
-     * @param student   the student
+     * @param user    the user
+     * @param student the student
      */
-    public LogBan(ElevatedUser moderator, Student student) {
-        super(moderator, new LogAction(LogAction.ActionType.BANNED, student), new Date());
+    public LogBan(User user, Student student) {
+        super(user, ActionType.BANNED, new Date());
+
+        this.student = student;
     }
 
     /**
@@ -39,17 +56,12 @@ class LogBan extends LogEntry {
         return (ElevatedUser) super.getUser();
     }
 
-    @Override
-    public LogAction.ActionType getActionType() {
-        return LogAction.ActionType.BANNED;
-    }
-
     /**
-     * Gets student.
+     * Gets action type.
      *
-     * @return the student
+     * @return the action type
      */
-    public Student getStudent() {
-        return (Student) super.getAction().getObject();
+    public ActionType getActionType() {
+        return ActionType.BANNED;
     }
 }

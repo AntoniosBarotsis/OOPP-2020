@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class Poll {
     @Id
     @SequenceGenerator(
-        name = "question_sequence",
+        name = "poll_sequence",
         sequenceName = "poll_sequence",
         allocationSize = 1
     )

@@ -1,32 +1,49 @@
 package nl.tudelft.oopp.demo.entities.log;
 
 import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.Student;
 
 /**
  * The type Log question. A [USER] asks a [QUESTION] at [DATE]
  */
+@NoArgsConstructor
+@Entity(name = "LogQuestion")
+@Table(name = "log_question")
 class LogQuestion extends LogEntry {
+    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
+    @JoinColumn(name = "question")
+    private Question question;
+
     /**
      * Instantiates a new Log question.
      *
-     * @param student     the user
+     * @param student  the user
      * @param question the question
      * @param date     the date
      */
     public LogQuestion(Student student, Question question, Date date) {
-        super(student, new LogAction(LogAction.ActionType.ASKED, question), date);
+        super(student, ActionType.ASKED, date);
+
+        this.question = question;
     }
 
     /**
      * Instantiates a new Log question.
      *
-     * @param student     the user
+     * @param student  the user
      * @param question the question
      */
     public LogQuestion(Student student, Question question) {
-        super(student, new LogAction(LogAction.ActionType.ASKED, question), new Date());
+        super(student, ActionType.ASKED, new Date());
+
+        this.question = question;
     }
 
 
@@ -39,17 +56,12 @@ class LogQuestion extends LogEntry {
         return (Student) super.getUser();
     }
 
-    @Override
-    public LogAction.ActionType getActionType() {
-        return LogAction.ActionType.ASKED;
-    }
-
     /**
-     * Gets question.
+     * Gets action type.
      *
-     * @return the question
+     * @return the action type
      */
-    public Question getQuestion() {
-        return (Question) super.getAction().getObject();
+    public ActionType getActionType() {
+        return ActionType.ASKED;
     }
 }

@@ -1,13 +1,24 @@
 package nl.tudelft.oopp.demo.entities.log;
 
 import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.users.User;
 
 /**
- * The type Log join.
+ * The type Log join. A [USER] joins a [ROOM]
  */
-class LogJoin extends LogEntry{
+@Entity
+@NoArgsConstructor
+public class LogJoin extends LogEntry {
+    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
+    @JoinColumn(name = "room")
+    private Room room;
+
     /**
      * Instantiates a new Log join.
      *
@@ -16,7 +27,9 @@ class LogJoin extends LogEntry{
      * @param date the date
      */
     public LogJoin(User user, Room room, Date date) {
-        super(user, new LogAction(LogAction.ActionType.JOINED, room), date);
+        super(user, ActionType.JOINED, date);
+
+        this.room = room;
     }
 
     /**
@@ -26,20 +39,26 @@ class LogJoin extends LogEntry{
      * @param room the room
      */
     public LogJoin(User user, Room room) {
-        super(user, new LogAction(LogAction.ActionType.JOINED, room), new Date());
-    }
+        super(user, ActionType.JOINED, new Date());
 
-    @Override
-    public LogAction.ActionType getActionType() {
-        return LogAction.ActionType.JOINED;
+        this.room = room;
     }
 
     /**
-     * Gets room.
+     * Gets user.
      *
-     * @return the room
+     * @return the moderator
      */
-    public Room getRoom() {
-        return (Room) super.getAction().getObject();
+    public User getUser() {
+        return super.getUser();
+    }
+
+    /**
+     * Gets action type.
+     *
+     * @return the action type
+     */
+    public ActionType getActionType() {
+        return ActionType.JOINED;
     }
 }
