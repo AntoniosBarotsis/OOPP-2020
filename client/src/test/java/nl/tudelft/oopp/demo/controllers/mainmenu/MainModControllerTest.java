@@ -27,11 +27,6 @@ class MainModControllerTest {
     }
 
     @Test
-    void buttonExportClicked() {
-        //To be implemented.
-    }
-
-    @Test
     void buttonMakePollsClicked() {
         //To be implemented.
     }
@@ -51,5 +46,90 @@ class MainModControllerTest {
         4. Only answered questions should be displayed in the listView.
         5. If you press again, unanswered questions should appear and button text should change.
          */
+    }
+
+    @Test
+    void exportAllClicked() {
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if exporting all questions works:
+        1. Launch the client application.
+        2. Join a room.
+        3. Upon pressing MenuItem "Export all questions", fileChooser window opens.
+        4. Pick a location and file name. You can pick existing text file to overwrite it.
+        5. All questions get fetched and saved to chosen file.
+        6. All resources are closed when writing is finished.
+        7. User receives confirmation or error message when writing is finished.
+         */
+    }
+
+    @Test
+    void exportTopClicked() {
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if exporting top 20 questions works:
+        1. Launch the client application.
+        2. Join a room.
+        3. Upon pressing MenuItem "Export top 20 questions", fileChooser window opens.
+        4. Pick a location and file name. You can pick existing text file to overwrite it.
+        5. Top 20 questions get fetched and saved to chosen file.
+        6. All resources are closed when writing is finished.
+        7. User receives confirmation or error message when writing is finished.
+         */
+    }
+
+    @Test
+    void exportAnsweredClicked() {
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if exporting questions with text answer works:
+        1. Launch the client application.
+        2. Join a room.
+        3. Upon pressing MenuItem "Export answered questions", fileChooser window opens.
+        4. Pick a location and file name. You can pick existing text file to overwrite it.
+        5. Questions with text answer get fetched and saved to chosen file.
+        6. All resources are closed when writing is finished.
+        7. User receives confirmation or error message when writing is finished.
+         */
+    }
+
+    @Test
+    void exportLogClicked() {
+        //To be implemented.
+    }
+
+    /**
+     * See {@link #exportAllClicked()}.
+     * See {@link #exportAnsweredClicked()}.
+     * See {@link #exportTopClicked()}.
+     * See {@link #exportLogClicked()}.
+     */
+    @Test
+    void directoryChooser() {
+        // Since this method cannot be tested on it's own, follow one of the linked test plan.
+    }
+
+    /**
+     * See {@link #exportAllClicked()}.
+     * See {@link #exportAnsweredClicked()}.
+     * See {@link #exportTopClicked()}.
+     * See {@link #exportLogClicked()}.
+     */
+    @Test
+    void writeToFile() {
+        // Since this method cannot be tested on it's own, follow one of the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void fetchData() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void populateListView() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
     }
 }

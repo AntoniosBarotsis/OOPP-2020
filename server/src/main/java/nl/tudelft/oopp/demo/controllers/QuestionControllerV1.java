@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Question Controller.
  */
-@RestController
+@RestController("QuestionV1")
 @RequestMapping("api/v1/questions")
-public class QuestionController {
+public class QuestionControllerV1 {
     @Autowired
     private final QuestionService questionService;
 
@@ -28,12 +28,9 @@ public class QuestionController {
      *
      * @param questionService the question service
      */
-    public QuestionController(QuestionService questionService) {
+    public QuestionControllerV1(QuestionService questionService) {
         this.questionService = questionService;
     }
-
-
-
 
     /**
      * Gets the entity question with id questionId.
@@ -256,7 +253,5 @@ public class QuestionController {
     public void setAnswer(@PathVariable long questionId, @PathVariable String answer) {
         questionService.setAnswer(questionId, answer);
     }
-
-
 
 }

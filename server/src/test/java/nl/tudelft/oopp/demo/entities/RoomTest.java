@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.entities;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFORE_METHOD;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -27,7 +28,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class RoomTest {
     @Autowired
     private RoomRepository roomRepository;
@@ -58,8 +58,8 @@ class RoomTest {
             List.of("Correct answer"));
         pollRepository.saveAll(List.of(p1));
 
-        q1 = new Question("Question title", "Question text", u1);
-        q2 = new Question("Question title 2", "Question text 2", u1);
+        q1 = new Question("Question text", u1);
+        q2 = new Question("Question text 2", u1);
         //questionRepository.saveAll(List.of(q1, q2));
         questionRepository.saveAll(List.of(q2));
 
@@ -75,7 +75,6 @@ class RoomTest {
     }
 
     @Test
-    @DirtiesContext
     void injectedComponentsAreNotNull() {
         assertThat(roomRepository).isNotNull();
         assertThat(userRepository).isNotNull();
@@ -84,6 +83,7 @@ class RoomTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void getId() {
         assertThat(r1.getId()).isEqualTo(1L);
     }
@@ -106,6 +106,7 @@ class RoomTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void getStartingDate() {
         assertThat(r1.getStartingDate()).isCloseTo(new Date(), 1000);
     }
@@ -141,7 +142,9 @@ class RoomTest {
 
     @Test
     void getModerators() {
-        assertThat(r1.getModerators()).isEqualTo(new HashSet<>());
+        Set<ElevatedUser> set = new HashSet<>();
+        set.add(u1);
+        assertThat(r1.getModerators()).isEqualTo(set);
     }
 
     @Test
@@ -254,6 +257,7 @@ class RoomTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void testEquals() {
         Room r2 = new Room("Room Title", false, u1);
         assertThat(r1).isNotEqualTo(r2);
@@ -284,6 +288,7 @@ class RoomTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void testHashCode() {
         Room r2 = new Room("Room Title", false, u1);
 
@@ -292,14 +297,25 @@ class RoomTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void testToString() {
-        String str = "Room{id=1, title='Room Title', startingDate=" + r1.getStartingDate() + ", "
-            + "repeatingLecture=false, admin=User{id=1, username='Admin', ip='ip', "
-            + "questionsAsked=[], questionsUpvoted=[], type=ADMIN}, moderators=[], bannedIps=[], "
-            + "tooFast=0, tooSlow=0, elevatedPassword='"
-            + "" + r1.getElevatedPassword() + "', normalPassword='"
-            + r1.getNormalPassword() + "'}";
+        String questionToString = "";
+        for (Question question : r1.getQuestions()) {
+            questionToString += question.toString();
+        }
 
-        assertThat(r1.toString()).isEqualTo(str);
+        String pollToString = "";
+        for (Poll poll : r1.getPolls()) {
+            pollToString += poll.toString();
+        }
+
+        String str = "Room(id=1, title=Room Title, startingDate=" + r1.getStartingDate() + ", "
+            + "repeatingLecture=false, admin=1, moderators=[User(id=1, username=Admin, ip=ip, "
+            + "questionsAsked=[], questionsUpvoted=[], type=ADMIN)], bannedIps=[], questions=["
+            + "" + questionToString + "], polls=[" + pollToString + "], tooFast=0, tooSlow=0, "
+            + "elevatedPassword=" + r1.getElevatedPassword() + ", "
+            + "normalPassword=" + r1.getNormalPassword() + ")";
+
+        assertThat(str).isEqualTo(r1.toString());
     }
 }

@@ -1,13 +1,16 @@
 package nl.tudelft.oopp.demo.data;
 
+import com.google.gson.annotations.JsonAdapter;
 import java.util.Set;
+import nl.tudelft.oopp.demo.data.deserializers.UserInstanceCreator;
 
+@JsonAdapter(UserInstanceCreator.class)
 public class User {
     private long id;
-    private UserType userType;
     private String username;
-    private Set<Question> questionsAsked;
-    private Set<Question> questionsUpvoted;
+    private Set<Long> questionsAsked;
+    private Set<Long> questionsUpvoted;
+    private UserType userType;
 
     /**
      * Initializes a user.
@@ -16,8 +19,8 @@ public class User {
      * @param questionsAsked set of questions asked
      * @param questionsUpvoted set of questions upvoted
      */
-    public User(long id, UserType userType, String username,
-                Set<Question> questionsAsked, Set<Question> questionsUpvoted) {
+    public User(long id, String username, Set<Long> questionsAsked,
+                Set<Long> questionsUpvoted,  UserType userType) {
         this.id = id;
         this.userType = userType;
         this.username = username;
@@ -77,7 +80,7 @@ public class User {
      * Getter for asked questions by user.
      * @return set of asked questions by user
      */
-    public Set<Question> getQuestionsAsked() {
+    public Set<Long> getQuestionsAsked() {
         return questionsAsked;
     }
 
@@ -85,7 +88,7 @@ public class User {
      * Getter for upvoted questions by user.
      * @return set of upvoted questions by user
      */
-    public Set<Question> getQuestionsUpvoted() {
+    public Set<Long> getQuestionsUpvoted() {
         return questionsUpvoted;
     }
 

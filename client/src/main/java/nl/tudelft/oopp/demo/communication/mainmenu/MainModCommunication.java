@@ -1,22 +1,7 @@
 package nl.tudelft.oopp.demo.communication.mainmenu;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Date;
-
-import nl.tudelft.oopp.demo.data.Question;
-import nl.tudelft.oopp.demo.data.Room;
-
-public class MainModCommunication {
-    private static HttpClient client = HttpClient.newBuilder().build();
-
-    private static Gson gson = new Gson();
+public class MainModCommunication extends MainMenuCommunication {
+    private static final String url = "http://localhost:8080/api/v2/";
 
     /**
      * Request student code for a room.
@@ -24,8 +9,8 @@ public class MainModCommunication {
      * @return student code for a chosen room
      */
     public static String getStudentPassword(long id) {
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/api/v1/rooms/public/" + id)).build();
-        return  requestStringData(request);
+        String link = url + "rooms/public?roomId=";
+        return  requestStringData(link + id);
     }
 
     /**
@@ -34,68 +19,41 @@ public class MainModCommunication {
      * @return moderator code for a chosen room
      */
     public static String getAdminPassword(long id) {
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/api/v1/rooms/private/" + id)).build();
-        return  requestStringData(request);
+        String link = url + "rooms/private?roomId=";
+
+        link = link + "roomId=" + id;
+        link = link + "&ip=" + getIp();
+        return  requestStringData(link);
     }
 
     /**
-     * Request all questions in a room.
+     * Request all questions for a chosen room.
      * @param id id of a room
-     * @return list of questions in a room
+     * @return all questions in json format
      */
-    public static ArrayList<Question> getQuestions(long id) {
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/api/v1/rooms/questions/" + id)).build();
-
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList<Question>();
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode());
-        }
-        return gson.fromJson(response.body(), new TypeToken<ArrayList<Question>>(){}.getType());
+    public static String getAllQuestions(long id) {
+        String link = url + "questions/exportAll?roomId=";
+        return  requestStringData(link + id);
     }
 
     /**
-     * Request a room.
+     * Request top 20 questions for a chosen room.
      * @param id id of a room
-     * @return room information
+     * @return top 20 questions in json format
      */
-    public static Room getRoom(long id) {
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/api/v1/rooms/" + id)).build();
-
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Room(0, "Error loading room", new Date(), false, -1, -1);
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode());
-        }
-        return gson.fromJson(response.body(), Room.class);
+    public static String getTopQuestions(long id) {
+        String link = url + "questions/exportTop?amount=20&roomId=";
+        return  requestStringData(link + id);
     }
 
     /**
-     * Request string data from server.
-     * @param request httprequest to be made
-     * @return response body of request made
+     * Request all questions with text answer for a chosen room.
+     * @param id id of a room
+     * @return answered questions in json format
      */
-    public static String requestStringData(HttpRequest request) {
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Communication with server failed";
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode());
-        }
-        return response.body();
+    public static String getAnsweredQuestions(long id) {
+        String link = url + "questions/exportAnswered?roomId=";
+        return  requestStringData(link + id);
     }
+
 }
