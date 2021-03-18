@@ -1,10 +1,8 @@
 package nl.tudelft.oopp.demo.entities.helpers;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import nl.tudelft.oopp.demo.entities.Question;
-import nl.tudelft.oopp.demo.entities.users.Student;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
