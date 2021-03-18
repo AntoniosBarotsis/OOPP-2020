@@ -5,16 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Quote;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.log.LogJoin;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
@@ -23,6 +21,7 @@ import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.QuoteRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
+import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +34,8 @@ public class DataConfig {
                                         UserRepository userRepository,
                                         RoomRepository roomRepository,
                                         QuestionRepository questionRepository,
-                                        PollRepository pollRepository) {
+                                        PollRepository pollRepository,
+                                        LogEntryRepository logEntryRepository) {
         return args -> {
             Quote quote1 = new Quote(
                     1,
@@ -94,6 +94,9 @@ public class DataConfig {
             );
 
             roomRepository.save(r1);
+
+            LogJoin logJoin = new LogJoin(u1, r1);
+            logEntryRepository.save(logJoin);
         };
     }
 
