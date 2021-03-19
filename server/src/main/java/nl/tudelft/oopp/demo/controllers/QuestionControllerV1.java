@@ -250,7 +250,7 @@ public class QuestionControllerV1 {
      * @param answer the new answer of question
      */
     @GetMapping("setAnswer/{questionId}/{answer}")
-    public void setAnswer(@PathVariable long questionId, @PathVariable String answer) {
+    public void setAnswer(@PathVariable long questionId, @PathVariable String answer) throws UnsupportedEncodingException {
         questionService.setAnswer(questionId, answer);
     }
 
