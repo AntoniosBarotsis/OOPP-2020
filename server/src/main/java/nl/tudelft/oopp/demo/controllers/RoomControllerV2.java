@@ -154,32 +154,36 @@ public class RoomControllerV2 {
      * Bans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
-     * @param ip               the ip
+     * @param id               the id of the moderator
+     * @param ip               the ip of the to be banned user
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException the unauthorized exception
      */
     @PutMapping("ban")
     public void ban(@PathParam("roomId") long roomId,
+                    @PathParam("id") long id,
                     @PathParam("ip") String ip,
                     @PathParam("elevatedPassword") String elevatedPassword)
         throws UnauthorizedException {
-        roomService.banUser(roomId, ip, elevatedPassword);
+        roomService.banUser(roomId, id, ip, elevatedPassword);
     }
 
     /**
      * Unbans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
-     * @param ip               the ip
+     * @param id               the id of the moderator
+     * @param ip               the ip of the to be banned user
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException    the unauthorized exception
      * @throws InvalidPasswordException the invalid password exception
      */
     @PutMapping("unban")
     public void unban(@PathParam("roomId") long roomId,
+                      @PathParam("id") long id,
                       @PathParam("ip") String ip,
                       @PathParam("elevatedPassword") String elevatedPassword)
         throws UnauthorizedException, InvalidPasswordException {
-        roomService.unbanUser(roomId, ip, elevatedPassword);
+        roomService.unbanUser(roomId, id, ip, elevatedPassword);
     }
 }
