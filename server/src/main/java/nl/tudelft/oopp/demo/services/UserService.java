@@ -89,8 +89,6 @@ public class UserService {
         return mapUser(userRepository.findAllElevateUsers());
     }
 
-    // TODO Error handling
-
     /**
      * Get an elevated user using their id.
      *

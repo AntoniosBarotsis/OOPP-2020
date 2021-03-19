@@ -262,13 +262,14 @@ public class RoomService {
     /**
      * Schedule a new room.
      *
-     * @param userId the id of the admin of the room
+     * @param username the lecturer's username
+     * @param ip the lecturer's ip
      * @param title the title of the room
      * @param date the starting date/time for the room
      * @return the newly created room
      */
-    public Room scheduleRoom(long userId, String title, Date date) {
-        Room room = createRoom(userId, title);
+    public Room scheduleRoom(String username, String ip, String title, Date date) {
+        Room room = createRoom(username, ip, title);
         room.setStartingDate(date);
         return room;
     }
@@ -276,12 +277,13 @@ public class RoomService {
     /**
      * Create a new room.
      *
-     * @param userId the id of the admin of the room
+     * @param username the lecturer's username
+     * @param ip the lecturer's ip
      * @param title the title of the room
      * @return the newly created room
      */
-    public Room createRoom(long userId, String title) {
-        ElevatedUser user = (ElevatedUser) userService.getElevated(userId);
+    public Room createRoom(String username, String ip, String title) {
+        ElevatedUser user = new ElevatedUser(username, ip, true);
         Room room = new Room(title, false, user);
         roomRepository.save(room);
         return room;
@@ -304,6 +306,11 @@ public class RoomService {
         }
         if (id == null) {
             return null; // TODO Throw error
+        }
+        Room room = roomRepository.getOne(id);
+        Date currentDate = new Date();
+        if (!isElevated && currentDate.before(room.getStartingDate())) {
+            return null; // TODO Better error handling
         }
         User user;
         if (isElevated) {

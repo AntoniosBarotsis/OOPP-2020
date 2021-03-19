@@ -195,8 +195,9 @@ public class RoomControllerV2 {
      * @return the newly created room
      */
     @GetMapping("create")
-    public Room createRoom(@PathParam("userId") long userId, @PathParam("title") String title) {
-        return roomService.createRoom(userId, title);
+    public Room createRoom(@PathParam("username") String username, @PathParam("ip") String ip,
+                           @PathParam("title") String title) {
+        return roomService.createRoom(username, ip, title);
     }
 
     /**
@@ -233,8 +234,8 @@ public class RoomControllerV2 {
      * @return the newly created room
      */
     @PutMapping("schedule")
-    public Room scheduleRoom(@PathParam("userId") long userId, @PathParam("title") String title,
-                             @PathParam("date") Date date) {
-        return roomService.scheduleRoom(userId, title, date);
+    public Room scheduleRoom(@PathParam("username") String username, @PathParam("ip") String ip,
+                             @PathParam("title") String title, @PathParam("date") Date date) {
+        return roomService.scheduleRoom(username, ip, title, date);
     }
 }
