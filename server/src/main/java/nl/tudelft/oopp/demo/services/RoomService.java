@@ -254,7 +254,6 @@ public class RoomService {
             .map(User::getId)
             .collect(Collectors.toList());
 
-        System.out.println(authorizedIps);
         return !authorizedIps.contains(id);
     }
 
@@ -273,8 +272,6 @@ public class RoomService {
             .map(User::getIp)
             .collect(Collectors.toList());
 
-        System.out.println(authorizedIps);
-        System.out.println(ip);
         return !authorizedIps.contains(ip);
     }
 }
