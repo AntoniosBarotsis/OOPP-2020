@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,12 +12,16 @@ import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.log.LogBan;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
+import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
+import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,6 +31,8 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class RoomService {
     private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
+    private final LogEntryRepository logEntryRepository;
 
     /**
      * Returns a list of all rooms.
@@ -151,13 +158,14 @@ public class RoomService {
      * Bans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
+     * @param id               the id
      * @param ip               the ip
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException the unauthorized exception
      */
-    public void banUser(long roomId, String ip, String elevatedPassword)
+    public void banUser(long roomId, long id, String ip, String elevatedPassword)
         throws UnauthorizedException {
-        if (isNotAuthorized(roomId, ip)) {
+        if (isNotAuthorized(roomId, id)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
 
@@ -167,21 +175,25 @@ public class RoomService {
             return;
         }
 
+        ElevatedUser user = (ElevatedUser) userRepository.getOne(id);
+        LogBan logBan = new LogBan(user, ip, new Date());
         roomRepository.banUser(roomId, ip);
+        logEntryRepository.save(logBan);
     }
 
     /**
      * Unbans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
+     * @param id               the id
      * @param ip               the ip
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException    the unauthorized exception
      * @throws InvalidPasswordException the invalid password exception
      */
-    public void unbanUser(long roomId, String ip, String elevatedPassword)
+    public void unbanUser(long roomId, long id, String ip, String elevatedPassword)
         throws UnauthorizedException, InvalidPasswordException {
-        if (isNotAuthorized(roomId, ip)) {
+        if (isNotAuthorized(roomId, id)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
 
@@ -231,6 +243,25 @@ public class RoomService {
      * Is authorized boolean.
      *
      * @param roomId the room id
+     * @param id     the id
+     * @return the boolean
+     */
+    public boolean isNotAuthorized(long roomId, long id) {
+        List<Long> authorizedIps = roomRepository
+            .getOne(roomId)
+            .getModerators()
+            .stream()
+            .map(User::getId)
+            .collect(Collectors.toList());
+
+        System.out.println(authorizedIps);
+        return !authorizedIps.contains(id);
+    }
+
+    /**
+     * Is not authorized boolean.
+     *
+     * @param roomId the room id
      * @param ip     the ip
      * @return the boolean
      */
@@ -243,6 +274,7 @@ public class RoomService {
             .collect(Collectors.toList());
 
         System.out.println(authorizedIps);
+        System.out.println(ip);
         return !authorizedIps.contains(ip);
     }
 }
