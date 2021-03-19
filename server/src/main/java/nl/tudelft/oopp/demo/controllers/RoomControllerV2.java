@@ -8,6 +8,7 @@ import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.RoomService;
@@ -204,12 +205,23 @@ public class RoomControllerV2 {
      * @param password the room's password
      * @param username the user's username
      * @param ip the user's ip
-     * @return the room which the user joined
+     * @return the user
      */
     @GetMapping("join")
-    public Room join(@PathParam("password") String password, @PathParam("username") String username,
+    public User join(@PathParam("password") String password, @PathParam("username") String username,
                      @PathParam("ip") String ip) {
         return roomService.join(password, username, ip);
+    }
+
+    /**
+     * Get the room.
+     *
+     * @param password the room's password
+     * @return the room with that password
+     */
+    @GetMapping("getFromPass")
+    public Room getRoom(@PathParam("password") String password) {
+        return roomService.getRoom(password);
     }
 
     /**

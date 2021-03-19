@@ -29,6 +29,8 @@ public class RoomSerializer extends StdSerializer<Room> {
         gen.writeBooleanField("repeatingLecture", value.isRepeatingLecture());
         gen.writeNumberField("tooFast", value.getTooFast());
         gen.writeNumberField("tooSlow", value.getTooSlow());
+        gen.writeNumberField("admin_id", value.getAdmin());
+        gen.writeStringField("normal_password", value.getNormalPassword());
         gen.writeEndObject();
     }
 }
