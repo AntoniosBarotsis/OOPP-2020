@@ -41,4 +41,14 @@ public class UserController {
     public long add(@RequestBody StudentHelper user) {
         return userService.add(user.createStudent());
     }
+
+    @GetMapping(value = "findAllStudents", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String findAllStudents() throws JsonProcessingException {
+        return userService.findAllStudents();
+    }
+
+    @GetMapping(value = "findAllElevatedUsers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String findAllElevatedUsers() throws JsonProcessingException {
+        return userService.findAllElevatedUsers();
+    }
 }

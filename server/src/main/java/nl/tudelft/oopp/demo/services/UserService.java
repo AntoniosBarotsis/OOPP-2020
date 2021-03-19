@@ -68,4 +68,60 @@ public class UserService {
 
         return objMapper.writeValueAsString(users);
     }
+
+    /**
+     * Get all students.
+     *
+     * @return json representation of all students
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String findAllStudents() throws JsonProcessingException {
+        return mapUser(userRepository.findAllStudents());
+    }
+
+    /**
+     * Get all elevated users.
+     *
+     * @return json representation of all elevated users
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String findAllElevatedUsers() throws JsonProcessingException {
+        return mapUser(userRepository.findAllElevateUsers());
+    }
+
+    // TODO Error handling
+
+    /**
+     * Get an elevated user using their id.
+     *
+     * @param userId the user's id
+     * @return the elevated user
+     */
+    public User getElevated(long userId) {
+        User returnUser = null;
+        for (User user : userRepository.findAllElevateUsers()) {
+            if (user.getId() == userId) {
+                returnUser = user;
+                break;
+            }
+        }
+        return returnUser;
+    }
+
+    /**
+     * Get a student using their id.
+     *
+     * @param userId the user's id
+     * @return the student
+     */
+    public User getStudent(long userId) {
+        User returnUser = null;
+        for (User user : userRepository.findAllStudents()) {
+            if (user.getId() == userId) {
+                returnUser = user;
+                break;
+            }
+        }
+        return returnUser;
+    }
 }
