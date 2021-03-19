@@ -2,6 +2,8 @@ package nl.tudelft.oopp.demo.entities.log;
 
 import java.util.Date;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,27 +14,26 @@ import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 
 /**
- * The type Log ban. An [ELEVATED_USER] bans a [STUDENT] at [DATE]
+ * The type Log ban. An [ELEVATED_USER] bans an [IP] at [DATE]
  */
 @NoArgsConstructor
 @Entity(name = "LogBan")
 @Table(name = "log_ban")
-class LogBan extends LogEntry {
-    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
-    @JoinColumn(name = "student")
-    private Student student;
+public class LogBan extends LogEntry {
+    @Column(name = "ip")
+    private String ip;
 
     /**
      * Instantiates a new Log ban.
      *
      * @param user    the user
-     * @param student the student
+     * @param ip      the ip
      * @param date    the date
      */
-    public LogBan(User user, Student student, Date date) {
+    public LogBan(User user, String ip, Date date) {
         super(user, ActionType.BANNED, date);
 
-        this.student = student;
+        this.ip = ip;
     }
 
     /**
@@ -41,10 +42,10 @@ class LogBan extends LogEntry {
      * @param user    the user
      * @param student the student
      */
-    public LogBan(User user, Student student) {
+    public LogBan(User user, String ip) {
         super(user, ActionType.BANNED, new Date());
 
-        this.student = student;
+        this.ip = ip;
     }
 
     /**

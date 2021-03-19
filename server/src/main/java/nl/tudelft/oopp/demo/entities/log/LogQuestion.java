@@ -16,7 +16,7 @@ import nl.tudelft.oopp.demo.entities.users.Student;
 @NoArgsConstructor
 @Entity(name = "LogQuestion")
 @Table(name = "log_question")
-class LogQuestion extends LogEntry {
+public class LogQuestion extends LogEntry {
     @ManyToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "question")
     private Question question;
