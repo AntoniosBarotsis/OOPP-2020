@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import nl.tudelft.oopp.demo.entities.Question;
@@ -32,26 +33,38 @@ public class QuestionControllerV1 {
     }
 
     /**
-     * Gets the text of the question.
+     * Gets the entity question with id questionId.
      *
      * @param questionId the question id
-     * @return a String of the text of the question
+     * @return Question entity with id questionId
      */
     @GetMapping("getQuestion/{questionId}")
-    public String getQuestion(@PathVariable long questionId) {
+    public Question getQuestion(@PathVariable long questionId) {
         return questionService.getQuestion(questionId);
     }
 
 
     /**
-     * Sets the text of the question to be newQuestion.
+     * Gets the text of the question.
      *
      * @param questionId the question id
-     * @param newQuestion the value of text that will be set as question's text
+     * @return a String of the text of the question
      */
-    @PutMapping("setQuestion/{questionId}/{newQuestion}")
-    public void editQuestion(@PathVariable long questionId, @PathVariable String newQuestion) {
-        questionService.editQuestion(questionId, newQuestion);
+    @GetMapping("getText/{questionId}")
+    public String getText(@PathVariable long questionId) {
+        return questionService.getText(questionId);
+    }
+
+    /**
+     * Sets the text of the question to be decoded newQuestion.
+     *
+     * @param questionId the question id
+     * @param newQuestion the encoded value of text that will be set as question's text
+     */
+    @GetMapping("setText/{questionId}/{newQuestion}")
+    public void setText(@PathVariable long questionId, @PathVariable String newQuestion)
+            throws UnsupportedEncodingException {
+        questionService.setText(questionId, newQuestion);
     }
 
 
@@ -72,7 +85,7 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @PutMapping("upvote/{questionId}")
+    @GetMapping("upvote/{questionId}")
     public void upvote(@PathVariable long questionId) {
         questionService.upvote(questionId);
     }
@@ -83,7 +96,7 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @PutMapping("downvote/{questionId}")
+    @GetMapping("downvote/{questionId}")
     public void downvote(@PathVariable long questionId) {
         questionService.downvote(questionId);
     }
@@ -119,7 +132,7 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @param score the new score value of question
      */
-    @PutMapping("setScore/{questionId}/{score}")
+    @GetMapping("setScore/{questionId}/{score}")
     public void setScore(@PathVariable long questionId, @PathVariable int score) {
         questionService.setScore(questionId, score);
     }
@@ -167,7 +180,7 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @PutMapping("setAnswered/{questionId}")
+    @GetMapping("setAnswered/{questionId}")
     public void setAnswered(@PathVariable long questionId) {
         questionService.setAnswered(questionId);
     }
@@ -178,7 +191,7 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @PutMapping("user/setAnswered/{questionId}")
+    @GetMapping("studentSetAnswered/{questionId}")
     public void userSetAnswered(@PathVariable long questionId) {
         questionService.userSetAnswered(questionId);
     }
@@ -190,7 +203,7 @@ public class QuestionControllerV1 {
      * @param maxScore the max score for checking weather to mark as answered
      * @param questionId the question id
      */
-    @PutMapping("user/setAnswered/{questionId}/{maxScore}")
+    @GetMapping("studentSetAnswered/{questionId}/{maxScore}")
     public void userSetAnswered(@PathVariable long questionId, @PathVariable int maxScore) {
         questionService.userSetAnswered(questionId, maxScore);
     }
@@ -201,7 +214,7 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @PutMapping("setSpam/{questionId}")
+    @GetMapping("setSpam/{questionId}")
     public void setSpam(@PathVariable long questionId) {
         questionService.setSpam(questionId);
     }
@@ -212,7 +225,7 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @PutMapping("setOpen/{questionId}")
+    @GetMapping("setOpen/{questionId}")
     public void setOpen(@PathVariable long questionId) {
         questionService.setOpen(questionId);
     }
@@ -236,7 +249,7 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @param answer the new answer of question
      */
-    @PutMapping("setAnswer/{questionId}/{answer}")
+    @GetMapping("setAnswer/{questionId}/{answer}")
     public void setAnswer(@PathVariable long questionId, @PathVariable String answer) {
         questionService.setAnswer(questionId, answer);
     }
