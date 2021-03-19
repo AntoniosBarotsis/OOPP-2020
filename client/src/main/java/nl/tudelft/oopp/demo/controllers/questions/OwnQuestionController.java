@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
+import java.text.SimpleDateFormat;
 import java.util.Set;
 import javafx.fxml.FXML;
 
@@ -50,8 +51,10 @@ public class OwnQuestionController {
         this.user = user;
         this.question = question;
 
-        username.setText(user.getUsername());
-        date.setText(question.getTimeCreated().toString());
+        String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
+        date.setText(simplifiedDate);
+
+        username.setText(" " + user.getUsername());
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
 

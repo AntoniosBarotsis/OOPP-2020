@@ -265,8 +265,9 @@ public class QuestionService {
      * @param questionId the question id
      * @param answer the new answer of question
      */
-    public void setAnswer(long questionId, String answer) {
-        questionRepository.setAnswer(questionId, answer);
+    public void setAnswer(long questionId, String answer) throws UnsupportedEncodingException {
+        questionRepository.setAnswer(questionId, URLDecoder
+                .decode(answer, StandardCharsets.UTF_8.toString()));
     }
 
     /**

@@ -12,22 +12,6 @@ public class QuestionViewCommunication {
 
     private static HttpClient client = HttpClient.newBuilder().build();
 
-
-    /**
-     * Sets the question with questionId id to be marked as spam.
-     *
-     * @param id the question id
-     */
-    public static void setSpam(long id) {
-        HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v1/questions/setSpam/" + id)).build();
-        try {
-            client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Increments the value of upvote by 1 in the backend.
      *
@@ -83,7 +67,7 @@ public class QuestionViewCommunication {
      */
 
     public static void banUser(long id) {
-        setSpam(id);
+        //setSpam(id);
     }
 
 
@@ -113,11 +97,26 @@ public class QuestionViewCommunication {
      */
     public static void editText(long id, String questionText) throws UnsupportedEncodingException {
         String questionTextUrl = URLEncoder
-                .encode(questionText, StandardCharsets.UTF_8.toString());;
+                .encode(questionText, StandardCharsets.UTF_8.toString());
         HttpRequest request =  HttpRequest.newBuilder().GET()
                 .uri(URI.create("http://localhost:8080/api/v1/questions/setText/" + id + "/" + questionTextUrl))
                 .build();
         try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setAnswer(long id, String answer) throws UnsupportedEncodingException {
+        String encodedAnswer = URLEncoder
+                .encode(answer, StandardCharsets.UTF_8.toString());
+
+        HttpRequest request = HttpRequest.newBuilder().GET()
+                .uri(URI.create("http://localhost:8080/api/v1/questions/setAnswer/" + id + "/" + encodedAnswer))
+                .build();
+
+        try{
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();

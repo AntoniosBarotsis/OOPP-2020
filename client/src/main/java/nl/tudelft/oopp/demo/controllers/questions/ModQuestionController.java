@@ -1,7 +1,9 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javafx.event.EventHandler;
@@ -25,6 +27,10 @@ public class ModQuestionController {
     private Room room;
     private boolean upvoted = false;
     private boolean modified;
+    private String answer = "";
+    private String answerView = "";
+    private boolean answeredAlready = false;
+    private String originalQuestion = "";
 
 
     @FXML
@@ -56,8 +62,10 @@ public class ModQuestionController {
         this.user = user;
         this.question = question;
 
-        username.setText(user.getUsername());
-        date.setText(question.getTimeCreated().toString());
+        String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
+        date.setText(simplifiedDate);
+
+        username.setText(" " + user.getUsername());
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
         modified = false;
@@ -88,7 +96,6 @@ public class ModQuestionController {
         }
     }
 
-
     /**
      * Checks if the user already upvoted the question, and if the case the upvote
      * button turns grey and upvoted is true.
@@ -103,13 +110,6 @@ public class ModQuestionController {
         //            upvoted = true;
         //            upvoteButton.setStyle("-fx-text-fill: #808080");
         //        }
-    }
-
-    /**
-     * Sets the question as spam in backend.
-     */
-    public void setAsSpam() {
-        QuestionViewCommunication.setSpam(question.getId());
     }
 
     /**
@@ -132,9 +132,21 @@ public class ModQuestionController {
             @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
-                    questionText.setText(questionText.getText().replaceAll("\n", ""));
+
+                    if(answeredAlready) {
+                        originalQuestion = questionText.getText().substring(0, questionText.getText().lastIndexOf("Answer"));
+                        answerView = questionText.getText().substring(questionText.getText().indexOf("Answer"));
+                    }
+                    else{
+                        originalQuestion = questionText.getText().replaceAll("\n", "");
+                    }
+                    System.out.println(originalQuestion);
+
+                    questionText.setText(originalQuestion + answerView);
+                    questionText.setText(questionText.getText().replaceFirst("\n", ""));
                     questionText.setEditable(false);
                     modified = false;
+
                     try {
                         QuestionViewCommunication
                                 .editText(question.getId(), questionText.getText());
@@ -167,6 +179,40 @@ public class ModQuestionController {
      * Allow answering of question.
      */
     public void answer() {
+
+        questionText.setEditable(true);
+
+        if(!answeredAlready){
+            questionText.setText(questionText.getText() + "\n\n" + "Answer (enter ESC to submit): \n");
+        }
+        answeredAlready = true;
+        questionText.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ESCAPE)) {
+                    originalQuestion = questionText.getText().substring(0, questionText.getText().lastIndexOf("Answer"));
+
+                    questionText.setText(questionText.getText().replace(" (enter ESC to submit): \n", ":\n") + "\n");
+                    questionText.setEditable(false);
+
+                    String a = questionText.getText();
+                    answer = a.replace(a.substring(0, a.lastIndexOf("Answer")), "");
+                    answer = answer.replace("Answer (enter ESC to submit)", "");
+                    answer = answer.replace("Answer:", "");
+                    answer = answer.replace(": ", "");
+
+                    question.setAnswer(answer);
+                    System.out.println(question.getAnswer());
+
+                    try {
+                        QuestionViewCommunication.setAnswer(question.getId(), answer);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        });
     }
 
     /**
