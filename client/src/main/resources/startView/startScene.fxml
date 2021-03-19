@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #C4C4C4;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.startscreen.StartController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="192.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="576.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="192.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="108.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="216.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="216.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <Button fx:id="button_create" mnemonicParsing="false" onAction="#buttonCreate" prefHeight="135.0" prefWidth="240.0" style="-fx-background-color: #FFFFFF;" text="Create room" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <font>
+                <Font size="30.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="OPEN_HAND" />
+            </cursor></Button>
+        <Button fx:id="button_join" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonJoin" prefHeight="135.0" prefWidth="240.0" style="-fx-background-color: #FFFFFF;" text="Join room" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <font>
+                <Font size="30.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="OPEN_HAND" />
+            </cursor></Button>
+        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" />
+        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" GridPane.columnIndex="1" />
+        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" GridPane.columnIndex="2" />
+        <Text fill="WHITE" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to our application!" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <font>
+                <Font name="System Bold" size="25.0" />
+            </font></Text>
+    </children>
+</GridPane>
