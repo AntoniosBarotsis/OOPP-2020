@@ -124,13 +124,13 @@ public class Question {
      *
      * @return the int
      */
-    public int statusToFactor() {
+    public String statusToString() {
         if (status == Question.QuestionStatus.OPEN) {
-            return 0;
+            return "OPEN";
         } else if (status == Question.QuestionStatus.ANSWERED) {
-            return 1;
+            return "ANSWERED";
         } else {
-            return 2;
+            return "SPAM";
         }
     }
 }
