@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import nl.tudelft.oopp.demo.entities.Poll;
@@ -92,7 +94,9 @@ public class DataConfig {
             r1.setPolls(Stream.of(p1)
                 .collect(Collectors.toSet())
             );
-
+            Set<ElevatedUser> mods = new HashSet<>();
+            mods.add(u1);
+            r1.setModerators(mods);
             roomRepository.save(r1);
 
             LogJoin logJoin = new LogJoin(u1, r1);
