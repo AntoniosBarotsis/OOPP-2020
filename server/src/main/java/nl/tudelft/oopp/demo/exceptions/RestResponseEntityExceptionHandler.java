@@ -16,7 +16,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         RuntimeException ex, WebRequest request) {
 
         return handleExceptionInternal(ex, "[" + ex.getClass().getName() + "]: "
-                + ex.getLocalizedMessage(), new HttpHeaders(), HttpStatus.EXPECTATION_FAILED, request);
+                + ex.getLocalizedMessage(), new HttpHeaders(), 
+                HttpStatus.EXPECTATION_FAILED, request);
     }
 
 }
