@@ -2,8 +2,8 @@ package nl.tudelft.oopp.demo.entities.log;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
-
 import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;

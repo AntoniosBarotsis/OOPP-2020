@@ -26,9 +26,9 @@ public class LogBan extends LogEntry {
     /**
      * Instantiates a new Log ban.
      *
-     * @param user    the user
-     * @param ip      the ip
-     * @param date    the date
+     * @param user the user
+     * @param ip   the ip
+     * @param date the date
      */
     public LogBan(User user, String ip, Date date) {
         super(user, ActionType.BANNED, date);
@@ -39,8 +39,8 @@ public class LogBan extends LogEntry {
     /**
      * Instantiates a new Log ban.
      *
-     * @param user    the user
-     * @param student the student
+     * @param user the user
+     * @param ip   the ip
      */
     public LogBan(User user, String ip) {
         super(user, ActionType.BANNED, new Date());
