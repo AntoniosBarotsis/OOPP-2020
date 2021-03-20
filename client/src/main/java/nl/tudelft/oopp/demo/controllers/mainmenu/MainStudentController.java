@@ -70,10 +70,10 @@ public class MainStudentController {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
-        // Event listener to limit question length to 254 characters only.
+        // Event listener to limit question length to 500 characters only.
         textQuestion.setOnKeyTyped(e -> {
-            if (textQuestion.getText().length() > 254) {
-                textQuestion.setText(textQuestion.getText().substring(0, 254));
+            if (textQuestion.getText().length() > 500) {
+                textQuestion.setText(textQuestion.getText().substring(0, 500));
             }
         });
     }
