@@ -43,6 +43,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
         return gson.fromJson(response.body(), new TypeToken<ArrayList<Question>>(){}.getType());
     }
@@ -65,6 +66,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
         return gson.fromJson(response.body(), Room.class);
     }
@@ -85,6 +87,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
         return response.body();
     }
@@ -108,6 +111,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
     }
 
@@ -133,6 +137,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
     }
 
