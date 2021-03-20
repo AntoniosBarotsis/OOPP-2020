@@ -10,7 +10,6 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
@@ -71,10 +70,10 @@ public class MainStudentController {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
-        // Event listener to limit question length to 150 characters only.
+        // Event listener to limit question length to 254 characters only.
         textQuestion.setOnKeyTyped(e -> {
-            if (textQuestion.getText().length() > 150) {
-                textQuestion.setText(textQuestion.getText().substring(0, 150));
+            if (textQuestion.getText().length() > 254) {
+                textQuestion.setText(textQuestion.getText().substring(0, 254));
             }
         });
     }
@@ -286,7 +285,10 @@ public class MainStudentController {
                 ip);
 
         // Create a helper question object.
-        QuestionHelper question = new QuestionHelper(textQuestion.getText(), studentHelper);
+        textQuestion.setText(textQuestion.getText().replace("\n", " "));
+        String text = textQuestion.getText();
+        System.out.println(text);
+        QuestionHelper question = new QuestionHelper(text, studentHelper);
 
         // Send the data to server.
         MainStudentCommunication.sendQuestion(room.getId(), user.getId(), question);
