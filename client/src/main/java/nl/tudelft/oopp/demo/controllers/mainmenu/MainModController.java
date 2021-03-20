@@ -199,7 +199,7 @@ public class MainModController {
      * @param buttons list of buttons
      */
     private static void setButtonVisibility(List<Button> buttons) {
-        for(Button button : buttons){
+        for (Button button : buttons) {
             button.setVisible(!button.isVisible());
         }
     }
