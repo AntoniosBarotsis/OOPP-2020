@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -28,6 +29,7 @@ import nl.tudelft.oopp.demo.data.User;
 public class MainModController {
 
     private boolean filterAnswered;
+    private boolean enableSimpleView;
     private List<Question> questionData;
     private Room room;
     private User user;
@@ -42,6 +44,18 @@ public class MainModController {
     private Text labelNormal;
     @FXML
     private Button buttonAnswered;
+    @FXML
+    private Button buttonSimple;
+    @FXML
+    private Button buttonStartEnd;
+    @FXML
+    private Button buttonShowPolls;
+    @FXML
+    private Button buttonMakePolls;
+    @FXML
+    private Button buttonLinks;
+    @FXML
+    private MenuButton buttonExport;
 
     /**
      * Injects data from previous scene into current MainMenu.
@@ -50,6 +64,7 @@ public class MainModController {
      */
     public void loadData(Room room, User user) {
         filterAnswered = false;
+        enableSimpleView = false;
         fetchData(room, user);
 
         // Automatically fetch data every 5 seconds.
@@ -126,6 +141,42 @@ public class MainModController {
         alert.setHeaderText(null);
         alert.getDialogPane().setContent(gridPane);
         alert.showAndWait();
+    }
+
+    /**
+     * Handles button "Simple" clicks.
+     */
+    @FXML
+    public void buttonSimpleClicked() {
+        enableSimpleView = !enableSimpleView;
+        populateListView();
+        if (enableSimpleView) {
+            buttonSimple.setText("Moderator view");
+        } else {
+            buttonSimple.setText("Simple view");
+        }
+
+        buttonExport.setVisible(!buttonExport.isVisible());
+        setButtonVisibility(List.of(buttonLinks, buttonStartEnd,
+                buttonMakePolls, buttonShowPolls));
+    }
+
+    /**
+     * Inverts the visibility of the buttons in the list.
+     * @param buttons list of buttons
+     */
+    private static void setButtonVisibility(List<Button> buttons) {
+        for(Button button : buttons){
+            button.setVisible(!button.isVisible());
+        }
+    }
+
+    /**
+     * Handles button "Start lecture" clicks.
+     */
+    @FXML
+    public void buttonStartEndClicked() {
+        //TODO: The button should send request to server to start/end lecture.
     }
 
     /**
