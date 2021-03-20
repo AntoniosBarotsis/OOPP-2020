@@ -214,6 +214,16 @@ public class RoomService {
     }
 
     /**
+     * Sets ongoing.
+     *
+     * @param roomId    the room id
+     * @param isOngoing the is ongoing
+     */
+    public void setOngoing(long roomId, boolean isOngoing) {
+        roomRepository.setOngoing(roomId, isOngoing);
+    }
+
+    /**
      * Map question string.
      *
      * @param questions the questions

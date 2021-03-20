@@ -78,6 +78,8 @@ public class Room {
     private String elevatedPassword;
     @Column(name = "normal_password")
     private String normalPassword;
+    @Column(name = "is_ongoing")
+    private boolean isOngoing;
 
     /**
      * Instantiates a new Room. `startingDate` becomes the current date,
@@ -103,6 +105,7 @@ public class Room {
         this.tooFast = 0;
         this.tooSlow = 0;
         this.normalSpeed = 0;
+        this.isOngoing = false;
 
         generatePassword();
     }
