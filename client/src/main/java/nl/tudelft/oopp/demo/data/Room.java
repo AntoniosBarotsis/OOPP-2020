@@ -13,6 +13,7 @@ public class Room {
     private int tooFast;
     private int tooSlow;
     private int normalSpeed;
+    private boolean isOngoing;
 
     /**
      * Initializes a new room.
@@ -23,9 +24,10 @@ public class Room {
      * @param tooFast too fast pacer
      * @param tooSlow too slow pacer
      * @param normalSpeed normal speed pacer
+     * @param isOngoing ongoing lecture
      */
-    public Room(long id, String title, Date startingDate,
-                boolean repeatingLecture, int tooFast, int tooSlow, int normalSpeed) {
+    public Room(long id, String title, Date startingDate, boolean repeatingLecture,
+                int tooFast, int tooSlow, int normalSpeed, boolean isOngoing) {
         this.id = id;
         this.title = title;
         this.startingDate = startingDate;
@@ -33,6 +35,7 @@ public class Room {
         this.tooFast = tooFast;
         this.tooSlow = tooSlow;
         this.normalSpeed = normalSpeed;
+        this.isOngoing = isOngoing;
     }
 
     /**
@@ -129,5 +132,21 @@ public class Room {
      */
     public void setNormalSpeed(int normalSpeed) {
         this.normalSpeed = normalSpeed;
+    }
+
+    /**
+     * Getter for ongoing lecture.
+     * @return ongoing lecture
+     */
+    public boolean isOngoing() {
+        return isOngoing;
+    }
+
+    /**
+     * Setter for ongoing lecture.
+     * @param ongoing ongoing lecture
+     */
+    public void setOngoing(boolean ongoing) {
+        isOngoing = ongoing;
     }
 }

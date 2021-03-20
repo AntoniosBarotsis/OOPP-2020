@@ -62,7 +62,7 @@ public abstract class MainMenuCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return new Room(0, "Error loading room", new Date(), false, -1, -1, -1);
+            return new Room(0, "Error loading room", new Date(), false, -1, -1, -1, false);
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
