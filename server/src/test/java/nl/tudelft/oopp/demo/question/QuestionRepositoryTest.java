@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.entities;
+package nl.tudelft.oopp.demo.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -64,14 +64,14 @@ class QuestionRepositoryTest {
 
 
     @Test
-    void getQuestion() {
-        assertEquals("This is the text 1", repository.getQuestion(id1));
+    void getText() {
+        assertEquals("This is the text 1", repository.getText(id1));
     }
 
     @Test
-    void editQuestion() {
-        repository.editQuestion(id1, "this question has changed");
-        assertEquals("this question has changed", repository.getQuestion(id1));
+    void setText() {
+        repository.setText(id1, "this question has changed");
+        assertEquals("this question has changed", repository.getText(id1));
     }
 
     @Test
@@ -81,7 +81,7 @@ class QuestionRepositoryTest {
     }
 
     @Test
-    void incrementUpvotes() {
+    void upvote() {
         assertEquals(repository.getUpvotes(id1), question1.getUpvotes());
         repository.upvote(id1);
         assertEquals(repository.getUpvotes(id1), question1.getUpvotes() + 1);

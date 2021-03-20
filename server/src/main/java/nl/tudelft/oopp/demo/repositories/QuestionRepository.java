@@ -22,8 +22,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      * @return a String of the text of the question
      */
     @Transactional
-    @Query(value = "SELECT q.text FROM Question q Where q.id = ?1 ")
-    String getQuestion(long questionId);
+    @Query(value = "SELECT q.text FROM Question q Where q.id=?1 ")
+    String getText(long questionId);
+
 
     /**
      * Add question.
@@ -45,8 +46,10 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Question q SET q.text = ?2 WHERE q.id = ?1")
-    void editQuestion(long questionId, String newQuestion);
+
+    @Query(value = "UPDATE Question q SET q.text = ?2 WHERE q.id =?1")
+    void setText(long questionId, String newQuestion);
+
 
 
     /**
@@ -224,4 +227,5 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Transactional
     @Query(value = "UPDATE Question q SET q.answer = ?2 WHERE q.id = ?1")
     void setAnswer(long questionId, String answer);
+
 }
