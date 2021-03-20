@@ -24,6 +24,15 @@ public class MainStudentCommunication extends MainMenuCommunication {
     }
 
     /**
+     * Increases normal pace counter for room.
+     * @param id id of room
+     */
+    public static void increaseNormal(long id) {
+        String link = url + "rooms/normalSpeed/increment?roomId=";
+        sendEmptyPutRequest(link + id);
+    }
+
+    /**
      * Decreases tooFast counter for room.
      * @param id id of room
      */
@@ -38,6 +47,15 @@ public class MainStudentCommunication extends MainMenuCommunication {
      */
     public static void decreaseTooSlow(long id) {
         String link = url + "rooms/tooSlow/decrement?roomId=";
+        sendEmptyPutRequest(link + id);
+    }
+
+    /**
+     * Decreases normal pace counter for room.
+     * @param id id of room
+     */
+    public static void decreaseNormal(long id) {
+        String link = url + "rooms/normalSpeed/decrement?roomId=";
         sendEmptyPutRequest(link + id);
     }
 

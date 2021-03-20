@@ -33,6 +33,8 @@ public class MainStudentController {
     @FXML
     private Button buttonFast;
     @FXML
+    private Button buttonNormal;
+    @FXML
     private Text labelMin;
     @FXML
     private Text labelSec;
@@ -102,6 +104,7 @@ public class MainStudentController {
         // Disable buttons.
         buttonFast.setDisable(true);
         buttonSlow.setDisable(true);
+        buttonNormal.setDisable(true);
 
         // Set starting timer.
         labelMin.setText(String.valueOf(4));
@@ -151,6 +154,7 @@ public class MainStudentController {
                     MainStudentCommunication.decreaseTooFast(room.getId());
                     buttonFast.setDisable(false);
                     buttonSlow.setDisable(false);
+                    buttonNormal.setDisable(false);
                 })
         );
         timeline.play();
@@ -173,6 +177,30 @@ public class MainStudentController {
                     MainStudentCommunication.decreaseTooSlow(room.getId());
                     buttonFast.setDisable(false);
                     buttonSlow.setDisable(false);
+                    buttonNormal.setDisable(false);
+                })
+        );
+        timeline.play();
+    }
+
+    /**
+     * Handles button "Normal" clicks.
+     */
+    @FXML
+    public void buttonNormalClicked() {
+        // Initialise the countdown.
+        setCountdown();
+
+        // Increase the tooSlow counter.
+        MainStudentCommunication.increaseNormal(room.getId());
+
+        // Decrease the tooSlow counter and enable buttons in 5min.
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(299), e -> {
+                    MainStudentCommunication.decreaseNormal(room.getId());
+                    buttonFast.setDisable(false);
+                    buttonSlow.setDisable(false);
+                    buttonNormal.setDisable(false);
                 })
         );
         timeline.play();

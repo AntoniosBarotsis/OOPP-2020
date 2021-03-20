@@ -21,10 +21,10 @@ class MainStudentControllerTest {
         Test plan for testing if buttonTooFast works:
         1. Launch the client application.
         2. Join a room.
-        3. Upon pressing the button, both tooSlow and tooFast buttons should get disabled.
+        3. Upon pressing the button, tooSlow, Normal and tooFast buttons should get disabled.
         4. A 5-minute countdown should initiate.
         5. A request to the server should be send to increase tooFast counter prior the countdown.
-        6. After the countdown is over, both tooSlow and tooFast buttons should get enabled.
+        6. After the countdown is over, tooSlow, Normal and tooFast buttons should get enabled.
         7. A request to the server should be send to decrease tooFast counter after the countdown.
          */
     }
@@ -35,11 +35,25 @@ class MainStudentControllerTest {
         Test plan for testing if buttonTooSlow works:
         1. Launch the client application.
         2. Join a room.
-        3. Upon pressing the button, both tooSlow and tooFast buttons should get disabled.
+        3. Upon pressing the button, tooSlow, Normal and tooFast buttons should get disabled.
         4. A 5-minute countdown should initiate.
         5. A request to the server should be send to increase tooSlow counter prior the countdown.
-        6. After the countdown is over, both tooSlow and tooFast buttons should get enabled.
+        6. After the countdown is over, tooSlow, Normal and tooFast buttons should get enabled.
         7. A request to the server should be send to decrease tooSlow counter after the countdown.
+         */
+    }
+
+    @Test
+    void buttonNormal() {
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if buttonNormal works:
+        1. Launch the client application.
+        2. Join a room.
+        3. Upon pressing the button, tooSlow, Normal and tooFast buttons should get disabled.
+        4. A 5-minute countdown should initiate.
+        5. A request to server should be send to increase normalPace counter prior the countdown.
+        6. After the countdown is over, tooSlow, Normal and tooFast buttons should get enabled.
+        7. A request to server should be send to decrease normalPace counter after the countdown.
          */
     }
 
