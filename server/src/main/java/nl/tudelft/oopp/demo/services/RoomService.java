@@ -218,8 +218,13 @@ public class RoomService {
      *
      * @param roomId    the room id
      * @param isOngoing the is ongoing
+     * @param userId    the user id
      */
-    public void setOngoing(long roomId, boolean isOngoing) {
+    public void setOngoing(long roomId, boolean isOngoing, long userId) {
+        if (isNotAuthorized(roomId, userId)) {
+            throw new UnauthorizedException("User not authorized (not an elevated user)");
+        }
+
         roomRepository.setOngoing(roomId, isOngoing);
     }
 
@@ -272,5 +277,24 @@ public class RoomService {
 
         System.out.println(authorizedIps);
         return !authorizedIps.contains(ip);
+    }
+
+    /**
+     * Is not authorized boolean.
+     *
+     * @param roomId the room id
+     * @param id     the id
+     * @return the boolean
+     */
+    public boolean isNotAuthorized(long roomId, long id) {
+        List<Long> authorizedIps = roomRepository
+            .getOne(roomId)
+            .getModerators()
+            .stream()
+            .map(User::getId)
+            .collect(Collectors.toList());
+
+        System.out.println(authorizedIps);
+        return !authorizedIps.contains(id);
     }
 }
