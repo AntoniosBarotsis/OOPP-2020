@@ -33,6 +33,7 @@ public class RoomInstanceCreator implements JsonDeserializer<Room> {
         boolean repeatingLecture = jsonObject.get("repeatingLecture").getAsBoolean();
         int tooFast = jsonObject.get("tooFast").getAsInt();
         int tooSlow = jsonObject.get("tooSlow").getAsInt();
+        int normalSpeed = jsonObject.get("normalSpeed").getAsInt();
 
         // Try to parse the input Date format.
         Date date = null;
@@ -43,6 +44,6 @@ public class RoomInstanceCreator implements JsonDeserializer<Room> {
             date = new Date();
         }
 
-        return new Room(id, title, date, repeatingLecture, tooFast, tooSlow);
+        return new Room(id, title, date, repeatingLecture, tooFast, tooSlow, normalSpeed);
     }
 }

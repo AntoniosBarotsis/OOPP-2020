@@ -12,6 +12,7 @@ public class Room {
     private boolean repeatingLecture;
     private int tooFast;
     private int tooSlow;
+    private int normalSpeed;
 
     /**
      * Initializes a new room.
@@ -21,15 +22,17 @@ public class Room {
      * @param repeatingLecture repating of lecture
      * @param tooFast too fast pacer
      * @param tooSlow too slow pacer
+     * @param normalSpeed normal speed pacer
      */
     public Room(long id, String title, Date startingDate,
-                boolean repeatingLecture, int tooFast, int tooSlow) {
+                boolean repeatingLecture, int tooFast, int tooSlow, int normalSpeed) {
         this.id = id;
         this.title = title;
         this.startingDate = startingDate;
         this.repeatingLecture = repeatingLecture;
         this.tooFast = tooFast;
         this.tooSlow = tooSlow;
+        this.normalSpeed = normalSpeed;
     }
 
     /**
@@ -110,5 +113,21 @@ public class Room {
      */
     public void setTooSlow(int tooSlow) {
         this.tooSlow = tooSlow;
+    }
+
+    /**
+     * Getter for normal speed pace.
+     * @return normal speed pace
+     */
+    public int getNormalSpeed() {
+        return normalSpeed;
+    }
+
+    /**
+     * Setter for normal speed pace.
+     * @param normalSpeed normal speed pace
+     */
+    public void setNormalSpeed(int normalSpeed) {
+        this.normalSpeed = normalSpeed;
     }
 }

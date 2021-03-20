@@ -39,6 +39,8 @@ public class MainModController {
     @FXML
     private Text labelFast;
     @FXML
+    private Text labelNormal;
+    @FXML
     private Button buttonAnswered;
 
     /**
@@ -71,6 +73,7 @@ public class MainModController {
         // Set pace labels using the data fetched from server.
         labelSlow.setText(String.valueOf(this.room.getTooSlow()));
         labelFast.setText(String.valueOf(this.room.getTooFast()));
+        labelNormal.setText(String.valueOf(this.room.getNormalSpeed()));
 
         // Fetch questions from database and load them into the ListView.
         this.questionData = MainModCommunication.getQuestions(this.room.getId());
