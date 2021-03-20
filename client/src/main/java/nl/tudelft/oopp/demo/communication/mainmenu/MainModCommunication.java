@@ -55,4 +55,18 @@ public class MainModCommunication extends MainMenuCommunication {
         return  requestStringData(link + id);
     }
 
+    /**
+     * Changes if the lecture is ongoing or not.
+     * @param roomId id of room
+     * @param userId id of user
+     * @param isOngoing new lecture status
+     */
+    public static void setOngoingLecture(long roomId, boolean isOngoing, long userId) {
+        String link = url + "rooms/setOngoing?";
+        link = link + "roomId=" + roomId;
+        link = link + "&isOngoing=" + isOngoing;
+        link = link + "&userId=" + userId;
+        sendEmptyPutRequest(link);
+    }
+
 }

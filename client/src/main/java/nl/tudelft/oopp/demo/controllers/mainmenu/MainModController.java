@@ -77,6 +77,11 @@ public class MainModController {
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+
+        // Only lecturer should be able to start/end a lecture.
+        if (!user.getUserType().equals(User.UserType.LECTURER)) {
+            buttonStartEnd.setVisible(false);
+        }
     }
 
     /**
@@ -88,6 +93,11 @@ public class MainModController {
         // Fetch room data from server.
         this.room = MainModCommunication.getRoom(room.getId());
         this.user = user;
+
+        // Changing "Start/End lecture" text is only required if user is lecturer.
+        if (user.getUserType().equals(User.UserType.LECTURER)) {
+            changeOngoingLecture();
+        }
 
         // Set pace labels using the data fetched from server.
         labelSlow.setText(String.valueOf(this.room.getTooSlow()));
@@ -199,7 +209,20 @@ public class MainModController {
      */
     @FXML
     public void buttonStartEndClicked() {
-        //TODO: The button should send request to server to start/end lecture.
+        room.setOngoing(!room.isOngoing());
+        MainModCommunication.setOngoingLecture(room.getId(), room.isOngoing(), user.getId());
+        changeOngoingLecture();
+    }
+
+    /**
+     * Inverts "Start/End lecture" button text.
+     */
+    public void changeOngoingLecture() {
+        if (room.isOngoing()) {
+            buttonStartEnd.setText("End lecture");
+        } else {
+            buttonStartEnd.setText("Start lecture");
+        }
     }
 
     /**
