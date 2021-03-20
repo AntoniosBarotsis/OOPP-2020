@@ -14,10 +14,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import nl.tudelft.oopp.demo.communication.mainmenu.MainStudentCommunication;
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
+import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
+import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 
 
 public class ModQuestionController {
@@ -137,10 +140,16 @@ public class ModQuestionController {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     questionText.setText(questionText.getText().replaceAll("\n", ""));
 
+                    String ip = MainStudentCommunication.getIp();
+
+                    StudentHelper studentHelper= new StudentHelper(user.getUsername(), ip);
+
+                    QuestionHelper questionHelper = new QuestionHelper(questionText.getText(), studentHelper);
+
                     questionText.setEditable(false);
 
                         QuestionViewCommunication
-                                .editText(question.getId(), questionText.getText());
+                                .editText(question.getId(), questionHelper);
 
                 }
             }
@@ -180,21 +189,20 @@ public class ModQuestionController {
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
 
-                    System.out.println("Hey");
                     answer = answerBox.getText();
-                    answerBox.setText("");
-                    questionText.setText(question.getText());
                     answerBox.setEditable(false);
 
-                    questionText.setText(originalQuestion + "\n\nAnswer: \n" + answer);
 
                     question.setAnswer(answer);
 
-                    try {
-                        QuestionViewCommunication.setAnswer(question.getId(), answer);
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                    String ip = MainStudentCommunication.getIp();
+
+                    StudentHelper studentHelper= new StudentHelper(user.getUsername(), ip);
+
+                    QuestionHelper questionHelper = new QuestionHelper(answerBox.getText(), studentHelper);
+
+                    QuestionViewCommunication.setAnswer(question.getId(), questionHelper);
+
                 }
             }
 

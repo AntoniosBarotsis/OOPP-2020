@@ -57,7 +57,7 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @param questionHelper the questionHelper with the next text
      */
-    @PostMapping(value = "setText")
+    @PutMapping(value = "setText")
     public void setText(@RequestBody QuestionHelper questionHelper,
                         @PathParam("questionId") long questionId) {
         questionService.setText(questionId, questionHelper);
@@ -81,7 +81,7 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @GetMapping(value = "upvote")
+    @PutMapping(value = "upvote")
     public void upvote(@PathParam("questionId") long questionId) {
         questionService.upvote(questionId);
     }
@@ -92,7 +92,7 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @PostMapping(value = "downvote")
+    @PutMapping(value = "downvote")
     public void downvote(@PathParam("questionId") long questionId) {
         questionService.downvote(questionId);
     }
@@ -128,7 +128,7 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @param score the new score value of question
      */
-    @PostMapping(value = "setScore")
+    @PutMapping(value = "setScore")
     public void setScore(@PathParam("questionId") long questionId, @PathParam("score") int score) {
         questionService.setScore(questionId, score);
     }
@@ -176,7 +176,7 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @PostMapping(value = "setAnswered")
+    @PutMapping(value = "setAnswered")
     public void setAnswered(@PathParam("questionId") long questionId) {
         questionService.setAnswered(questionId);
     }
@@ -187,8 +187,8 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @PostMapping(value = "studentSetAsAnswered")
-    public void userSetAnswered(@PathParam("questionId") long questionId){
+    @PutMapping(value = "studentSetAsAnswered")
+    public void studentSetAnswered(@PathParam("questionId") long questionId){
         questionService.userSetAnswered(questionId);
     }
 
@@ -199,8 +199,8 @@ public class QuestionControllerV1 {
      * @param maxScore the max score for checking weather to mark as answered
      * @param questionId the question id
      */
-    @PostMapping(value = "studentSetAnswered")
-    public void userSetAnswered(@PathParam("questionId") long questionId, @PathParam("maxScore") int maxScore) {
+    @PutMapping(value = "studentSetAnswered")
+    public void studentSetAnswered(@PathParam("questionId") long questionId, @PathParam("maxScore") int maxScore) {
         questionService.userSetAnswered(questionId, maxScore);
     }
 
@@ -210,7 +210,7 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @PostMapping(value = "setSpam")
+    @PutMapping(value = "setSpam")
     public void setSpam(@PathParam("questionId") long questionId) {
         questionService.setSpam(questionId);
     }
@@ -221,7 +221,7 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @PostMapping(value = "setOpen")
+    @PutMapping(value = "setOpen")
     public void setOpen(@PathParam("questionId") long questionId) {
         questionService.setOpen(questionId);
     }
@@ -245,7 +245,7 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @param questionHelper the questionHelper with the new answer as its text
      */
-    @GetMapping(value = "setAnswer")
+    @PutMapping(value = "setAnswer")
     public void setAnswer(@RequestBody QuestionHelper questionHelper,
                           @PathParam("questionId") long questionId) {
         questionService.setAnswer(questionId, questionHelper);

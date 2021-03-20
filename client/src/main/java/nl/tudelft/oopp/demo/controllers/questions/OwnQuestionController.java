@@ -94,7 +94,7 @@ public class OwnQuestionController {
      * Marks the question as answered, hiding it from this.
      */
     public void questionAnswered() {
-        QuestionViewCommunication.userMarkAsAnswer(question.getId());
+        QuestionViewCommunication.studentMarkAsAnswer(question.getId());
 
     }
 

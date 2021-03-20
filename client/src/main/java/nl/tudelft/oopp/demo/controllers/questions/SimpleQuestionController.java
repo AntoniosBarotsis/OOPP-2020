@@ -61,7 +61,7 @@ public class SimpleQuestionController {
      * Marks the question as answered, hiding it from this.
      */
     public void questionAnswered() {
-        QuestionViewCommunication.userMarkAsAnswer(question.getId());
+        QuestionViewCommunication.modMarkAsAnswer(question.getId());
     }
 
     /**
