@@ -39,7 +39,7 @@ public class Question {
     )
     @Column(name = "id", updatable = false)
     private long id;
-    @Column(name = "text")
+    @Column(name = "text", columnDefinition = "TEXT")
     private String text;
     @ManyToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "author_id")
