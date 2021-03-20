@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.helpers.StudentHelper;
 import nl.tudelft.oopp.demo.services.UserService;
@@ -34,11 +35,14 @@ public class UserController {
     /**
      * Add long.
      *
-     * @param user the user
+     * @param student the student
+     * @param request the request
      * @return the long
      */
     @PostMapping("add")
-    public long add(@RequestBody StudentHelper user) {
+    public long add(@RequestBody StudentHelper student,
+                    HttpServletRequest request) {
+        StudentHelper user = new StudentHelper(student.getUsername(), request.getRemoteAddr());
         return userService.add(user.createStudent());
     }
 }

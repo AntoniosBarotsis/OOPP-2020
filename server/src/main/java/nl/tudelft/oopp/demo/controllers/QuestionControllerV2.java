@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
@@ -33,16 +34,19 @@ public class QuestionControllerV2 {
      * @param questionHelper the question helper
      * @param roomId         the room id
      * @param authorId       the author id
+     * @param request        the request
      * @throws InvalidIdException    the invalid id exception
      * @throws UnauthorizedException the unauthorized exception
      */
     @PostMapping("add")
     public void addQuestion(@RequestBody QuestionHelper questionHelper,
                             @PathParam("roomId") long roomId,
-                            @PathParam("authorId") long authorId)
+                            @PathParam("authorId") long authorId,
+                            HttpServletRequest request)
         throws InvalidIdException, UnauthorizedException {
 
         Question question = questionHelper.createQuestion();
+        question.getAuthor().setIp(request.getRemoteAddr());
         question.getAuthor().setId(authorId);
 
         questionService.addQuestion(question, roomId);
