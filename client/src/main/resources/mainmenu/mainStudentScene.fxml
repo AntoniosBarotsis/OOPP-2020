@@ -10,21 +10,32 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #00A6D6;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.mainmenu.MainStudentController">
     <bottom>
-        <AnchorPane prefHeight="108.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="78.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="buttonSend" layoutX="536.0" layoutY="16.0" mnemonicParsing="false" onMouseClicked="#buttonSendClicked" prefHeight="80.0" prefWidth="80.0" text="Send" textAlignment="CENTER" />
-            <Separator layoutX="627.0" layoutY="17.0" orientation="VERTICAL" prefHeight="78.0" prefWidth="5.0" />
-            <TextArea fx:id="textQuestion" layoutX="14.0" layoutY="16.0" prefHeight="82.0" prefWidth="514.0" wrapText="true" />
-            <Text fill="WHITE" layoutX="634.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pace cooldown:" textAlignment="CENTER" wrappingWidth="60.00390625" />
-            <Button fx:id="buttonFast" layoutX="707.0" layoutY="75.0" mnemonicParsing="false" onMouseClicked="#buttonFastClicked" prefHeight="26.0" prefWidth="65.0" text="Too fast" textAlignment="CENTER" />
-            <Button fx:id="buttonSlow" layoutX="707.0" layoutY="5.0" mnemonicParsing="false" onMouseClicked="#buttonSlowClicked" prefHeight="26.0" prefWidth="66.0" text="Too slow" textAlignment="CENTER" />
-            <Text fx:id="labelMin" fill="WHITE" layoutX="652.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fill="WHITE" layoutX="661.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
-            <Text fx:id="labelSec" fill="WHITE" layoutX="666.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00" />
-            <Button fx:id="buttonNormal" layoutX="707.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#buttonNormalClicked" prefHeight="26.0" prefWidth="65.0" text="Normal" textAlignment="CENTER" />
+            <Button fx:id="buttonSend" layoutX="630.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#buttonSendClicked" prefHeight="60.0" prefWidth="60.0" text="Send" textAlignment="CENTER" />
+            <TextArea fx:id="textQuestion" layoutX="13.0" layoutY="9.0" prefHeight="60.0" prefWidth="610.0" wrapText="true" />
+            <Text fill="WHITE" layoutX="723.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Question cooldown:" textAlignment="CENTER" wrappingWidth="60.00390625" />
+            <Text fx:id="labelQuesMin" fill="WHITE" layoutX="735.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fill="WHITE" layoutX="748.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
+            <Text fx:id="labelQuesSec" fill="WHITE" layoutX="755.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00" />
+            <Separator layoutX="702.0" layoutY="8.0" orientation="VERTICAL" prefHeight="60.0" prefWidth="0.0" />
          </children></AnchorPane>
     </bottom>
     <center>
         <ListView fx:id="questionList" prefHeight="200.0" prefWidth="800.0" style="-fx-selection-bar: #00A6D6; -fx-selection-bar-text: WHITE;" BorderPane.alignment="CENTER" />
     </center>
+   <top>
+      <AnchorPane prefHeight="54.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="buttonAnswered" layoutX="22.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#buttonAnsweredClicked" text="Answered questions" textAlignment="CENTER" />
+            <Button fx:id="buttonFast" layoutX="723.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#buttonFastClicked" prefHeight="26.0" prefWidth="65.0" text="Too fast" textAlignment="CENTER" />
+            <Button fx:id="buttonNormal" layoutX="647.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#buttonNormalClicked" prefHeight="26.0" prefWidth="65.0" text="Normal" textAlignment="CENTER" />
+            <Button fx:id="buttonSlow" layoutX="569.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#buttonSlowClicked" prefHeight="26.0" prefWidth="66.0" text="Too slow" textAlignment="CENTER" />
+            <Text fill="WHITE" layoutX="453.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pace cooldown:" textAlignment="CENTER" wrappingWidth="60.00390625" />
+            <Text fx:id="labelPaceMin" fill="WHITE" layoutX="521.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fill="WHITE" layoutX="531.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
+            <Text fx:id="labelPaceSec" fill="WHITE" layoutX="537.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00" />
+         </children>
+      </AnchorPane>
+   </top>
 </BorderPane>
