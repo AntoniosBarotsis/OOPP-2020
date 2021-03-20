@@ -28,8 +28,6 @@ public class ModQuestionController {
     private boolean upvoted = false;
     private boolean modified;
     private String answer = "";
-    private String answerView = "";
-    private boolean answeredAlready = false;
     private String originalQuestion = "";
 
 
@@ -48,6 +46,9 @@ public class ModQuestionController {
     @FXML
     private Label upvoteNumber;
 
+    @FXML
+    private TextArea answerBox;
+
     /**
      * Loads the data of question user and room into controller as well as sets the date,
      * score and text into the fxml file.
@@ -61,6 +62,8 @@ public class ModQuestionController {
         this.room = room;
         this.user = user;
         this.question = question;
+        this.answer = question.getAnswer();
+        this.originalQuestion = question.getText();
 
         String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
         date.setText(simplifiedDate);
@@ -133,17 +136,11 @@ public class ModQuestionController {
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
 
-                    if(answeredAlready) {
-                        originalQuestion = questionText.getText().substring(0, questionText.getText().lastIndexOf("Answer"));
-                        answerView = questionText.getText().substring(questionText.getText().indexOf("Answer"));
-                    }
-                    else{
-                        originalQuestion = questionText.getText().replaceAll("\n", "");
-                    }
+                    questionText.setText(questionText.getText().replaceFirst("\n", ""));
+                    originalQuestion = questionText.getText().substring(0, questionText.getText().indexOf("\n"));
                     System.out.println(originalQuestion);
 
-                    questionText.setText(originalQuestion + answerView);
-                    questionText.setText(questionText.getText().replaceFirst("\n", ""));
+                    questionText.setText(originalQuestion + "\n\nAnswer: \n" + answer);
                     questionText.setEditable(false);
                     modified = false;
 
@@ -180,29 +177,22 @@ public class ModQuestionController {
      */
     public void answer() {
 
-        questionText.setEditable(true);
+        answerBox.setEditable(true);
 
-        if(!answeredAlready){
-            questionText.setText(questionText.getText() + "\n\n" + "Answer (enter ESC to submit): \n");
-        }
-        answeredAlready = true;
-        questionText.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        answerBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent ke) {
-                if (ke.getCode().equals(KeyCode.ESCAPE)) {
-                    originalQuestion = questionText.getText().substring(0, questionText.getText().lastIndexOf("Answer"));
+                if (ke.getCode().equals(KeyCode.ENTER)) {
 
-                    questionText.setText(questionText.getText().replace(" (enter ESC to submit): \n", ":\n") + "\n");
-                    questionText.setEditable(false);
+                    System.out.println("Hey");
+                    answer = answerBox.getText();
+                    answerBox.setText("");
+                    questionText.setText(question.getText());
+                    answerBox.setEditable(false);
 
-                    String a = questionText.getText();
-                    answer = a.replace(a.substring(0, a.lastIndexOf("Answer")), "");
-                    answer = answer.replace("Answer (enter ESC to submit)", "");
-                    answer = answer.replace("Answer:", "");
-                    answer = answer.replace(": ", "");
+                    questionText.setText(originalQuestion + "\n\nAnswer: \n" + answer);
 
                     question.setAnswer(answer);
-                    System.out.println(question.getAnswer());
 
                     try {
                         QuestionViewCommunication.setAnswer(question.getId(), answer);
