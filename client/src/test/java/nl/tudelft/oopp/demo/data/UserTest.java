@@ -12,8 +12,6 @@ class UserTest {
 
     private Set<Long> set = new HashSet<>();
     private User user = new User(1234, "teachingAssistant1234", set, set, User.UserType.MODERATOR);
-    private Question question = new Question(1, "question", 1234L, 0, 0,
-        new Date(1234567890), Question.QuestionStatus.OPEN, "");
 
     @Test
     void getId() {

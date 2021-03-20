@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import nl.tudelft.oopp.demo.data.Question;
+import nl.tudelft.oopp.demo.data.QuestionAuthor;
 
 public class QuestionInstanceCreator implements JsonDeserializer<Question> {
 
@@ -31,7 +32,11 @@ public class QuestionInstanceCreator implements JsonDeserializer<Question> {
         // Get the parameters of the json and parse them to object Question parameters.
         long id = jsonObject.get("id").getAsLong();
         String text = jsonObject.get("text").getAsString();
-        long authorId = jsonObject.get("author").getAsLong();
+
+        JsonObject authorObject = jsonObject.get("author").getAsJsonObject();
+        long authorId = authorObject.get("id").getAsLong();
+        String authorUsername = authorObject.get("username").getAsString();
+
         int upvotes = jsonObject.get("upvotes").getAsInt();
         int score = jsonObject.get("score").getAsInt();
         String statusString = jsonObject.get("QuestionStatus").getAsString();
@@ -59,6 +64,7 @@ public class QuestionInstanceCreator implements JsonDeserializer<Question> {
             date = new Date();
         }
 
-        return new Question(id, text, authorId, upvotes, score, date, status, answer);
+        QuestionAuthor questionAuthor = new QuestionAuthor(authorId, authorUsername);
+        return new Question(id, text, questionAuthor, upvotes, score, date, status, answer);
     }
 }
