@@ -3,15 +3,16 @@ package nl.tudelft.oopp.demo.controllers;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
 
 
 /**
@@ -19,18 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController("QuestionV1")
 @RequestMapping("api/v1/questions")
+@AllArgsConstructor
 public class QuestionControllerV1 {
-    @Autowired
+
     private final QuestionService questionService;
 
-    /**
-     * Instantiates a new Question controller.
-     *
-     * @param questionService the question service
-     */
-    public QuestionControllerV1(QuestionService questionService) {
-        this.questionService = questionService;
-    }
+
 
     /**
      * Gets the entity question with id questionId.
@@ -38,8 +33,9 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @return Question entity with id questionId
      */
-    @GetMapping("getQuestion/{questionId}")
-    public Question getQuestion(@PathVariable long questionId) {
+
+    @GetMapping(value = "getQuestion")
+    public Question getQuestion(@PathParam("questionId") long questionId) {
         return questionService.getQuestion(questionId);
     }
 
@@ -50,8 +46,8 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @return a String of the text of the question
      */
-    @GetMapping("getText/{questionId}")
-    public String getText(@PathVariable long questionId) {
+    @GetMapping(value = "getText")
+    public String getText(@PathParam("questionId") long questionId) {
         return questionService.getText(questionId);
     }
 
@@ -61,10 +57,10 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @param newQuestion the encoded value of text that will be set as question's text
      */
-    @GetMapping("setText/{questionId}/{newQuestion}")
-    public void setText(@PathVariable long questionId, @PathVariable String newQuestion)
-            throws UnsupportedEncodingException {
-        questionService.setText(questionId, newQuestion);
+    @PostMapping("setText")
+    public void setText(@RequestBody QuestionHelper questionHelper,
+                        @PathParam("questionId") long questionId) {
+        questionService.setText(questionId, questionHelper);
     }
 
 

@@ -135,27 +135,22 @@ public class ModQuestionController {
             @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
+                    questionText.setText(questionText.getText().replaceAll("\n", ""));
 
-                    questionText.setText(questionText.getText().replaceFirst("\n", ""));
-                    originalQuestion = questionText.getText().substring(0, questionText.getText().indexOf("\n"));
-                    System.out.println(originalQuestion);
-
-                    questionText.setText(originalQuestion + "\n\nAnswer: \n" + answer);
                     questionText.setEditable(false);
-                    modified = false;
 
-                    try {
                         QuestionViewCommunication
                                 .editText(question.getId(), questionText.getText());
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
 
+
         });
 
+
     }
+
 
     /**
      * Getter for modified.

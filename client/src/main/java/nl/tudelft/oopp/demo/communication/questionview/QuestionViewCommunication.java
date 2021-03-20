@@ -1,5 +1,9 @@
 package nl.tudelft.oopp.demo.communication.questionview;
 
+import com.google.gson.Gson;
+import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
+import nl.tudelft.oopp.demo.data.helper.StudentHelper;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -11,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 public class QuestionViewCommunication {
 
     private static HttpClient client = HttpClient.newBuilder().build();
+    private static Gson gson = new Gson();
 
     /**
      * Increments the value of upvote by 1 in the backend.
@@ -95,16 +100,27 @@ public class QuestionViewCommunication {
      * @param questionText the edited question text
      * @throws UnsupportedEncodingException if StandardCharsets.UTF_8 is not supported
      */
-    public static void editText(long id, String questionText) throws UnsupportedEncodingException {
-        String questionTextUrl = URLEncoder
-                .encode(questionText, StandardCharsets.UTF_8.toString());
-        HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v1/questions/setText/" + id + "/" + questionTextUrl))
+    public static void editText(long id, String questionText)  {
+        String url = "http://localhost:8080/api/v1/questions/setText?questionId=1";
+
+        StudentHelper studentHelper = new StudentHelper("Roy", "ip3");
+        QuestionHelper questionHelper= new QuestionHelper("question", studentHelper);
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(questionHelper)))
                 .build();
+
+        HttpResponse<String> response = null;
         try {
-            client.send(request, HttpResponse.BodyHandlers.ofString());
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return;
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
         }
     }
 

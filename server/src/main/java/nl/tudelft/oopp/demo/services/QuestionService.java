@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
@@ -91,9 +92,9 @@ public class QuestionService {
      * @param questionId the question id
      * @param newQuestion the encoded value of text that will be set as question's text.
      */
-    public void setText(long questionId, String newQuestion) throws UnsupportedEncodingException {
-        questionRepository.setText(questionId, URLDecoder
-                .decode(newQuestion, StandardCharsets.UTF_8.toString()));
+    public void setText(long questionId, QuestionHelper newQuestion) {
+        questionRepository.setText(questionId, newQuestion.getText());
+
     }
 
     /**
