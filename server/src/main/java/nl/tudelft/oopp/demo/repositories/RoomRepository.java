@@ -138,4 +138,15 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "DELETE FROM room_banned_ips WHERE banned_ips = ?2 AND room_id = ?1",
         nativeQuery = true)
     void unbanUser(long roomId, String ip);
+
+    /**
+     * Sets ongoing.
+     *
+     * @param roomId    the room id
+     * @param isOngoing the is ongoing
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Room r SET r.isOngoing = ?2 WHERE r.id = ?1")
+    void setOngoing(long roomId, boolean isOngoing);
 }

@@ -202,4 +202,16 @@ public class RoomControllerV2 {
         throws UnauthorizedException, InvalidPasswordException {
         roomService.unbanUser(roomId, ip, elevatedPassword);
     }
+
+    /**
+     * Sets room to ongoing or not.
+     *
+     * @param roomId    the room id
+     * @param isOngoing the is ongoing
+     */
+    @PutMapping("setOngoing")
+    void setOngoing(@PathParam("roomId") long roomId,
+                    @PathParam("isOngoing") boolean isOngoing) {
+        roomService.setOngoing(roomId, isOngoing);
+    }
 }

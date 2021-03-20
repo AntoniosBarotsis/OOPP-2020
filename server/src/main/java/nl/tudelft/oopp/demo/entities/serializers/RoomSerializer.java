@@ -30,6 +30,7 @@ public class RoomSerializer extends StdSerializer<Room> {
         gen.writeNumberField("tooFast", value.getTooFast());
         gen.writeNumberField("tooSlow", value.getTooSlow());
         gen.writeNumberField("normalSpeed", value.getNormalSpeed());
+        gen.writeBooleanField("isOngoing", value.isOngoing());
         gen.writeEndObject();
     }
 }
