@@ -58,7 +58,7 @@ public class OwnQuestionController {
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
 
-        checkAlreadyUpvoted(user, question);
+//        checkAlreadyUpvoted(user, question);
     }
 
     /**
