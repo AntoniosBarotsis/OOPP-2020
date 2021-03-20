@@ -172,6 +172,7 @@ public class ModQuestionController {
      */
     public void answer() {
 
+        answerBox.setText(answer);
         answerBox.setEditable(true);
 
         answerBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
