@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers.mainmenu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.List;
@@ -10,11 +11,13 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
@@ -22,6 +25,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
+import nl.tudelft.oopp.demo.controllers.questions.ModQuestionController;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
@@ -35,7 +39,7 @@ public class MainModController {
     private User user;
 
     @FXML
-    private ListView<String> questionList;
+    private ListView<AnchorPane> questionList;
     @FXML
     private Text labelSlow;
     @FXML
@@ -106,16 +110,35 @@ public class MainModController {
     protected void populateListView() {
         questionList.getItems().clear();
         for (Question question : questionData) {
-            /*
-            TODO: questionList should be loaded with FXML panels instead of string.
-             */
             boolean answered = question.getStatus().equals(Question.QuestionStatus.ANSWERED);
-            if (!filterAnswered && !answered) {
-                questionList.getItems().add(question.getText());
+            if (enableSimpleView) {
+                //TODO: questionList should be loaded with simple question panels.
+            } else if (!filterAnswered && !answered) {
+                questionList.getItems().add(loadModQuestionView(question));
             } else if (filterAnswered && answered) {
-                questionList.getItems().add(question.getText());
+                questionList.getItems().add(loadModQuestionView(question));
             }
         }
+    }
+
+    /**
+     * Loads a ModQuestionView.
+     * @param question question to be injected
+     * @return anchorPane with injected question
+     */
+    protected AnchorPane loadModQuestionView(Question question) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/questionView/modQuestionView.fxml"));
+        try {
+            AnchorPane pane = loader.load();
+            ModQuestionController controller = loader.getController();
+            controller.loadData(question, user, room);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new AnchorPane();
     }
 
     /**
