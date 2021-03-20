@@ -52,12 +52,12 @@ public class QuestionControllerV1 {
     }
 
     /**
-     * Sets the text of the question to be decoded newQuestion.
+     * Sets the text of the question to be the question in questionHelper.
      *
      * @param questionId the question id
-     * @param newQuestion the encoded value of text that will be set as question's text
+     * @param questionHelper the questionHelper with the next text
      */
-    @PostMapping("setText")
+    @PostMapping(value = "setText")
     public void setText(@RequestBody QuestionHelper questionHelper,
                         @PathParam("questionId") long questionId) {
         questionService.setText(questionId, questionHelper);
@@ -70,8 +70,8 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @return the author of the question
      */
-    @GetMapping("getAuthor/{questionId}")
-    public User getAuthor(@PathVariable long questionId) {
+    @GetMapping(value = "getAuthor")
+    public User getAuthor(@PathParam("questionId") long questionId) {
         return questionService.getAuthor(questionId);
     }
 
@@ -81,8 +81,8 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @GetMapping("upvote/{questionId}")
-    public void upvote(@PathVariable long questionId) {
+    @GetMapping(value = "upvote")
+    public void upvote(@PathParam("questionId") long questionId) {
         questionService.upvote(questionId);
     }
 
@@ -92,8 +92,8 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @GetMapping("downvote/{questionId}")
-    public void downvote(@PathVariable long questionId) {
+    @PostMapping(value = "downvote")
+    public void downvote(@PathParam("questionId") long questionId) {
         questionService.downvote(questionId);
     }
 
@@ -104,8 +104,8 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @return the value of upvotes
      */
-    @GetMapping("getUpvotes/{questionId}")
-    public int getUpvotes(@PathVariable long questionId) {
+    @GetMapping(value = "getUpvotes")
+    public int getUpvotes(@PathParam("questionId") long questionId) {
         return questionService.getUpvotes(questionId);
     }
 
@@ -116,8 +116,8 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @return the score value of question
      */
-    @GetMapping("getScore/{questionId}")
-    public int getScore(@PathVariable long questionId) {
+    @GetMapping(value = "getScore")
+    public int getScore(@PathParam("questionId") long questionId) {
         return questionService.getScore(questionId);
     }
 
@@ -128,8 +128,8 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @param score the new score value of question
      */
-    @GetMapping("setScore/{questionId}/{score}")
-    public void setScore(@PathVariable long questionId, @PathVariable int score) {
+    @PostMapping(value = "setScore")
+    public void setScore(@PathParam("questionId") long questionId, @PathParam("score") int score) {
         questionService.setScore(questionId, score);
     }
 
@@ -141,9 +141,9 @@ public class QuestionControllerV1 {
      * @param number the number of question this should return
      * @return question id of highest score Question
      */
-    @GetMapping("get/{number}")
-    public long get(@PathVariable int number) {
-        return questionService.get(number);
+    @GetMapping(value = "getHighest")
+    public long getHighest(@PathParam("number") int number){
+        return questionService.getHighest(number);
     }
 
 
@@ -153,9 +153,9 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @return the question date
      */
-    @GetMapping("getTime/{questionId}")
-    public Date getTime(@PathVariable long questionId) {
-        return questionService.getTime(questionId);
+    @GetMapping(value = "getTime")
+    public Date getDate(@PathParam("questionId") long questionId) {
+        return questionService.getDate(questionId);
     }
 
 
@@ -165,8 +165,8 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @return the status of question
      */
-    @GetMapping("getStatus/{questionId}")
-    public Question.QuestionStatus getStatus(@PathVariable long questionId) {
+    @GetMapping(value = "getStatus")
+    public Question.QuestionStatus getStatus(@PathParam("questionId") long questionId) {
         return questionService.getStatus(questionId);
     }
 
@@ -176,8 +176,8 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @GetMapping("setAnswered/{questionId}")
-    public void setAnswered(@PathVariable long questionId) {
+    @PostMapping(value = "setAnswered")
+    public void setAnswered(@PathParam("questionId") long questionId) {
         questionService.setAnswered(questionId);
     }
 
@@ -187,8 +187,8 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @GetMapping("studentSetAnswered/{questionId}")
-    public void userSetAnswered(@PathVariable long questionId) {
+    @PostMapping(value = "studentSetAsAnswered")
+    public void userSetAnswered(@PathParam("questionId") long questionId){
         questionService.userSetAnswered(questionId);
     }
 
@@ -199,8 +199,8 @@ public class QuestionControllerV1 {
      * @param maxScore the max score for checking weather to mark as answered
      * @param questionId the question id
      */
-    @GetMapping("studentSetAnswered/{questionId}/{maxScore}")
-    public void userSetAnswered(@PathVariable long questionId, @PathVariable int maxScore) {
+    @PostMapping(value = "studentSetAnswered")
+    public void userSetAnswered(@PathParam("questionId") long questionId, @PathParam("maxScore") int maxScore) {
         questionService.userSetAnswered(questionId, maxScore);
     }
 
@@ -210,8 +210,8 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @GetMapping("setSpam/{questionId}")
-    public void setSpam(@PathVariable long questionId) {
+    @PostMapping(value = "setSpam")
+    public void setSpam(@PathParam("questionId") long questionId) {
         questionService.setSpam(questionId);
     }
 
@@ -221,8 +221,8 @@ public class QuestionControllerV1 {
      *
      * @param questionId the question id
      */
-    @GetMapping("setOpen/{questionId}")
-    public void setOpen(@PathVariable long questionId) {
+    @PostMapping(value = "setOpen")
+    public void setOpen(@PathParam("questionId") long questionId) {
         questionService.setOpen(questionId);
     }
 
@@ -233,21 +233,23 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      * @return the answer
      */
-    @GetMapping("getAnswer/{questionId}")
-    public String getAnswer(@PathVariable long questionId) {
+    @GetMapping(value = "getAnswer")
+    public String getAnswer(@PathParam("questionId") long questionId) {
         return questionService.getAnswer(questionId);
     }
 
 
     /**
-     * Sets the answer of question as answer.
+     * Sets the answer of question as the text of questionHelper.
      *
      * @param questionId the question id
-     * @param answer the new answer of question
+     * @param questionHelper the questionHelper with the new answer as its text
      */
-    @GetMapping("setAnswer/{questionId}/{answer}")
-    public void setAnswer(@PathVariable long questionId, @PathVariable String answer) throws UnsupportedEncodingException {
-        questionService.setAnswer(questionId, answer);
+    @GetMapping(value = "setAnswer")
+    public void setAnswer(@RequestBody QuestionHelper questionHelper,
+                          @PathParam("questionId") long questionId) {
+        questionService.setAnswer(questionId, questionHelper);
     }
+
 
 }

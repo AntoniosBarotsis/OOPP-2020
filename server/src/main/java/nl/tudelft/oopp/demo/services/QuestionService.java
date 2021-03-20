@@ -169,7 +169,7 @@ public class QuestionService {
      * @param number the number of question this should return
      * @return question id of highest score Question
      */
-    public long get(int number) {
+    public long getHighest(int number) {
         return questionRepository.getHighestScore().get(number);
     }
 
@@ -179,8 +179,8 @@ public class QuestionService {
      * @param questionId the question id
      * @return the question date
      */
-    public Date getTime(long questionId) {
-        return questionRepository.getTime(questionId);
+    public Date getDate(long questionId) {
+        return questionRepository.getDate(questionId);
     }
 
 
@@ -261,14 +261,13 @@ public class QuestionService {
 
 
     /**
-     * Sets the answer of question as answer.
+     * Sets the answer of question as the text of questionHelper.
      *
      * @param questionId the question id
-     * @param answer the new answer of question
+     * @param questionHelper the questionHelper with the new answer as its text
      */
-    public void setAnswer(long questionId, String answer) throws UnsupportedEncodingException {
-        questionRepository.setAnswer(questionId, URLDecoder
-                .decode(answer, StandardCharsets.UTF_8.toString()));
+    public void setAnswer(long questionId, QuestionHelper questionHelper) {
+        questionRepository.setAnswer(questionId, questionHelper.getText());
     }
 
     /**
