@@ -325,7 +325,7 @@ class RoomTest {
             + "questionsAsked=[], questionsUpvoted=[], type=ADMIN)], bannedIps=[], questions=["
             + "" + questionToString + "], polls=[" + pollToString + "], tooFast=0, tooSlow=0, "
             + "normalSpeed=0, elevatedPassword=" + r1.getElevatedPassword() + ", "
-            + "normalPassword=" + r1.getNormalPassword() + ")";
+            + "normalPassword=" + r1.getNormalPassword() + ", isOngoing=" + false + ")";
 
         assertThat(str).isEqualTo(r1.toString());
     }
