@@ -6,15 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.controllers.questions.SimpleQuestionController;
-import nl.tudelft.oopp.demo.data.Question;
 import java.net.URL;
 import java.util.Date;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import nl.tudelft.oopp.demo.data.Question;
 
 import nl.tudelft.oopp.demo.data.Room;
 
 import nl.tudelft.oopp.demo.data.User;
-
 
 public class SimpleQuestionDisplay extends Application {
 

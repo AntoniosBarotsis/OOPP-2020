@@ -85,8 +85,9 @@ public class UserService {
         boolean contains = false;
 
         for (Question q: set) {
-            if (q.getId() == questionId);
-            contains = true;
+            if (q.getId() == questionId) {
+                contains = true;
+            }
         }
         if (!contains) {
             userRepository.addUpvotedQuestion(userId, questionId);
@@ -105,8 +106,9 @@ public class UserService {
         boolean contains = false;
 
         for (Question q: set) {
-            if (q.getId() == questionId);
-            contains = true;
+            if (q.getId() == questionId) {
+                contains = true;
+            }
         }
         if (contains) {
             userRepository.removeUpvotedQuestion(userId, questionId);

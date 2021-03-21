@@ -6,9 +6,9 @@ import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import java.util.HashSet;
 import java.util.Set;
+import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.stereotype.Repository;
 
@@ -37,8 +37,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO user_questions_upvoted (user_id, questions_upvoted_id) " +
-            "VALUES (?1, ?2)", nativeQuery = true)
+    @Query(value = "INSERT INTO user_questions_upvoted (user_id, questions_upvoted_id) "
+            + "VALUES (?1, ?2)", nativeQuery = true)
     void addUpvotedQuestion(Long userId, Long questionId);
 
 
@@ -50,9 +50,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "DELETE " +
-            "FROM user_questions_upvoted  " +
-            "WHERE user_id = ?1 AND questions_upvoted_id = ?2", nativeQuery = true)
+    @Query(value = "DELETE "
+            + "FROM user_questions_upvoted "
+            + "WHERE user_id = ?1 AND questions_upvoted_id = ?2", nativeQuery = true)
     void removeUpvotedQuestion(Long userId, Long questionId);
 
     /**
