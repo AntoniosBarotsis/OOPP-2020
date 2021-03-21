@@ -1,15 +1,13 @@
 package nl.tudelft.oopp.demo.repositories;
 
+import java.util.HashSet;
 import javax.transaction.Transactional;
 
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
-import java.util.HashSet;
-import java.util.Set;
 import org.springframework.data.jpa.repository.Query;
-
 import org.springframework.stereotype.Repository;
 
 

@@ -73,6 +73,8 @@ public class ModQuestionController {
             answerOption.setText("Edit Answer");
         } else {
             answerOption.setText("Answer");
+            answerBox.setText("Write answer here:");
+
         }
 
         String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
@@ -82,6 +84,7 @@ public class ModQuestionController {
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
         modified = false;
+
     }
 
     /**
@@ -151,7 +154,11 @@ public class ModQuestionController {
 
 
         answerBox.setEditable(true);
+        if (answerBox.getText().equals("Write answer here:")) {
+            answerBox.setText("");
+        }
         answerBox.requestFocus();
+        answerOption.setText("Edit Answer");
 
         answerBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
