@@ -138,12 +138,12 @@ public class ModQuestionController {
      */
     @FXML
     private void checkAlreadyUpvoted(User user, Question question) {
-                Set<Long> upvotedQuestions = user.getQuestionsUpvoted();
+        Set<Long> upvotedQuestions = user.getQuestionsUpvoted();
 
-                if (upvotedQuestions != null && upvotedQuestions.contains(question.getId())) {
-                    upvoted = true;
-                    upvoteButton.setStyle("-fx-text-fill: #808080");
-                }
+        if (upvotedQuestions != null && upvotedQuestions.contains(question.getId())) {
+            upvoted = true;
+            upvoteButton.setStyle("-fx-text-fill: #808080");
+        }
     }
 
     /**

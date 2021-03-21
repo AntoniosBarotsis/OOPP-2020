@@ -60,7 +60,7 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
     public static void studentMarkAsAnswer(long id) {
-        String url = "http://localhost:8080/api/v1/questions/studentSetAnswered?";
+        String url = "http://localhost:8080/api/v1/questions/studentSetAsAnswered?";
         url = url+ "questionId=" + id;
         sendEmptyPutRequest(url);
 

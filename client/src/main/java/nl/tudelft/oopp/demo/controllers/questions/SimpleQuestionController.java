@@ -74,13 +74,5 @@ public class SimpleQuestionController {
         markAsAnsweredOption.setVisible(false);
     }
 
-    /**
-     * Takes an integer i and sets the upvotes label to that integer,
-     * letting the lecturer know of the popularity of the question.
-     * @param i the number of upvotes
-     */
-    public void setUpvotes(int i){
-        upvotes.setText(Integer.toString(i));
-    }
 }
 

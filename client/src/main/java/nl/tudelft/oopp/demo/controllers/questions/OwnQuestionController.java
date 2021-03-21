@@ -66,7 +66,7 @@ public class OwnQuestionController {
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
 
-//        checkAlreadyUpvoted(user, question);
+        checkAlreadyUpvoted(user, question);
     }
 
     /**
@@ -77,17 +77,27 @@ public class OwnQuestionController {
     @FXML
     private void upvote() {
         if (upvoted) {
-            QuestionViewCommunication.upvote(question.getId());
+            QuestionViewCommunication.downvote(question.getId());
+            QuestionViewCommunication.removeQuestionUpvoted(question.getId(), user.getId());
 
             upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) - 1));
+            upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
-            upvoted = false;
+
+            user.removeQuestionUpvoted(question.getId());
+
+
         } else {
-            QuestionViewCommunication.downvote(question.getId());
+            QuestionViewCommunication.upvote(question.getId());
+            QuestionViewCommunication.addQuestionUpvoted(question.getId(), user.getId());
+
 
             upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) + 1));
+            upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #808080");
-            upvoted = true;
+
+            user.addQuestionUpvoted(question.getId());
+
         }
     }
 
@@ -103,7 +113,7 @@ public class OwnQuestionController {
      */
     public void questionAnswered() {
         QuestionViewCommunication.studentMarkAsAnswer(question.getId());
-
+        markAsAnsweredOption.setVisible(false);
     }
 
 
@@ -116,11 +126,12 @@ public class OwnQuestionController {
      */
     @FXML
     private void checkAlreadyUpvoted(User user, Question question) {
-        //        Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
-        //        if (upvotedQuestions.contains(question)) {
-        //            upvoted = true;
-        //            upvoteButton.setStyle("-fx-text-fill: #808080");
-        //        }
+        Set<Long> upvotedQuestions = user.getQuestionsUpvoted();
+
+        if (upvotedQuestions != null && upvotedQuestions.contains(question.getId())) {
+            upvoted = true;
+            upvoteButton.setStyle("-fx-text-fill: #808080");
+        }
     }
 
 }
