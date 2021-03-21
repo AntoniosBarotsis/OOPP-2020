@@ -21,13 +21,13 @@
             <TextArea fx:id="answerBox" editable="false" prefHeight="38.0" prefWidth="576.0" wrapText="true" />
                 </children>
       </TextFlow>
-            <MenuButton fx:id="options" alignment="CENTER" layoutX="652.0" layoutY="2.0" mnemonicParsing="false" prefHeight="85.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: #00A6D6; -fx-border-width: 2;" text="Options" textAlignment="CENTER">
+            <MenuButton fx:id="options" alignment="CENTER" layoutX="652.0" layoutY="2.0" mnemonicParsing="false" onHidden = "#optionsHidden" onShown="#optionsClicked" prefHeight="85.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: #00A6D6; -fx-border-width: 2;" text="Options" textAlignment="CENTER">
                 <items>
-            <MenuItem mnemonicParsing="false" onAction="#edit" text="Edit" />
-            <MenuItem mnemonicParsing="false" onAction="#answer" text="Answer" />
-            <MenuItem mnemonicParsing="false" onAction="#questionAnswered" text="Mark as answered" />
-            <MenuItem mnemonicParsing="false" onAction="#banUser" text="Ban" />
-            <MenuItem mnemonicParsing="false" onAction="#deleteQuestion" text="Delete question" />
+            <MenuItem fx:id="editOption" mnemonicParsing="false" onAction="#edit" text="Edit" />
+            <MenuItem fx:id="answerOption" mnemonicParsing="false" onAction="#answer" text="Answer" />
+            <MenuItem fx:id="markAsAnswerOption" mnemonicParsing="false" onAction="#questionAnswered" text="Mark as answered" />
+            <MenuItem fx:id="banOption" mnemonicParsing="false" onAction="#banUser" text="Ban" />
+            <MenuItem fx:id="deleteOption" mnemonicParsing="false" onAction="#deleteQuestion" text="Delete question" />
                 </items>
             </MenuButton>
         <Line endX="660.0" endY="-1.52587890625E-5" layoutX="100.0" layoutY="120.0" startX="-100.0" stroke="#00a6d6" strokeWidth="5.0" />

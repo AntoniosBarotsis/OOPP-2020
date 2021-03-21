@@ -1,16 +1,15 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
-import java.io.UnsupportedEncodingException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -22,6 +21,9 @@ import nl.tudelft.oopp.demo.data.User;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 
+import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
+import static com.sun.java.accessibility.util.AWTEventMonitor.removeMouseListener;
+
 
 public class ModQuestionController {
 
@@ -30,10 +32,11 @@ public class ModQuestionController {
     private Room room;
     private boolean upvoted = false;
     private boolean modified;
-    private String answer = "";
-    private String originalQuestion = "";
+    private String answer;
 
 
+    @FXML
+    private MenuItem answerOption;
     @FXML
     private Label date;
 
@@ -66,7 +69,13 @@ public class ModQuestionController {
         this.user = user;
         this.question = question;
         this.answer = question.getAnswer();
-        this.originalQuestion = question.getText();
+
+        if(answer != ""){
+            answerBox.setText(answer);
+            answerOption.setText("Edit Answer");
+        } else {
+            answerOption.setText("Answer");
+        }
 
         String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
         date.setText(simplifiedDate);
@@ -77,6 +86,7 @@ public class ModQuestionController {
         modified = false;
 
         checkAlreadyUpvoted(user, question);
+
     }
 
     /**
@@ -111,11 +121,12 @@ public class ModQuestionController {
      */
     @FXML
     private void checkAlreadyUpvoted(User user, Question question) {
-        //        Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
-        //        if (upvotedQuestions.contains(question)) {
-        //            upvoted = true;
-        //            upvoteButton.setStyle("-fx-text-fill: #808080");
-        //        }
+                Set<Long> upvotedQuestions = user.getQuestionsUpvoted();
+
+                if (upvotedQuestions != null && upvotedQuestions.contains(question.getId())) {
+                    upvoted = true;
+                    upvoteButton.setStyle("-fx-text-fill: #808080");
+                }
     }
 
     /**
@@ -134,11 +145,12 @@ public class ModQuestionController {
     public void edit() {
         modified = true;
         questionText.setEditable(true);
+        questionText.requestFocus();
         questionText.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
-                    questionText.setText(questionText.getText().replaceAll("\n", ""));
+                    questionText.setText(questionText.getText());
 
                     String ip = MainStudentCommunication.getIp();
 
@@ -166,7 +178,7 @@ public class ModQuestionController {
      *
      * @return modified
      */
-    public boolean getModifyed() {
+    public boolean getModified() {
         return modified;
     }
 
@@ -181,16 +193,17 @@ public class ModQuestionController {
      */
     public void answer() {
 
-        answerBox.setText(answer);
+
         answerBox.setEditable(true);
+        answerBox.requestFocus();
 
         answerBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
+                    answerBox.setEditable(false);
 
                     answer = answerBox.getText();
-                    answerBox.setEditable(false);
 
 
                     question.setAnswer(answer);
@@ -213,5 +226,13 @@ public class ModQuestionController {
      * Deletes the marked question.
      */
     public void deleteQuestion() {
+    }
+
+    public void optionsClicked() {
+        modified = true;
+    }
+
+    public void optionsHidden(){
+        modified = false;
     }
 }
