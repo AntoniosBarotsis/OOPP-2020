@@ -57,7 +57,7 @@ public class OthersQuestionController {
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
 
-        if(!question.getAnswer().equals("")) {
+        if (!question.getAnswer().equals("")) {
             questionText.setText(questionText.getText() + "\n\nAnswer:\n"
                     + question.getAnswer());
         }
