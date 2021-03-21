@@ -98,23 +98,25 @@ public class ModQuestionController {
     private void upvote() {
         if (upvoted) {
             QuestionViewCommunication.downvote(question.getId());
-            QuestionViewCommunication.addQuestionUpvoted(question.getId(), user.getId());
+            QuestionViewCommunication.removeQuestionUpvoted(question.getId(), user.getId());
 
             upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) - 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
 
-            user.addQuestionUpvoted(question.getId());
+            user.removeQuestionUpvoted(question.getId());
 
 
         } else {
             QuestionViewCommunication.upvote(question.getId());
+            QuestionViewCommunication.addQuestionUpvoted(question.getId(), user.getId());
+
 
             upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) + 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #808080");
 
-            user.removeQuestionUpvoted(question.getId());
+            user.addQuestionUpvoted(question.getId());
 
         }
     }
@@ -157,7 +159,7 @@ public class ModQuestionController {
             @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
-                    questionText.setText(questionText.getText());
+                    questionText.setText(questionText.getText().replaceAll("\n", " "));
 
                     String ip = MainStudentCommunication.getIp();
 
@@ -168,7 +170,7 @@ public class ModQuestionController {
                     questionText.setEditable(false);
 
                         QuestionViewCommunication
-                                .editText(question.getId(), questionHelper);
+                                .setText(question.getId(), questionHelper);
 
                 }
             }
@@ -210,6 +212,9 @@ public class ModQuestionController {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     answerBox.setEditable(false);
 
+                    answerBox.setText(answerBox.getText().replaceAll("\n", " "));
+
+
                     answer = answerBox.getText();
 
 
@@ -235,10 +240,16 @@ public class ModQuestionController {
     public void deleteQuestion() {
     }
 
+    /**
+     * Marks questionView as modified when options is clicked.
+     */
     public void optionsClicked() {
         modified = true;
     }
 
+    /**
+     * Marks questionView as not modified when options hides.
+     */
     public void optionsHidden(){
         modified = false;
     }

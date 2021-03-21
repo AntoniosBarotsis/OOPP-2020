@@ -73,14 +73,51 @@ public class UserService {
         return objMapper.writeValueAsString(users);
     }
 
+    /**
+     * Adds questionId to the ids of question user with userId upvoted, if he did not upvote it before.
+     *
+     * @param userId the user id
+     * @param questionId the question id
+     */
     public void addUpvotedQuestion(Long userId, Long questionId) {
-        userRepository.addUpvotedQuestion(userId, questionId);
+        HashSet<Question> set = userRepository.getUpvotedQuestion(userId);
+        boolean contains =false;
+
+        for(Question q: set){
+            if(q.getId() == questionId);
+            contains = true;
+        }
+        if(!contains){
+            userRepository.addUpvotedQuestion(userId, questionId);
+        }
     }
 
+    /**
+     * Removes questionId from the ids of questions user with userId upvoted, if user upvoted the question before.
+     *
+     * @param userId the user id
+     * @param questionId the question id
+     */
     public void removeUpvotedQuestion(Long userId, Long questionId) {
-        userRepository.removeUpvotedQuestion(userId,   questionId );
+        HashSet<Question> set = userRepository.getUpvotedQuestion(userId);
+        boolean contains =false;
+
+        for(Question q: set){
+            if(q.getId() == questionId);
+            contains = true;
+        }
+        if(contains){
+            userRepository.removeUpvotedQuestion(userId, questionId);
+        }
+
     }
 
+
+    /**
+     * Gets the set of questions user with userId upvoted,
+     *
+     * @param userId the user id
+     */
     public HashSet<Question> getUpvotedQuestion(Long userId) {
         return userRepository.getUpvotedQuestion(userId);
     }

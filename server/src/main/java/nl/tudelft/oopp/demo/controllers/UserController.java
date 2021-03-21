@@ -48,20 +48,36 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "addUpvotedQuestion")
+    /**
+     * Adds questionId to the ids of question user with userId upvoted, if he did not upvote it before.
+     *
+     * @param userId the user id
+     * @param questionId the question id
+     */
+    @PostMapping(value = "addUpvotedQuestion")
     public void addUpvotedQuestion(@PathParam("userId") Long userId, @PathParam("questionId") Long questionId){
         userService.addUpvotedQuestion(userId, questionId);
 
     }
 
-    @GetMapping(value = "removeUpvotedQuestion")
+    /**
+     * Removes questionId from the ids of questions user with userId upvoted, if user upvoted the question before.
+     *
+     * @param userId the user id
+     * @param questionId the question id
+     */
+    @PostMapping(value = "removeUpvotedQuestion")
     public void removeUpvotedQuestion(@PathParam("userId") Long userId, @PathParam("questionId") Long questionId){
         userService.removeUpvotedQuestion(userId, questionId);
-
     }
+
+    /**
+     * Gets the set of questions user with userId upvoted,
+     *
+     * @param userId the user id
+     */
     @GetMapping(value = "getUpvotedQuestion")
     public HashSet<Question> getUpvotedQuestion(@PathParam("userId") Long userId){
         return userService.getUpvotedQuestion(userId);
-
     }
 }
