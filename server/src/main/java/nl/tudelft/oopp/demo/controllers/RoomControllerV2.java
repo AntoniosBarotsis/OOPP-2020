@@ -190,7 +190,8 @@ public class RoomControllerV2 {
     /**
      * Create a new room.
      *
-     * @param userId the id of the admin of the room
+     * @param username the admin's username
+     * @param ip the admin's ip
      * @param title the title of the room
      * @return the newly created room
      */
@@ -228,7 +229,8 @@ public class RoomControllerV2 {
     /**
      * Schedule a new room.
      *
-     * @param userId the id of the admin of the room
+     * @param username the admin's username
+     * @param ip the admin's ip
      * @param title the title of the room
      * @param date the starting date/time for the room
      * @return the newly created room
