@@ -8,15 +8,19 @@ import javafx.stage.Stage;
 
 public class StartController {
 
-    public void buttonCreate(ActionEvent event) throws Exception{
+    public void buttonCreate(ActionEvent event) throws Exception {
         createStage();
     }
 
-    public void buttonJoin(ActionEvent event) throws Exception{
+    public void buttonJoin(ActionEvent event) throws Exception {
         joinStage();
     }
 
-    public void createStage() throws Exception{
+    /**
+     * Creates new create room window.
+     * @throws Exception if fxml loader fails
+     */
+    public void createStage() throws Exception {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/startView/createRoomScene.fxml"));
         stage.setTitle("Create Screen");
@@ -24,7 +28,11 @@ public class StartController {
         stage.show();
     }
 
-    public void joinStage() throws Exception{
+    /**
+     * Creates new join room window.
+     * @throws Exception if fxml loader fails
+     */
+    public void joinStage() throws Exception {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/startView/joinRoomScene.fxml"));
         stage.setTitle("Create Screen");
