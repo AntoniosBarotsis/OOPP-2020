@@ -165,9 +165,7 @@ public class MainStudentController {
     @FXML
     public void buttonFastClicked() {
         // Disable buttons.
-        buttonFast.setDisable(true);
-        buttonSlow.setDisable(true);
-        buttonNormal.setDisable(true);
+        setButtonDisabled();
 
         // Initialise the countdown.
         setCountdown(labelPaceMin, labelPaceSec);
@@ -179,9 +177,7 @@ public class MainStudentController {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(299), e -> {
                     MainStudentCommunication.decreaseTooFast(room.getId());
-                    buttonFast.setDisable(false);
-                    buttonSlow.setDisable(false);
-                    buttonNormal.setDisable(false);
+                    setButtonDisabled();
                 })
         );
         timeline.play();
@@ -193,9 +189,7 @@ public class MainStudentController {
     @FXML
     public void buttonSlowClicked() {
         // Disable buttons.
-        buttonFast.setDisable(true);
-        buttonSlow.setDisable(true);
-        buttonNormal.setDisable(true);
+        setButtonDisabled();
 
         // Initialise the countdown.
         setCountdown(labelPaceMin, labelPaceSec);
@@ -207,9 +201,7 @@ public class MainStudentController {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(299), e -> {
                     MainStudentCommunication.decreaseTooSlow(room.getId());
-                    buttonFast.setDisable(false);
-                    buttonSlow.setDisable(false);
-                    buttonNormal.setDisable(false);
+                    setButtonDisabled();
                 })
         );
         timeline.play();
@@ -221,9 +213,7 @@ public class MainStudentController {
     @FXML
     public void buttonNormalClicked() {
         // Disable buttons.
-        buttonFast.setDisable(true);
-        buttonSlow.setDisable(true);
-        buttonNormal.setDisable(true);
+        setButtonDisabled();
 
         // Initialise the countdown.
         setCountdown(labelPaceMin, labelPaceSec);
@@ -235,12 +225,19 @@ public class MainStudentController {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(299), e -> {
                     MainStudentCommunication.decreaseNormal(room.getId());
-                    buttonFast.setDisable(false);
-                    buttonSlow.setDisable(false);
-                    buttonNormal.setDisable(false);
+                    setButtonDisabled();
                 })
         );
         timeline.play();
+    }
+
+    /**
+     * Inverts button enabled/disabled.
+     */
+    protected void setButtonDisabled() {
+        buttonFast.setDisable(!buttonFast.isDisabled());
+        buttonSlow.setDisable(!buttonSlow.isDisabled());
+        buttonNormal.setDisable(!buttonNormal.isDisabled());
     }
 
     /**
@@ -264,13 +261,14 @@ public class MainStudentController {
         );
         timeline.play();
 
+        // Replace newlines from question with " ".
+        textQuestion.setText(textQuestion.getText().replace("\n", " "));
+        String text = textQuestion.getText();
+
         // Create a helper student object.
         StudentHelper studentHelper = new StudentHelper(this.user.getUsername(), "");
 
         // Create a helper question object.
-        textQuestion.setText(textQuestion.getText().replace("\n", " "));
-        String text = textQuestion.getText();
-        System.out.println(text);
         QuestionHelper question = new QuestionHelper(text, studentHelper);
 
         // Send the data to server.
