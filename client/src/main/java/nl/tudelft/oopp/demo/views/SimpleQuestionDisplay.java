@@ -1,14 +1,15 @@
 package nl.tudelft.oopp.demo.views;
 
+import java.io.IOException;
+
+import java.net.URL;
+import java.util.Date;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.net.URL;
-import java.util.Date;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
+
 import nl.tudelft.oopp.demo.controllers.questions.SimpleQuestionController;
 import nl.tudelft.oopp.demo.data.Question;
 

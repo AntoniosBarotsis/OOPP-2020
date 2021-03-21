@@ -1,18 +1,15 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import javax.websocket.server.PathParam;
 
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.services.QuestionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import javax.websocket.server.PathParam;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 

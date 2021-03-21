@@ -1,17 +1,13 @@
 package nl.tudelft.oopp.demo.communication.questionview;
 
 import com.google.gson.Gson;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import java.nio.charset.StandardCharsets;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 
-import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 
 
 public class QuestionViewCommunication {
