@@ -7,21 +7,16 @@
 
 <AnchorPane prefHeight="120.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.questions.ModQuestionController">
     <children>
-          <Button fx:id="upvoteButton" alignment="CENTER" contentDisplay="CENTER" layoutY="2.4000000953674316" mnemonicParsing="false" onMouseClicked="#upvote" prefHeight="85.0" prefWidth="78.0" style="-fx-background-color: white; -fx-border-color: #DBDBDB; -fx-border-width: 1;" text="▲" textFill="#00a6d6">
-              <font>
-                  <Font size="25.0" />
-              </font>
-      </Button>
           <Label fx:id="date" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="473.6000061035156" layoutY="90.4000015258789" prefHeight="35.0" prefWidth="287.0" />
       <Label fx:id="username" layoutX="77.5999984741211" layoutY="90.4000015258789" prefHeight="35.0" prefWidth="329.0" />
           <Label fx:id="upvoteNumber" alignment="CENTER" layoutY="87.0" prefHeight="35.0" prefWidth="78.0" style="-fx-border-color: #DBDBDB; -fx-border-width: 1;" textAlignment="CENTER" />
-            <TextFlow layoutX="78.0" layoutY="3.0" prefHeight="86.0" prefWidth="574.0">
+            <TextFlow layoutX="6.0" layoutY="3.0" prefHeight="86.0" prefWidth="640.0">
                 <children>
-                    <TextArea fx:id="questionText" editable="false" focusTraversable="false" maxWidth="578.0" prefHeight="45.0" prefWidth="578.0" style="-fx-border-width: 0;" wrapText="true" />
-            <TextArea fx:id="answerBox" editable="false" prefHeight="38.0" prefWidth="576.0" wrapText="true" />
+                    <TextArea fx:id="questionText" editable="false" focusTraversable="false" maxWidth="635.0" prefHeight="46.0" prefWidth="635.0" style="-fx-border-width: 0;" wrapText="true" />
+            <TextArea fx:id="answerBox" editable="false" prefHeight="38.0" prefWidth="635.0" wrapText="true" />
                 </children>
       </TextFlow>
-            <MenuButton fx:id="options" alignment="CENTER" layoutX="652.0" layoutY="2.0" mnemonicParsing="false" onHidden = "#optionsHidden" onShown="#optionsClicked" prefHeight="85.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: #00A6D6; -fx-border-width: 2;" text="Options" textAlignment="CENTER">
+            <MenuButton fx:id="options" alignment="CENTER" layoutX="652.0" layoutY="2.0" mnemonicParsing="false" onHidden="#optionsHidden" onShown="#optionsClicked" prefHeight="85.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: #00A6D6; -fx-border-width: 2;" text="Options" textAlignment="CENTER">
                 <items>
             <MenuItem fx:id="editOption" mnemonicParsing="false" onAction="#edit" text="Edit" />
             <MenuItem fx:id="answerOption" mnemonicParsing="false" onAction="#answer" text="Answer" />

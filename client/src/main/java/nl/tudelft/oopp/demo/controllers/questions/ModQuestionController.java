@@ -1,12 +1,8 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.text.SimpleDateFormat;
-import java.util.Set;
 
-import javafx.event.ActionEvent;
+import java.text.SimpleDateFormat;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -21,8 +17,6 @@ import nl.tudelft.oopp.demo.data.User;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
-import static com.sun.java.accessibility.util.AWTEventMonitor.removeMouseListener;
 
 
 public class ModQuestionController {
@@ -30,7 +24,6 @@ public class ModQuestionController {
     private Question question;
     private User user;
     private Room room;
-    private boolean upvoted = false;
     private boolean modified;
     private String answer;
 
@@ -48,9 +41,6 @@ public class ModQuestionController {
 
     @FXML
     private TextArea questionText;
-
-    @FXML
-    private Button upvoteButton;
 
     @FXML
     private Label upvoteNumber;
@@ -92,58 +82,6 @@ public class ModQuestionController {
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
         modified = false;
-
-        checkAlreadyUpvoted(user, question);
-
-    }
-
-    /**
-     * Takes a question and increases/decreases the votes,
-     * depending on the user interaction with the upvoting button.
-     * Turns the button grey when upvoted and blue when decreased.
-     */
-    @FXML
-    private void upvote() {
-        if (upvoted) {
-            QuestionViewCommunication.downvote(question.getId());
-            QuestionViewCommunication.removeQuestionUpvoted(question.getId(), user.getId());
-
-            upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) - 1));
-            upvoted = !upvoted;
-            upvoteButton.setStyle("-fx-text-fill: #00A6D6");
-
-            user.removeQuestionUpvoted(question.getId());
-
-
-        } else {
-            QuestionViewCommunication.upvote(question.getId());
-            QuestionViewCommunication.addQuestionUpvoted(question.getId(), user.getId());
-
-
-            upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) + 1));
-            upvoted = !upvoted;
-            upvoteButton.setStyle("-fx-text-fill: #808080");
-
-            user.addQuestionUpvoted(question.getId());
-
-        }
-    }
-
-    /**
-     * Checks if the user already upvoted the question, and if the case the upvote
-     * button turns grey and upvoted is true.
-     *
-     * @param user the User entity.
-     * @param question the Question entity.
-     */
-    @FXML
-    private void checkAlreadyUpvoted(User user, Question question) {
-        Set<Long> upvotedQuestions = user.getQuestionsUpvoted();
-
-        if (upvotedQuestions != null && upvotedQuestions.contains(question.getId())) {
-            upvoted = true;
-            upvoteButton.setStyle("-fx-text-fill: #808080");
-        }
     }
 
     /**
@@ -183,7 +121,6 @@ public class ModQuestionController {
 
                 }
             }
-
 
         });
 
