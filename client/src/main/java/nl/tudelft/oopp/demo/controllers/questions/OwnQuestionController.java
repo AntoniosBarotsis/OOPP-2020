@@ -50,7 +50,7 @@ public class OwnQuestionController {
      * @param room the room information
      */
     public void loadData(Question question, User user, Room room) {
-        if(question.getStatus().equals(Question.QuestionStatus.ANSWERED)){
+        if (question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
             markAsAnsweredOption.setVisible(false);
         } else {
             markAsAnsweredOption.setVisible(true);

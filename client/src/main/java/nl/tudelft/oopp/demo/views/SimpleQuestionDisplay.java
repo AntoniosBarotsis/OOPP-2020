@@ -7,17 +7,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.controllers.questions.SimpleQuestionController;
 import nl.tudelft.oopp.demo.data.Question;
-import nl.tudelft.oopp.demo.data.Room;
-
 import java.net.URL;
 import java.util.Date;
 import java.io.IOException;
+
+import nl.tudelft.oopp.demo.data.Room;
 
 import nl.tudelft.oopp.demo.data.User;
 
 
 public class SimpleQuestionDisplay extends Application {
 
+    @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         URL xmlUrl = getClass().getResource("/questionView/simplisticView.fxml");

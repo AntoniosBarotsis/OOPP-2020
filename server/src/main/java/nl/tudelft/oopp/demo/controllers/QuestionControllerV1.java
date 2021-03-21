@@ -10,14 +10,14 @@ import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
 import javax.websocket.server.PathParam;
+
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -147,7 +147,7 @@ public class QuestionControllerV1 {
      * @return question id of highest score Question
      */
     @GetMapping(value = "getHighest")
-    public long getHighest(@PathParam("number") int number){
+    public long getHighest(@PathParam("number") int number) {
         return questionService.getHighest(number);
     }
 
@@ -193,7 +193,7 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      */
     @PutMapping(value = "studentSetAsAnswered")
-    public void studentSetAnswered(@PathParam("questionId") long questionId){
+    public void studentSetAnswered(@PathParam("questionId") long questionId) {
         questionService.userSetAnswered(questionId);
     }
 
@@ -205,7 +205,8 @@ public class QuestionControllerV1 {
      * @param questionId the question id
      */
     @PutMapping(value = "studentSetAnswered")
-    public void studentSetAnswered(@PathParam("questionId") long questionId, @PathParam("maxScore") int maxScore) {
+    public void studentSetAnswered(
+            @PathParam("questionId") long questionId, @PathParam("maxScore") int maxScore) {
         questionService.userSetAnswered(questionId, maxScore);
     }
 

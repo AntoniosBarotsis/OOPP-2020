@@ -10,8 +10,8 @@ import javafx.scene.input.KeyEvent;
 
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
-import nl.tudelft.oopp.demo.data.Room;
 import java.text.SimpleDateFormat;
+import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
 
@@ -58,7 +58,7 @@ public class SimpleQuestionController {
         questionText.setText(question.getText());
         upvotes.setText(Integer.toString(question.getUpvotes()));
 
-        if(question.getStatus().equals(Question.QuestionStatus.ANSWERED)){
+        if (question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
             markAsAnsweredOption.setVisible(false);
         } else {
             markAsAnsweredOption.setVisible(true);

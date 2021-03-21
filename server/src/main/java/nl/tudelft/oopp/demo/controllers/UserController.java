@@ -9,12 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import javax.websocket.server.PathParam;
 import java.util.HashSet;
 import java.util.Set;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The type User controller.
@@ -49,35 +49,37 @@ public class UserController {
 
 
     /**
-     * Adds questionId to the ids of question user with userId upvoted, if he did not upvote it before.
+     * Adds questionId to the ids of question user with userId upvoted,
+     * if he did not upvote it before.
      *
      * @param userId the user id
      * @param questionId the question id
      */
     @PostMapping(value = "addUpvotedQuestion")
-    public void addUpvotedQuestion(@PathParam("userId") Long userId, @PathParam("questionId") Long questionId){
+    public void addUpvotedQuestion(@PathParam("userId") Long userId, @PathParam("questionId") Long questionId) {
         userService.addUpvotedQuestion(userId, questionId);
-
     }
 
     /**
-     * Removes questionId from the ids of questions user with userId upvoted, if user upvoted the question before.
+     * Removes questionId from the ids of questions user with userId upvoted,
+     * if user upvoted the question before.
      *
      * @param userId the user id
      * @param questionId the question id
      */
     @PostMapping(value = "removeUpvotedQuestion")
-    public void removeUpvotedQuestion(@PathParam("userId") Long userId, @PathParam("questionId") Long questionId){
+    public void removeUpvotedQuestion
+            (@PathParam("userId") Long userId, @PathParam("questionId") Long questionId) {
         userService.removeUpvotedQuestion(userId, questionId);
     }
 
     /**
-     * Gets the set of questions user with userId upvoted,
+     * Gets the set of questions user with userId upvoted.
      *
      * @param userId the user id
      */
     @GetMapping(value = "getUpvotedQuestion")
-    public HashSet<Question> getUpvotedQuestion(@PathParam("userId") Long userId){
+    public HashSet<Question> getUpvotedQuestion(@PathParam("userId") Long userId) {
         return userService.getUpvotedQuestion(userId);
     }
 }

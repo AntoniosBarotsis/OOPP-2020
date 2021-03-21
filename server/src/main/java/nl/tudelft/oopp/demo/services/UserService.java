@@ -74,39 +74,41 @@ public class UserService {
     }
 
     /**
-     * Adds questionId to the ids of question user with userId upvoted, if he did not upvote it before.
+     * Adds questionId to the ids of question user with userId upvoted,
+     * if he did not upvote it before.
      *
      * @param userId the user id
      * @param questionId the question id
      */
     public void addUpvotedQuestion(Long userId, Long questionId) {
         HashSet<Question> set = userRepository.getUpvotedQuestion(userId);
-        boolean contains =false;
+        boolean contains = false;
 
-        for(Question q: set){
-            if(q.getId() == questionId);
+        for (Question q: set) {
+            if (q.getId() == questionId);
             contains = true;
         }
-        if(!contains){
+        if (!contains) {
             userRepository.addUpvotedQuestion(userId, questionId);
         }
     }
 
     /**
-     * Removes questionId from the ids of questions user with userId upvoted, if user upvoted the question before.
+     * Removes questionId from the ids of questions user with userId upvoted,
+     * if user upvoted the question before.
      *
      * @param userId the user id
      * @param questionId the question id
      */
     public void removeUpvotedQuestion(Long userId, Long questionId) {
         HashSet<Question> set = userRepository.getUpvotedQuestion(userId);
-        boolean contains =false;
+        boolean contains = false;
 
-        for(Question q: set){
-            if(q.getId() == questionId);
+        for (Question q: set) {
+            if (q.getId() == questionId);
             contains = true;
         }
-        if(contains){
+        if (contains) {
             userRepository.removeUpvotedQuestion(userId, questionId);
         }
 
@@ -114,7 +116,7 @@ public class UserService {
 
 
     /**
-     * Gets the set of questions user with userId upvoted,
+     * Gets the set of questions user with userId upvoted.
      *
      * @param userId the user id
      */

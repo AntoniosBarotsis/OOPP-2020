@@ -97,7 +97,7 @@ public class User {
      *
      * @param questionId the question id
      */
-    public void addQuestionUpvoted(Long questionId){
+    public void addQuestionUpvoted(Long questionId) {
         questionsUpvoted.add(questionId);
     }
 
@@ -106,7 +106,7 @@ public class User {
      *
      * @param questionId the question id
      */
-    public void removeQuestionUpvoted(Long questionId){
+    public void removeQuestionUpvoted(Long questionId) {
         questionsUpvoted.remove(questionId);
     }
 

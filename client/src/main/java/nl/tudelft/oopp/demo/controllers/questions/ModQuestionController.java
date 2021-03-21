@@ -4,9 +4,9 @@ import java.text.SimpleDateFormat;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -58,7 +58,7 @@ public class ModQuestionController {
      */
     @FXML
     public void loadData(Question question, User user, Room room) {
-        if(question.getStatus().equals(Question.QuestionStatus.ANSWERED)){
+        if (question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
             markAsAnsweredOption.setVisible(false);
         } else {
             markAsAnsweredOption.setVisible(true);
