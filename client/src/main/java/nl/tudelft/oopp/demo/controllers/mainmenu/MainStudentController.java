@@ -277,12 +277,8 @@ public class MainStudentController {
         );
         timeline.play();
 
-        // Fetch the ip.
-        String ip = MainStudentCommunication.getIp();
-
         // Create a helper student object.
-        StudentHelper studentHelper = new StudentHelper(this.user.getUsername(),
-                ip);
+        StudentHelper studentHelper = new StudentHelper(this.user.getUsername(), "");
 
         // Create a helper question object.
         textQuestion.setText(textQuestion.getText().replace("\n", " "));
