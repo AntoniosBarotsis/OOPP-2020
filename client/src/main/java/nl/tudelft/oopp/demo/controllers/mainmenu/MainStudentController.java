@@ -108,29 +108,16 @@ public class MainStudentController {
             boolean isAnswered = question.getStatus().equals(Question.QuestionStatus.ANSWERED);
             boolean isAuthor = user.getId() == question.getAuthor().getId();
 
-            // Filter answered/unanswered and own question or normal question.
-            if ((!filterAnswered && !isAuthor) || (filterAnswered && isAnswered)) {
-                FXMLLoader loader = new FXMLLoader(getClass()
-                        .getResource("/questionView/questionView.fxml"));
-                try {
-                    AnchorPane pane = loader.load();
-                    OthersQuestionController controller = loader.getController();
-                    controller.loadData(question, user, room);
-                    questionList.getItems().add(pane);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            // Filter answered/unanswered.
+            if (!filterAnswered && !isAnswered) {
+                // Filter own and other question.
+                if (!isAuthor) {
+                    questionList.getItems().add(loadOthersQuestionView(question));
+                } else {
+                    questionList.getItems().add(loadOwnQuestionView(question));
                 }
-            } else if (!filterAnswered && !isAnswered) {
-                FXMLLoader loader = new FXMLLoader(getClass()
-                        .getResource("/questionView/ownQuestionView.fxml"));
-                try {
-                    AnchorPane pane = loader.load();
-                    OwnQuestionController controller = loader.getController();
-                    controller.loadData(question, user, room);
-                    questionList.getItems().add(pane);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            } else if (filterAnswered && isAnswered) {
+                questionList.getItems().add(loadOthersQuestionView(question));
             }
         }
     }
@@ -305,5 +292,45 @@ public class MainStudentController {
         } else {
             buttonAnswered.setText("Answered questions");
         }
+    }
+
+    /**
+     * Loads an OwnQuestionView.
+     * @param question question to be injected
+     * @return anchorPane with injected question
+     */
+    protected AnchorPane loadOwnQuestionView(Question question) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/questionView/ownQuestionView.fxml"));
+        try {
+            AnchorPane pane = loader.load();
+            OwnQuestionController controller = loader.getController();
+            controller.loadData(question, user, room);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new AnchorPane();
+    }
+
+    /**
+     * Loads an OthersQuestionView.
+     * @param question question to be injected
+     * @return anchorPane with injected question
+     */
+    protected AnchorPane loadOthersQuestionView(Question question) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/questionView/questionView.fxml"));
+        try {
+            AnchorPane pane = loader.load();
+            OthersQuestionController controller = loader.getController();
+            controller.loadData(question, user, room);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new AnchorPane();
     }
 }
