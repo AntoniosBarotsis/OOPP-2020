@@ -152,6 +152,7 @@ public class ModQuestionController {
      */
     public void answer() {
 
+        modified = true;
 
         answerBox.setEditable(true);
         if (answerBox.getText().equals("Write answer here:")) {
@@ -165,6 +166,8 @@ public class ModQuestionController {
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     answerBox.setEditable(false);
+
+                    modified = false;
 
                     answerBox.setText(answerBox.getText().replaceAll("\n", " "));
 
