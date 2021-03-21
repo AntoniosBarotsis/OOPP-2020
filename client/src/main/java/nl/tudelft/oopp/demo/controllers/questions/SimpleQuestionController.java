@@ -11,9 +11,9 @@ import javafx.scene.input.KeyEvent;
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
+import java.text.SimpleDateFormat;
 import nl.tudelft.oopp.demo.data.User;
 
-import java.text.SimpleDateFormat;
 
 
 public class SimpleQuestionController {
@@ -22,9 +22,6 @@ public class SimpleQuestionController {
     private User user;
     private Room room;
     private boolean upvoted = false;
-
-    @FXML
-    private Button markAsAnsweredOption;
 
     @FXML
     private Label date;
@@ -57,12 +54,6 @@ public class SimpleQuestionController {
         username.setText(" " + user.getUsername());
         questionText.setText(question.getText());
         upvotes.setText(Integer.toString(question.getUpvotes()));
-
-        if(question.getStatus().equals(Question.QuestionStatus.ANSWERED)){
-            markAsAnsweredOption.setVisible(false);
-        } else {
-            markAsAnsweredOption.setVisible(true);
-        }
     }
 
 
@@ -71,8 +62,15 @@ public class SimpleQuestionController {
      */
     public void questionAnswered() {
         QuestionViewCommunication.modMarkAsAnswer(question.getId());
-        markAsAnsweredOption.setVisible(false);
     }
 
+    /**
+     * Takes an integer i and sets the upvotes label to that integer,
+     * letting the lecturer know of the popularity of the question.
+     * @param i the number of upvotes
+     */
+    public void setUpvotes(int i) {
+        upvotes.setText(Integer.toString(i));
+    }
 }
 

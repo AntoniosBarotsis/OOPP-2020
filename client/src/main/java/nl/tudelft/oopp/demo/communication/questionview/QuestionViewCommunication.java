@@ -2,15 +2,16 @@ package nl.tudelft.oopp.demo.communication.questionview;
 
 import com.google.gson.Gson;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
-import nl.tudelft.oopp.demo.data.helper.StudentHelper;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+
 import java.nio.charset.StandardCharsets;
+import nl.tudelft.oopp.demo.data.helper.StudentHelper;
+
 
 public class QuestionViewCommunication {
 
@@ -51,17 +52,18 @@ public class QuestionViewCommunication {
     public static void upvote(long id) {
         String url = "http://localhost:8080/api/v1/questions/upvote?";
         url = url + "questionId=" + id;
-      sendEmptyPutRequest(url);
+        sendEmptyPutRequest(url);
     }
 
     /**
-     * Sets the question with questionId id to be marked as answered unless too popular with score of 5.
+     * Sets the question with questionId id to be marked as answered
+     * unless too popular with score of 5.
      *
      * @param id the question id
      */
     public static void studentMarkAsAnswer(long id) {
-        String url = "http://localhost:8080/api/v1/questions/studentSetAsAnswered?";
-        url = url+ "questionId=" + id;
+        String url = "http://localhost:8080/api/v1/questions/studentSetAnswered?";
+        url = url + "questionId=" + id;
         sendEmptyPutRequest(url);
 
     }
@@ -73,7 +75,7 @@ public class QuestionViewCommunication {
      */
     public static void modMarkAsAnswer(long id) {
         String url = "http://localhost:8080/api/v1/questions/setAnswered?";
-        url = url+ "questionId=" + id;
+        url = url + "questionId=" + id;
         sendEmptyPutRequest(url);
 
     }
@@ -103,12 +105,14 @@ public class QuestionViewCommunication {
     }
 
     /**
-     * Sets the text of question with id as the text in questionHelper.
+     * Encodes question text and sends it to the backend to be decoded,
+     * then made the new question text.
      *
      * @param id the question id
      * @param questionHelper questionHelper with the edited question text
+     * @throws UnsupportedEncodingException if StandardCharsets.UTF_8 is not supported
      */
-    public static void setText(long id, QuestionHelper questionHelper)  {
+    public static void editText(long id, QuestionHelper questionHelper)  {
         String url = "http://localhost:8080/api/v1/questions/setText?";
         url = url + "questionId=" + id;
 
@@ -132,9 +136,11 @@ public class QuestionViewCommunication {
     }
 
     /**
-     * Sets the answer of question with id as the text in questionHelper.
+     * Allows the edition of the answer box, retrieves the inputted text
+     * and sets the answer field of the question object accordingly
+     *
      * @param id the question id
-     * @param questionHelper the questionHelper
+     * @param questionHelper questionHelper with the answer text
      */
     public static void setAnswer(long id, QuestionHelper questionHelper)  {
         String url = "http://localhost:8080/api/v1/questions/setAnswer?";
@@ -158,70 +164,6 @@ public class QuestionViewCommunication {
             System.out.println("Status: " + response.statusCode());
         }
 
-
-    }
-
-    /**
-     * Adds the questionId to the upvotedQuestions of user with userId.
-     *
-     * @param questionId the question id
-     * @param userId the user id
-     */
-    public static void addQuestionUpvoted(long questionId, long userId) {
-
-        String url = "http://localhost:8080/api/v1/users/addUpvotedQuestion?";
-        url = url + "userId=" + userId;
-        url = url + "&questionId=" + questionId;
-
-        HttpRequest request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(""))
-                .build();
-
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode());
-        }
-
-    }
-
-    /**
-     * Removes the questionId to the upvotedQuestions of user with userId.
-     *
-     * @param questionId the question id.
-     * @param userId the user id.
-     */
-    public static void removeQuestionUpvoted(long questionId, long userId) {
-
-        String url = "http://localhost:8080/api/v1/users/removeUpvotedQuestion?";
-        url = url + "userId=" + userId;
-        url = url + "&questionId=" + questionId;
-
-        HttpRequest request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(""))
-                .build();
-
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode());
-        }
 
     }
 }
