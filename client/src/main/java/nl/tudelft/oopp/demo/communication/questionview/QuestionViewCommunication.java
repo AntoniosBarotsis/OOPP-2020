@@ -2,15 +2,16 @@ package nl.tudelft.oopp.demo.communication.questionview;
 
 import com.google.gson.Gson;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
-import nl.tudelft.oopp.demo.data.helper.StudentHelper;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+
 import java.nio.charset.StandardCharsets;
+import nl.tudelft.oopp.demo.data.helper.StudentHelper;
+
 
 public class QuestionViewCommunication {
 
@@ -51,17 +52,18 @@ public class QuestionViewCommunication {
     public static void upvote(long id) {
         String url = "http://localhost:8080/api/v1/questions/upvote?";
         url = url + "questionId=" + id;
-      sendEmptyPutRequest(url);
+        sendEmptyPutRequest(url);
     }
 
     /**
-     * Sets the question with questionId id to be marked as answered unless too popular with score of 5.
+     * Sets the question with questionId id to be marked as answered
+     * unless too popular with score of 5.
      *
      * @param id the question id
      */
     public static void studentMarkAsAnswer(long id) {
         String url = "http://localhost:8080/api/v1/questions/studentSetAsAnswered?";
-        url = url+ "questionId=" + id;
+        url = url + "questionId=" + id;
         sendEmptyPutRequest(url);
 
     }
@@ -73,7 +75,7 @@ public class QuestionViewCommunication {
      */
     public static void modMarkAsAnswer(long id) {
         String url = "http://localhost:8080/api/v1/questions/setAnswered?";
-        url = url+ "questionId=" + id;
+        url = url + "questionId=" + id;
         sendEmptyPutRequest(url);
 
     }
@@ -132,9 +134,10 @@ public class QuestionViewCommunication {
     }
 
     /**
-     * Sets the answer of question with id as the text in questionHelper.
+     * Sets the text of question with id as the text in questionHelper.
+     *
      * @param id the question id
-     * @param questionHelper the questionHelper
+     * @param questionHelper questionHelper with the answer text
      */
     public static void setAnswer(long id, QuestionHelper questionHelper)  {
         String url = "http://localhost:8080/api/v1/questions/setAnswer?";
@@ -157,9 +160,8 @@ public class QuestionViewCommunication {
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
         }
-
-
     }
+
 
     /**
      * Adds the questionId to the upvotedQuestions of user with userId.

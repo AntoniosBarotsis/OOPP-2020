@@ -5,20 +5,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.controllers.questions.OthersQuestionController;
 import nl.tudelft.oopp.demo.controllers.questions.SimpleQuestionController;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
+
+import java.net.URL;
+import java.util.Date;
+import java.io.IOException;
+
 import nl.tudelft.oopp.demo.data.User;
 
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Date;
-import java.util.HashSet;
-
-
-public class SimpleQuestionDisplay extends Application{
+public class SimpleQuestionDisplay extends Application {
 
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -28,10 +26,10 @@ public class SimpleQuestionDisplay extends Application{
         SimpleQuestionController controller = loader.getController();
         Question.QuestionStatus open = Question.QuestionStatus.OPEN;
         Date date = new Date();
-        Room room = new Room(4, "room", new Date(), false, 0, 0);
-        User user = new User(4, "Daniel", new HashSet<>(), new HashSet<>(), User.UserType.MODERATOR);
-        Question question = new Question(4, "This is a question",
-                (long) 1,  0, 0, date, open,"Answer");
+        Room room = new Room(1, "room", new Date(), false, 0, 0);
+        User user = new User(1, "Daniel", null, null, User.UserType.MODERATOR);
+        Question question = new Question(1, "Hello",
+                 (long) 1,  0, 0, date, open,"");
 
         controller.loadData(question, user, room);
 
@@ -39,5 +37,7 @@ public class SimpleQuestionDisplay extends Application{
         primaryStage.show();
     }
 
-    public static void main(String[] args) {launch(args);}
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

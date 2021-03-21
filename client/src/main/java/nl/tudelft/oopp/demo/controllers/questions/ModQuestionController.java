@@ -1,11 +1,13 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
-
 import java.text.SimpleDateFormat;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -16,8 +18,6 @@ import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
-
-
 
 public class ModQuestionController {
 
@@ -68,7 +68,7 @@ public class ModQuestionController {
         this.question = question;
         this.answer = question.getAnswer();
 
-        if(answer != ""){
+        if (answer != "") {
             answerBox.setText(answer);
             answerOption.setText("Edit Answer");
         } else {
@@ -110,9 +110,10 @@ public class ModQuestionController {
 
                     String ip = MainStudentCommunication.getIp();
 
-                    StudentHelper studentHelper= new StudentHelper(user.getUsername(), ip);
+                    StudentHelper studentHelper = new StudentHelper(user.getUsername(), ip);
 
-                    QuestionHelper questionHelper = new QuestionHelper(questionText.getText(), studentHelper);
+                    QuestionHelper questionHelper = new QuestionHelper(
+                            questionText.getText(), studentHelper);
 
                     questionText.setEditable(false);
 
@@ -168,9 +169,10 @@ public class ModQuestionController {
 
                     String ip = MainStudentCommunication.getIp();
 
-                    StudentHelper studentHelper= new StudentHelper(user.getUsername(), ip);
+                    StudentHelper studentHelper = new StudentHelper(user.getUsername(), ip);
 
-                    QuestionHelper questionHelper = new QuestionHelper(answerBox.getText(), studentHelper);
+                    QuestionHelper questionHelper = new QuestionHelper(
+                            answerBox.getText(), studentHelper);
 
                     QuestionViewCommunication.setAnswer(question.getId(), questionHelper);
 
@@ -196,7 +198,7 @@ public class ModQuestionController {
     /**
      * Marks questionView as not modified when options hides.
      */
-    public void optionsHidden(){
+    public void optionsHidden() {
         modified = false;
     }
 }
