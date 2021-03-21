@@ -25,7 +25,7 @@
                 <items>
             <MenuItem fx:id="editOption" mnemonicParsing="false" onAction="#edit" text="Edit" />
             <MenuItem fx:id="answerOption" mnemonicParsing="false" onAction="#answer" text="Answer" />
-            <MenuItem fx:id="markAsAnswerOption" mnemonicParsing="false" onAction="#questionAnswered" text="Mark as answered" />
+            <MenuItem fx:id="markAsAnsweredOption" mnemonicParsing="false" onAction="#questionAnswered" text="Mark as answered" />
             <MenuItem fx:id="banOption" mnemonicParsing="false" onAction="#banUser" text="Ban" />
             <MenuItem fx:id="deleteOption" mnemonicParsing="false" onAction="#deleteQuestion" text="Delete question" />
                 </items>

@@ -36,6 +36,9 @@ public class ModQuestionController {
 
 
     @FXML
+    private MenuItem markAsAnsweredOption;
+
+    @FXML
     private MenuItem answerOption;
     @FXML
     private Label date;
@@ -65,6 +68,11 @@ public class ModQuestionController {
      */
     @FXML
     public void loadData(Question question, User user, Room room) {
+        if(question.getStatus().equals(Question.QuestionStatus.ANSWERED)){
+            markAsAnsweredOption.setVisible(false);
+        } else {
+            markAsAnsweredOption.setVisible(true);
+        }
         this.room = room;
         this.user = user;
         this.question = question;
@@ -143,6 +151,7 @@ public class ModQuestionController {
      */
     public void questionAnswered() {
         QuestionViewCommunication.modMarkAsAnswer(question.getId());
+        markAsAnsweredOption.setVisible(false);
     }
 
 

@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
@@ -23,6 +24,8 @@ public class OwnQuestionController {
     private Room room;
     private boolean upvoted = false;
 
+    @FXML
+    private MenuItem markAsAnsweredOption;
     @FXML
     private Label date;
 
@@ -47,6 +50,11 @@ public class OwnQuestionController {
      * @param room the room information
      */
     public void loadData(Question question, User user, Room room) {
+        if(question.getStatus().equals(Question.QuestionStatus.ANSWERED)){
+            markAsAnsweredOption.setVisible(false);
+        } else {
+            markAsAnsweredOption.setVisible(true);
+        }
         this.room = room;
         this.user = user;
         this.question = question;

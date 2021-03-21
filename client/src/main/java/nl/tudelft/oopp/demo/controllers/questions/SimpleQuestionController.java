@@ -24,6 +24,9 @@ public class SimpleQuestionController {
     private boolean upvoted = false;
 
     @FXML
+    private Button markAsAnsweredOption;
+
+    @FXML
     private Label date;
 
     @FXML
@@ -54,6 +57,12 @@ public class SimpleQuestionController {
         username.setText(" " + user.getUsername());
         questionText.setText(question.getText());
         upvotes.setText(Integer.toString(question.getUpvotes()));
+
+        if(question.getStatus().equals(Question.QuestionStatus.ANSWERED)){
+            markAsAnsweredOption.setVisible(false);
+        } else {
+            markAsAnsweredOption.setVisible(true);
+        }
     }
 
 
@@ -62,6 +71,7 @@ public class SimpleQuestionController {
      */
     public void questionAnswered() {
         QuestionViewCommunication.modMarkAsAnswer(question.getId());
+        markAsAnsweredOption.setVisible(false);
     }
 
     /**

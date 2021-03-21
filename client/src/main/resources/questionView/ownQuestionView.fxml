@@ -40,7 +40,7 @@
                         </children></TextFlow>
                     <MenuButton fx:id="options" mnemonicParsing="false" prefHeight="85.0" prefWidth="114.0" style="-fx-background-color: white; -fx-border-color: #00A6D6; -fx-border-width: 2;" text="Options" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                         <items>
-                            <MenuItem mnemonicParsing="false" onAction="#questionAnswered" text="Mark as answered" />
+                            <MenuItem fx:id= "markAsAnsweredOption" mnemonicParsing="false" onAction="#questionAnswered" text="Mark as answered" />
                             <MenuItem mnemonicParsing="false" onAction="#deleteQuestion" text="Delete question" />
                         </items>
                     </MenuButton>
