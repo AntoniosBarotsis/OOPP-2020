@@ -1,12 +1,18 @@
 package nl.tudelft.oopp.demo.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
 class QuestionAuthorTest {
 
     private QuestionAuthor author = new QuestionAuthor(42, "universe");
+
+    @Test
+    void constructor() {
+        assertNotNull(author);
+    }
 
     @Test
     void getId() {

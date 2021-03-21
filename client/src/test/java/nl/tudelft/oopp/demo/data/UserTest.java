@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -12,6 +13,11 @@ class UserTest {
 
     private Set<Long> set = new HashSet<>();
     private User user = new User(1234, "teachingAssistant1234", set, set, User.UserType.MODERATOR);
+
+    @Test
+    void constructor() {
+        assertNotNull(user);
+    }
 
     @Test
     void getId() {
