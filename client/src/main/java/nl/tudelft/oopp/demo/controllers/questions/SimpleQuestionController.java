@@ -61,6 +61,10 @@ public class SimpleQuestionController {
             markAsAnsweredOption.setVisible(true);
         }
 
+        if(!question.getAnswer().equals("")){
+            questionText.setText(questionText.getText() + "\n\nAnswer:\n"
+                    + question.getAnswer());
+        }
 
     }
 

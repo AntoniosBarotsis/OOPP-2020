@@ -29,9 +29,9 @@ public class OwnQuestionDisplay extends Application {
         Question.QuestionStatus open = Question.QuestionStatus.OPEN;
         Date date = new Date();
         Room room = new Room(1, "room", new Date(), false, 0, 0);
-        User user = new User(1, "Daniel", null, null, User.UserType.MODERATOR);
+        User user = new User(1, "Daniel", new HashSet<>(), new HashSet<>(), User.UserType.MODERATOR);
         Question question = new Question(1, "This is a question",
-                (long) 1,  0, 0, date, open,"");
+                (long) 1,  0, 0, date, open,"answer");
 
         controller.loadData(question, user, room);
 

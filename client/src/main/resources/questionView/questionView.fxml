@@ -25,7 +25,6 @@
                 <Label fx:id="date" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="35.0" prefWidth="287.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                 <Label fx:id="username" prefHeight="35.0" prefWidth="338.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label fx:id="upvoteNumber" alignment="CENTER" prefHeight="35.0" prefWidth="87.0" style="-fx-border-color: #DBDBDB; -fx-border-width: 1;" textAlignment="CENTER" GridPane.rowIndex="1" />
-                  <TextFlow prefHeight="21.0" prefWidth="85.0" />
                     <TextArea fx:id="questionText" editable="false" prefHeight="85.0" prefWidth="573.0" wrapText="true" GridPane.columnIndex="1" />
             </children>
         </GridPane>
