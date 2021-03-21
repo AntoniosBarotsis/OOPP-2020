@@ -98,10 +98,14 @@ public class ModQuestionController {
     private void upvote() {
         if (upvoted) {
             QuestionViewCommunication.downvote(question.getId());
+            QuestionViewCommunication.addQuestionUpvoted(question.getId(), user.getId());
 
             upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) - 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
+
+            user.addQuestionUpvoted(question.getId());
+
 
         } else {
             QuestionViewCommunication.upvote(question.getId());
@@ -109,6 +113,9 @@ public class ModQuestionController {
             upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) + 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #808080");
+
+            user.removeQuestionUpvoted(question.getId());
+
         }
     }
 

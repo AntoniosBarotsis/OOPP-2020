@@ -157,4 +157,7 @@ public class QuestionViewCommunication {
 
 
     }
+
+    public static void addQuestionUpvoted(long id, long id1) {
+    }
 }

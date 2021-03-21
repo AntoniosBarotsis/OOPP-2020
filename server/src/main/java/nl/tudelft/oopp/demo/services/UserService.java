@@ -4,7 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
+import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
@@ -67,5 +71,17 @@ public class UserService {
         objMapper.registerModule(module);
 
         return objMapper.writeValueAsString(users);
+    }
+
+    public void addUpvotedQuestion(Long userId, Long questionId) {
+        userRepository.addUpvotedQuestion(userId, questionId);
+    }
+
+    public void removeUpvotedQuestion(Long userId, Long questionId) {
+        userRepository.removeUpvotedQuestion(userId,   questionId );
+    }
+
+    public HashSet<Question> getUpvotedQuestion(Long userId) {
+        return userRepository.getUpvotedQuestion(userId);
     }
 }
