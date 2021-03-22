@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
+import nl.tudelft.oopp.demo.entities.log.LogCollection;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.RoomService;
@@ -185,5 +186,11 @@ public class RoomControllerV2 {
                       @PathParam("elevatedPassword") String elevatedPassword)
         throws UnauthorizedException, InvalidPasswordException {
         roomService.unbanUser(roomId, id, ip, elevatedPassword);
+    }
+
+    @GetMapping(value = "exportLog", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String exportLog(@PathParam("roomId") long roomId)
+        throws JsonProcessingException {
+        return roomService.exportLog(roomId);
     }
 }
