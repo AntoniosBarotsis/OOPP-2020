@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -13,8 +14,13 @@ import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.log.LogBan;
+import nl.tudelft.oopp.demo.entities.log.LogCollection;
+import nl.tudelft.oopp.demo.entities.log.LogJoin;
+import nl.tudelft.oopp.demo.entities.log.LogQuestion;
+import nl.tudelft.oopp.demo.entities.serializers.LogCollectionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
+import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
@@ -176,7 +182,7 @@ public class RoomService {
         }
 
         ElevatedUser user = (ElevatedUser) userRepository.getOne(id);
-        LogBan logBan = new LogBan(user, ip, new Date());
+        LogBan logBan = new LogBan(room, user, ip, new Date());
         roomRepository.banUser(roomId, ip);
         logEntryRepository.save(logBan);
     }
@@ -205,6 +211,21 @@ public class RoomService {
         }
 
         roomRepository.unbanUser(roomId, ip);
+    }
+
+    /**
+     * Export log log collection.
+     *
+     * @param roomId the room id
+     * @return the log collection
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String exportLog(long roomId) throws JsonProcessingException {
+        List<LogBan> bans = logEntryRepository.findAllBans(roomId);
+        List<LogJoin> joins = logEntryRepository.findAllJoins(roomId);
+        List<LogQuestion> questions = logEntryRepository.findAllQuestions(roomId);
+
+        return mapLogCollection(new LogCollection(bans, joins, questions));
     }
 
     /**
@@ -237,6 +258,22 @@ public class RoomService {
         objMapper.registerModule(module);
 
         return objMapper.writeValueAsString(rooms);
+    }
+
+    /**
+     * Map log collection string.
+     *
+     * @param logCollection the log collection
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String mapLogCollection(LogCollection logCollection) throws JsonProcessingException {
+        ObjectMapper objMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(LogCollection.class, new LogCollectionSerializer());
+        objMapper.registerModule(module);
+
+        return objMapper.writeValueAsString(logCollection);
     }
 
     /**
