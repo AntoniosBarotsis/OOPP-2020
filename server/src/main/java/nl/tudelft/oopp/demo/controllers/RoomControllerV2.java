@@ -176,6 +176,7 @@ public class RoomControllerV2 {
      * Bans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
+     * @param userId           the user id
      * @param elevatedPassword the elevated password
      * @param request          the request
      * @throws UnauthorizedException the unauthorized exception
@@ -193,6 +194,7 @@ public class RoomControllerV2 {
      * Unbans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
+     * @param userId           the user id
      * @param elevatedPassword the elevated password
      * @param request          the request
      * @throws UnauthorizedException    the unauthorized exception
@@ -221,6 +223,14 @@ public class RoomControllerV2 {
         roomService.setOngoing(roomId, isOngoing, userId);
     }
 
+    /**
+     * Export log string.
+     *
+     * @param roomId  the room id
+     * @param request the request
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
     @GetMapping(value = "exportLog", produces = MediaType.APPLICATION_JSON_VALUE)
     public String exportLog(@PathParam("roomId") long roomId,
                             HttpServletRequest request)

@@ -182,7 +182,7 @@ public class RoomService {
      * Bans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
-     * @param userId               the user id
+     * @param userId           the user id
      * @param ip               the ip
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException the unauthorized exception
@@ -236,6 +236,7 @@ public class RoomService {
      * Export log log collection.
      *
      * @param roomId the room id
+     * @param ip     the ip
      * @return the log collection
      * @throws JsonProcessingException the json processing exception
      */
