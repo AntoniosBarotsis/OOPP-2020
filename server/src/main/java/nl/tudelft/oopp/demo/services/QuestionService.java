@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.log.LogQuestion;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
 import nl.tudelft.oopp.demo.entities.users.Student;
@@ -63,7 +64,9 @@ public class QuestionService {
         questionRepository.save(question);
         questionRepository.addQuestion(roomId, question.getId());
 
-        LogQuestion logQuestion = new LogQuestion((Student) question.getAuthor(),
+        Room room = roomRepository.getOne(roomId);
+
+        LogQuestion logQuestion = new LogQuestion(room, (Student) question.getAuthor(),
             question, question.getTimeCreated());
         logEntryRepository.save(logQuestion);
 
