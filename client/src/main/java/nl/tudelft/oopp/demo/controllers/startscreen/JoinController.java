@@ -2,9 +2,10 @@ package nl.tudelft.oopp.demo.controllers.startscreen;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
+
+import nl.tudelft.oopp.demo.communication.startscreen.StartCommunication;
+import nl.tudelft.oopp.demo.data.User;
 
 public class JoinController {
 
@@ -20,6 +21,9 @@ public class JoinController {
      */
     @FXML
     public void joinButton() {
-        System.out.println("Join works!");
+        if (!inputRoomCode.getText().isEmpty() && !inputUsername.getText().isEmpty()) {
+            User user = StartCommunication.joinRoom(inputRoomCode.getText(),
+                    inputUsername.getText());
+        }
     }
 }

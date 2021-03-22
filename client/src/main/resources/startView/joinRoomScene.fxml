@@ -20,9 +20,9 @@
         <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" />
         <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" GridPane.columnIndex="1" />
         <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" GridPane.columnIndex="2" />
-        <Text fill="WHITE" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Application name?" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+        <Text fill="WHITE" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="TU&amp;A" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
             <font>
-                <Font name="System Bold" size="25.0" />
+                <Font name="System Bold" size="50.0" />
             </font></Text>
       <GridPane prefHeight="324.0" prefWidth="576.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <columnConstraints>
