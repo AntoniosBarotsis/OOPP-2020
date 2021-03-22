@@ -1,10 +1,13 @@
 package nl.tudelft.oopp.demo.entities.helpers;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFORE_METHOD;
+
 
 import nl.tudelft.oopp.demo.entities.Question;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.DirtiesContext;
 
 class QuestionHelperTest {
     private QuestionHelper qh1;
@@ -28,6 +31,7 @@ class QuestionHelperTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     void createQuestion() {
         assertThat(qh1.createQuestion()).isEqualTo(q1);
     }
