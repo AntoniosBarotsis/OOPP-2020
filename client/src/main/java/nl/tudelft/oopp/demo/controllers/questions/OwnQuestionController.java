@@ -111,6 +111,7 @@ public class OwnQuestionController {
      * Deletes the marked question.
      */
     public void deleteQuestion() {
+        QuestionViewCommunication.delete(room.getId(), question.getId());
 
     }
 

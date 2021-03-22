@@ -6,6 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 
 
@@ -220,6 +221,50 @@ public class QuestionViewCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+        }
+
+    }
+
+    public static void ban(long roomId, long userId) {
+        String elevatedPassword = MainModCommunication.getAdminPassword(roomId);
+        String url = "http://localhost:8080/api/v2/rooms/ban?";
+        url = url + "userId=" + userId;
+        url= url + "&elevatedPassword=" + elevatedPassword;
+        url = url + "&roomId=" + roomId;
+
+        HttpRequest request = HttpRequest.newBuilder().
+                PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(""))).
+                uri(URI.create(url)).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
+        }
+    }
+
+    public static void delete(long roomId, long questionId) {
+
+        String url = "http://localhost:8080/api/v2/questions/deleteOne?";
+        url = url + "questionId=" + questionId;
+        url = url + "&roomId=" + roomId;
+
+        HttpRequest request = HttpRequest.newBuilder().DELETE().uri(URI.create(url)).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
 
     }

@@ -123,7 +123,6 @@ public class ModQuestionController {
 
                         QuestionViewCommunication
                                 .setText(question.getId(), questionHelper);
-
                 }
             }
 
@@ -146,6 +145,8 @@ public class ModQuestionController {
      * Bans the user in the backend.
      */
     public void banUser() {
+        QuestionViewCommunication.ban(room.getId(), user.getId());
+
     }
 
     /**
@@ -192,6 +193,8 @@ public class ModQuestionController {
      * Deletes the marked question.
      */
     public void deleteQuestion() {
+        QuestionViewCommunication.delete(room.getId(), question.getId());
+
     }
 
     /**
