@@ -14,9 +14,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.users.User;
 
 /**
@@ -41,6 +41,9 @@ public abstract class LogEntry {
     @ManyToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "user")
     private User user;
+    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
+    @JoinColumn(name = "room")
+    private Room room;
     @Column(name = "type")
     private ActionType action;
     @Column(name = "date")
@@ -67,11 +70,13 @@ public abstract class LogEntry {
     /**
      * Instantiates a new Log entry.
      *
+     * @param room   the room
      * @param user   the user
      * @param action the action
      * @param date   the date
      */
-    public LogEntry(User user, ActionType action, Date date) {
+    public LogEntry(Room room, User user, ActionType action, Date date) {
+        this.room = room;
         this.user = user;
         this.action = action;
         this.date = date;

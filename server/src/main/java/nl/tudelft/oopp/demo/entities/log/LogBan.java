@@ -1,16 +1,13 @@
 package nl.tudelft.oopp.demo.entities.log;
 
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
-import nl.tudelft.oopp.demo.entities.users.Student;
+import lombok.Setter;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.users.User;
 
 /**
@@ -19,6 +16,8 @@ import nl.tudelft.oopp.demo.entities.users.User;
 @NoArgsConstructor
 @Entity(name = "LogBan")
 @Table(name = "log_ban")
+@Getter
+@Setter
 public class LogBan extends LogEntry {
     @Column(name = "ip")
     private String ip;
@@ -26,12 +25,13 @@ public class LogBan extends LogEntry {
     /**
      * Instantiates a new Log ban.
      *
+     * @param room the room
      * @param user the user
      * @param ip   the ip
      * @param date the date
      */
-    public LogBan(User user, String ip, Date date) {
-        super(user, ActionType.BANNED, date);
+    public LogBan(Room room, User user, String ip, Date date) {
+        super(room, user, ActionType.BANNED, date);
 
         this.ip = ip;
     }
@@ -39,30 +39,13 @@ public class LogBan extends LogEntry {
     /**
      * Instantiates a new Log ban.
      *
+     * @param room the room
      * @param user the user
      * @param ip   the ip
      */
-    public LogBan(User user, String ip) {
-        super(user, ActionType.BANNED, new Date());
+    public LogBan(Room room, User user, String ip) {
+        super(room, user, ActionType.BANNED, new Date());
 
         this.ip = ip;
-    }
-
-    /**
-     * Gets moderator.
-     *
-     * @return the moderator
-     */
-    public ElevatedUser getModerator() {
-        return (ElevatedUser) super.getUser();
-    }
-
-    /**
-     * Gets action type.
-     *
-     * @return the action type
-     */
-    public ActionType getActionType() {
-        return ActionType.BANNED;
     }
 }
