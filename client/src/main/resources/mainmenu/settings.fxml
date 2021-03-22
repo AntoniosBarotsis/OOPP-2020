@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="381.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.mainmenu.SettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="381.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.mainmenu.SettingsController">
    <children>
       <TextArea fx:id="tbCodes" editable="false" layoutX="28.0" layoutY="52.0" prefHeight="57.0" prefWidth="323.0" wrapText="true" />
       <Button fx:id="buttonSave" layoutX="144.0" layoutY="348.0" mnemonicParsing="false" onMouseClicked="#buttonSaveClicked" prefHeight="37.0" prefWidth="92.0" text="Save">
