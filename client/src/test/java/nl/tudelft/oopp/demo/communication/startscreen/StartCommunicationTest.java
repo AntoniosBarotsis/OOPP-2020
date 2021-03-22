@@ -25,10 +25,10 @@ public class StartCommunicationTest {
     /*
      Does not work since Date's .toString() inserts spaces.
      Either a new date constructor or reader.
+     */
     @Test
     void createScheduledRoomTest() {
         assertNotNull(StartCommunication.createScheduledRoom("TestRoom", new Date()));
     }
-    */
 
 }

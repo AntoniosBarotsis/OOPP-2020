@@ -50,7 +50,7 @@ public class StartCommunication {
         HttpRequest request =  HttpRequest.newBuilder().GET()
                 .uri(URI.create("http://localhost:8080/api/v2/rooms/schedule?username=admin&ip=ip"
                         + "&title=" + roomName
-                        + "&date=" + date)).build();
+                        + "&date=" + date.getTime())).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
