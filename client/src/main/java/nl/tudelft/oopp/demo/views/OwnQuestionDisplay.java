@@ -33,7 +33,7 @@ public class OwnQuestionDisplay extends Application {
         User user = new User(1, "Roy", new HashSet<>(), new HashSet<>(),
                 User.UserType.MODERATOR);
         QuestionAuthor author = new QuestionAuthor(1, "Roy");
-        Question question = new Question(1, "This is a question",
+        Question question = new Question(4, "This is a question",
                 author,  0, 0, date, open,"answer");
 
         controller.loadData(question, user, room);

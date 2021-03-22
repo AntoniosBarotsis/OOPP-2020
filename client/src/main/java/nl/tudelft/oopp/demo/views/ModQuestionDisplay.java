@@ -28,10 +28,10 @@ public class ModQuestionDisplay extends Application {
         Question.QuestionStatus open = Question.QuestionStatus.OPEN;
         Date date = new Date();
         Room room = new Room(1, "room", new Date(), false, 0,0, 0, true);
-        User user = new User(1, "Roy", null, null, User.UserType.MODERATOR);
+        User user = new User(0, "Roy", null, null, User.UserType.LECTURER);
 
         QuestionAuthor author = new QuestionAuthor(2, "Roy");
-        Question question = new Question(1, "This is a question",
+        Question question = new Question(4, "This is a question",
                 author,  0, 0, date, open,"");
 
         controller.loadData(question, user, room);

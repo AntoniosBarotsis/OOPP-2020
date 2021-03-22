@@ -226,7 +226,7 @@ public class QuestionViewCommunication {
     }
 
     public static void ban(long roomId, long userId) {
-        String elevatedPassword = MainModCommunication.getAdminPassword(roomId);
+        String elevatedPassword = MainModCommunication.getAdminPassword(userId);
         String url = "http://localhost:8080/api/v2/rooms/ban?";
         url = url + "userId=" + userId;
         url= url + "&elevatedPassword=" + elevatedPassword;
