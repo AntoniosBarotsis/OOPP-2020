@@ -15,12 +15,14 @@ import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Quote;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.RoomConfig;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.PollRepository;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.QuoteRepository;
+import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -45,7 +47,8 @@ public class DataConfig {
                                         UserRepository userRepository,
                                         RoomRepository roomRepository,
                                         QuestionRepository questionRepository,
-                                        PollRepository pollRepository) {
+                                        PollRepository pollRepository,
+                                        RoomConfigRepository roomConfigRepository) {
         return args -> {
             Quote quote1 = new Quote(
                     1,
@@ -103,6 +106,10 @@ public class DataConfig {
                 .collect(Collectors.toSet())
             );
 
+            RoomConfig roomConfig = new RoomConfig();
+            r1.setRoomConfig(roomConfig);
+
+            roomConfigRepository.save(roomConfig);
             roomRepository.save(r1);
         };
     }
