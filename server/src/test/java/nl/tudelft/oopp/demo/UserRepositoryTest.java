@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.HashSet;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.Student;
@@ -11,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @DataJpaTest
@@ -21,7 +22,7 @@ class UserRepositoryTest {
     private UserRepository repository;
 
     @Autowired
-    private QuestionRepository qRepository;
+    private QuestionRepository questionRepository;
 
     private long id1;
     private long id2;
@@ -49,8 +50,8 @@ class UserRepositoryTest {
         repository.save(user1);
         repository.save(user2);
 
-        qRepository.save(question1);
-        qRepository.save(question2);
+        questionRepository.save(question1);
+        questionRepository.save(question2);
 
 
         id1 = user1.getId();
