@@ -12,16 +12,17 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
@@ -37,6 +38,9 @@ public class MainModController {
     private List<Question> questionData;
     private Room room;
     private User user;
+    private int refreshRate;
+    private Timeline timelineRefresh;
+    private boolean isSettingsOpen;
 
     @FXML
     private ListView<AnchorPane> questionList;
@@ -57,7 +61,7 @@ public class MainModController {
     @FXML
     private Button buttonMakePolls;
     @FXML
-    private Button buttonLinks;
+    private Button buttonSettings;
     @FXML
     private MenuButton buttonExport;
 
@@ -67,13 +71,16 @@ public class MainModController {
      * @param user current user
      */
     public void loadData(Room room, User user) {
+        // Initialize refresh rate of 0.
+        refreshRate = 0;
         filterAnswered = false;
         enableSimpleView = false;
+        isSettingsOpen = false;
         fetchData(room, user);
 
-        // Automatically fetch data every 5 seconds.
+        // Check for new refresh rate every 5 seconds.
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(5), e -> fetchData(this.room, this.user))
+                new KeyFrame(Duration.seconds(5), e -> repeatFetch(this.room, this.user))
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -115,6 +122,31 @@ public class MainModController {
     }
 
     /**
+     * Initializes data to be fetched with a certain delay.
+     * @param room current room
+     * @param user current user
+     */
+    protected void repeatFetch(Room room, User user) {
+        // Check if the refresh rate for questions has changed.
+        if (room.getTooSlow() + 1 != refreshRate) {
+            // Stop the previous timeline.
+            if (timelineRefresh != null) {
+                timelineRefresh.stop();
+            }
+
+            // Update the refresh rate.
+            refreshRate = room.getTooSlow() + 1;
+
+            // Initialize a new timeline with new refresh rate.
+            timelineRefresh = new Timeline(
+                    new KeyFrame(Duration.seconds(refreshRate), e -> fetchData(room, user))
+            );
+            timelineRefresh.setCycleCount(Animation.INDEFINITE);
+            timelineRefresh.play();
+        }
+    }
+
+    /**
      * Populates ListView with Questions data.
      */
     protected void populateListView() {
@@ -152,28 +184,36 @@ public class MainModController {
     }
 
     /**
-     * Handles button "Links" clicks.
+     * Handles button "Settings" clicks.
      */
     @FXML
-    public void buttonLinksClicked() {
-        String studentCode = "Code for students: "
-                + MainModCommunication.getStudentPassword(room.getId()) + "\n";
-        String moderatorCode = "Code for moderators: "
-                + MainModCommunication.getAdminPassword(room.getId()) + "\n";
+    public void buttonSettingsClicked() throws IOException {
+        // Check if Settings is open.
+        if (isSettingsOpen) {
+            return;
+        }
 
-        // Create custom alert with copy-pastable text.
-        TextArea textArea = new TextArea(studentCode + moderatorCode);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-        GridPane gridPane = new GridPane();
-        gridPane.setMaxWidth(Double.MAX_VALUE);
-        gridPane.add(textArea, 0, 0);
+        // Set Settings window as open.
+        isSettingsOpen = true;
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Room codes");
-        alert.setHeaderText(null);
-        alert.getDialogPane().setContent(gridPane);
-        alert.showAndWait();
+        // Initialize a loader.
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/mainmenu/settings.fxml"));
+        Parent root = loader.load();
+        SettingsController controller = loader.getController();
+
+        // Inject the data.
+        controller.loadData(room, user);
+
+        // Assign options to loader.
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.setOnCloseRequest(e -> {
+            // Set Settings window as closed.
+            isSettingsOpen = false;
+        });
+        stage.show();
     }
 
     /**
@@ -190,7 +230,7 @@ public class MainModController {
         }
 
         buttonExport.setVisible(!buttonExport.isVisible());
-        setButtonVisibility(List.of(buttonLinks, buttonStartEnd,
+        setButtonVisibility(List.of(buttonSettings, buttonStartEnd,
                 buttonMakePolls, buttonShowPolls));
     }
 
