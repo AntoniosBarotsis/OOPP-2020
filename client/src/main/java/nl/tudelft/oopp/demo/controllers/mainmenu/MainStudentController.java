@@ -31,6 +31,8 @@ public class MainStudentController {
     private List<Question> questionData;
     private Room room;
     private User user;
+    private int refreshRate;
+    private Timeline timelineRefresh;
 
     @FXML
     private ListView<AnchorPane> questionList;
@@ -61,11 +63,13 @@ public class MainStudentController {
      * @param user current user
      */
     public void loadData(Room room, User user) {
+        // Initialize refresh rate of 0.
+        refreshRate = 0;
         fetchData(room, user);
 
-        // Automatically fetch data every 5 seconds.
+        // Check for new refresh rate every 5 seconds.
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(5), e -> fetchData(this.room, this.user))
+                new KeyFrame(Duration.seconds(5), e -> repeatFetch(this.room, this.user))
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -96,6 +100,31 @@ public class MainStudentController {
 
         // Populate the ListView with the fetched data.
         populateListView();
+    }
+
+    /**
+     * Initializes data to be fetched with a certain delay.
+     * @param room current room
+     * @param user current user
+     */
+    protected void repeatFetch(Room room, User user) {
+        // Check if the refresh rate for questions has changed.
+        if (room.getTooSlow() + 1 != refreshRate) {
+            // Stop the previous timeline.
+            if (timelineRefresh != null) {
+                timelineRefresh.stop();
+            }
+
+            // Update the refresh rate.
+            refreshRate = room.getTooSlow() + 1;
+
+            // Initialize a new timeline with new refresh rate.
+            timelineRefresh = new Timeline(
+                    new KeyFrame(Duration.seconds(refreshRate), e -> fetchData(room, user))
+            );
+            timelineRefresh.setCycleCount(Animation.INDEFINITE);
+            timelineRefresh.play();
+        }
     }
 
     /**
