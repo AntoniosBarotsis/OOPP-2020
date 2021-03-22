@@ -57,6 +57,7 @@ public class OthersQuestionController {
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
 
+            // If there is an answer, it will write it in the text box
         if (!question.getAnswer().equals("")) {
             questionText.setText(questionText.getText() + "\n\nAnswer:\n"
                     + question.getAnswer());
@@ -83,18 +84,15 @@ public class OthersQuestionController {
 
             user.removeQuestionUpvoted(question.getId());
 
-
         } else {
             QuestionViewCommunication.upvote(question.getId());
             QuestionViewCommunication.addQuestionUpvoted(question.getId(), user.getId());
-
 
             upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) + 1));
             upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #808080");
 
             user.addQuestionUpvoted(question.getId());
-
         }
     }
 

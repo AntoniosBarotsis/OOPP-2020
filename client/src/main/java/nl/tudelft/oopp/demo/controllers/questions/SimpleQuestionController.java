@@ -55,12 +55,14 @@ public class SimpleQuestionController {
         questionText.setText(question.getText());
         upvotes.setText(Integer.toString(question.getUpvotes()));
 
+            //Shows the mark as answer option only if the question isn't already marked as answer
         if (question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
             markAsAnsweredOption.setVisible(false);
         } else {
             markAsAnsweredOption.setVisible(true);
         }
 
+        //Adds the answer to the answerBox only if question is answered
         if (!question.getAnswer().equals("")) {
             questionText.setText(questionText.getText() + "\n\nAnswer:\n"
                     + question.getAnswer());

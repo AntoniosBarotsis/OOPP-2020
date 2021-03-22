@@ -58,6 +58,7 @@ public class ModQuestionController {
      */
     @FXML
     public void loadData(Question question, User user, Room room) {
+            //Shows the mark as answer option only if the question isn't already marked as answer
         if (question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
             markAsAnsweredOption.setVisible(false);
         } else {
@@ -68,6 +69,7 @@ public class ModQuestionController {
         this.question = question;
         this.answer = question.getAnswer();
 
+            //Adds the answer to the answerBox only if question is answered
         if (answer != "") {
             answerBox.setText(answer);
             answerOption.setText("Edit Answer");
@@ -166,14 +168,11 @@ public class ModQuestionController {
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     answerBox.setEditable(false);
+                    answerBox.setText(answerBox.getText().replaceAll("\n", " "));
 
                     modified = false;
 
-                    answerBox.setText(answerBox.getText().replaceAll("\n", " "));
-
-
                     answer = answerBox.getText();
-
 
                     question.setAnswer(answer);
 
