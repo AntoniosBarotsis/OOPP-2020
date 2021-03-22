@@ -32,6 +32,17 @@ class MainStudentCommunicationTest {
     }
 
     @Test
+    void increaseNormal() {
+        int currentNormal = MainModCommunication.getRoom(1).getNormalSpeed();
+        MainStudentCommunication.increaseNormal(1);
+
+        // The test will give adequate results only if the server is running.
+        if (currentNormal != -1) {
+            assertEquals(currentNormal + 1, MainModCommunication.getRoom(1).getNormalSpeed());
+        }
+    }
+
+    @Test
     void decreaseTooFast() {
         int currentTooFast = MainModCommunication.getRoom(1).getTooFast();
         MainStudentCommunication.decreaseTooFast(1);
@@ -50,6 +61,17 @@ class MainStudentCommunicationTest {
         // The test will give adequate results only if the server is running.
         if (currentTooSlow != -1) {
             assertEquals(currentTooSlow - 1, MainModCommunication.getRoom(1).getTooSlow());
+        }
+    }
+
+    @Test
+    void decreaseNormal() {
+        int currentNormal = MainModCommunication.getRoom(1).getNormalSpeed();
+        MainStudentCommunication.decreaseNormal(1);
+
+        // The test will give adequate results only if the server is running.
+        if (currentNormal != -1) {
+            assertEquals(currentNormal - 1, MainModCommunication.getRoom(1).getNormalSpeed());
         }
     }
 

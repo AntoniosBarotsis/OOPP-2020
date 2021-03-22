@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.communication.mainmenu;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
@@ -29,5 +30,10 @@ class MainModCommunicationTest {
     @Test
     void getAnsweredQuestions() {
         assertNotNull(MainModCommunication.getAnsweredQuestions(1));
+    }
+
+    @Test
+    void setOngoingLecture() {
+        assertDoesNotThrow(() -> MainModCommunication.setOngoingLecture(1, false, 1));
     }
 }

@@ -13,6 +13,11 @@ public class StudentHelper {
     private String username;
     private String ip;
 
+    public StudentHelper(String username, String ip) {
+        this.username = username;
+        this.ip = ip;
+    }
+
     /**
      * Create student.
      *

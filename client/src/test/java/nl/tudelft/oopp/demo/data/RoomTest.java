@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
@@ -11,7 +12,12 @@ import org.junit.jupiter.api.Test;
 class RoomTest {
 
     private Room room = new Room(42, "OOPP lecture 1",
-        new Date(1614969845), true, 5, 1);
+        new Date(1614969845), true, 5, 1, 3, true);
+
+    @Test
+    void constructor() {
+        assertNotNull(room);
+    }
 
     @Test
     void getId() {
@@ -65,5 +71,27 @@ class RoomTest {
     void setTooSlow() {
         room.setTooSlow(2);
         assertEquals(2, room.getTooSlow());
+    }
+
+    @Test
+    void getNormalSpeed() {
+        assertEquals(3, room.getNormalSpeed());
+    }
+
+    @Test
+    void setNormalSpeed() {
+        room.setNormalSpeed(15);
+        assertEquals(15, room.getNormalSpeed());
+    }
+
+    @Test
+    void isOngoing() {
+        assertEquals(true, room.isOngoing());
+    }
+
+    @Test
+    void setOngoing() {
+        room.setOngoing(false);
+        assertEquals(false, room.isOngoing());
     }
 }

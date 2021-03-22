@@ -3,11 +3,7 @@ package nl.tudelft.oopp.demo.communication.mainmenu;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -43,6 +39,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
         return gson.fromJson(response.body(), new TypeToken<ArrayList<Question>>(){}.getType());
     }
@@ -61,10 +58,11 @@ public abstract class MainMenuCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return new Room(0, "Error loading room", new Date(), false, -1, -1);
+            return new Room(0, "Error loading room", new Date(), false, -1, -1, -1, false);
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
         return gson.fromJson(response.body(), Room.class);
     }
@@ -85,6 +83,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
         return response.body();
     }
@@ -108,6 +107,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
     }
 
@@ -133,24 +133,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
-    }
-
-    /**
-     * Fetches IP from endpoint.
-     * @return ip of user
-     */
-    public static String getIp() {
-        String ip = "Error fetching IP!";
-
-        try {
-            // Get the public IP address of the user.
-            ip = new BufferedReader(new InputStreamReader(
-                    new URL("http://checkip.amazonaws.com").openStream())).readLine();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-
-        return ip;
     }
 }

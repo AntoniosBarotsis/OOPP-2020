@@ -10,7 +10,7 @@ class MainModControllerTest {
         Test plan for testing if loading data from server works:
         1. Launch the client application.
         2. Join a room.
-        3. Upon joining tooFast and tooSlow labels should be successfully set.
+        3. Upon joining tooFast, tooSlow and Normal labels should be successfully set.
         4. The questions for the chosen room should appear as a list in the centre of the window.
          */
     }
@@ -23,6 +23,36 @@ class MainModControllerTest {
         2. Join a room.
         3. Click on top-right button "Links".
         4. An informational dialog should appear, which shows code for students and moderators.
+         */
+    }
+
+    @Test
+    void buttonSimpleClicked() {
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if buttonSimple works:
+        1. Launch the client application.
+        2. Join a room.
+        3. Click on bottom-left button "Simple view".
+        4. All buttons apart from "Answered/Unanswered" button should disappear.
+        5. Simplified questionViews should load in the listView.
+        6. The button should change it's name to "Moderator View"
+        7. If pressed again, the menu should return to the state it was before step 3.
+         */
+    }
+
+    @Test
+    void buttonStartEndClicked() {
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if buttonStartEnd works:
+        1. Launch the client application.
+        2. Join a room.
+        3. This button should be available only for Users of type LECTURER.
+        4. If the lecture is ongoing, the text should be "End lecture".
+        5. If the lecture is not ongoing, the text should be "Start lecture".
+        6. Upon pressing the button, the text should change.
+        7. A request to the server to start/end lecture should be made.
+        8. If changing lecture status was successful, the button text should remain unchanged.
+        9. If it was unsuccessful, the text should revert back after the data is refetched.
          */
     }
 
@@ -103,7 +133,7 @@ class MainModControllerTest {
      */
     @Test
     void directoryChooser() {
-        // Since this method cannot be tested on it's own, follow one of the linked test plan.
+        // Since this method cannot be tested on it's own, follow one of the linked test plans.
     }
 
     /**
@@ -114,7 +144,7 @@ class MainModControllerTest {
      */
     @Test
     void writeToFile() {
-        // Since this method cannot be tested on it's own, follow one of the linked test plan.
+        // Since this method cannot be tested on it's own, follow one of the linked test plans.
     }
 
     /**
@@ -130,6 +160,30 @@ class MainModControllerTest {
      */
     @Test
     void populateListView() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void loadModQuestionView() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #buttonSimpleClicked()}.
+     */
+    @Test
+    void setButtonVisibility() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #buttonStartEndClicked()}.
+     */
+    @Test
+    void changeOngoingLecture() {
         // Since this method cannot be tested on it's own, follow the linked test plan.
     }
 }

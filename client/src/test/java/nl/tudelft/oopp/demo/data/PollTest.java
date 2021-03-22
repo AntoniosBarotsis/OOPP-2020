@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +15,11 @@ class PollTest {
     private List<String> options = new ArrayList<>();
     private Poll poll = new Poll(858585, "what is the meaning of life",
             new Date(42), options, correct, Poll.PollStatus.OPEN);
+
+    @Test
+    void constructor() {
+        assertNotNull(poll);
+    }
 
     @Test
     void getId() {
