@@ -268,9 +268,9 @@ public class RoomService {
      * @param date the starting date/time for the room
      * @return the newly created room
      */
-    public Room scheduleRoom(String username, String ip, String title, Date date) {
+    public Room scheduleRoom(String username, String ip, String title, long date) {
         Room room = createRoom(username, ip, title);
-        room.setStartingDate(date);
+        room.setStartingDate(new Date(date));
         return room;
     }
 

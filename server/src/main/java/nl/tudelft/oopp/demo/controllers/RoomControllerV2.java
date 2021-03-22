@@ -237,7 +237,7 @@ public class RoomControllerV2 {
      */
     @PutMapping("schedule")
     public Room scheduleRoom(@PathParam("username") String username, @PathParam("ip") String ip,
-                             @PathParam("title") String title, @PathParam("date") Date date) {
+                             @PathParam("title") String title, @PathParam("date") long date) {
         return roomService.scheduleRoom(username, ip, title, date);
     }
 }
