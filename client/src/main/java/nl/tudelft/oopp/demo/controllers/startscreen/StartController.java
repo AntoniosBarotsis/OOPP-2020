@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers.startscreen;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,30 +17,13 @@ public class StartController {
     private Button buttonCreate;
 
     /**
-     * Action if the create button is clicked.
+     * Open the create window.
      * @throws Exception if FXML loader fails
      */
     @FXML
     public void buttonCreate() throws Exception {
-        buttonCreate.setDisable(true);
-        createStage();
-    }
-
-    /**
-     * Action if the join button is clicked.
-     * @throws Exception if FXML loader fails
-     */
-    @FXML
-    public void buttonJoin() throws Exception {
         buttonJoin.setDisable(true);
-        joinStage();
-    }
-
-    /**
-     * Creates new create room window.
-     * @throws Exception if fxml loader fails
-     */
-    public void createStage() throws Exception {
+        buttonCreate.setDisable(true);
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/startView/createRoomScene.fxml"));
         stage.setTitle("Create Screen");
@@ -49,16 +31,20 @@ public class StartController {
         stage.show();
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
+                buttonJoin.setDisable(false);
                 buttonCreate.setDisable(false);
             }
         });
     }
 
     /**
-     * Creates new join room window.
-     * @throws Exception if fxml loader fails
+     * Open the join window.
+     * @throws Exception if FXML loader fails
      */
-    public void joinStage() throws Exception {
+    @FXML
+    public void buttonJoin() throws Exception {
+        buttonJoin.setDisable(true);
+        buttonCreate.setDisable(true);
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/startView/joinRoomScene.fxml"));
         stage.setTitle("Create Screen");
@@ -67,6 +53,7 @@ public class StartController {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 buttonJoin.setDisable(false);
+                buttonCreate.setDisable(false);
             }
         });
     }
