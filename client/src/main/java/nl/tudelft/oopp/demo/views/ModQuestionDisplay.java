@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.controllers.questions.ModQuestionController;
 import nl.tudelft.oopp.demo.data.Question;
+import nl.tudelft.oopp.demo.data.QuestionAuthor;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
@@ -26,10 +27,12 @@ public class ModQuestionDisplay extends Application {
         ModQuestionController controller = loader.getController();
         Question.QuestionStatus open = Question.QuestionStatus.OPEN;
         Date date = new Date();
-        Room room = new Room(1, "room", new Date(), false, 0, 0);
-        User user = new User(1, "Daniel", null, null, User.UserType.MODERATOR);
+        Room room = new Room(1, "room", new Date(), false, 0,0, 0, true);
+        User user = new User(1, "Roy", null, null, User.UserType.MODERATOR);
+
+        QuestionAuthor author = new QuestionAuthor(2, "Roy");
         Question question = new Question(1, "This is a question",
-                (long) 1,  0, 0, date, open,"");
+                author,  0, 0, date, open,"");
 
         controller.loadData(question, user, room);
 

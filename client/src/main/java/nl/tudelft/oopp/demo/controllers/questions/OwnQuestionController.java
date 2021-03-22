@@ -63,7 +63,7 @@ public class OwnQuestionController {
         String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
         date.setText(simplifiedDate);
 
-        username.setText(" " + user.getUsername());
+        username.setText(" " + question.getAuthor().getUsername());
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
 

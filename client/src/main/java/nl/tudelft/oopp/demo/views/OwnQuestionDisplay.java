@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.controllers.questions.ModQuestionController;
 import nl.tudelft.oopp.demo.controllers.questions.OwnQuestionController;
 import nl.tudelft.oopp.demo.data.Question;
+import nl.tudelft.oopp.demo.data.QuestionAuthor;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
@@ -28,11 +29,12 @@ public class OwnQuestionDisplay extends Application {
         OwnQuestionController controller = loader.getController();
         Question.QuestionStatus open = Question.QuestionStatus.OPEN;
         Date date = new Date();
-        Room room = new Room(1, "room", new Date(), false, 0, 0);
-        User user = new User(1, "Daniel", new HashSet<>(), new HashSet<>(),
+        Room room = new Room(1, "room", new Date(), false, 0, 0, 0, true);
+        User user = new User(1, "Roy", new HashSet<>(), new HashSet<>(),
                 User.UserType.MODERATOR);
+        QuestionAuthor author = new QuestionAuthor(1, "Roy");
         Question question = new Question(1, "This is a question",
-                (long) 1,  0, 0, date, open,"answer");
+                author,  0, 0, date, open,"answer");
 
         controller.loadData(question, user, room);
 

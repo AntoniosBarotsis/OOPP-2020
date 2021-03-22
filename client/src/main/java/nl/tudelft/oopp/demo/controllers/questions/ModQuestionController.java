@@ -82,7 +82,7 @@ public class ModQuestionController {
         String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
         date.setText(simplifiedDate);
 
-        username.setText(" " + user.getUsername());
+        username.setText(" " + question.getAuthor().getUsername());
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
         modified = false;
@@ -113,9 +113,8 @@ public class ModQuestionController {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     questionText.setText(questionText.getText().replaceAll("\n", " "));
 
-                    String ip = MainStudentCommunication.getIp();
 
-                    StudentHelper studentHelper = new StudentHelper(user.getUsername(), ip);
+                    StudentHelper studentHelper = new StudentHelper(user.getUsername(), "");
 
                     QuestionHelper questionHelper = new QuestionHelper(
                             questionText.getText(), studentHelper);
@@ -176,9 +175,7 @@ public class ModQuestionController {
 
                     question.setAnswer(answer);
 
-                    String ip = MainStudentCommunication.getIp();
-
-                    StudentHelper studentHelper = new StudentHelper(user.getUsername(), ip);
+                    StudentHelper studentHelper = new StudentHelper(user.getUsername(), "");
 
                     QuestionHelper questionHelper = new QuestionHelper(
                             answerBox.getText(), studentHelper);
