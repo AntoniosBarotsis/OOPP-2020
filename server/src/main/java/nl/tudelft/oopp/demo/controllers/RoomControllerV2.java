@@ -6,12 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
+import nl.tudelft.oopp.demo.entities.RoomConfig;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.RoomService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -216,5 +218,19 @@ public class RoomControllerV2 {
                     @PathParam("isOngoing") boolean isOngoing,
                     @PathParam("userId") long userId) {
         roomService.setOngoing(roomId, isOngoing, userId);
+    }
+
+    /**
+     * Sets student refresh rate.
+     *
+     * @param roomId     the room id
+     * @param roomConfig the room config
+     * @param userId     the user id
+     */
+    @PutMapping("setStudentRefreshRate")
+    public void setStudentRefreshRate(@PathParam("roomId") long roomId,
+                                      @RequestBody RoomConfig roomConfig,
+                                      @PathParam("userId") long userId) {
+        roomService.setConfig(roomId, roomConfig, userId);
     }
 }
