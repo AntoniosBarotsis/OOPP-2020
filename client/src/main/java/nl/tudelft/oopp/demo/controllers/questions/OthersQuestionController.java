@@ -57,7 +57,7 @@ public class OthersQuestionController {
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
 
-            // If there is an answer, it will write it in the text box
+        // If there is an answer, it will write it in the text box
         if (!question.getAnswer().equals("")) {
             questionText.setText(questionText.getText() + "\n\nAnswer:\n"
                     + question.getAnswer());

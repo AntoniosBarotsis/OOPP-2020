@@ -50,7 +50,7 @@ public class OwnQuestionController {
      * @param room the room information
      */
     public void loadData(Question question, User user, Room room) {
-            //Shows the mark as answer option only if the question isn't already marked as answer
+        //Shows the mark as answer option only if the question isn't already marked as answer
         if (question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
             markAsAnsweredOption.setVisible(false);
         } else {
@@ -69,7 +69,7 @@ public class OwnQuestionController {
 
         checkAlreadyUpvoted(user, question);
 
-            // If there is an answer, it will write it in the text box
+        // If there is an answer, it will write it in the text box
         if (!question.getAnswer().equals("")) {
             questionText.setText(questionText.getText() + "\n\nAnswer:\n"
                     + question.getAnswer());

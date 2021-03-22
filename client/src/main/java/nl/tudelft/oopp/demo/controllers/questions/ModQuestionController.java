@@ -58,7 +58,7 @@ public class ModQuestionController {
      */
     @FXML
     public void loadData(Question question, User user, Room room) {
-            //Shows the mark as answer option only if the question isn't already marked as answer
+        //Shows the mark as answer option only if the question isn't already marked as answer
         if (question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
             markAsAnsweredOption.setVisible(false);
         } else {
@@ -69,7 +69,7 @@ public class ModQuestionController {
         this.question = question;
         this.answer = question.getAnswer();
 
-            //Adds the answer to the answerBox only if question is answered
+        //Adds the answer to the answerBox only if question is answered
         if (answer != "") {
             answerBox.setText(answer);
             answerOption.setText("Edit Answer");
