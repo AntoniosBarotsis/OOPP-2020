@@ -31,6 +31,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DataConfig {
 
+    /**
+     * Command line runner command line runner.
+     *
+     * @param quoteRepository    the quote repository
+     * @param userRepository     the user repository
+     * @param roomRepository     the room repository
+     * @param questionRepository the question repository
+     * @param pollRepository     the poll repository
+     * @return the command line runner
+     */
     @Bean
     CommandLineRunner commandLineRunner(QuoteRepository quoteRepository,
                                         UserRepository userRepository,

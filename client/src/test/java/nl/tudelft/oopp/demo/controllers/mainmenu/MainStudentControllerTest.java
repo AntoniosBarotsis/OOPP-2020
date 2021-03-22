@@ -21,10 +21,10 @@ class MainStudentControllerTest {
         Test plan for testing if buttonTooFast works:
         1. Launch the client application.
         2. Join a room.
-        3. Upon pressing the button, both tooSlow and tooFast buttons should get disabled.
+        3. Upon pressing the button, tooSlow, Normal and tooFast buttons should get disabled.
         4. A 5-minute countdown should initiate.
         5. A request to the server should be send to increase tooFast counter prior the countdown.
-        6. After the countdown is over, both tooSlow and tooFast buttons should get enabled.
+        6. After the countdown is over, tooSlow, Normal and tooFast buttons should get enabled.
         7. A request to the server should be send to decrease tooFast counter after the countdown.
          */
     }
@@ -35,11 +35,25 @@ class MainStudentControllerTest {
         Test plan for testing if buttonTooSlow works:
         1. Launch the client application.
         2. Join a room.
-        3. Upon pressing the button, both tooSlow and tooFast buttons should get disabled.
+        3. Upon pressing the button, tooSlow, Normal and tooFast buttons should get disabled.
         4. A 5-minute countdown should initiate.
         5. A request to the server should be send to increase tooSlow counter prior the countdown.
-        6. After the countdown is over, both tooSlow and tooFast buttons should get enabled.
+        6. After the countdown is over, tooSlow, Normal and tooFast buttons should get enabled.
         7. A request to the server should be send to decrease tooSlow counter after the countdown.
+         */
+    }
+
+    @Test
+    void buttonNormal() {
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if buttonNormal works:
+        1. Launch the client application.
+        2. Join a room.
+        3. Upon pressing the button, tooSlow, Normal and tooFast buttons should get disabled.
+        4. A 5-minute countdown should initiate.
+        5. A request to server should be send to increase normalPace counter prior the countdown.
+        6. After the countdown is over, tooSlow, Normal and tooFast buttons should get enabled.
+        7. A request to server should be send to decrease normalPace counter after the countdown.
          */
     }
 
@@ -50,8 +64,23 @@ class MainStudentControllerTest {
         1. Launch the client application.
         2. Join a room.
         3. Type your question in the textBox and press button Send when ready.
-        4. A request to the server should be send to add a new question.
-        5. After a few seconds, your question should appear in the questionList.
+        4. Upon pressing the button, the textBox and send button should get disabled.
+        5. A 5-minute countdown should initiate.
+        6. A request to the server should be send to add a new question.
+        7. After a few seconds, your question should appear in the questionList.
+        8. After the countdown is over, the textBox and button Send should get enabled.
+         */
+    }
+
+    @Test
+    void buttonAnsweredClicked() {
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if button Answered Questions works:
+        1. Launch the client application.
+        2. Join a room.
+        3. Upon pressing the button it's text should change to "Unanswered questions".
+        4. Only answered questions should be displayed in the listView.
+        5. If you press again, unanswered questions should appear and button text should change.
          */
     }
 

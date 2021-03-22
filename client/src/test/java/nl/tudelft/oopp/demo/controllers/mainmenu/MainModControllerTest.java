@@ -10,7 +10,7 @@ class MainModControllerTest {
         Test plan for testing if loading data from server works:
         1. Launch the client application.
         2. Join a room.
-        3. Upon joining tooFast and tooSlow labels should be successfully set.
+        3. Upon joining tooFast, tooSlow and Normal labels should be successfully set.
         4. The questions for the chosen room should appear as a list in the centre of the window.
          */
     }

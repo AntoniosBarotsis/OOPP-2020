@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers.mainmenu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.List;
@@ -10,10 +11,13 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
@@ -21,6 +25,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
+import nl.tudelft.oopp.demo.controllers.questions.ModQuestionController;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
@@ -28,18 +33,33 @@ import nl.tudelft.oopp.demo.data.User;
 public class MainModController {
 
     private boolean filterAnswered;
+    private boolean enableSimpleView;
     private List<Question> questionData;
     private Room room;
     private User user;
 
     @FXML
-    private ListView<String> questionList;
+    private ListView<AnchorPane> questionList;
     @FXML
     private Text labelSlow;
     @FXML
     private Text labelFast;
     @FXML
+    private Text labelNormal;
+    @FXML
     private Button buttonAnswered;
+    @FXML
+    private Button buttonSimple;
+    @FXML
+    private Button buttonStartEnd;
+    @FXML
+    private Button buttonShowPolls;
+    @FXML
+    private Button buttonMakePolls;
+    @FXML
+    private Button buttonLinks;
+    @FXML
+    private MenuButton buttonExport;
 
     /**
      * Injects data from previous scene into current MainMenu.
@@ -48,6 +68,7 @@ public class MainModController {
      */
     public void loadData(Room room, User user) {
         filterAnswered = false;
+        enableSimpleView = false;
         fetchData(room, user);
 
         // Automatically fetch data every 5 seconds.
@@ -56,6 +77,11 @@ public class MainModController {
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+
+        // Only lecturer should be able to start/end a lecture.
+        if (!user.getUserType().equals(User.UserType.LECTURER)) {
+            buttonStartEnd.setVisible(false);
+        }
     }
 
     /**
@@ -68,9 +94,15 @@ public class MainModController {
         this.room = MainModCommunication.getRoom(room.getId());
         this.user = user;
 
+        // Changing "Start/End lecture" text is only required if user is lecturer.
+        if (user.getUserType().equals(User.UserType.LECTURER)) {
+            changeOngoingLecture();
+        }
+
         // Set pace labels using the data fetched from server.
         labelSlow.setText(String.valueOf(this.room.getTooSlow()));
         labelFast.setText(String.valueOf(this.room.getTooFast()));
+        labelNormal.setText(String.valueOf(this.room.getNormalSpeed()));
 
         // Fetch questions from database and load them into the ListView.
         this.questionData = MainModCommunication.getQuestions(this.room.getId());
@@ -88,16 +120,35 @@ public class MainModController {
     protected void populateListView() {
         questionList.getItems().clear();
         for (Question question : questionData) {
-            /*
-            TODO: questionList should be loaded with FXML panels instead of string.
-             */
             boolean answered = question.getStatus().equals(Question.QuestionStatus.ANSWERED);
-            if (!filterAnswered && !answered) {
-                questionList.getItems().add(question.getText());
+            if (enableSimpleView) {
+                //TODO: questionList should be loaded with simple question panels.
+            } else if (!filterAnswered && !answered) {
+                questionList.getItems().add(loadModQuestionView(question));
             } else if (filterAnswered && answered) {
-                questionList.getItems().add(question.getText());
+                questionList.getItems().add(loadModQuestionView(question));
             }
         }
+    }
+
+    /**
+     * Loads a ModQuestionView.
+     * @param question question to be injected
+     * @return anchorPane with injected question
+     */
+    protected AnchorPane loadModQuestionView(Question question) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/questionView/modQuestionView.fxml"));
+        try {
+            AnchorPane pane = loader.load();
+            ModQuestionController controller = loader.getController();
+            controller.loadData(question, user, room);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new AnchorPane();
     }
 
     /**
@@ -123,6 +174,55 @@ public class MainModController {
         alert.setHeaderText(null);
         alert.getDialogPane().setContent(gridPane);
         alert.showAndWait();
+    }
+
+    /**
+     * Handles button "Simple" clicks.
+     */
+    @FXML
+    public void buttonSimpleClicked() {
+        enableSimpleView = !enableSimpleView;
+        populateListView();
+        if (enableSimpleView) {
+            buttonSimple.setText("Moderator view");
+        } else {
+            buttonSimple.setText("Simple view");
+        }
+
+        buttonExport.setVisible(!buttonExport.isVisible());
+        setButtonVisibility(List.of(buttonLinks, buttonStartEnd,
+                buttonMakePolls, buttonShowPolls));
+    }
+
+    /**
+     * Inverts the visibility of the buttons in the list.
+     * @param buttons list of buttons
+     */
+    private static void setButtonVisibility(List<Button> buttons) {
+        for (Button button : buttons) {
+            button.setVisible(!button.isVisible());
+        }
+    }
+
+    /**
+     * Handles button "Start lecture" clicks.
+     */
+    @FXML
+    public void buttonStartEndClicked() {
+        room.setOngoing(!room.isOngoing());
+        MainModCommunication.setOngoingLecture(room.getId(), room.isOngoing(), user.getId());
+        changeOngoingLecture();
+    }
+
+    /**
+     * Inverts "Start/End lecture" button text.
+     */
+    public void changeOngoingLecture() {
+        if (room.isOngoing()) {
+            buttonStartEnd.setText("End lecture");
+        } else {
+            buttonStartEnd.setText("Start lecture");
+        }
     }
 
     /**

@@ -19,8 +19,7 @@ public class MainModCommunication extends MainMenuCommunication {
      * @return moderator code for a chosen room
      */
     public static String getAdminPassword(long id) {
-        String link = url + "rooms/private?roomId=";
-
+        String link = url + "rooms/private?";
         link = link + "roomId=" + id;
         link = link + "&ip=" + getIp();
         return  requestStringData(link);
@@ -54,6 +53,20 @@ public class MainModCommunication extends MainMenuCommunication {
     public static String getAnsweredQuestions(long id) {
         String link = url + "questions/exportAnswered?roomId=";
         return  requestStringData(link + id);
+    }
+
+    /**
+     * Changes if the lecture is ongoing or not.
+     * @param roomId id of room
+     * @param userId id of user
+     * @param isOngoing new lecture status
+     */
+    public static void setOngoingLecture(long roomId, boolean isOngoing, long userId) {
+        String link = url + "rooms/setOngoing?";
+        link = link + "roomId=" + roomId;
+        link = link + "&isOngoing=" + isOngoing;
+        link = link + "&userId=" + userId;
+        sendEmptyPutRequest(link);
     }
 
 }

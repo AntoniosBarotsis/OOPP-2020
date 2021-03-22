@@ -96,6 +96,26 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     void decrementTooSlow(long roomId);
 
     /**
+     * Increment normal speed.
+     *
+     * @param roomId the room id
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Room r SET r.normalSpeed = r.normalSpeed + 1 WHERE r.id = ?1")
+    void incrementNormalSpeed(long roomId);
+
+    /**
+     * Decrement normal speed.
+     *
+     * @param roomId the room id
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Room r SET r.normalSpeed = r.normalSpeed - 1 WHERE r.id = ?1")
+    void decrementNormalSpeed(long roomId);
+
+    /**
      * Bans a user in the given room given the correct elevated password.
      *
      * @param roomId the room id
@@ -118,4 +138,15 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "DELETE FROM room_banned_ips WHERE banned_ips = ?2 AND room_id = ?1",
         nativeQuery = true)
     void unbanUser(long roomId, String ip);
+
+    /**
+     * Sets ongoing.
+     *
+     * @param roomId    the room id
+     * @param isOngoing the is ongoing
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Room r SET r.isOngoing = ?2 WHERE r.id = ?1")
+    void setOngoing(long roomId, boolean isOngoing);
 }

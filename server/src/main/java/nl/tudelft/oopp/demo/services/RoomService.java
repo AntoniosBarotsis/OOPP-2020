@@ -150,6 +150,24 @@ public class RoomService {
     }
 
     /**
+     * Increment normal speed.
+     *
+     * @param roomId the room id
+     */
+    public void incrementNormalSpeed(long roomId) {
+        roomRepository.incrementNormalSpeed(roomId);
+    }
+
+    /**
+     * Decrement normal speed.
+     *
+     * @param roomId the room id
+     */
+    public void decrementNormalSpeed(long roomId) {
+        roomRepository.decrementNormalSpeed(roomId);
+    }
+
+    /**
      * Returns true if the user has been banned in the given room.
      *
      * @param roomId the room id
@@ -164,14 +182,14 @@ public class RoomService {
      * Bans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
-     * @param id               the id
+     * @param userId               the user id
      * @param ip               the ip
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException the unauthorized exception
      */
-    public void banUser(long roomId, long id, String ip, String elevatedPassword)
+    public void banUser(long roomId, long userId,  String ip, String elevatedPassword)
         throws UnauthorizedException {
-        if (isNotAuthorized(roomId, id)) {
+        if (isNotAuthorized(roomId, ip)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
 
@@ -181,9 +199,10 @@ public class RoomService {
             return;
         }
 
-        ElevatedUser user = (ElevatedUser) userRepository.getOne(id);
-        LogBan logBan = new LogBan(room, user, ip, new Date());
         roomRepository.banUser(roomId, ip);
+
+        User user = userRepository.getOne(userId);
+        LogBan logBan = new LogBan(room, user, ip, new Date());
         logEntryRepository.save(logBan);
     }
 
@@ -226,6 +245,21 @@ public class RoomService {
         List<LogQuestion> questions = logEntryRepository.findAllQuestions(roomId);
 
         return mapLogCollection(new LogCollection(bans, joins, questions));
+    }
+
+    /**
+     * Sets ongoing.
+     *
+     * @param roomId    the room id
+     * @param isOngoing the is ongoing
+     * @param userId    the user id
+     */
+    public void setOngoing(long roomId, boolean isOngoing, long userId) {
+        if (isNotAuthorized(roomId, userId)) {
+            throw new UnauthorizedException("User not authorized (not an elevated user)");
+        }
+
+        roomRepository.setOngoing(roomId, isOngoing);
     }
 
     /**
@@ -277,24 +311,6 @@ public class RoomService {
     }
 
     /**
-     * Is authorized boolean.
-     *
-     * @param roomId the room id
-     * @param id     the id
-     * @return the boolean
-     */
-    public boolean isNotAuthorized(long roomId, long id) {
-        List<Long> authorizedIps = roomRepository
-            .getOne(roomId)
-            .getModerators()
-            .stream()
-            .map(User::getId)
-            .collect(Collectors.toList());
-
-        return !authorizedIps.contains(id);
-    }
-
-    /**
      * Is not authorized boolean.
      *
      * @param roomId the room id
@@ -310,5 +326,23 @@ public class RoomService {
             .collect(Collectors.toList());
 
         return !authorizedIps.contains(ip);
+    }
+
+    /**
+     * Is not authorized boolean.
+     *
+     * @param roomId the room id
+     * @param id     the id
+     * @return the boolean
+     */
+    public boolean isNotAuthorized(long roomId, long id) {
+        List<Long> authorizedIps = roomRepository
+            .getOne(roomId)
+            .getModerators()
+            .stream()
+            .map(User::getId)
+            .collect(Collectors.toList());
+
+        return !authorizedIps.contains(id);
     }
 }

@@ -65,11 +65,11 @@ class QuestionTest {
 
     @Test
     void statusToFactor() {
-        assertThat(q1.statusToFactor()).isEqualTo(0);
+        assertThat(q1.statusToString()).isEqualTo("OPEN");
         q1.setStatus(Question.QuestionStatus.ANSWERED);
-        assertThat(q1.statusToFactor()).isEqualTo(1);
+        assertThat(q1.statusToString()).isEqualTo("ANSWERED");
         q1.setStatus(Question.QuestionStatus.SPAM);
-        assertThat(q1.statusToFactor()).isEqualTo(2);
+        assertThat(q1.statusToString()).isEqualTo("SPAM");
     }
 
     @Test

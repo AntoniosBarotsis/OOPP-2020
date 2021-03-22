@@ -225,6 +225,17 @@ class RoomTest {
     }
 
     @Test
+    void getNormalSpeed() {
+        assertThat(r1.getNormalSpeed()).isEqualTo(0);
+    }
+
+    @Test
+    void setNormalSpeed() {
+        r1.setNormalSpeed(2);
+        assertThat(r1.getNormalSpeed()).isEqualTo(2);
+    }
+
+    @Test
     void getElevatedPassword() {
         String uuid = UUID.randomUUID().toString();
 
@@ -313,8 +324,8 @@ class RoomTest {
             + "repeatingLecture=false, admin=1, moderators=[User(id=1, username=Admin, ip=ip, "
             + "questionsAsked=[], questionsUpvoted=[], type=ADMIN)], bannedIps=[], questions=["
             + "" + questionToString + "], polls=[" + pollToString + "], tooFast=0, tooSlow=0, "
-            + "elevatedPassword=" + r1.getElevatedPassword() + ", "
-            + "normalPassword=" + r1.getNormalPassword() + ")";
+            + "normalSpeed=0, elevatedPassword=" + r1.getElevatedPassword() + ", "
+            + "normalPassword=" + r1.getNormalPassword() + ", isOngoing=" + false + ")";
 
         assertThat(str).isEqualTo(r1.toString());
     }
