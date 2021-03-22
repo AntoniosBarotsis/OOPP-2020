@@ -194,7 +194,6 @@ public class ModQuestionController {
      */
     public void deleteQuestion() {
         QuestionViewCommunication.delete(room.getId(), question.getId());
-
     }
 
     /**

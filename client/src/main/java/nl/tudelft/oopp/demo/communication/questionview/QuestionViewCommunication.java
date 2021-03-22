@@ -209,7 +209,7 @@ public class QuestionViewCommunication {
                 .newBuilder()
                 .uri(URI.create(url))
                 .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(""))
+                .DELETE()
                 .build();
 
         HttpResponse<String> response = null;
@@ -225,16 +225,22 @@ public class QuestionViewCommunication {
 
     }
 
+    /**
+     * Bans the user.
+     *
+     * @param roomId the room id
+     * @param userId the user id
+     */
     public static void ban(long roomId, long userId) {
         String elevatedPassword = MainModCommunication.getAdminPassword(roomId);
         String url = "http://localhost:8080/api/v2/rooms/ban?";
         url = url + "userId=" + userId;
-        url= url + "&elevatedPassword=" + elevatedPassword;
+        url = url + "&elevatedPassword=" + elevatedPassword;
         url = url + "&roomId=" + roomId;
 
-        HttpRequest request = HttpRequest.newBuilder().
-                PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(""))).
-                uri(URI.create(url)).build();
+        HttpRequest request = HttpRequest.newBuilder()
+                .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson("")))
+                .uri(URI.create(url)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -248,6 +254,12 @@ public class QuestionViewCommunication {
         }
     }
 
+    /**\
+     * Deletes the question from the database.
+     *
+     * @param roomId the room id.
+     * @param questionId the question id.
+     */
     public static void delete(long roomId, long questionId) {
 
         String url = "http://localhost:8080/api/v2/questions/deleteOne?";

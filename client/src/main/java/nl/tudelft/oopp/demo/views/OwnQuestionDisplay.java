@@ -30,7 +30,7 @@ public class OwnQuestionDisplay extends Application {
         Question.QuestionStatus open = Question.QuestionStatus.OPEN;
         Date date = new Date();
         Room room = new Room(1, "room", new Date(), false, 0, 0, 0, true);
-        User user = new User(1, "Roy", new HashSet<>(), new HashSet<>(),
+        User user = new User(4, "Roy", new HashSet<>(), new HashSet<>(),
                 User.UserType.MODERATOR);
         QuestionAuthor author = new QuestionAuthor(1, "Roy");
         Question question = new Question(4, "This is a question",

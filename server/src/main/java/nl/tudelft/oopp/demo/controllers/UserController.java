@@ -10,11 +10,14 @@ import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.helpers.StudentHelper;
 import nl.tudelft.oopp.demo.services.UserService;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 /**
  * The type User controller.
@@ -71,7 +74,7 @@ public class UserController {
      * @param userId the user id
      * @param questionId the question id
      */
-    @PostMapping(value = "removeUpvotedQuestion")
+    @DeleteMapping(value = "removeUpvotedQuestion")
     public void removeUpvotedQuestion(
         @PathParam("userId") Long userId, @PathParam("questionId") Long questionId) {
         userService.removeUpvotedQuestion(userId, questionId);
