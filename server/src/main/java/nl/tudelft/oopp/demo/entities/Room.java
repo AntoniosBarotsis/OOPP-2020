@@ -71,11 +71,15 @@ public class Room {
     private int tooFast;
     @Column(name = "too_slow")
     private int tooSlow;
+    @Column(name = "normal_speed")
+    private int normalSpeed;
     @JsonIgnore
     @Column(name = "elevated_password")
     private String elevatedPassword;
     @Column(name = "normal_password")
     private String normalPassword;
+    @Column(name = "is_ongoing")
+    private boolean isOngoing;
 
     /**
      * Instantiates a new Room. `startingDate` becomes the current date,
@@ -100,6 +104,8 @@ public class Room {
         this.polls = new HashSet<>();
         this.tooFast = 0;
         this.tooSlow = 0;
+        this.normalSpeed = 0;
+        this.isOngoing = false;
 
         generatePassword();
     }

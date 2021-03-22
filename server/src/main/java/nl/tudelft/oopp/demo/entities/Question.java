@@ -39,7 +39,7 @@ public class Question {
     )
     @Column(name = "id", updatable = false)
     private long id;
-    @Column(name = "text")
+    @Column(name = "text", columnDefinition = "TEXT")
     private String text;
     @ManyToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "author_id")
@@ -124,13 +124,13 @@ public class Question {
      *
      * @return the int
      */
-    public int statusToFactor() {
+    public String statusToString() {
         if (status == Question.QuestionStatus.OPEN) {
-            return 0;
+            return "OPEN";
         } else if (status == Question.QuestionStatus.ANSWERED) {
-            return 1;
+            return "ANSWERED";
         } else {
-            return 2;
+            return "SPAM";
         }
     }
 }
