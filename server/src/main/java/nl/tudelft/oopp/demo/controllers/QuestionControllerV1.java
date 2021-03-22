@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Question Controller.
  */
 @RestController("QuestionV1")
-@RequestMapping("api/v1/questions")
+@RequestMapping("api/v2/questions")
 @AllArgsConstructor
 public class QuestionControllerV1 {
 

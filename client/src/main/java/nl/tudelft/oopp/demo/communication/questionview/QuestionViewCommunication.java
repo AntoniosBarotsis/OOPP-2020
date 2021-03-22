@@ -47,7 +47,7 @@ public class QuestionViewCommunication {
 
     // Not finished
     public static void upvote(long id) {
-        String url = "http://localhost:8080/api/v1/questions/upvote?";
+        String url = "http://localhost:8080/api/v2/questions/upvote?";
         url = url + "questionId=" + id;
         sendEmptyPutRequest(url);
     }
@@ -59,7 +59,7 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
     public static void studentMarkAsAnswer(long id) {
-        String url = "http://localhost:8080/api/v1/questions/studentSetAsAnswered?";
+        String url = "http://localhost:8080/api/v2/questions/studentSetAsAnswered?";
         url = url + "questionId=" + id;
         sendEmptyPutRequest(url);
 
@@ -71,7 +71,7 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
     public static void modMarkAsAnswer(long id) {
-        String url = "http://localhost:8080/api/v1/questions/setAnswered?";
+        String url = "http://localhost:8080/api/v2/questions/setAnswered?";
         url = url + "questionId=" + id;
         sendEmptyPutRequest(url);
 
@@ -95,7 +95,7 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
     public static void downvote(long id) {
-        String url = "http://localhost:8080/api/v1/questions/downvote?";
+        String url = "http://localhost:8080/api/v2/questions/downvote?";
         url = url + "questionId=" + id;
         sendEmptyPutRequest(url);
 
@@ -108,7 +108,7 @@ public class QuestionViewCommunication {
      * @param questionHelper questionHelper with the edited question text
      */
     public static void setText(long id, QuestionHelper questionHelper)  {
-        String url = "http://localhost:8080/api/v1/questions/setText?";
+        String url = "http://localhost:8080/api/v2/questions/setText?";
         url = url + "questionId=" + id;
 
         HttpRequest request = HttpRequest
@@ -137,7 +137,7 @@ public class QuestionViewCommunication {
      * @param questionHelper questionHelper with the answer text
      */
     public static void setAnswer(long id, QuestionHelper questionHelper)  {
-        String url = "http://localhost:8080/api/v1/questions/setAnswer?";
+        String url = "http://localhost:8080/api/v2/questions/setAnswer?";
         url = url + "questionId=" + id;
 
         HttpRequest request = HttpRequest
