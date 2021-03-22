@@ -239,7 +239,11 @@ public class RoomService {
      * @return the log collection
      * @throws JsonProcessingException the json processing exception
      */
-    public String exportLog(long roomId) throws JsonProcessingException {
+    public String exportLog(long roomId, String ip) throws JsonProcessingException {
+        if (isNotAuthorized(roomId, ip)) {
+            throw new UnauthorizedException("User not authorized (not an elevated user)");
+        }
+
         List<LogBan> bans = logEntryRepository.findAllBans(roomId);
         List<LogJoin> joins = logEntryRepository.findAllJoins(roomId);
         List<LogQuestion> questions = logEntryRepository.findAllQuestions(roomId);

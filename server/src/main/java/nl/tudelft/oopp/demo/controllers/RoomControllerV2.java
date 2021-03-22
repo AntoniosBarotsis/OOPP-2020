@@ -222,8 +222,9 @@ public class RoomControllerV2 {
     }
 
     @GetMapping(value = "exportLog", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String exportLog(@PathParam("roomId") long roomId)
+    public String exportLog(@PathParam("roomId") long roomId,
+                            HttpServletRequest request)
         throws JsonProcessingException {
-        return roomService.exportLog(roomId);
+        return roomService.exportLog(roomId, request.getRemoteAddr());
     }
 }
