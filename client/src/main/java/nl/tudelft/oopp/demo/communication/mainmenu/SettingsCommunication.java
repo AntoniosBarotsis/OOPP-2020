@@ -1,5 +1,7 @@
 package nl.tudelft.oopp.demo.communication.mainmenu;
 
+import nl.tudelft.oopp.demo.data.RoomConfig;
+
 public class SettingsCommunication extends  MainMenuCommunication{
     private static final String url = "http://localhost:8080/api/v2/";
 
@@ -22,5 +24,18 @@ public class SettingsCommunication extends  MainMenuCommunication{
         String link = url + "rooms/private?";
         link = link + "roomId=" + id;
         return  requestStringData(link);
+    }
+
+    /**
+     * Save settings of room.
+     * @param roomId id of a room
+     * @param userId id of a user
+     * @param roomConfig new settings
+     */
+    public static String saveSettings(long roomId, long userId, RoomConfig roomConfig) {
+        String link = url + "rooms/setStudentRefreshRate?";
+        link = link + "roomId=" + roomId;
+        link = link + "&userId=" + userId;
+        return sendPutRequestRoomConfig(link, roomConfig);
     }
 }

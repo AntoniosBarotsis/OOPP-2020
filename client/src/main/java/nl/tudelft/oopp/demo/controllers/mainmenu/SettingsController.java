@@ -6,6 +6,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import nl.tudelft.oopp.demo.communication.mainmenu.SettingsCommunication;
 import nl.tudelft.oopp.demo.data.Room;
+import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.User;
 
 public class SettingsController {
@@ -39,10 +40,10 @@ public class SettingsController {
         String moderatorCode = "Code for moderators: "
                 + SettingsCommunication.getAdminPassword(room.getId()) + "\n";
         tbCodes.setText(studentCode + moderatorCode);
-        tbStudentrefresh.setText(String.valueOf(1));
-        tbModRefresh.setText(String.valueOf(1));
-        tbQuestionCd.setText(String.valueOf(1));
-        tbPaceCd.setText(String.valueOf(1));
+        tbStudentrefresh.setText(String.valueOf(room.getSettings().getStudentRefreshRate()));
+        tbModRefresh.setText(String.valueOf(room.getSettings().getModRefreshRate()));
+        tbQuestionCd.setText(String.valueOf(room.getSettings().getQuestionCooldown()));
+        tbPaceCd.setText(String.valueOf(room.getSettings().getPaceCooldown()));
     }
 
     /**
@@ -50,40 +51,53 @@ public class SettingsController {
      */
     @FXML
     public void buttonSaveClicked() {
-        int studentRefresh = 0;
-        int modRefresh = 0;
-        int questionCooldown = 0;
-        int paceCooldown = 0;
         try {
             // Fetch the data from the textBoxes.
-            studentRefresh = Integer.parseInt(tbStudentrefresh.getText());
-            modRefresh = Integer.parseInt(tbModRefresh.getText());
-            questionCooldown = Integer.parseInt(tbQuestionCd.getText());
-            paceCooldown = Integer.parseInt(tbPaceCd.getText());
+            int studentRefresh = Integer.parseInt(tbStudentrefresh.getText());
+            int modRefresh = Integer.parseInt(tbModRefresh.getText());
+            int questionCooldown = Integer.parseInt(tbQuestionCd.getText());
+            int paceCooldown = Integer.parseInt(tbPaceCd.getText());
 
             // Validate the data.
             if (studentRefresh < 1) {
-                showAlert("Refresh rate for students must be at least 1 second.");
+                showAlert("Refresh rate for students must be at least 1 second.",
+                        Alert.AlertType.WARNING);
                 return;
             }
 
             if (modRefresh < 1) {
-                showAlert("Refresh rate for moderators must be at least 1 second.");
+                showAlert("Refresh rate for moderators must be at least 1 second.",
+                        Alert.AlertType.WARNING);
                 return;
             }
 
-            if (questionCooldown < 1 || questionCooldown > 599) {
-                showAlert("Cooldown for asking questions must be between 1 second and 599 seconds.");
+            if (questionCooldown < 2 || questionCooldown > 600) {
+                showAlert("Cooldown for asking questions must be " +
+                        "between 2 seconds and 600 seconds.", Alert.AlertType.WARNING);
                 return;
             }
 
-            if (paceCooldown < 1 || paceCooldown > 599) {
-                showAlert("Cooldown for setting the pace must be between 1 second and 599 seconds.");
+            if (paceCooldown < 2 || paceCooldown > 600) {
+                showAlert("Cooldown for setting the pace must be " +
+                        "between 2 seconds and 600 seconds.", Alert.AlertType.WARNING);
                 return;
             }
+
+            // Save the changes to server.
+            RoomConfig roomConfig = new RoomConfig(studentRefresh, modRefresh,
+                    questionCooldown, paceCooldown);
+            String response = SettingsCommunication.saveSettings(room.getId(), user.getId(), roomConfig);
+            room.setSettings(roomConfig);
+
+            if (response.equals("200")) {
+                showAlert("Settings saved!", Alert.AlertType.INFORMATION);
+            } else {
+                showAlert("Error saving settings!", Alert.AlertType.ERROR);
+            }
+
 
         } catch (NumberFormatException e) {
-            showAlert("Textboxes must contain only integer data!");
+            showAlert("Textboxes must contain only integer data!", Alert.AlertType.WARNING);
         }
     }
 
@@ -91,8 +105,8 @@ public class SettingsController {
      * Shows a warning alert on screen.
      * @param text text to display on alert
      */
-    protected void showAlert(String text){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+    protected void showAlert(String text, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
         alert.setHeaderText(null);
         alert.setContentText(text);
         alert.showAndWait();
