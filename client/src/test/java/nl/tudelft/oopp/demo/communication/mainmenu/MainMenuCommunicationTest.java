@@ -43,6 +43,7 @@ class MainMenuCommunicationTest {
     @Test
     void sendPutRequestRoomConfig() {
         String link = url + "rooms/setConfig?roomId=1&userId=1";
-        assertNotNull(MainMenuCommunication.sendPutRequestRoomConfig(link, new RoomConfig(1,2,3,4)));
+        assertNotNull(MainMenuCommunication.sendPutRequestRoomConfig(link,
+            new RoomConfig(1,2,3,4)));
     }
 }

@@ -20,8 +20,8 @@ class RoomConfigTest {
     }
 
     @Test
-    void setConfig() {
-        settings.setConfig(200);
+    void setStudentRefreshRate() {
+        settings.setStudentRefreshRate(200);
         assertEquals(200, settings.getStudentRefreshRate());
     }
 
