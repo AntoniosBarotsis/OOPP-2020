@@ -60,7 +60,8 @@ public abstract class MainMenuCommunication {
         } catch (Exception e) {
             e.printStackTrace();
             RoomConfig settings = new RoomConfig(1000, 1000, 600, 600);
-            return new Room(0, "Error loading room", new Date(), false, -1, -1, -1, false, settings);
+            return new Room(0, "Error loading room", new Date(), false, -1,
+                    -1, -1, false, settings);
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());

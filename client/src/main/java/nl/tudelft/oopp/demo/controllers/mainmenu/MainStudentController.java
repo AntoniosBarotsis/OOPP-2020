@@ -159,11 +159,11 @@ public class MainStudentController {
      */
     protected void setCountdown(Text labelMin, Text labelSec, int duration) {
         // Set starting minutes timer.
-        int minuteDuration = (duration-1) / 60;
+        int minuteDuration = (duration - 1) / 60;
         labelMin.setText(String.valueOf(minuteDuration));
 
         // Set starting seconds timer.
-        int secondDuration = (duration-1) % 60;
+        int secondDuration = (duration - 1) % 60;
         if (secondDuration < 10) {
             labelSec.setText("0" + secondDuration);
         } else {

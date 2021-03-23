@@ -52,41 +52,43 @@ public class SettingsController {
     @FXML
     public void buttonSaveClicked() {
         try {
-            // Fetch the data from the textBoxes.
+            // Validate student refresh rate.
             int studentRefresh = Integer.parseInt(tbStudentrefresh.getText());
-            int modRefresh = Integer.parseInt(tbModRefresh.getText());
-            int questionCooldown = Integer.parseInt(tbQuestionCd.getText());
-            int paceCooldown = Integer.parseInt(tbPaceCd.getText());
-
-            // Validate the data.
             if (studentRefresh < 1) {
                 showAlert("Refresh rate for students must be at least 1 second.",
                         Alert.AlertType.WARNING);
                 return;
             }
 
+            // Validate mod refresh rate.
+            int modRefresh = Integer.parseInt(tbModRefresh.getText());
             if (modRefresh < 1) {
                 showAlert("Refresh rate for moderators must be at least 1 second.",
                         Alert.AlertType.WARNING);
                 return;
             }
 
+            // Validate question cooldown.
+            int questionCooldown = Integer.parseInt(tbQuestionCd.getText());
             if (questionCooldown < 2 || questionCooldown > 600) {
-                showAlert("Cooldown for asking questions must be " +
-                        "between 2 seconds and 600 seconds.", Alert.AlertType.WARNING);
+                showAlert("Cooldown for asking questions must be "
+                        + "between 2 seconds and 600 seconds.", Alert.AlertType.WARNING);
                 return;
             }
 
+            // Validate pace cooldown.
+            int paceCooldown = Integer.parseInt(tbPaceCd.getText());
             if (paceCooldown < 2 || paceCooldown > 600) {
-                showAlert("Cooldown for setting the pace must be " +
-                        "between 2 seconds and 600 seconds.", Alert.AlertType.WARNING);
+                showAlert("Cooldown for setting the pace must be "
+                        + "between 2 seconds and 600 seconds.", Alert.AlertType.WARNING);
                 return;
             }
 
             // Save the changes to server.
             RoomConfig roomConfig = new RoomConfig(studentRefresh, modRefresh,
                     questionCooldown, paceCooldown);
-            String response = SettingsCommunication.saveSettings(room.getId(), user.getId(), roomConfig);
+            String response = SettingsCommunication.saveSettings(room.getId(),
+                    user.getId(), roomConfig);
             room.setSettings(roomConfig);
 
             if (response.equals("200")) {

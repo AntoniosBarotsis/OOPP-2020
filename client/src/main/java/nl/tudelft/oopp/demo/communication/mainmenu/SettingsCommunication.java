@@ -2,7 +2,7 @@ package nl.tudelft.oopp.demo.communication.mainmenu;
 
 import nl.tudelft.oopp.demo.data.RoomConfig;
 
-public class SettingsCommunication extends  MainMenuCommunication{
+public class SettingsCommunication extends  MainMenuCommunication {
     private static final String url = "http://localhost:8080/api/v2/";
 
     /**
