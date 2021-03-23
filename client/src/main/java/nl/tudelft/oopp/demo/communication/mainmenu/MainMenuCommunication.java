@@ -12,6 +12,7 @@ import java.util.Date;
 
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
+import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 
 public abstract class MainMenuCommunication {
@@ -58,7 +59,8 @@ public abstract class MainMenuCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return new Room(0, "Error loading room", new Date(), false, -1, -1, -1, false);
+            RoomConfig settings = new RoomConfig(1000, 1000, 600, 600);
+            return new Room(0, "Error loading room", new Date(), false, -1, -1, -1, false, settings);
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());

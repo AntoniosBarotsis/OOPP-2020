@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 class RoomTest {
 
-    private Settings settings = new Settings(2,3,4,5);
+    private RoomConfig settings = new RoomConfig(2,3,4,5);
     private Room room = new Room(42, "OOPP lecture 1",
         new Date(1614969845), true, 5, 1, 3, true, settings);
 
@@ -103,7 +103,7 @@ class RoomTest {
 
     @Test
     void setSettings() {
-        Settings settings2 = new Settings(567,583,894,578);
+        RoomConfig settings2 = new RoomConfig(567,583,894,578);
         room.setSettings(settings2);
         assertEquals(settings2, room.getSettings());
     }

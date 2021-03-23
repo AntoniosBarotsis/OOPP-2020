@@ -10,7 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import nl.tudelft.oopp.demo.data.Room;
-import nl.tudelft.oopp.demo.data.Settings;
+import nl.tudelft.oopp.demo.data.RoomConfig;
 
 public class RoomInstanceCreator implements JsonDeserializer<Room> {
 
@@ -52,7 +52,7 @@ public class RoomInstanceCreator implements JsonDeserializer<Room> {
         int modRefreshRate = settingsObject.get("modRefreshRate").getAsInt();
         int questionCooldown = settingsObject.get("questionCooldown").getAsInt();
         int paceCooldown = settingsObject.get("paceCooldown").getAsInt();
-        Settings settings = new Settings(studentRefreshRate, modRefreshRate,
+        RoomConfig settings = new RoomConfig(studentRefreshRate, modRefreshRate,
                 questionCooldown, paceCooldown);
 
         return new Room(id, title, date, repeatingLecture,

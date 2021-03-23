@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class SettingsTest {
 
-    private Settings settings = new Settings(1,2,3,4);
+    private RoomConfig settings = new RoomConfig(1,2,3,4);
 
     @Test
     void constructor() {

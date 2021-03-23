@@ -1,6 +1,6 @@
 package nl.tudelft.oopp.demo.data;
 
-public class Settings {
+public class RoomConfig {
     private int studentRefreshRate;
     private int modRefreshRate;
     private int questionCooldown;
@@ -13,7 +13,7 @@ public class Settings {
      * @param questionCooldown cooldown for students for asking questions
      * @param paceCooldown cooldown for students for setting the pace
      */
-    public Settings(int studentRefreshRate, int modRefreshRate, int questionCooldown, int paceCooldown) {
+    public RoomConfig(int studentRefreshRate, int modRefreshRate, int questionCooldown, int paceCooldown) {
         this.studentRefreshRate = studentRefreshRate;
         this.modRefreshRate = modRefreshRate;
         this.questionCooldown = questionCooldown;
