@@ -54,6 +54,9 @@ public class Room {
     @OneToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "admin_id")
     private ElevatedUser admin;
+    @OneToOne(cascade = CascadeType.MERGE, optional = false)
+    @JoinColumn(name = "room_config_id")
+    private RoomConfig roomConfig;
     @OneToMany
     @Column(name = "moderators")
     private Set<ElevatedUser> moderators;
@@ -97,6 +100,36 @@ public class Room {
 
         this.startingDate = new Date();
         this.bannedIps = new HashSet<>();
+        this.roomConfig = new RoomConfig();
+        Set<ElevatedUser> ips = new HashSet<>();
+        ips.add(admin);
+        this.moderators = ips;
+        this.questions = new HashSet<>();
+        this.polls = new HashSet<>();
+        this.tooFast = 0;
+        this.tooSlow = 0;
+        this.normalSpeed = 0;
+        this.isOngoing = false;
+
+        generatePassword();
+    }
+
+    /**
+     * Instantiates a new Room.
+     *
+     * @param title            the title
+     * @param repeatingLecture the repeating lecture
+     * @param admin            the admin
+     * @param roomConfig       the room config
+     */
+    public Room(String title, boolean repeatingLecture, ElevatedUser admin, RoomConfig roomConfig) {
+        this.title = title;
+        this.repeatingLecture = repeatingLecture;
+        this.admin = admin;
+
+        this.startingDate = new Date();
+        this.bannedIps = new HashSet<>();
+        this.roomConfig = roomConfig;
         Set<ElevatedUser> ips = new HashSet<>();
         ips.add(admin);
         this.moderators = ips;
