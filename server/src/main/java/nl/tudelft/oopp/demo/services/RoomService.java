@@ -228,6 +228,10 @@ public class RoomService {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
 
+        if (roomRepository.getOne(roomId).getAdmin() != userId) {
+            throw new UnauthorizedException("User not authorized (not the room admin)");
+        }
+
         roomRepository.setOngoing(roomId, isOngoing);
     }
 
