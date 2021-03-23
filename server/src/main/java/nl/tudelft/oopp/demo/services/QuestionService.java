@@ -98,6 +98,18 @@ public class QuestionService {
     }
 
     /**
+     * Sets the text of the question to be decoded newQuestion.
+     *
+     * @param questionId the question id
+     * @param newQuestion the encoded value of text that will be set as question's text.
+     */
+    public void setText(long questionId, String newQuestion) throws UnsupportedEncodingException {
+        questionRepository.setText(questionId, URLDecoder
+                .decode(newQuestion, StandardCharsets.UTF_8.toString()));
+    }
+
+
+    /**
      * Gets the author.
      *
      * @param questionId the question id
@@ -269,6 +281,18 @@ public class QuestionService {
     public void setAnswer(long questionId, QuestionHelper questionHelper) {
         questionRepository.setAnswer(questionId, questionHelper.getText());
     }
+
+
+    /**
+     * Sets the answer of question as answer.
+     *
+     * @param questionId the question id
+     * @param answer the new answer of question
+     */
+    public void setAnswer(long questionId, String answer) {
+        questionRepository.setAnswer(questionId, answer);
+    }
+
 
     /**
      * Delete one question.
