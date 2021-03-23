@@ -13,6 +13,7 @@ class RoomConfigTest {
     void constructor() {
         assertNotNull(settings);
     }
+    
     @Test
     void getStudentRefreshRate() {
         assertEquals(1, settings.getStudentRefreshRate());

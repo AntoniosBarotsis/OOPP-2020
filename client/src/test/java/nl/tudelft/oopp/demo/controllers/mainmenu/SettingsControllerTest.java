@@ -31,7 +31,7 @@ class SettingsControllerTest {
     }
 
     /**
-     * See {@link #buttonSaveClicked()}
+     * See {@link #buttonSaveClicked()}.
      */
     @Test
     void showAlert() {

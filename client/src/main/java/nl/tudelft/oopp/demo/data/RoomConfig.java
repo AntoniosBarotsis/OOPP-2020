@@ -16,7 +16,8 @@ public class RoomConfig {
      * @param questionCooldown cooldown for students for asking questions
      * @param paceCooldown cooldown for students for setting the pace
      */
-    public RoomConfig(int studentRefreshRate, int modRefreshRate, int questionCooldown, int paceCooldown) {
+    public RoomConfig(int studentRefreshRate, int modRefreshRate,
+                      int questionCooldown, int paceCooldown) {
         this.studentRefreshRate = studentRefreshRate;
         this.modRefreshRate = modRefreshRate;
         this.questionCooldown = questionCooldown;
