@@ -227,8 +227,8 @@ public class RoomControllerV2 {
      * @param roomConfig the room config
      * @param userId     the user id
      */
-    @PutMapping("setStudentRefreshRate")
-    public void setStudentRefreshRate(@PathParam("roomId") long roomId,
+    @PutMapping("setConfig")
+    public void setConfig(@PathParam("roomId") long roomId,
                                       @RequestBody RoomConfig roomConfig,
                                       @PathParam("userId") long userId) {
         roomService.setConfig(roomId, roomConfig, userId);

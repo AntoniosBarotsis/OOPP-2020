@@ -33,7 +33,7 @@ public class SettingsCommunication extends  MainMenuCommunication {
      * @param roomConfig new settings
      */
     public static String saveSettings(long roomId, long userId, RoomConfig roomConfig) {
-        String link = url + "rooms/setStudentRefreshRate?";
+        String link = url + "rooms/setConfig?";
         link = link + "roomId=" + roomId;
         link = link + "&userId=" + userId;
         return sendPutRequestRoomConfig(link, roomConfig);
