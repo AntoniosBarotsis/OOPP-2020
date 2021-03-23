@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,13 +13,20 @@ import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.RoomConfig;
+import nl.tudelft.oopp.demo.entities.log.LogBan;
+import nl.tudelft.oopp.demo.entities.log.LogCollection;
+import nl.tudelft.oopp.demo.entities.log.LogJoin;
+import nl.tudelft.oopp.demo.entities.log.LogQuestion;
+import nl.tudelft.oopp.demo.entities.serializers.LogCollectionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
+import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,6 +36,8 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class RoomService {
     private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
+    private final LogEntryRepository logEntryRepository;
     private final RoomConfigRepository roomConfigRepository;
 
     /**
@@ -172,11 +182,12 @@ public class RoomService {
      * Bans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
+     * @param userId           the user id
      * @param ip               the ip
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException the unauthorized exception
      */
-    public void banUser(long roomId, String ip, String elevatedPassword)
+    public void banUser(long roomId, long userId, String ip, String elevatedPassword)
         throws UnauthorizedException {
         if (isNotAuthorized(roomId, ip)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
@@ -189,20 +200,25 @@ public class RoomService {
         }
 
         roomRepository.banUser(roomId, ip);
+
+        User user = userRepository.getOne(userId);
+        LogBan logBan = new LogBan(room, user, ip, new Date());
+        logEntryRepository.save(logBan);
     }
 
     /**
      * Unbans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
+     * @param id               the id
      * @param ip               the ip
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException    the unauthorized exception
      * @throws InvalidPasswordException the invalid password exception
      */
-    public void unbanUser(long roomId, String ip, String elevatedPassword)
+    public void unbanUser(long roomId, long id, String ip, String elevatedPassword)
         throws UnauthorizedException, InvalidPasswordException {
-        if (isNotAuthorized(roomId, ip)) {
+        if (isNotAuthorized(roomId, id)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
 
@@ -214,6 +230,26 @@ public class RoomService {
         }
 
         roomRepository.unbanUser(roomId, ip);
+    }
+
+    /**
+     * Export log log collection.
+     *
+     * @param roomId the room id
+     * @param ip     the ip
+     * @return the log collection
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String exportLog(long roomId, String ip) throws JsonProcessingException {
+        if (isNotAuthorized(roomId, ip)) {
+            throw new UnauthorizedException("User not authorized (not an elevated user)");
+        }
+
+        List<LogBan> bans = logEntryRepository.findAllBans(roomId);
+        List<LogJoin> joins = logEntryRepository.findAllJoins(roomId);
+        List<LogQuestion> questions = logEntryRepository.findAllQuestions(roomId);
+
+        return mapLogCollection(new LogCollection(bans, joins, questions));
     }
 
     /**
@@ -290,7 +326,23 @@ public class RoomService {
     }
 
     /**
-     * Is authorized boolean.
+     * Map log collection string.
+     *
+     * @param logCollection the log collection
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String mapLogCollection(LogCollection logCollection) throws JsonProcessingException {
+        ObjectMapper objMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(LogCollection.class, new LogCollectionSerializer());
+        objMapper.registerModule(module);
+
+        return objMapper.writeValueAsString(logCollection);
+    }
+
+    /**
+     * Is not authorized boolean.
      *
      * @param roomId the room id
      * @param ip     the ip
@@ -304,7 +356,6 @@ public class RoomService {
             .map(User::getIp)
             .collect(Collectors.toList());
 
-        System.out.println(authorizedIps);
         return !authorizedIps.contains(ip);
     }
 
@@ -323,7 +374,6 @@ public class RoomService {
             .map(User::getId)
             .collect(Collectors.toList());
 
-        System.out.println(authorizedIps);
         return !authorizedIps.contains(id);
     }
 }

@@ -177,22 +177,25 @@ public class RoomControllerV2 {
      * Bans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
+     * @param userId           the user id
      * @param elevatedPassword the elevated password
      * @param request          the request
      * @throws UnauthorizedException the unauthorized exception
      */
     @PutMapping("ban")
     public void ban(@PathParam("roomId") long roomId,
+                    @PathParam("userId") long userId,
                     @PathParam("elevatedPassword") String elevatedPassword,
                     HttpServletRequest request)
         throws UnauthorizedException {
-        roomService.banUser(roomId, request.getRemoteAddr(), elevatedPassword);
+        roomService.banUser(roomId, userId, request.getRemoteAddr(), elevatedPassword);
     }
 
     /**
      * Unbans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
+     * @param userId           the user id
      * @param elevatedPassword the elevated password
      * @param request          the request
      * @throws UnauthorizedException    the unauthorized exception
@@ -200,10 +203,11 @@ public class RoomControllerV2 {
      */
     @PutMapping("unban")
     public void unban(@PathParam("roomId") long roomId,
+                      @PathParam("userId") long userId,
                       @PathParam("elevatedPassword") String elevatedPassword,
                       HttpServletRequest request)
         throws UnauthorizedException, InvalidPasswordException {
-        roomService.unbanUser(roomId, request.getRemoteAddr(), elevatedPassword);
+        roomService.unbanUser(roomId, userId, request.getRemoteAddr(), elevatedPassword);
     }
 
     /**
@@ -218,6 +222,21 @@ public class RoomControllerV2 {
                     @PathParam("isOngoing") boolean isOngoing,
                     @PathParam("userId") long userId) {
         roomService.setOngoing(roomId, isOngoing, userId);
+    }
+
+    /**
+     * Export log string.
+     *
+     * @param roomId  the room id
+     * @param request the request
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    @GetMapping(value = "exportLog", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String exportLog(@PathParam("roomId") long roomId,
+                            HttpServletRequest request)
+        throws JsonProcessingException {
+        return roomService.exportLog(roomId, request.getRemoteAddr());
     }
 
     /**

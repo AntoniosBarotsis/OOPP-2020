@@ -5,10 +5,12 @@ import nl.tudelft.oopp.demo.entities.RoomConfig;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 /**
  * The interface Room config repository.
  */
+@Repository
 public interface RoomConfigRepository extends JpaRepository<RoomConfig, Long> {
 
     /**
