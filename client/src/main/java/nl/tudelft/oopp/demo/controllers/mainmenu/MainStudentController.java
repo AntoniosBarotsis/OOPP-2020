@@ -108,29 +108,16 @@ public class MainStudentController {
             boolean isAnswered = question.getStatus().equals(Question.QuestionStatus.ANSWERED);
             boolean isAuthor = user.getId() == question.getAuthor().getId();
 
-            // Filter answered/unanswered and own question or normal question.
-            if ((!filterAnswered && !isAuthor) || (filterAnswered && isAnswered)) {
-                FXMLLoader loader = new FXMLLoader(getClass()
-                        .getResource("/questionView/questionView.fxml"));
-                try {
-                    AnchorPane pane = loader.load();
-                    OthersQuestionController controller = loader.getController();
-                    controller.loadData(question, user, room);
-                    questionList.getItems().add(pane);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            // Filter answered/unanswered.
+            if (!filterAnswered && !isAnswered) {
+                // Filter own and other question.
+                if (!isAuthor) {
+                    questionList.getItems().add(loadOthersQuestionView(question));
+                } else {
+                    questionList.getItems().add(loadOwnQuestionView(question));
                 }
-            } else if (!filterAnswered && !isAnswered) {
-                FXMLLoader loader = new FXMLLoader(getClass()
-                        .getResource("/questionView/ownQuestionView.fxml"));
-                try {
-                    AnchorPane pane = loader.load();
-                    OwnQuestionController controller = loader.getController();
-                    controller.loadData(question, user, room);
-                    questionList.getItems().add(pane);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            } else if (filterAnswered && isAnswered) {
+                questionList.getItems().add(loadOthersQuestionView(question));
             }
         }
     }
@@ -178,9 +165,7 @@ public class MainStudentController {
     @FXML
     public void buttonFastClicked() {
         // Disable buttons.
-        buttonFast.setDisable(true);
-        buttonSlow.setDisable(true);
-        buttonNormal.setDisable(true);
+        setButtonDisabled();
 
         // Initialise the countdown.
         setCountdown(labelPaceMin, labelPaceSec);
@@ -192,9 +177,7 @@ public class MainStudentController {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(299), e -> {
                     MainStudentCommunication.decreaseTooFast(room.getId());
-                    buttonFast.setDisable(false);
-                    buttonSlow.setDisable(false);
-                    buttonNormal.setDisable(false);
+                    setButtonDisabled();
                 })
         );
         timeline.play();
@@ -206,9 +189,7 @@ public class MainStudentController {
     @FXML
     public void buttonSlowClicked() {
         // Disable buttons.
-        buttonFast.setDisable(true);
-        buttonSlow.setDisable(true);
-        buttonNormal.setDisable(true);
+        setButtonDisabled();
 
         // Initialise the countdown.
         setCountdown(labelPaceMin, labelPaceSec);
@@ -220,9 +201,7 @@ public class MainStudentController {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(299), e -> {
                     MainStudentCommunication.decreaseTooSlow(room.getId());
-                    buttonFast.setDisable(false);
-                    buttonSlow.setDisable(false);
-                    buttonNormal.setDisable(false);
+                    setButtonDisabled();
                 })
         );
         timeline.play();
@@ -234,9 +213,7 @@ public class MainStudentController {
     @FXML
     public void buttonNormalClicked() {
         // Disable buttons.
-        buttonFast.setDisable(true);
-        buttonSlow.setDisable(true);
-        buttonNormal.setDisable(true);
+        setButtonDisabled();
 
         // Initialise the countdown.
         setCountdown(labelPaceMin, labelPaceSec);
@@ -248,12 +225,19 @@ public class MainStudentController {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(299), e -> {
                     MainStudentCommunication.decreaseNormal(room.getId());
-                    buttonFast.setDisable(false);
-                    buttonSlow.setDisable(false);
-                    buttonNormal.setDisable(false);
+                    setButtonDisabled();
                 })
         );
         timeline.play();
+    }
+
+    /**
+     * Inverts button enabled/disabled.
+     */
+    protected void setButtonDisabled() {
+        buttonFast.setDisable(!buttonFast.isDisabled());
+        buttonSlow.setDisable(!buttonSlow.isDisabled());
+        buttonNormal.setDisable(!buttonNormal.isDisabled());
     }
 
     /**
@@ -277,17 +261,14 @@ public class MainStudentController {
         );
         timeline.play();
 
-        // Fetch the ip.
-        String ip = MainStudentCommunication.getIp();
-
-        // Create a helper student object.
-        StudentHelper studentHelper = new StudentHelper(this.user.getUsername(),
-                ip);
-
-        // Create a helper question object.
+        // Replace newlines from question with " ".
         textQuestion.setText(textQuestion.getText().replace("\n", " "));
         String text = textQuestion.getText();
-        System.out.println(text);
+
+        // Create a helper student object.
+        StudentHelper studentHelper = new StudentHelper(this.user.getUsername(), "");
+
+        // Create a helper question object.
         QuestionHelper question = new QuestionHelper(text, studentHelper);
 
         // Send the data to server.
@@ -309,5 +290,45 @@ public class MainStudentController {
         } else {
             buttonAnswered.setText("Answered questions");
         }
+    }
+
+    /**
+     * Loads an OwnQuestionView.
+     * @param question question to be injected
+     * @return anchorPane with injected question
+     */
+    protected AnchorPane loadOwnQuestionView(Question question) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/questionView/ownQuestionView.fxml"));
+        try {
+            AnchorPane pane = loader.load();
+            OwnQuestionController controller = loader.getController();
+            controller.loadData(question, user, room);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new AnchorPane();
+    }
+
+    /**
+     * Loads an OthersQuestionView.
+     * @param question question to be injected
+     * @return anchorPane with injected question
+     */
+    protected AnchorPane loadOthersQuestionView(Question question) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/questionView/questionView.fxml"));
+        try {
+            AnchorPane pane = loader.load();
+            OthersQuestionController controller = loader.getController();
+            controller.loadData(question, user, room);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new AnchorPane();
     }
 }

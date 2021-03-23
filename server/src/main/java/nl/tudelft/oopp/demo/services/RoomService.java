@@ -3,7 +3,6 @@ package nl.tudelft.oopp.demo.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +12,7 @@ import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.RoomConfig;
 import nl.tudelft.oopp.demo.entities.log.LogBan;
 import nl.tudelft.oopp.demo.entities.log.LogCollection;
 import nl.tudelft.oopp.demo.entities.log.LogJoin;
@@ -20,12 +20,11 @@ import nl.tudelft.oopp.demo.entities.log.LogQuestion;
 import nl.tudelft.oopp.demo.entities.serializers.LogCollectionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
-import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
-import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
+import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -39,6 +38,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
     private final LogEntryRepository logEntryRepository;
+    private final RoomConfigRepository roomConfigRepository;
 
     /**
      * Returns a list of all rooms.
@@ -187,7 +187,7 @@ public class RoomService {
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException the unauthorized exception
      */
-    public void banUser(long roomId, long userId,  String ip, String elevatedPassword)
+    public void banUser(long roomId, long userId, String ip, String elevatedPassword)
         throws UnauthorizedException {
         if (isNotAuthorized(roomId, ip)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
@@ -265,6 +265,28 @@ public class RoomService {
         }
 
         roomRepository.setOngoing(roomId, isOngoing);
+    }
+
+
+    /**
+     * Sets config.
+     *
+     * @param roomId     the room id
+     * @param roomConfig the room config
+     * @param userId     the user id
+     */
+    public void setConfig(long roomId, RoomConfig roomConfig, long userId) {
+        if (isNotAuthorized(roomId, userId)) {
+            throw new UnauthorizedException("User not authorized (not an elevated user)");
+        }
+
+        int studentRefreshRate = roomConfig.getStudentRefreshRate();
+        int modRefreshRate = roomConfig.getModRefreshRate();
+        int questionCooldown = roomConfig.getQuestionCooldown();
+        int paceCooldown = roomConfig.getPaceCooldown();
+
+        roomConfigRepository.setConfig(roomId, studentRefreshRate, modRefreshRate,
+            questionCooldown, paceCooldown);
     }
 
     /**

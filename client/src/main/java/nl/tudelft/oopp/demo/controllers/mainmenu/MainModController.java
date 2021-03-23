@@ -120,12 +120,12 @@ public class MainModController {
     protected void populateListView() {
         questionList.getItems().clear();
         for (Question question : questionData) {
-            boolean answered = question.getStatus().equals(Question.QuestionStatus.ANSWERED);
+            boolean isAnswered = question.getStatus().equals(Question.QuestionStatus.ANSWERED);
             if (enableSimpleView) {
                 //TODO: questionList should be loaded with simple question panels.
-            } else if (!filterAnswered && !answered) {
+            } else if (!filterAnswered && !isAnswered) {
                 questionList.getItems().add(loadModQuestionView(question));
-            } else if (filterAnswered && answered) {
+            } else if (filterAnswered && isAnswered) {
                 questionList.getItems().add(loadModQuestionView(question));
             }
         }

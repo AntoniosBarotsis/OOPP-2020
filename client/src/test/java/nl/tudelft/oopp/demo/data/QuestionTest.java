@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -14,6 +15,11 @@ class QuestionTest {
     private QuestionAuthor author = new QuestionAuthor(1, "Student");
     private Question question = new Question(1, "question", author, 0, 0,
         new Date(1234567890), Question.QuestionStatus.OPEN, "");
+
+    @Test
+    void constructor() {
+        assertNotNull(question);
+    }
 
     @Test
     void getId() {

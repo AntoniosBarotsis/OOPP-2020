@@ -21,7 +21,6 @@ public class MainModCommunication extends MainMenuCommunication {
     public static String getAdminPassword(long id) {
         String link = url + "rooms/private?";
         link = link + "roomId=" + id;
-        link = link + "&ip=" + getIp();
         return  requestStringData(link);
     }
 

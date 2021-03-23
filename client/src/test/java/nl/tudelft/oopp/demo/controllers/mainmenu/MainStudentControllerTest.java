@@ -44,7 +44,7 @@ class MainStudentControllerTest {
     }
 
     @Test
-    void buttonNormal() {
+    void buttonNormalClicked() {
         /* Manual test plan to be carried out when testing if everything works correctly.
         Test plan for testing if buttonNormal works:
         1. Launch the client application.
@@ -106,5 +106,31 @@ class MainStudentControllerTest {
     @Test
     void setCountdown() {
         // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void loadOwnQuestionView() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void loadOthersQuestionView() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #buttonSlowClicked()}.
+     * See {@link #buttonNormalClicked()}.
+     * See {@link #buttonFastClicked()}.
+     */
+    @Test
+    void setButtonDisabled() {
+        // Since this method cannot be tested on it's own, follow one of the linked test plans.
     }
 }
