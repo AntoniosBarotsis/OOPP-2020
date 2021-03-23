@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.Date;
 
 /**
  * The type Question controller.
