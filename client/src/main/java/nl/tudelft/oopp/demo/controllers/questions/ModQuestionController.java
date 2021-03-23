@@ -113,7 +113,7 @@ public class ModQuestionController {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     questionText.setText(questionText.getText().replaceAll("\n", " "));
 
-
+                    modified = false;
                     StudentHelper studentHelper = new StudentHelper(user.getUsername(), "");
 
                     QuestionHelper questionHelper = new QuestionHelper(
