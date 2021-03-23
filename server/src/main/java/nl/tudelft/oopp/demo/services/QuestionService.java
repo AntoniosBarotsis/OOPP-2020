@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
@@ -91,10 +92,22 @@ public class QuestionService {
      * @param questionId the question id
      * @param newQuestion the encoded value of text that will be set as question's text.
      */
+    public void setText(long questionId, QuestionHelper newQuestion) {
+        questionRepository.setText(questionId, newQuestion.getText());
+
+    }
+
+    /**
+     * Sets the text of the question to be decoded newQuestion.
+     *
+     * @param questionId the question id
+     * @param newQuestion the encoded value of text that will be set as question's text.
+     */
     public void setText(long questionId, String newQuestion) throws UnsupportedEncodingException {
         questionRepository.setText(questionId, URLDecoder
                 .decode(newQuestion, StandardCharsets.UTF_8.toString()));
     }
+
 
     /**
      * Gets the author.
@@ -168,7 +181,7 @@ public class QuestionService {
      * @param number the number of question this should return
      * @return question id of highest score Question
      */
-    public long get(int number) {
+    public long getHighest(int number) {
         return questionRepository.getHighestScore().get(number);
     }
 
@@ -178,8 +191,8 @@ public class QuestionService {
      * @param questionId the question id
      * @return the question date
      */
-    public Date getTime(long questionId) {
-        return questionRepository.getTime(questionId);
+    public Date getDate(long questionId) {
+        return questionRepository.getDate(questionId);
     }
 
 
@@ -260,6 +273,17 @@ public class QuestionService {
 
 
     /**
+     * Sets the answer of question as the text of questionHelper.
+     *
+     * @param questionId the question id
+     * @param questionHelper the questionHelper with the new answer as its text
+     */
+    public void setAnswer(long questionId, QuestionHelper questionHelper) {
+        questionRepository.setAnswer(questionId, questionHelper.getText());
+    }
+
+
+    /**
      * Sets the answer of question as answer.
      *
      * @param questionId the question id
@@ -268,6 +292,7 @@ public class QuestionService {
     public void setAnswer(long questionId, String answer) {
         questionRepository.setAnswer(questionId, answer);
     }
+
 
     /**
      * Delete one question.
