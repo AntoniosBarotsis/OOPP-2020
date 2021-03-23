@@ -330,7 +330,9 @@ public class MainModController {
      */
     @FXML
     public void exportLogClicked() {
-        //TODO: The MenuItem should export the room log.
+        String title = "room log";
+        String data = MainModCommunication.getRoomLog(this.room.getId());
+        directoryChooser(title, data);
     }
 
     /**

@@ -23,6 +23,11 @@ class MainModCommunicationTest {
     }
 
     @Test
+    void getRoomLog() {
+        assertNotNull(MainModCommunication.getRoomLog(1));
+    }
+
+    @Test
     void setOngoingLecture() {
         assertDoesNotThrow(() -> MainModCommunication.setOngoingLecture(1, false, 1));
     }

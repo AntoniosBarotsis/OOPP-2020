@@ -34,6 +34,16 @@ public class MainModCommunication extends MainMenuCommunication {
     }
 
     /**
+     * Request the room log.
+     * @param id id of a room
+     * @return log of room in json format
+     */
+    public static String getRoomLog(long id) {
+        String link = url + "rooms/exportLog?roomId=";
+        return  requestStringData(link + id);
+    }
+
+    /**
      * Changes if the lecture is ongoing or not.
      * @param roomId id of room
      * @param userId id of user
