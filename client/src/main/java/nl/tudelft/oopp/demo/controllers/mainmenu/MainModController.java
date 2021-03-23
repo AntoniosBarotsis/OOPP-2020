@@ -128,14 +128,14 @@ public class MainModController {
      */
     protected void repeatFetch(Room room, User user) {
         // Check if the refresh rate for questions has changed.
-        if (room.getTooSlow() + 1 != refreshRate) {
+        if (room.getSettings().getModRefreshRate() != refreshRate) {
             // Stop the previous timeline.
             if (timelineRefresh != null) {
                 timelineRefresh.stop();
             }
 
             // Update the refresh rate.
-            refreshRate = room.getTooSlow() + 1;
+            refreshRate = room.getSettings().getModRefreshRate();
 
             // Initialize a new timeline with new refresh rate.
             timelineRefresh = new Timeline(

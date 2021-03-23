@@ -109,14 +109,14 @@ public class MainStudentController {
      */
     protected void repeatFetch(Room room, User user) {
         // Check if the refresh rate for questions has changed.
-        if (room.getTooSlow() + 1 != refreshRate) {
+        if (room.getSettings().getStudentRefreshRate() != refreshRate) {
             // Stop the previous timeline.
             if (timelineRefresh != null) {
                 timelineRefresh.stop();
             }
 
             // Update the refresh rate.
-            refreshRate = room.getTooSlow() + 1;
+            refreshRate = room.getSettings().getStudentRefreshRate();
 
             // Initialize a new timeline with new refresh rate.
             timelineRefresh = new Timeline(
@@ -155,27 +155,51 @@ public class MainStudentController {
      * Initialises a countdown animation.
      * @param labelMin label used for minutes
      * @param labelSec label used for seconds
+     * @param duration duration of countdown
      */
-    protected void setCountdown(Text labelMin, Text labelSec) {
-        // Set starting timer.
-        labelMin.setText(String.valueOf(4));
-        labelSec.setText(String.valueOf(59));
+    protected void setCountdown(Text labelMin, Text labelSec, int duration) {
+        // Set starting minutes timer.
+        int minuteDuration = (duration-1) / 60;
+        labelMin.setText(String.valueOf(minuteDuration));
+
+        // Set starting seconds timer.
+        int secondDuration = (duration-1) % 60;
+        if (secondDuration < 10) {
+            labelSec.setText("0" + secondDuration);
+        } else {
+            labelSec.setText(String.valueOf(secondDuration));
+        }
 
         // Set minutes timer.
         Timeline timelineMinutes = new Timeline(
-                new KeyFrame(Duration.seconds(60), e1 -> {
-                    int current = Integer.parseInt(labelMin.getText());
-                    labelMin.setText(String.valueOf(current - 1));
+                new KeyFrame(Duration.seconds(duration - minuteDuration * 60), e1 -> {
+                    int current = Integer.parseInt(labelMin.getText()) - 1;
+                    if (current < 0) {
+                        current = 0;
+                    }
+                    labelMin.setText(String.valueOf(current));
+
+                    Timeline internal = new Timeline(
+                            new KeyFrame(Duration.seconds(60), e2 -> {
+                                int currentInternal = Integer.parseInt(labelMin.getText()) - 1;
+                                if (currentInternal < 0) {
+                                    currentInternal = 0;
+                                }
+                                labelMin.setText(String.valueOf(currentInternal));
+                            })
+                    );
+                    internal.setCycleCount(minuteDuration - 1);
+                    internal.play();
                 })
         );
-        timelineMinutes.setCycleCount(4);
+        timelineMinutes.setCycleCount(1);
         timelineMinutes.play();
 
         // Set seconds timer.
         Timeline timelineSeconds = new Timeline(
                 new KeyFrame(Duration.seconds(1), e2 -> {
                     int current = Integer.parseInt(labelSec.getText());
-                    if (current == 0) {
+                    if (current <= 0) {
                         labelSec.setText(String.valueOf(59));
                     } else if (current < 11) {
                         labelSec.setText("0" + (current - 1));
@@ -184,7 +208,7 @@ public class MainStudentController {
                     }
                 })
         );
-        timelineSeconds.setCycleCount(299);
+        timelineSeconds.setCycleCount(duration - 1);
         timelineSeconds.play();
     }
 
@@ -197,14 +221,14 @@ public class MainStudentController {
         setButtonDisabled();
 
         // Initialise the countdown.
-        setCountdown(labelPaceMin, labelPaceSec);
+        setCountdown(labelPaceMin, labelPaceSec, room.getSettings().getPaceCooldown());
 
         // Increase the tooFast counter.
         MainStudentCommunication.increaseTooFast(room.getId());
 
-        // Decrease the tooFast counter and enable buttons in 5min.
+        // Decrease the tooFast counter and enable buttons.
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(299), e -> {
+                new KeyFrame(Duration.seconds(room.getSettings().getPaceCooldown() - 1), e -> {
                     MainStudentCommunication.decreaseTooFast(room.getId());
                     setButtonDisabled();
                 })
@@ -221,14 +245,14 @@ public class MainStudentController {
         setButtonDisabled();
 
         // Initialise the countdown.
-        setCountdown(labelPaceMin, labelPaceSec);
+        setCountdown(labelPaceMin, labelPaceSec, room.getSettings().getPaceCooldown());
 
         // Increase the tooSlow counter.
         MainStudentCommunication.increaseTooSlow(room.getId());
 
-        // Decrease the tooSlow counter and enable buttons in 5min.
+        // Decrease the tooSlow counter and enable buttons.
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(299), e -> {
+                new KeyFrame(Duration.seconds(room.getSettings().getPaceCooldown() - 1), e -> {
                     MainStudentCommunication.decreaseTooSlow(room.getId());
                     setButtonDisabled();
                 })
@@ -245,14 +269,14 @@ public class MainStudentController {
         setButtonDisabled();
 
         // Initialise the countdown.
-        setCountdown(labelPaceMin, labelPaceSec);
+        setCountdown(labelPaceMin, labelPaceSec, room.getSettings().getPaceCooldown());
 
         // Increase the tooSlow counter.
         MainStudentCommunication.increaseNormal(room.getId());
 
-        // Decrease the tooSlow counter and enable buttons in 5min.
+        // Decrease the tooSlow counter and enable buttons.
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(299), e -> {
+                new KeyFrame(Duration.seconds(room.getSettings().getPaceCooldown() - 1), e -> {
                     MainStudentCommunication.decreaseNormal(room.getId());
                     setButtonDisabled();
                 })
@@ -279,11 +303,11 @@ public class MainStudentController {
         textQuestion.setDisable(true);
 
         // Initialise the countdown.
-        setCountdown(labelQuesMin, labelQuesSec);
+        setCountdown(labelQuesMin, labelQuesSec, room.getSettings().getQuestionCooldown());
 
-        // Enable textBox and button in 5min.
+        // Enable textBox and button.
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(299), e -> {
+                new KeyFrame(Duration.seconds(room.getSettings().getQuestionCooldown() - 1), e -> {
                     buttonSend.setDisable(false);
                     textQuestion.setDisable(false);
                 })

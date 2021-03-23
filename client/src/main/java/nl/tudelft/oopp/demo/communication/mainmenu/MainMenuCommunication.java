@@ -138,4 +138,33 @@ public abstract class MainMenuCommunication {
             System.out.println(response.body());
         }
     }
+
+    /**
+     * Sends a PUT request to server.
+     * @param url endpoint of request
+     * @param roomConfig settings of room
+     * @return status code or exception message
+     */
+    public static String sendPutRequestRoomConfig(String url, RoomConfig roomConfig) {
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(roomConfig)))
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
+        }
+
+        return String.valueOf(response.statusCode());
+    }
 }
