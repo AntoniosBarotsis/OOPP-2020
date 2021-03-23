@@ -16,13 +16,13 @@ class MainModControllerTest {
     }
 
     @Test
-    void buttonLinksClicked() {
+    void buttonSettingsClicked() {
         /* Manual test plan to be carried out when testing if everything works correctly.
-        Test plan for testing if buttonLinks works:
+        Test plan for testing if buttonSettings works:
         1. Launch the client application.
         2. Join a room.
-        3. Click on top-right button "Links".
-        4. An informational dialog should appear, which shows code for students and moderators.
+        3. Click on top-right button "Settings".
+        4. A new window with Settings should appear.
          */
     }
 
@@ -152,6 +152,14 @@ class MainModControllerTest {
      */
     @Test
     void fetchData() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void repeatFetch() {
         // Since this method cannot be tested on it's own, follow the linked test plan.
     }
 

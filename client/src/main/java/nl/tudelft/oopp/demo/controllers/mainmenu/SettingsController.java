@@ -104,6 +104,7 @@ public class SettingsController {
     /**
      * Shows a warning alert on screen.
      * @param text text to display on alert
+     * @param alertType the type of alert to display
      */
     protected void showAlert(String text, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);

@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.communication.mainmenu;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 import org.junit.jupiter.api.Test;
@@ -37,5 +38,11 @@ class MainMenuCommunicationTest {
         String link = url + "questions/add?roomId=1&authorId=3";
         QuestionHelper question = new QuestionHelper("test", new StudentHelper("Student", "ip"));
         assertDoesNotThrow(() -> MainMenuCommunication.sendPostRequest(link, question));
+    }
+
+    @Test
+    void sendPutRequestRoomConfig() {
+        String link = url + "rooms/setStudentRefreshRate?roomId=1&userId=1";
+        assertNotNull(MainMenuCommunication.sendPutRequestRoomConfig(link, new RoomConfig(1,2,3,4)));
     }
 }

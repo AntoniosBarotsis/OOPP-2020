@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-class SettingsTest {
+class RoomConfigTest {
 
     private RoomConfig settings = new RoomConfig(1,2,3,4);
 
