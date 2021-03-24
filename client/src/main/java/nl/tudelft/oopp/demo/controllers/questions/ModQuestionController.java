@@ -25,6 +25,7 @@ public class ModQuestionController {
     private User user;
     private Room room;
     private boolean modified;
+    private boolean hasPressedOption;
     private String answer;
 
 
@@ -86,7 +87,7 @@ public class ModQuestionController {
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
         modified = false;
-
+        hasPressedOption = false;
     }
 
     /**
@@ -105,6 +106,7 @@ public class ModQuestionController {
      */
     public void edit() {
         modified = true;
+        hasPressedOption = true;
         questionText.setEditable(true);
         questionText.requestFocus();
         questionText.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -113,6 +115,7 @@ public class ModQuestionController {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     questionText.setText(questionText.getText().replaceAll("\n", " "));
 
+                    hasPressedOption = false;
                     modified = false;
                     StudentHelper studentHelper = new StudentHelper(user.getUsername(), "");
 
@@ -121,8 +124,8 @@ public class ModQuestionController {
 
                     questionText.setEditable(false);
 
-                        QuestionViewCommunication
-                                .setText(question.getId(), questionHelper);
+                    QuestionViewCommunication
+                            .setText(question.getId(), questionHelper);
                 }
             }
 
@@ -154,6 +157,7 @@ public class ModQuestionController {
      */
     public void answer() {
 
+        hasPressedOption = true;
         modified = true;
 
         answerBox.setEditable(true);
@@ -170,6 +174,7 @@ public class ModQuestionController {
                     answerBox.setEditable(false);
                     answerBox.setText(answerBox.getText().replaceAll("\n", " "));
 
+                    hasPressedOption = false;
                     modified = false;
 
                     answer = answerBox.getText();
@@ -207,6 +212,8 @@ public class ModQuestionController {
      * Marks questionView as not modified when options hides.
      */
     public void optionsHidden() {
-        modified = false;
+        if (!hasPressedOption) {
+            modified = false;
+        }
     }
 }

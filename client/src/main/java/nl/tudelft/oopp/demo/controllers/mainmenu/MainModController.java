@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import javafx.util.Duration;
 
 import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
 import nl.tudelft.oopp.demo.controllers.questions.ModQuestionController;
+import nl.tudelft.oopp.demo.controllers.questions.SimpleQuestionController;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
@@ -36,6 +38,7 @@ public class MainModController {
     private boolean filterAnswered;
     private boolean enableSimpleView;
     private List<Question> questionData;
+    private static List<FXMLLoader> loaderList;
     private Room room;
     private User user;
     private int refreshRate;
@@ -76,6 +79,7 @@ public class MainModController {
         filterAnswered = false;
         enableSimpleView = false;
         isSettingsOpen = false;
+        loaderList = new ArrayList<>();
         fetchData(room, user);
 
         // Check for new refresh rate every 5 seconds.
@@ -150,15 +154,32 @@ public class MainModController {
      * Populates ListView with Questions data.
      */
     protected void populateListView() {
+        // Check if any of the questions are being modified.
+        for (FXMLLoader loader : loaderList) {
+            if (loader.getController() instanceof ModQuestionController) {
+                if (((ModQuestionController) loader.getController()).getModified()) {
+                    // Stop population of questions if some is being modified.
+                    return;
+                }
+            }
+        }
+        loaderList = new ArrayList<>();
+
         questionList.getItems().clear();
         for (Question question : questionData) {
             boolean isAnswered = question.getStatus().equals(Question.QuestionStatus.ANSWERED);
             if (enableSimpleView) {
-                //TODO: questionList should be loaded with simple question panels.
-            } else if (!filterAnswered && !isAnswered) {
-                questionList.getItems().add(loadModQuestionView(question));
-            } else if (filterAnswered && isAnswered) {
-                questionList.getItems().add(loadModQuestionView(question));
+                if (!filterAnswered && !isAnswered) {
+                    questionList.getItems().add(loadSimpleQuestionView(question));
+                } else if (filterAnswered && isAnswered) {
+                    questionList.getItems().add(loadSimpleQuestionView(question));
+                }
+            } else {
+                if (!filterAnswered && !isAnswered) {
+                    questionList.getItems().add(loadModQuestionView(question));
+                } else if (filterAnswered && isAnswered) {
+                    questionList.getItems().add(loadModQuestionView(question));
+                }
             }
         }
     }
@@ -171,9 +192,31 @@ public class MainModController {
     protected AnchorPane loadModQuestionView(Question question) {
         FXMLLoader loader = new FXMLLoader(getClass()
                 .getResource("/questionView/modQuestionView.fxml"));
+        loaderList.add(loader);
         try {
             AnchorPane pane = loader.load();
             ModQuestionController controller = loader.getController();
+            controller.loadData(question, user, room);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new AnchorPane();
+    }
+
+    /**
+     * Loads a SimpleQuestionView.
+     * @param question question to be injected
+     * @return anchorPane with injected question
+     */
+    protected AnchorPane loadSimpleQuestionView(Question question) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/questionView/simplisticView.fxml"));
+        loaderList.add(loader);
+        try {
+            AnchorPane pane = loader.load();
+            SimpleQuestionController controller = loader.getController();
             controller.loadData(question, user, room);
             return pane;
         } catch (IOException e) {

@@ -31,7 +31,8 @@ public class OwnQuestionDisplay extends Application {
         Date date = new Date();
         RoomConfig settings = new RoomConfig(5, 5, 300, 300);
         Room room = new Room(1, "room", new Date(), false, 0, 0,
-                0, true, settings);User user = new User(4, "Roy", new HashSet<>(), new HashSet<>(),
+                0, true, settings);
+        User user = new User(4, "Roy", new HashSet<>(), new HashSet<>(),
                 User.UserType.MODERATOR);
         QuestionAuthor author = new QuestionAuthor(1, "Roy");
         Question question = new Question(4, "This is a question",

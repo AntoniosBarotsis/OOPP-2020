@@ -189,6 +189,14 @@ class MainModControllerTest {
     }
 
     /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void loadSimpleQuestionView() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
      * See {@link #buttonSimpleClicked()}.
      */
     @Test
