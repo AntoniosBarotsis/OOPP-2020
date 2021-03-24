@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
+import java.text.SimpleDateFormat;
 import java.util.Set;
 import javafx.fxml.FXML;
 
@@ -25,13 +26,16 @@ public class OthersQuestionController {
     private Label date;
 
     @FXML
+    private Label username;
+
+    @FXML
     private TextArea questionText;
 
     @FXML
     private Button upvoteButton;
 
     @FXML
-    private TextArea upvoteNumber;
+    private Label upvoteNumber;
 
     /**
      * Takes the relevant information from the question,
@@ -45,9 +49,19 @@ public class OthersQuestionController {
         this.room = room;
         this.user = user;
         this.question = question;
-        date.setText(question.getTimeCreated().toString());
+
+        String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
+        date.setText(simplifiedDate);
+
+        username.setText(" " + question.getAuthor().getUsername());
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
+
+        // If there is an answer, it will write it in the text box
+        if (!question.getAnswer().equals("")) {
+            questionText.setText(questionText.getText() + "\n\nAnswer:\n"
+                    + question.getAnswer());
+        }
 
         checkAlreadyUpvoted(user, question);
     }
@@ -62,14 +76,23 @@ public class OthersQuestionController {
 
         if (upvoted) {
             QuestionViewCommunication.downvote(question.getId());
+            QuestionViewCommunication.removeQuestionUpvoted(question.getId(), user.getId());
+
             upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) - 1));
+            upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
-            upvoted = false;
+
+            user.removeQuestionUpvoted(question.getId());
+
         } else {
             QuestionViewCommunication.upvote(question.getId());
+            QuestionViewCommunication.addQuestionUpvoted(question.getId(), user.getId());
+
             upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) + 1));
+            upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #808080");
-            upvoted = true;
+
+            user.addQuestionUpvoted(question.getId());
         }
     }
 
@@ -82,10 +105,11 @@ public class OthersQuestionController {
      */
     @FXML
     private void checkAlreadyUpvoted(User user, Question question) {
-        //        Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
-        //        if (upvotedQuestions.contains(question)) {
-        //            upvoted = true;
-        //            upvoteButton.setStyle("-fx-text-fill: #808080");
-        //        }
+        Set<Long> upvotedQuestions = user.getQuestionsUpvoted();
+
+        if (upvotedQuestions != null && upvotedQuestions.contains(question.getId())) {
+            upvoted = true;
+            upvoteButton.setStyle("-fx-text-fill: #808080");
+        }
     }
 }

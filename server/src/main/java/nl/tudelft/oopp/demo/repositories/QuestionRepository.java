@@ -159,7 +159,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      */
     @Transactional
     @Query(value = "SELECT timeCreated FROM Question q WHERE q.id = ?1")
-    Date getTime(long questionId);
+    Date getDate(long questionId);
 
 
     /**

@@ -1,10 +1,12 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
+import java.text.SimpleDateFormat;
 import java.util.Set;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
@@ -23,7 +25,12 @@ public class OwnQuestionController {
     private boolean upvoted = false;
 
     @FXML
+    private MenuItem markAsAnsweredOption;
+    @FXML
     private Label date;
+
+    @FXML
+    private Label username;
 
     @FXML
     private TextArea questionText;
@@ -32,7 +39,7 @@ public class OwnQuestionController {
     private Button upvoteButton;
 
     @FXML
-    private TextArea upvoteNumber;
+    private Label upvoteNumber;
 
     /**
      * Takes the relevant information from the question,
@@ -43,14 +50,30 @@ public class OwnQuestionController {
      * @param room the room information
      */
     public void loadData(Question question, User user, Room room) {
+        //Shows the mark as answer option only if the question isn't already marked as answer
+        if (question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
+            markAsAnsweredOption.setVisible(false);
+        } else {
+            markAsAnsweredOption.setVisible(true);
+        }
         this.room = room;
         this.user = user;
         this.question = question;
-        date.setText(question.getTimeCreated().toString());
+
+        String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
+        date.setText(simplifiedDate);
+
+        username.setText(" " + question.getAuthor().getUsername());
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
 
         checkAlreadyUpvoted(user, question);
+
+        // If there is an answer, it will write it in the text box
+        if (!question.getAnswer().equals("")) {
+            questionText.setText(questionText.getText() + "\n\nAnswer:\n"
+                    + question.getAnswer());
+        }
     }
 
     /**
@@ -61,17 +84,26 @@ public class OwnQuestionController {
     @FXML
     private void upvote() {
         if (upvoted) {
-            QuestionViewCommunication.upvote(question.getId());
+            QuestionViewCommunication.downvote(question.getId());
+            QuestionViewCommunication.removeQuestionUpvoted(question.getId(), user.getId());
 
             upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) - 1));
+            upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #00A6D6");
-            upvoted = false;
+
+            user.removeQuestionUpvoted(question.getId());
+
         } else {
-            QuestionViewCommunication.downvote(question.getId());
+            QuestionViewCommunication.upvote(question.getId());
+            QuestionViewCommunication.addQuestionUpvoted(question.getId(), user.getId());
+
 
             upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) + 1));
+            upvoted = !upvoted;
             upvoteButton.setStyle("-fx-text-fill: #808080");
-            upvoted = true;
+
+            user.addQuestionUpvoted(question.getId());
+
         }
     }
 
@@ -79,6 +111,7 @@ public class OwnQuestionController {
      * Deletes the marked question.
      */
     public void deleteQuestion() {
+        QuestionViewCommunication.delete(room.getId(), question.getId());
 
     }
 
@@ -86,8 +119,8 @@ public class OwnQuestionController {
      * Marks the question as answered, hiding it from this.
      */
     public void questionAnswered() {
-        QuestionViewCommunication.userMarkAsAnswer(question.getId());
-
+        QuestionViewCommunication.studentMarkAsAnswer(question.getId());
+        markAsAnsweredOption.setVisible(false);
     }
 
 
@@ -100,11 +133,12 @@ public class OwnQuestionController {
      */
     @FXML
     private void checkAlreadyUpvoted(User user, Question question) {
-        //        Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
-        //        if (upvotedQuestions.contains(question)) {
-        //            upvoted = true;
-        //            upvoteButton.setStyle("-fx-text-fill: #808080");
-        //        }
+        Set<Long> upvotedQuestions = user.getQuestionsUpvoted();
+
+        if (upvotedQuestions != null && upvotedQuestions.contains(question.getId())) {
+            upvoted = true;
+            upvoteButton.setStyle("-fx-text-fill: #808080");
+        }
     }
 
 }
