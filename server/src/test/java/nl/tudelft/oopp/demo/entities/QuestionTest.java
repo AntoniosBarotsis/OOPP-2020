@@ -49,8 +49,10 @@ class QuestionTest {
     @Test
     @DirtiesContext(methodMode = BEFORE_METHOD)
     void exportToJson() throws JsonProcessingException {
-        assertThat(q1.exportToJson()).isEqualTo("{\"id\":1,\"text\":\"Question text\",\"author\":"
-            + "{\"id\":1,\"username\":\"Admin\",\"questionsAsked\":[],\"questionsUpvoted\":[],"
+        assertThat(q1.exportToJson()).isEqualTo("{\"id\":" + q1.getId() + ",\"text\":\""
+            + "Question text\",\"author\":"
+            + "{\"id\":" + q1.getAuthor().getId() + ",\"username\":\"Admin\",\"questionsAsked\""
+            + ":[]," + "\"questionsUpvoted\":[],"
             + "\"type\":\"ADMIN\"},\"upvotes\":0,\"score\":0,\"timeCreated\":"
             + q1.getTimeCreated().getTime() + ",\"" + "status\":\"OPEN\",\"answer\":null,\""
             + "answered\"" + ":false}");
@@ -75,7 +77,8 @@ class QuestionTest {
     @Test
     @DirtiesContext(methodMode = BEFORE_METHOD)
     void getId() {
-        assertThat(q1.getId()).isEqualTo(1L);
+        assertThat(q1.getId()).isNotNull();
+        assertThat(q1.getId()).isInstanceOf(Long.class);
     }
 
     @Test
@@ -172,7 +175,7 @@ class QuestionTest {
         assertThat(q1).isNotEqualTo(q2);
         q1.setText("Question text 2");
         assertThat(q1).isNotEqualTo(q2);
-        q1.setId(2);
+        q1.setId(q2.getId());
         assertThat(q1).isEqualTo(q2);
     }
 
@@ -186,7 +189,8 @@ class QuestionTest {
     @Test
     @DirtiesContext(methodMode = BEFORE_METHOD)
     void testToString() {
-        assertThat(q1.toString()).isEqualTo("Question(id=1, text=Question text, author=User(id=1, "
+        assertThat(q1.toString()).isEqualTo("Question(id=" + q1.getId() + ", text=Question text, "
+            + "author=User(id=1, "
             + "username=Admin, ip=ip, questionsAsked=[], questionsUpvoted=[], type=ADMIN), "
             + "upvotes=0, score=0, timeCreated=" + q1.getTimeCreated() + ", status=OPEN, "
             + "answer=null)");
