@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.Date;
 
 import nl.tudelft.oopp.demo.data.Room;
+import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.User;
 
 public class StartCommunication {
@@ -32,7 +33,9 @@ public class StartCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return new Room(0, "Error loading room", new Date(), false, -1, -1);
+            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
+            return new Room(0, "Error loading room", new Date(),
+                    false, -1, -1, -1, false, roomConfig);
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
@@ -56,7 +59,9 @@ public class StartCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return new Room(0, "Error loading room", new Date(), false, -1, -1);
+            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
+            return new Room(0, "Error loading room", new Date(),
+                    false, -1, -1, -1, false, roomConfig);
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());

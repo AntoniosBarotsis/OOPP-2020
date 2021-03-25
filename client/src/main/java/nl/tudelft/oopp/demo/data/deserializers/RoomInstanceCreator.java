@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import nl.tudelft.oopp.demo.data.Room;
+import nl.tudelft.oopp.demo.data.RoomConfig;
 
 public class RoomInstanceCreator implements JsonDeserializer<Room> {
 
@@ -33,6 +34,8 @@ public class RoomInstanceCreator implements JsonDeserializer<Room> {
         boolean repeatingLecture = jsonObject.get("repeatingLecture").getAsBoolean();
         int tooFast = jsonObject.get("tooFast").getAsInt();
         int tooSlow = jsonObject.get("tooSlow").getAsInt();
+        int normalSpeed = jsonObject.get("normalSpeed").getAsInt();
+        boolean isOngoing = jsonObject.get("isOngoing").getAsBoolean();
 
         // Try to parse the input Date format.
         Date date = null;
@@ -43,6 +46,16 @@ public class RoomInstanceCreator implements JsonDeserializer<Room> {
             date = new Date();
         }
 
-        return new Room(id, title, date, repeatingLecture, tooFast, tooSlow);
+        // Fetch the room Settings.
+        JsonObject settingsObject = jsonObject.get("roomConfig").getAsJsonObject();
+        int studentRefreshRate = settingsObject.get("studentRefreshRate").getAsInt();
+        int modRefreshRate = settingsObject.get("modRefreshRate").getAsInt();
+        int questionCooldown = settingsObject.get("questionCooldown").getAsInt();
+        int paceCooldown = settingsObject.get("paceCooldown").getAsInt();
+        RoomConfig settings = new RoomConfig(studentRefreshRate, modRefreshRate,
+                questionCooldown, paceCooldown);
+
+        return new Room(id, title, date, repeatingLecture,
+                tooFast, tooSlow, normalSpeed, isOngoing, settings);
     }
 }

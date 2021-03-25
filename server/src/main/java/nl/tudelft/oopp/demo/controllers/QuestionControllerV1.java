@@ -147,7 +147,7 @@ public class QuestionControllerV1 {
      */
     @GetMapping("get/{number}")
     public long get(@PathVariable int number) {
-        return questionService.get(number);
+        return questionService.getHighest(number);
     }
 
 
@@ -159,7 +159,7 @@ public class QuestionControllerV1 {
      */
     @GetMapping("getTime/{questionId}")
     public Date getTime(@PathVariable long questionId) {
-        return questionService.getTime(questionId);
+        return questionService.getDate(questionId);
     }
 
 
