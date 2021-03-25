@@ -92,7 +92,8 @@ class RoomTest {
     @Test
     @DirtiesContext(methodMode = BEFORE_METHOD)
     void getId() {
-        assertThat(r1.getId()).isEqualTo(1L);
+        assertThat(r1.getId()).isNotNull();
+        assertThat(r1.getId()).isInstanceOf(Long.class);
     }
 
     @Test
@@ -290,7 +291,7 @@ class RoomTest {
         );
         assertThat(r1).isNotEqualTo(r2);
 
-        r2.setId(1);
+        r2.setId(r1.getId());
         assertThat(r1).isNotEqualTo(r2);
 
         r2.setNormalPassword(r1.getNormalPassword());
@@ -330,7 +331,8 @@ class RoomTest {
             pollToString += poll.toString();
         }
 
-        String str = "Room(id=1, title=Room Title, startingDate=" + r1.getStartingDate() + ", "
+        String str = "Room(id=" + r1.getId() + ", title=Room Title, startingDate="
+            + r1.getStartingDate() + ", "
             + "repeatingLecture=false, admin=1, roomConfig=RoomConfig(id=1, studentRefreshRate=5, "
             + "modRefreshRate=5, questionCooldown=300, paceCooldown=300), moderators=[User(id=1, "
             + "username=Admin, ip=ip, "
