@@ -28,6 +28,7 @@ public class LogCollectionSerializer extends StdSerializer<LogCollection> {
         gen.writeStartArray();
         for (LogBan ban : value.getBans()) {
             gen.writeStartObject();
+            gen.writeStringField("userIp", ban.getUser().getIp());
             gen.writeStringField("action", ban.getAction().toString());
             gen.writeStringField("date", ban.getDate().toString());
             gen.writeStringField("username", ban.getUser().getUsername());
@@ -40,6 +41,7 @@ public class LogCollectionSerializer extends StdSerializer<LogCollection> {
         gen.writeStartArray();
         for (LogJoin join : value.getJoins()) {
             gen.writeStartObject();
+            gen.writeStringField("userIp", join.getUser().getIp());
             gen.writeStringField("action", join.getAction().toString());
             gen.writeStringField("date", join.getDate().toString());
             gen.writeStringField("username", join.getUser().getUsername());
@@ -52,6 +54,7 @@ public class LogCollectionSerializer extends StdSerializer<LogCollection> {
         gen.writeStartArray();
         for (LogQuestion question : value.getQuestions()) {
             gen.writeStartObject();
+            gen.writeStringField("userIp", question.getUser().getIp());
             gen.writeStringField("action", question.getAction().toString());
             gen.writeStringField("date", question.getDate().toString());
             gen.writeStringField("username", question.getUser().getUsername());
