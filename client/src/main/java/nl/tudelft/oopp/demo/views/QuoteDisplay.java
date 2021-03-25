@@ -51,7 +51,7 @@ public class QuoteDisplay extends Application {
         }
 
         // Load the menus with data
-        Room room = new Room(1, "room", new Date(), false, 0, 0, 300, true);
+        Room room = new Room((long) 1, "room", new Date(), false, 0, 0, 300, true);
         User user = new User(3, "Student",  new HashSet<>(), new HashSet<>(), User.UserType.STUDENT);
         controller.loadData(room, user);
 
