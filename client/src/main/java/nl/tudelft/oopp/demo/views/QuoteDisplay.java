@@ -75,7 +75,7 @@ public class QuoteDisplay extends Application {
     private static Gson gson = new Gson();
 
     /**
-     * returns all users
+     * returns all users.
      * @return an array list with all the users
      */
     public static ArrayList<User> getUsers() {
