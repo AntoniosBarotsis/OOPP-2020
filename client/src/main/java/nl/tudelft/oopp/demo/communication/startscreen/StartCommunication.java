@@ -23,10 +23,10 @@ public class StartCommunication {
      * @param roomName Name of the room
      * @return new Room
      */
-    public static Room createRoom(String roomName) {
+    public static Room createRoom(String roomName, String username) {
         HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v2/rooms/create?username=admin&ip=ip"
-                        + "&title=" + roomName)).build();
+                .uri(URI.create("http://localhost:8080/api/v2/rooms/create?username=" + username
+                         + "&ip=ip&title=" + roomName)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -46,10 +46,10 @@ public class StartCommunication {
      * @param date the date for the scheduling
      * @return newly created scheduled room
      */
-    public static Room createScheduledRoom(String roomName, Date date) {
+    public static Room createScheduledRoom(String roomName, String username, Date date) {
         HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v2/rooms/schedule?username=admin&ip=ip"
-                        + "&title=" + roomName
+                .uri(URI.create("http://localhost:8080/api/v2/rooms/schedule?username=" + username
+                        + "ip=ip&title=" + roomName
                         + "&date=" + date.getTime())).build();
         HttpResponse<String> response = null;
         try {

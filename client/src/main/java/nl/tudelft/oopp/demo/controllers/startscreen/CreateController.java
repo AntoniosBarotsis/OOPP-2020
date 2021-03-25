@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 
 import javafx.fxml.FXML;
 
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
@@ -17,6 +18,10 @@ public class CreateController {
     @FXML
     private TextField inputRoomName;
     @FXML
+    private TextField inputUsername;
+    @FXML
+    private CheckBox inputSchedule;
+    @FXML
     private DatePicker inputDate;
     @FXML
     private TextField inputTime;
@@ -26,13 +31,17 @@ public class CreateController {
      */
     @FXML
     public void createButton() {
-        String name = inputRoomName.getText();
+        String roomName = inputRoomName.getText();
         Room room = null;
-        if (name.equals("")) {
-            name = "Room";
+        if (roomName.equals("")) {
+            roomName = "Room";
         }
-        if (inputDate.getValue() == null) {
-            room = StartCommunication.createRoom(name);
+        String username = inputUsername.getText();
+        if (username.equals("")) {
+            username = "Admin";
+        }
+        if (inputSchedule.isSelected()) {
+            room = StartCommunication.createRoom(roomName, username);
         } else {
             String date = inputDate.toString();
             String time = inputTime.getText();
@@ -44,7 +53,7 @@ public class CreateController {
                     Integer.parseInt(time.substring(0, 1)),
                     Integer.parseInt(time.substring(2, 3)));
             Date actualDate = fullDate.getTime();
-            room = StartCommunication.createScheduledRoom(name, actualDate);
+            room = StartCommunication.createScheduledRoom(roomName, username, actualDate);
         }
     }
 

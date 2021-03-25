@@ -10,7 +10,7 @@ public class StartCommunicationTest {
 
     @Test
     void createRoomTest() {
-        assertNotNull(StartCommunication.createRoom("TestRoom"));
+        assertNotNull(StartCommunication.createRoom("TestRoom", "TestUser"));
     }
 
     /*
@@ -28,7 +28,7 @@ public class StartCommunicationTest {
      */
     @Test
     void createScheduledRoomTest() {
-        assertNotNull(StartCommunication.createScheduledRoom("TestRoom", new Date()));
+        assertNotNull(StartCommunication.createScheduledRoom("TestRoom", "TestUser", new Date()));
     }
 
 }
