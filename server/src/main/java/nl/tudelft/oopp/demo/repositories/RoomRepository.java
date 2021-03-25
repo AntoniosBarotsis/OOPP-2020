@@ -124,7 +124,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO room_banned_ips (room_id, banned_ips) VALUES (?1, ?2)",
-        nativeQuery = true)
+            nativeQuery = true)
     void banUser(long roomId, String ip);
 
     /**
@@ -136,7 +136,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM room_banned_ips WHERE banned_ips = ?2 AND room_id = ?1",
-        nativeQuery = true)
+            nativeQuery = true)
     void unbanUser(long roomId, String ip);
 
     /**
@@ -149,4 +149,24 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Transactional
     @Query(value = "UPDATE Room r SET r.isOngoing = ?2 WHERE r.id = ?1")
     void setOngoing(long roomId, boolean isOngoing);
+
+    /**
+     * Get room id when given elevatedPassword.
+     *
+     * @param elevatedPassword the room's elevatedPassword
+     * @return room id or null if the password is not a valid elevatedPassword
+     */
+    @Transactional
+    @Query(value = "SELECT r.id FROM Room r WHERE r.elevatedPassword = ?1")
+    Long getElevatedRoomId(String elevatedPassword);
+
+    /**
+     * Get room id when given normalPassword.
+     *
+     * @param normalPassword the room's normalPassword
+     * @return room id or null if the password is not a valid normalPassword
+     */
+    @Transactional
+    @Query(value = "SELECT r.id FROM Room r WHERE r.normalPassword = ?1")
+    Long getNormalRoomId(String normalPassword);
 }

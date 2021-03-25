@@ -40,6 +40,8 @@ public class RoomSerializer extends StdSerializer<Room> {
         gen.writeNumberField("paceCooldown", value.getRoomConfig().getPaceCooldown());
         gen.writeEndObject();
 
+        gen.writeNumberField("admin_id", value.getAdmin());
+        gen.writeStringField("normal_password", value.getNormalPassword());
         gen.writeEndObject();
     }
 }

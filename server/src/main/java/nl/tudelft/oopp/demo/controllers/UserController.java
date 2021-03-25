@@ -53,7 +53,6 @@ public class UserController {
         return userService.add(user.createStudent());
     }
 
-
     /**
      * Adds questionId to the ids of question user with userId upvoted,
      * if he did not upvote it before.
@@ -88,5 +87,15 @@ public class UserController {
     @GetMapping(value = "getUpvotedQuestion")
     public HashSet<Question> getUpvotedQuestion(@PathParam("userId") Long userId) {
         return userService.getUpvotedQuestion(userId);
+    }
+}
+    @GetMapping(value = "findAllStudents", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String findAllStudents() throws JsonProcessingException {
+        return userService.findAllStudents();
+    }
+
+    @GetMapping(value = "findAllElevatedUsers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String findAllElevatedUsers() throws JsonProcessingException {
+        return userService.findAllElevatedUsers();
     }
 }

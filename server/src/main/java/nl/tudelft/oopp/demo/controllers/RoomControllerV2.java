@@ -1,12 +1,16 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import java.util.Date;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.RoomConfig;
+import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.RoomService;
@@ -84,7 +88,7 @@ public class RoomControllerV2 {
      */
     @GetMapping(value = "questions", produces = MediaType.APPLICATION_JSON_VALUE)
     public String findAllQuestions(@PathParam("roomId") long roomId)
-        throws JsonProcessingException {
+            throws JsonProcessingException {
         return roomService.findAllQuestions(roomId);
     }
 
@@ -184,11 +188,18 @@ public class RoomControllerV2 {
      */
     @PutMapping("ban")
     public void ban(@PathParam("roomId") long roomId,
+<<<<<<< server/src/main/java/nl/tudelft/oopp/demo/controllers/RoomControllerV2.java
                     @PathParam("userId") long userId,
                     @PathParam("elevatedPassword") String elevatedPassword,
                     HttpServletRequest request)
         throws UnauthorizedException {
         roomService.banUser(roomId, userId, request.getRemoteAddr(), elevatedPassword);
+=======
+                    @PathParam("ip") String ip,
+                    @PathParam("elevatedPassword") String elevatedPassword)
+            throws UnauthorizedException {
+        roomService.banUser(roomId, ip, elevatedPassword);
+>>>>>>> server/src/main/java/nl/tudelft/oopp/demo/controllers/RoomControllerV2.java
     }
 
     /**
@@ -203,6 +214,7 @@ public class RoomControllerV2 {
      */
     @PutMapping("unban")
     public void unban(@PathParam("roomId") long roomId,
+<<<<<<< server/src/main/java/nl/tudelft/oopp/demo/controllers/RoomControllerV2.java
                       @PathParam("userId") long userId,
                       @PathParam("elevatedPassword") String elevatedPassword,
                       HttpServletRequest request)
@@ -251,5 +263,65 @@ public class RoomControllerV2 {
                                       @RequestBody RoomConfig roomConfig,
                                       @PathParam("userId") long userId) {
         roomService.setConfig(roomId, roomConfig, userId);
+=======
+                      @PathParam("ip") String ip,
+                      @PathParam("elevatedPassword") String elevatedPassword)
+            throws UnauthorizedException, InvalidPasswordException {
+        roomService.unbanUser(roomId, ip, elevatedPassword);
+>>>>>>> server/src/main/java/nl/tudelft/oopp/demo/controllers/RoomControllerV2.java
+    }
+
+    /**
+     * Create a new room.
+     *
+     * @param username the admin's username
+     * @param ip the admin's ip
+     * @param title the title of the room
+     * @return the newly created room
+     */
+    @GetMapping("create")
+    public Room createRoom(@PathParam("username") String username, @PathParam("ip") String ip,
+                           @PathParam("title") String title) {
+        return roomService.createRoom(username, ip, title);
+    }
+
+    /**
+     * Create a new user and have him join the room.
+     *
+     * @param password the room's password
+     * @param username the user's username
+     * @param ip the user's ip
+     * @return the user
+     */
+    @GetMapping("join")
+    public User join(@PathParam("password") String password, @PathParam("username") String username,
+                     @PathParam("ip") String ip) {
+        return roomService.join(password, username, ip);
+    }
+
+    /**
+     * Get the room.
+     *
+     * @param password the room's password
+     * @return the room with that password
+     */
+    @GetMapping("getFromPass")
+    public Room getRoom(@PathParam("password") String password) {
+        return roomService.getRoom(password);
+    }
+
+    /**
+     * Schedule a new room.
+     *
+     * @param username the admin's username
+     * @param ip the admin's ip
+     * @param title the title of the room
+     * @param date the starting date/time for the room
+     * @return the newly created room
+     */
+    @PutMapping("schedule")
+    public Room scheduleRoom(@PathParam("username") String username, @PathParam("ip") String ip,
+                             @PathParam("title") String title, @PathParam("date") long date) {
+        return roomService.scheduleRoom(username, ip, title, date);
     }
 }

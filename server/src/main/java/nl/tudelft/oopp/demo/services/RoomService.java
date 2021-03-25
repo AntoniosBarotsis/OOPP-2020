@@ -20,6 +20,8 @@ import nl.tudelft.oopp.demo.entities.log.LogQuestion;
 import nl.tudelft.oopp.demo.entities.serializers.LogCollectionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
+import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
+import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
@@ -27,6 +29,7 @@ import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,10 +38,18 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class RoomService {
+
+    @Autowired
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
     private final LogEntryRepository logEntryRepository;
     private final RoomConfigRepository roomConfigRepository;
+
+    @Autowired
+    private final UserRepository userRepository;
+
+    @Autowired
+    private final UserService userService;
 
     /**
      * Returns a list of all rooms.
@@ -226,7 +237,7 @@ public class RoomService {
 
         if (!elevatedPassword.equals(room.getElevatedPassword())) {
             throw new InvalidPasswordException("The password '" + elevatedPassword
-                + " does not match the Room's Elevated password'");
+                    + " does not match the Room's Elevated password'");
         }
 
         roomRepository.unbanUser(roomId, ip);
@@ -350,11 +361,11 @@ public class RoomService {
      */
     public boolean isNotAuthorized(long roomId, String ip) {
         List<String> authorizedIps = roomRepository
-            .getOne(roomId)
-            .getModerators()
-            .stream()
-            .map(User::getIp)
-            .collect(Collectors.toList());
+                .getOne(roomId)
+                .getModerators()
+                .stream()
+                .map(User::getIp)
+                .collect(Collectors.toList());
 
         return !authorizedIps.contains(ip);
     }
@@ -375,5 +386,84 @@ public class RoomService {
             .collect(Collectors.toList());
 
         return !authorizedIps.contains(id);
+    }
+
+     * Schedule a new room.
+     *
+     * @param username the lecturer's username
+     * @param ip the lecturer's ip
+     * @param title the title of the room
+     * @param date the starting date/time for the room
+     * @return the newly created room
+     */
+    public Room scheduleRoom(String username, String ip, String title, long date) {
+        Room room = createRoom(username, ip, title);
+        room.setStartingDate(new Date(date));
+        return room;
+    }
+
+    /**
+     * Create a new room.
+     *
+     * @param username the lecturer's username
+     * @param ip the lecturer's ip
+     * @param title the title of the room
+     * @return the newly created room
+     */
+    public Room createRoom(String username, String ip, String title) {
+        ElevatedUser user = new ElevatedUser(username, ip, true);
+        Room room = new Room(title, false, user);
+        roomRepository.save(room);
+        return room;
+    }
+
+    /**
+     * Join a room.
+     *
+     * @param password the room's password
+     * @param username the user's username
+     * @param ip the user's ip
+     * @return the user
+     */
+    public User join(String password, String username, String ip) {
+        boolean isElevated = true;
+        Long id = roomRepository.getElevatedRoomId(password);
+        if (id == null) {
+            id = roomRepository.getNormalRoomId(password);
+            isElevated = false;
+        }
+        if (id == null) {
+            return null; // TODO Throw error
+        }
+        Room room = roomRepository.getOne(id);
+        Date currentDate = new Date();
+        if (!isElevated && currentDate.before(room.getStartingDate())) {
+            return null; // TODO Better error handling
+        }
+        User user;
+        if (isElevated) {
+            user = new ElevatedUser(username, ip);
+        } else {
+            user = new Student(username, ip);
+        }
+        userRepository.save(user);
+        return user;
+    }
+
+    /**
+     * Get a room.
+     *
+     * @param password the room's password
+     * @return the room
+     */
+    public Room getRoom(String password) {
+        Long id = roomRepository.getElevatedRoomId(password);
+        if (id == null) {
+            id = roomRepository.getNormalRoomId(password);
+        }
+        if (id == null) {
+            return null; // TODO Throw error
+        }
+        return roomRepository.getOne(id);
     }
 }
