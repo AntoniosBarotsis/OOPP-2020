@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.communication.startscreen.StartCommunication;
 import nl.tudelft.oopp.demo.controllers.mainmenu.MainModController;
+import nl.tudelft.oopp.demo.controllers.mainmenu.MainStudentController;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
@@ -55,7 +56,7 @@ public class JoinController {
     public void startMainModMenu(Room room, User user) throws IOException {
         // Initialize a loader for the main menu.
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("mainmenu/mainModScene.fxml"));
+        loader.setLocation(getClass().getResource("/mainmenu/mainModScene.fxml"));
         Parent root = loader.load();
         MainModController controller = loader.getController();
 
@@ -80,9 +81,9 @@ public class JoinController {
     public void startMainStudentMenu(Room room, User user) throws IOException  {
         // Initialize a loader for the main menu.
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("mainmenu/mainStudentScene.fxml"));
+        loader.setLocation(getClass().getResource("/mainmenu/mainStudentScene.fxml"));
         Parent root = loader.load();
-        MainModController controller = loader.getController();
+        MainStudentController controller = loader.getController();
 
         // Inject the data.
         controller.loadData(room, user);

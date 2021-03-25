@@ -85,7 +85,7 @@ public class CreateController {
     public void startMainModMenu(Room room, User user) throws IOException  {
         // Initialize a loader for the main menu.
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("mainmenu/mainModScene.fxml"));
+        loader.setLocation(getClass().getResource("/mainmenu/mainModScene.fxml"));
         Parent root = loader.load();
         MainModController controller = loader.getController();
 

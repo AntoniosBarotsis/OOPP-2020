@@ -12,6 +12,7 @@ import java.util.Date;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.User;
+import nl.tudelft.oopp.demo.data.deserializers.RoomInstanceCreator;
 
 public class StartCommunication {
 
@@ -39,6 +40,7 @@ public class StartCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            return null;
         }
         return gson.fromJson(response.body(), Room.class);
     }
@@ -131,7 +133,7 @@ public class StartCommunication {
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
         }
-        return gson.fromJson(response.body(), String.class);
+       return gson.fromJson(response.body(), String.class);
     }
 
 }
