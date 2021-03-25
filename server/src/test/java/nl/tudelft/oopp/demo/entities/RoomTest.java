@@ -333,9 +333,10 @@ class RoomTest {
 
         String str = "Room(id=" + r1.getId() + ", title=Room Title, startingDate="
             + r1.getStartingDate() + ", "
-            + "repeatingLecture=false, admin=1, roomConfig=RoomConfig(id="
+            + "repeatingLecture=false, admin=" + u1.getId() + ", roomConfig=RoomConfig(id="
             + r1.getRoomConfig().getId() + ", studentRefreshRate=5, "
-            + "modRefreshRate=5, questionCooldown=300, paceCooldown=300), moderators=[User(id=1, "
+            + "modRefreshRate=5, questionCooldown=300, paceCooldown=300), moderators=[User(id="
+            + u1.getId() + ", "
             + "username=Admin, ip=ip, "
             + "questionsAsked=[], questionsUpvoted=[], " + "type=ADMIN)], bannedIps=[], "
             + "questions=[" + "" + questionToString + "], polls=[" + pollToString

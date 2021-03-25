@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * The type User.
@@ -26,14 +27,12 @@ import nl.tudelft.oopp.demo.entities.Question;
 @NoArgsConstructor
 public abstract class User {
     @Id
-    @SequenceGenerator(
-        name = "user_sequence",
-        sequenceName = "user_sequence",
-        allocationSize = 1
-    )
     @GeneratedValue(
-        strategy = SEQUENCE,
         generator = "user_sequence"
+    )
+    @GenericGenerator(
+        strategy = "nl.tudelft.oopp.demo.entities.RandomIdGenerator",
+        name = "user_sequence"
     )
     @Column(name = "id")
     private long id;

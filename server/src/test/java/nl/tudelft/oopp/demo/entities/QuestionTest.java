@@ -190,7 +190,7 @@ class QuestionTest {
     @DirtiesContext(methodMode = BEFORE_METHOD)
     void testToString() {
         assertThat(q1.toString()).isEqualTo("Question(id=" + q1.getId() + ", text=Question text, "
-            + "author=User(id=1, "
+            + "author=User(id=" + u1.getId() + ", "
             + "username=Admin, ip=ip, questionsAsked=[], questionsUpvoted=[], type=ADMIN), "
             + "upvotes=0, score=0, timeCreated=" + q1.getTimeCreated() + ", status=OPEN, "
             + "answer=null)");
