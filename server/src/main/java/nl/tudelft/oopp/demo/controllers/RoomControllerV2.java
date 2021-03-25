@@ -188,18 +188,11 @@ public class RoomControllerV2 {
      */
     @PutMapping("ban")
     public void ban(@PathParam("roomId") long roomId,
-<<<<<<< server/src/main/java/nl/tudelft/oopp/demo/controllers/RoomControllerV2.java
                     @PathParam("userId") long userId,
                     @PathParam("elevatedPassword") String elevatedPassword,
                     HttpServletRequest request)
         throws UnauthorizedException {
         roomService.banUser(roomId, userId, request.getRemoteAddr(), elevatedPassword);
-=======
-                    @PathParam("ip") String ip,
-                    @PathParam("elevatedPassword") String elevatedPassword)
-            throws UnauthorizedException {
-        roomService.banUser(roomId, ip, elevatedPassword);
->>>>>>> server/src/main/java/nl/tudelft/oopp/demo/controllers/RoomControllerV2.java
     }
 
     /**
@@ -214,7 +207,6 @@ public class RoomControllerV2 {
      */
     @PutMapping("unban")
     public void unban(@PathParam("roomId") long roomId,
-<<<<<<< server/src/main/java/nl/tudelft/oopp/demo/controllers/RoomControllerV2.java
                       @PathParam("userId") long userId,
                       @PathParam("elevatedPassword") String elevatedPassword,
                       HttpServletRequest request)
@@ -263,12 +255,6 @@ public class RoomControllerV2 {
                                       @RequestBody RoomConfig roomConfig,
                                       @PathParam("userId") long userId) {
         roomService.setConfig(roomId, roomConfig, userId);
-=======
-                      @PathParam("ip") String ip,
-                      @PathParam("elevatedPassword") String elevatedPassword)
-            throws UnauthorizedException, InvalidPasswordException {
-        roomService.unbanUser(roomId, ip, elevatedPassword);
->>>>>>> server/src/main/java/nl/tudelft/oopp/demo/controllers/RoomControllerV2.java
     }
 
     /**

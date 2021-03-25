@@ -46,9 +46,6 @@ public class RoomService {
     private final RoomConfigRepository roomConfigRepository;
 
     @Autowired
-    private final UserRepository userRepository;
-
-    @Autowired
     private final UserService userService;
 
     /**
@@ -388,6 +385,7 @@ public class RoomService {
         return !authorizedIps.contains(id);
     }
 
+     /**
      * Schedule a new room.
      *
      * @param username the lecturer's username

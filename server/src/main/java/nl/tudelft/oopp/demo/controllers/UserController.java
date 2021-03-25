@@ -88,7 +88,7 @@ public class UserController {
     public HashSet<Question> getUpvotedQuestion(@PathParam("userId") Long userId) {
         return userService.getUpvotedQuestion(userId);
     }
-}
+
     @GetMapping(value = "findAllStudents", produces = MediaType.APPLICATION_JSON_VALUE)
     public String findAllStudents() throws JsonProcessingException {
         return userService.findAllStudents();

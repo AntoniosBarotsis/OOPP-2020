@@ -126,6 +126,7 @@ public class UserService {
         return userRepository.getUpvotedQuestion(userId);
     }
 
+     /**
      * Get all students.
      *
      * @return json representation of all students
