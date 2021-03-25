@@ -46,7 +46,6 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
 
-    // Not finished
     public static void upvote(long id) {
         String url = "http://localhost:8080/api/v2/questions/upvote?";
         url = url + "questionId=" + id;
