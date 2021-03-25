@@ -147,5 +147,4 @@ public class StartCommunication {
         }
         return gson.fromJson(response.body(), String.class);
     }
-
 }

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * The type Room controller.
  */
+
 @RestController("RoomV2")
 @RequestMapping("api/v2/rooms")
 @AllArgsConstructor
