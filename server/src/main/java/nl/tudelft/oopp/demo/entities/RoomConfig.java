@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * The type Room config.
@@ -19,16 +20,14 @@ import lombok.Data;
 @Table(name = "room_config")
 public class RoomConfig {
     @Id
-    @SequenceGenerator(
-        name = "room_config_sequence",
-        sequenceName = "room_config_sequence",
-        allocationSize = 1
-    )
     @GeneratedValue(
-        strategy = SEQUENCE,
         generator = "room_config_sequence"
     )
-    private int id;
+    @GenericGenerator(
+        strategy = "nl.tudelft.oopp.demo.entities.RandomIdGenerator",
+        name = "room_config_sequence"
+    )
+    private long id;
     @Column(name = "student_refresh_rate")
     private int studentRefreshRate;
     @Column(name = "mod_refresh_rate")

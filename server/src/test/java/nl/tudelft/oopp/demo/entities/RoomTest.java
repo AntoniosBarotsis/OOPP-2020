@@ -333,7 +333,8 @@ class RoomTest {
 
         String str = "Room(id=" + r1.getId() + ", title=Room Title, startingDate="
             + r1.getStartingDate() + ", "
-            + "repeatingLecture=false, admin=1, roomConfig=RoomConfig(id=1, studentRefreshRate=5, "
+            + "repeatingLecture=false, admin=1, roomConfig=RoomConfig(id="
+            + r1.getRoomConfig().getId() + ", studentRefreshRate=5, "
             + "modRefreshRate=5, questionCooldown=300, paceCooldown=300), moderators=[User(id=1, "
             + "username=Admin, ip=ip, "
             + "questionsAsked=[], questionsUpvoted=[], " + "type=ADMIN)], bannedIps=[], "
