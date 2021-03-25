@@ -22,9 +22,9 @@
                     <Font size="25.0" />
                 </font></Button>
             <TextArea prefHeight="35.0" prefWidth="444.0" GridPane.columnIndex="1" />
-            <Label fx:id="date" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="21.0" prefWidth="287.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-            <Label fx:id="username" prefHeight="22.0" prefWidth="338.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="upvoteNumber" alignment="CENTER" prefHeight="35.0" prefWidth="78.0" style="-fx-border-color: #DBDBDB; -fx-border-width: 1; -fx-background-color: #FFFFFF;" textAlignment="CENTER" GridPane.rowIndex="1" />
+            <Label fx:id="date" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="35.0" prefWidth="287.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <Label fx:id="username" prefHeight="35.0" prefWidth="338.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="upvoteNumber" alignment="CENTER" prefHeight="35.0" prefWidth="78.0" style="-fx-border-color: #DBDBDB; -fx-border-width: 1;" textAlignment="CENTER" GridPane.rowIndex="1" />
             <GridPane style="-fx-border-width: 0;" GridPane.columnIndex="1">
                 <columnConstraints>
                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="601.4" minWidth="10.0" prefWidth="574.6" />
@@ -38,9 +38,9 @@
                         <children>
                             <TextArea fx:id="questionText" editable="false" focusTraversable="false" maxWidth="574.0" prefHeight="85.0" prefWidth="574.0" wrapText="true" />
                         </children></TextFlow>
-                    <MenuButton fx:id="options" mnemonicParsing="false" prefHeight="86.0" prefWidth="113.0" style="-fx-background-color: white; -fx-border-color: #00A6D6; -fx-border-width: 2;" text="Options" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                    <MenuButton fx:id="options" mnemonicParsing="false" prefHeight="85.0" prefWidth="114.0" style="-fx-background-color: white; -fx-border-color: #00A6D6; -fx-border-width: 2;" text="Options" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                         <items>
-                            <MenuItem fx:id="markAsAnsweredOption" mnemonicParsing="false" onAction="#questionAnswered" text="Mark as answered" />
+                            <MenuItem fx:id= "markAsAnsweredOption" mnemonicParsing="false" onAction="#questionAnswered" text="Mark as answered" />
                             <MenuItem mnemonicParsing="false" onAction="#deleteQuestion" text="Delete question" />
                         </items>
                     </MenuButton>

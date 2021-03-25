@@ -5,18 +5,18 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="131.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.questions.ModQuestionController">
+<AnchorPane prefHeight="120.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.questions.ModQuestionController">
     <children>
-          <Label fx:id="date" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="474.0" layoutY="90.0" prefHeight="35.0" prefWidth="298.0" />
-      <Label fx:id="username" layoutX="132.0" layoutY="90.0" prefHeight="35.0" prefWidth="330.0" />
-          <Label fx:id="upvoteNumber" alignment="CENTER" layoutX="14.0" layoutY="90.0" prefHeight="35.0" prefWidth="78.0" style="-fx-border-color: #DBDBDB; -fx-border-width: 1;" textAlignment="CENTER" />
-            <TextFlow layoutX="15.0" prefHeight="91.0" prefWidth="639.0">
+          <Label fx:id="date" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="473.6000061035156" layoutY="90.4000015258789" prefHeight="35.0" prefWidth="287.0" />
+      <Label fx:id="username" layoutX="77.5999984741211" layoutY="90.4000015258789" prefHeight="35.0" prefWidth="329.0" />
+          <Label fx:id="upvoteNumber" alignment="CENTER" layoutY="87.0" prefHeight="35.0" prefWidth="78.0" style="-fx-border-color: #DBDBDB; -fx-border-width: 1;" textAlignment="CENTER" />
+            <TextFlow layoutX="6.0" layoutY="3.0" prefHeight="86.0" prefWidth="640.0">
                 <children>
                     <TextArea fx:id="questionText" editable="false" focusTraversable="false" maxWidth="635.0" prefHeight="46.0" prefWidth="635.0" style="-fx-border-width: 0;" wrapText="true" />
-            <TextArea fx:id="answerBox" editable="false" prefHeight="44.0" prefWidth="636.0" wrapText="true" />
+            <TextArea fx:id="answerBox" editable="false" prefHeight="38.0" prefWidth="635.0" wrapText="true" />
                 </children>
       </TextFlow>
-            <MenuButton fx:id="options" alignment="CENTER" layoutX="635.0" mnemonicParsing="false" onHidden="#optionsHidden" onShown="#optionsClicked" prefHeight="90.0" prefWidth="144.0" style="-fx-background-color: white; -fx-border-color: #00A6D6; -fx-border-width: 2;" text="Options" textAlignment="CENTER">
+            <MenuButton fx:id="options" alignment="CENTER" layoutX="652.0" layoutY="2.0" mnemonicParsing="false" onHidden="#optionsHidden" onShown="#optionsClicked" prefHeight="85.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: #00A6D6; -fx-border-width: 2;" text="Options" textAlignment="CENTER">
                 <items>
             <MenuItem fx:id="editOption" mnemonicParsing="false" onAction="#edit" text="Edit" />
             <MenuItem fx:id="answerOption" mnemonicParsing="false" onAction="#answer" text="Answer" />
@@ -25,6 +25,6 @@
             <MenuItem fx:id="deleteOption" mnemonicParsing="false" onAction="#deleteQuestion" text="Delete question" />
                 </items>
             </MenuButton>
-        <Line endX="670.3999633789062" endY="-1.8000030517578125" layoutX="102.0" layoutY="127.0" startX="-88.00000762939453" startY="-1.79998779296875" stroke="#00a6d6" strokeWidth="5.0" />
+        <Line endX="660.0" endY="-1.52587890625E-5" layoutX="100.0" layoutY="120.0" startX="-100.0" stroke="#00a6d6" strokeWidth="5.0" />
     </children>
 </AnchorPane>
