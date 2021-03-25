@@ -70,4 +70,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query(value = "SELECT * FROM USER WHERE dtype = 'ElevatedUser';", nativeQuery = true)
     List<User> findAllElevateUsers();
+
+    @Transactional
+    @Query(value = "SELECT u FROM User u WHERE u.username = ?1 AND u.ip = ?2")
+    User getUser(String username, String ip);
+
 }

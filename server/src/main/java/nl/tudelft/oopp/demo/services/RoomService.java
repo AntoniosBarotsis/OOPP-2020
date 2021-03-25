@@ -3,11 +3,13 @@ package nl.tudelft.oopp.demo.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
@@ -41,6 +43,7 @@ public class RoomService {
 
     @Autowired
     private final RoomRepository roomRepository;
+    @Autowired
     private final UserRepository userRepository;
     private final LogEntryRepository logEntryRepository;
     private final RoomConfigRepository roomConfigRepository;
@@ -196,7 +199,7 @@ public class RoomService {
      * @throws UnauthorizedException the unauthorized exception
      */
     public void banUser(long roomId, long userId, String ip, String elevatedPassword)
-        throws UnauthorizedException {
+            throws UnauthorizedException {
         if (isNotAuthorized(roomId, ip)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
@@ -225,7 +228,7 @@ public class RoomService {
      * @throws InvalidPasswordException the invalid password exception
      */
     public void unbanUser(long roomId, long id, String ip, String elevatedPassword)
-        throws UnauthorizedException, InvalidPasswordException {
+            throws UnauthorizedException, InvalidPasswordException {
         if (isNotAuthorized(roomId, id)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
@@ -298,7 +301,7 @@ public class RoomService {
         int paceCooldown = roomConfig.getPaceCooldown();
 
         roomConfigRepository.setConfig(roomId, studentRefreshRate, modRefreshRate,
-            questionCooldown, paceCooldown);
+                questionCooldown, paceCooldown);
     }
 
     /**
@@ -376,11 +379,11 @@ public class RoomService {
      */
     public boolean isNotAuthorized(long roomId, long id) {
         List<Long> authorizedIps = roomRepository
-            .getOne(roomId)
-            .getModerators()
-            .stream()
-            .map(User::getId)
-            .collect(Collectors.toList());
+                .getOne(roomId)
+                .getModerators()
+                .stream()
+                .map(User::getId)
+                .collect(Collectors.toList());
 
         return !authorizedIps.contains(id);
     }
@@ -389,9 +392,9 @@ public class RoomService {
      * Schedule a new room.
      *
      * @param username the lecturer's username
-     * @param ip the lecturer's ip
-     * @param title the title of the room
-     * @param date the starting date/time for the room
+     * @param ip       the lecturer's ip
+     * @param title    the title of the room
+     * @param date     the starting date/time for the room
      * @return the newly created room
      */
     public Room scheduleRoom(String username, String ip, String title, long date) {
@@ -404,8 +407,8 @@ public class RoomService {
      * Create a new room.
      *
      * @param username the lecturer's username
-     * @param ip the lecturer's ip
-     * @param title the title of the room
+     * @param ip       the lecturer's ip
+     * @param title    the title of the room
      * @return the newly created room
      */
     public Room createRoom(String username, String ip, String title) {
@@ -423,31 +426,38 @@ public class RoomService {
      *
      * @param password the room's password
      * @param username the user's username
-     * @param ip the user's ip
+     * @param ip       the user's ip
      * @return the user
      */
     public User join(String password, String username, String ip) {
+        System.out.println("-" + username + "-");
+        User user = userRepository.getUser(username, ip);
+        System.out.println(user);
+        if (user != null) {
+            return user;
+        }
         boolean isElevated = true;
         Long id = roomRepository.getElevatedRoomId(password);
         if (id == null) {
             id = roomRepository.getNormalRoomId(password);
             isElevated = false;
         }
-        if (id == null) {
+        if (id == null) { // Incorrect password
             return null; // TODO Throw error
         }
         Room room = roomRepository.getOne(id);
         Date currentDate = new Date();
         if (!isElevated && currentDate.before(room.getStartingDate())) {
+            // Joining before start date
             return null; // TODO Better error handling
         }
-        User user;
         if (isElevated) {
             user = new ElevatedUser(username, ip);
         } else {
             user = new Student(username, ip);
         }
         userRepository.save(user);
+        System.out.println(user);
         return user;
     }
 

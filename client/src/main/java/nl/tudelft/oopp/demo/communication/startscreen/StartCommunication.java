@@ -26,9 +26,13 @@ public class StartCommunication {
      * @return new Room
      */
     public static Room createRoom(String roomName, String username) {
-        HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v2/rooms/create?username=" + username
-                         + "&ip=ip&title=" + roomName)).build();
+        String url = "http://localhost:8080/api/v2/rooms/create?username=" + username
+                + "&title=" + roomName;
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .build();
+
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -52,10 +56,14 @@ public class StartCommunication {
      * @return newly created scheduled room
      */
     public static Room createScheduledRoom(String roomName, String username, Date date) {
-        HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v2/rooms/schedule?username=" + username
-                        + "ip=ip&title=" + roomName
-                        + "&date=" + date.getTime())).build();
+        String url = "http://localhost:8080/api/v2/rooms/schedule?username=" + username
+                        + "&title=" + roomName
+                        + "&date=" + date.getTime();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .build();
+
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -78,9 +86,13 @@ public class StartCommunication {
      * @return
      */
     public static User joinRoom(String code, String username) {
-        HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v2/rooms/join?password=" + code
-                        + "&username=" + username + "&ip=ip")).build();
+        String url = "http://localhost:8080/api/v2/rooms/join?password=" + code
+                + "&username=" + username;
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .build();
+
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -133,7 +145,7 @@ public class StartCommunication {
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
         }
-       return gson.fromJson(response.body(), String.class);
+        return gson.fromJson(response.body(), String.class);
     }
 
 }
