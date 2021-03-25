@@ -90,4 +90,48 @@ public class StartCommunication {
         }
         return gson.fromJson(response.body(), User.class);
     }
+
+    /**
+     * Get a room based on the code given.
+     * @param code password for the room
+     * @return A room
+     */
+    public static Room getRoom(String code) {
+        HttpRequest request =  HttpRequest.newBuilder().GET()
+                .uri(URI.create("http://localhost:8080/api/v2/rooms/getFromPass?password=" + code)).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
+            return new Room(0, "Error loading room", new Date(),
+                    false, -1, -1, -1, false, roomConfig);
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+        }
+        return gson.fromJson(response.body(), Room.class);
+    }
+
+    /**
+     * Get the private code of a room using roomId.
+     * @param roomId the roomId for the room
+     * @return String containing the private code
+     */
+    public static String getPrivateCode(Long roomId) {
+        HttpRequest request =  HttpRequest.newBuilder().GET()
+                .uri(URI.create("http://localhost:8080/api/v2/rooms/private?roomId=" + roomId)).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+        }
+        return gson.fromJson(response.body(), String.class);
+    }
+
 }

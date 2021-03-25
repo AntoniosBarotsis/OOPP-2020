@@ -1,11 +1,22 @@
 package nl.tudelft.oopp.demo.controllers.startscreen;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import javafx.stage.Stage;
+
 import nl.tudelft.oopp.demo.communication.startscreen.StartCommunication;
+import nl.tudelft.oopp.demo.controllers.mainmenu.MainModController;
+import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
+
+
 
 public class JoinController {
 
@@ -20,10 +31,67 @@ public class JoinController {
      * Join button action (Button should join room eventually.
      */
     @FXML
-    public void joinButton() {
-        if (!inputRoomCode.getText().isEmpty() && !inputUsername.getText().isEmpty()) {
-            User user = StartCommunication.joinRoom(inputRoomCode.getText(),
-                    inputUsername.getText());
+    public void joinButton() throws IOException {
+        if (inputRoomCode.getText().isEmpty() || inputUsername.getText().isEmpty()) {
+            //TODO: Error popup if 1 or both fields are not filled in
         }
+        User user = StartCommunication.joinRoom(inputRoomCode.getText(),
+                    inputUsername.getText());
+        Room room = StartCommunication.getRoom(inputRoomCode.getText());
+        if (user.getUserType() == User.UserType.STUDENT) {
+            startMainStudentMenu(room, user);
+        } else {
+            startMainModMenu(room, user);
+        }
+    }
+
+    /**
+     * The starting of a MainModMenu.
+     * @param room the room that will be joined
+     * @param user the user that is joining
+     * @throws IOException from fxml loader
+     */
+    @FXML
+    public void startMainModMenu(Room room, User user) throws IOException {
+        // Initialize a loader for the main menu.
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("mainmenu/mainModScene.fxml"));
+        Parent root = loader.load();
+        MainModController controller = loader.getController();
+
+        // Inject the data.
+        controller.loadData(room, user);
+
+        // Load the Stage
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Main menu");
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    /**
+     * the starting of a MainStudentMenu.
+     * @param room the room that will be joined
+     * @param user the user that is joining
+     * @throws IOException from fxml loader
+     */
+    @FXML
+    public void startMainStudentMenu(Room room, User user) throws IOException  {
+        // Initialize a loader for the main menu.
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("mainmenu/mainStudentScene.fxml"));
+        Parent root = loader.load();
+        MainModController controller = loader.getController();
+
+        // Inject the data.
+        controller.loadData(room, user);
+
+        // Load the Stage
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Student menu");
+        stage.setResizable(false);
+        stage.show();
     }
 }
