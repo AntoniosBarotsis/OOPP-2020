@@ -69,6 +69,10 @@ public class JoinController {
         stage.setTitle("Main menu");
         stage.setResizable(false);
         stage.show();
+
+        // Closing old Stage
+        Stage oldStage = (Stage) inputUsername.getScene().getWindow();
+        oldStage.close();
     }
 
     /**
@@ -93,6 +97,23 @@ public class JoinController {
         stage.setScene(new Scene(root));
         stage.setTitle("Student menu");
         stage.setResizable(false);
+        stage.show();
+
+        // Closing old Stage
+        Stage oldStage = (Stage) inputUsername.getScene().getWindow();
+        oldStage.close();
+    }
+
+    /**
+     * Button to go back to startScene.
+     * @throws Exception fxml loader
+     */
+    @FXML
+    public void buttonBack() throws Exception {
+        Stage stage = (Stage) inputUsername.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/startView/startScene.fxml"));
+        Scene scene = new Scene(root, 960, 540);
+        stage.setScene(scene);
         stage.show();
     }
 }

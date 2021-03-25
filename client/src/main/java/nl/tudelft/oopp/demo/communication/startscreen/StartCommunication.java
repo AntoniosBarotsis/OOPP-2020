@@ -133,7 +133,6 @@ public class StartCommunication {
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
         }
-       return gson.fromJson(response.body(), String.class);
+        return gson.fromJson(response.body(), String.class);
     }
-
 }

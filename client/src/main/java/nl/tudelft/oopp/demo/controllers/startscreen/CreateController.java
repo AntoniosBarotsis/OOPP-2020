@@ -98,6 +98,23 @@ public class CreateController {
         stage.setTitle("Main menu");
         stage.setResizable(false);
         stage.show();
+
+        // Close the previous window
+        Stage oldStage = (Stage) inputSchedule.getScene().getWindow();
+        oldStage.close();
+    }
+
+    /**
+     * Button to go back to startScene.
+     * @throws Exception fxml loader
+     */
+    @FXML
+    public void buttonBack() throws Exception {
+        Stage stage = (Stage) inputSchedule.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/startView/startScene.fxml"));
+        Scene scene = new Scene(root, 960, 540);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }

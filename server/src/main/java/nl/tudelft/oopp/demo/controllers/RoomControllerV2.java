@@ -16,11 +16,16 @@ import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.RoomService;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The type Room controller.
  */
+
 @RestController("RoomV2")
 @RequestMapping("api/v2/rooms")
 @AllArgsConstructor
@@ -303,7 +308,8 @@ public class RoomControllerV2 {
      * @return the newly created room
      */
     @PutMapping("schedule")
-    public Room scheduleRoom(@PathParam("username") String username, @PathParam("title") String title,
+    public Room scheduleRoom(@PathParam("username") String username,
+                             @PathParam("title") String title,
                              @PathParam("date") long date, HttpServletRequest request) {
         return roomService.scheduleRoom(username, request.getRemoteAddr(), title, date);
     }
