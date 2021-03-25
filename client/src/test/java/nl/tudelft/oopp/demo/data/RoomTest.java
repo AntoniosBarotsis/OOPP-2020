@@ -11,8 +11,9 @@ import org.junit.jupiter.api.Test;
 
 class RoomTest {
 
+    private RoomConfig settings = new RoomConfig(2,3,4,5);
     private Room room = new Room(42, "OOPP lecture 1",
-        new Date(1614969845), true, 5, 1, 3, true);
+        new Date(1614969845), true, 5, 1, 3, true, settings);
 
     @Test
     void constructor() {
@@ -93,5 +94,17 @@ class RoomTest {
     void setOngoing() {
         room.setOngoing(false);
         assertEquals(false, room.isOngoing());
+    }
+
+    @Test
+    void getSettings() {
+        assertEquals(settings, room.getSettings());
+    }
+
+    @Test
+    void setSettings() {
+        RoomConfig settings2 = new RoomConfig(567,583,894,578);
+        room.setSettings(settings2);
+        assertEquals(settings2, room.getSettings());
     }
 }

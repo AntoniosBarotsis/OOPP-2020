@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #00A6D6;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.mainmenu.MainModController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #00A6D6;" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.mainmenu.MainModController">
     <bottom>
         <AnchorPane prefHeight="54.0" prefWidth="800.0" BorderPane.alignment="CENTER">
             <children>
@@ -25,7 +25,7 @@
             <children>
                 <Button fx:id="buttonShowPolls" layoutX="156.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#buttonShowPollsClicked" prefHeight="26.0" prefWidth="103.0" text="Previous polls" textAlignment="CENTER" wrapText="true" />
                 <Button fx:id="buttonAnswered" layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#buttonAnsweredClicked" prefWidth="136.0" text="Answered questions" textAlignment="CENTER" />
-                <Button fx:id="buttonLinks" layoutX="726.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#buttonLinksClicked" text="Links" />
+                <Button fx:id="buttonSettings" layoutX="713.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#buttonSettingsClicked" text="Settings" />
                 <Text fill="WHITE" layoutX="337.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Too slow" />
                 <Text fill="WHITE" layoutX="483.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Too fast" />
                 <Text fill="WHITE" layoutX="411.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Normal" />
