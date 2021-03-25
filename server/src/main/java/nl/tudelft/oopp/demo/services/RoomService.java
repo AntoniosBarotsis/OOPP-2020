@@ -385,7 +385,7 @@ public class RoomService {
         return !authorizedIps.contains(id);
     }
 
-     /**
+    /**
      * Schedule a new room.
      *
      * @param username the lecturer's username
