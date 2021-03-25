@@ -410,7 +410,10 @@ public class RoomService {
      */
     public Room createRoom(String username, String ip, String title) {
         ElevatedUser user = new ElevatedUser(username, ip, true);
-        Room room = new Room(title, false, user);
+        userRepository.save(user);
+        RoomConfig roomConfig = new RoomConfig();
+        roomConfigRepository.save(roomConfig);
+        Room room = new Room(title, false, user, roomConfig);
         roomRepository.save(room);
         return room;
     }
