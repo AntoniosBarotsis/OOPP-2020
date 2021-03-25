@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.views;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -10,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,21 +41,23 @@ public class QuoteDisplay extends Application {
         //MainStudentController controller = loader.getController();
 
         // Test if fetching users is working
-        for(User user: getUsers()){
+        for (User user: getUsers()) {
             System.out.println(user.getId() + " " + user.getUsername() + " " + user.getUserType());
-            for(long id: user.getQuestionsAsked()){
+            for (long id: user.getQuestionsAsked()) {
                 System.out.print(id);
             }
             System.out.println();
-            for(long id: user.getQuestionsUpvoted()){
+            for (long id: user.getQuestionsUpvoted()) {
                 System.out.print(id);
             }
         }
 
         // Load the menus with data
         RoomConfig roomc = new RoomConfig(3, 3, 300, 300);
-        Room room = new Room(1, "room", new Date(), false, 0, 0, 300, true, roomc);
-        User user = new User(3, "Student",  new HashSet<>(), new HashSet<>(), User.UserType.STUDENT);
+        Room room = new Room(1, "room", new Date(), false,
+                0, 0, 300, true, roomc);
+        User user = new User(3, "Student",  new HashSet<>(), new HashSet<>(),
+                User.UserType.STUDENT);
         controller.loadData(room, user);
 
 
@@ -70,6 +73,11 @@ public class QuoteDisplay extends Application {
     // Fetch users
     private static HttpClient client = HttpClient.newBuilder().build();
     private static Gson gson = new Gson();
+
+    /**
+     * returns all users
+     * @return an array list with all the users
+     */
     public static ArrayList<User> getUsers() {
         String link = "http://localhost:8080/api/v1/users/";
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(link)).build();

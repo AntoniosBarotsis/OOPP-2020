@@ -66,11 +66,11 @@ class QuestionViewCommunicationTest {
         assertDoesNotThrow(()->QuestionViewCommunication.removeQuestionUpvoted(1, 1));
     }
 
-    @Test
-    void ban() {
-        // User a = new User((long) 1, "Moderator", null, null, User.UserType.MODERATOR);
-        // assertDoesNotThrow(()->QuestionViewCommunication.ban(1, a.getId()));
-    }
+
+
+
+
+
 
     @Test
     void delete() {
