@@ -22,6 +22,7 @@ import nl.tudelft.oopp.demo.controllers.mainmenu.MainModController;
 import nl.tudelft.oopp.demo.controllers.mainmenu.MainStudentController;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
+import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.User;
 
 public class QuoteDisplay extends Application {
@@ -51,7 +52,8 @@ public class QuoteDisplay extends Application {
         }
 
         // Load the menus with data
-        Room room = new Room(1, "room", new Date(), false, 0, 0, 300, true);
+        RoomConfig roomc = new RoomConfig(3, 3, 300, 300);
+        Room room = new Room(1, "room", new Date(), false, 0, 0, 300, true, roomc);
         User user = new User(3, "Student",  new HashSet<>(), new HashSet<>(), User.UserType.STUDENT);
         controller.loadData(room, user);
 

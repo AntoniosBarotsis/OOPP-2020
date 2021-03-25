@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.communication.questionView;
 
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
+import nl.tudelft.oopp.demo.data.User;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 import org.junit.jupiter.api.Test;
@@ -67,8 +68,8 @@ class QuestionViewCommunicationTest {
 
     @Test
     void ban() {
-        Stud
-        assertDoesNotThrow(()->QuestionViewCommunication.ban(1, 3));
+        // User a = new User((long) 1, "Moderator", null, null, User.UserType.MODERATOR);
+        // assertDoesNotThrow(()->QuestionViewCommunication.ban(1, a.getId()));
     }
 
     @Test
