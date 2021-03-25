@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
@@ -52,6 +53,7 @@ public class Question {
     @Column(name = "score")
     private int score;
     @Column(name = "timeCreated")
+    @EqualsAndHashCode.Exclude
     private Date timeCreated;
     @Column(name = "status")
     private QuestionStatus status;
