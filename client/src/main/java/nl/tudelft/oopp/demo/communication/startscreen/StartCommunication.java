@@ -26,8 +26,8 @@ public class StartCommunication {
      * @return new Room
      */
     public static Room createRoom(String roomName, String username) {
-        String url = "http://localhost:8080/api/v2/rooms/create?username=" + username
-                + "&title=" + roomName;
+        String url = "http://localhost:8080/api/v2/rooms/create?username=" + username.trim()
+                + "&title=" + roomName.trim();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
@@ -56,8 +56,8 @@ public class StartCommunication {
      * @return newly created scheduled room
      */
     public static Room createScheduledRoom(String roomName, String username, Date date) {
-        String url = "http://localhost:8080/api/v2/rooms/schedule?username=" + username
-                        + "&title=" + roomName
+        String url = "http://localhost:8080/api/v2/rooms/schedule?username=" + username.trim()
+                        + "&title=" + roomName.trim()
                         + "&date=" + date.getTime();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -86,8 +86,8 @@ public class StartCommunication {
      * @return
      */
     public static User joinRoom(String code, String username) {
-        String url = "http://localhost:8080/api/v2/rooms/join?password=" + code
-                + "&username=" + username;
+        String url = "http://localhost:8080/api/v2/rooms/join?password=" + code.trim()
+                + "&username=" + username.trim();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
@@ -112,7 +112,8 @@ public class StartCommunication {
      */
     public static Room getRoom(String code) {
         HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v2/rooms/getFromPass?password=" + code)).build();
+                .uri(URI.create("http://localhost:8080/api/v2/rooms/getFromPass?password="
+                        + code.trim())).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
