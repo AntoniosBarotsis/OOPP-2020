@@ -72,7 +72,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllElevateUsers();
 
     @Transactional
-    @Query(value = "SELECT u FROM User u WHERE u.username = ?1 AND u.ip = ?2")
-    User getUser(String username, String ip);
+    @Query(value = "SELECT u.id FROM User u WHERE u.username = ?1 AND u.ip = ?2")
+    Long getUser(String username, String ip);
 
 }

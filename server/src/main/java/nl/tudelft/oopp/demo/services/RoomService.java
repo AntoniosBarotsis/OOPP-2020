@@ -430,11 +430,9 @@ public class RoomService {
      * @return the user
      */
     public User join(String password, String username, String ip) {
-        System.out.println("-" + username + "-");
-        User user = userRepository.getUser(username, ip);
-        System.out.println(user);
-        if (user != null) {
-            return user;
+        Long userId = userRepository.getUser(username, ip);
+        if (userId != null) {
+            return userRepository.getOne(userId);
         }
         boolean isElevated = true;
         Long id = roomRepository.getElevatedRoomId(password);
@@ -451,13 +449,13 @@ public class RoomService {
             // Joining before start date
             return null; // TODO Better error handling
         }
+        User user;
         if (isElevated) {
             user = new ElevatedUser(username, ip);
         } else {
             user = new Student(username, ip);
         }
         userRepository.save(user);
-        System.out.println(user);
         return user;
     }
 
