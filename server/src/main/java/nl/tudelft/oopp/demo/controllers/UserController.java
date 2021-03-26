@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
 /**
  * The type User controller.
  */
@@ -29,7 +28,7 @@ public class UserController {
     private final UserService userService;
 
     /**
-     * Find all string.
+     * Returns a list of all users.
      *
      * @return the string
      * @throws JsonProcessingException the json processing exception
@@ -40,7 +39,7 @@ public class UserController {
     }
 
     /**
-     * Add long.
+     * Adds a user given a StudentHelper.
      *
      * @param student the student
      * @param request the request
@@ -57,7 +56,7 @@ public class UserController {
      * Adds questionId to the ids of question user with userId upvoted,
      * if he did not upvote it before.
      *
-     * @param userId the user id
+     * @param userId     the user id
      * @param questionId the question id
      */
     @PostMapping(value = "addUpvotedQuestion")
@@ -70,7 +69,7 @@ public class UserController {
      * Removes questionId from the ids of questions user with userId upvoted,
      * if user upvoted the question before.
      *
-     * @param userId the user id
+     * @param userId     the user id
      * @param questionId the question id
      */
     @DeleteMapping(value = "removeUpvotedQuestion")
@@ -83,17 +82,30 @@ public class UserController {
      * Gets the set of questions user with userId upvoted.
      *
      * @param userId the user id
+     * @return the upvoted question
      */
     @GetMapping(value = "getUpvotedQuestion")
     public HashSet<Question> getUpvotedQuestion(@PathParam("userId") Long userId) {
         return userService.getUpvotedQuestion(userId);
     }
 
+    /**
+     * Find all students string.
+     *
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
     @GetMapping(value = "findAllStudents", produces = MediaType.APPLICATION_JSON_VALUE)
     public String findAllStudents() throws JsonProcessingException {
         return userService.findAllStudents();
     }
 
+    /**
+     * Returns all elevated users.
+     *
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
     @GetMapping(value = "findAllElevatedUsers", produces = MediaType.APPLICATION_JSON_VALUE)
     public String findAllElevatedUsers() throws JsonProcessingException {
         return userService.findAllElevatedUsers();
