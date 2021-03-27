@@ -1,11 +1,8 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.util.List;
 import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Poll;
-import nl.tudelft.oopp.demo.entities.Question;
-import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,9 +30,10 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Find all list.
+     * Returns a list of all rooms.
      *
      * @return the list
+     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping
     public String findAll() throws JsonProcessingException {
@@ -43,10 +41,11 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Gets one.
+     * Gets the room that has the passed id.
      *
      * @param id the id
      * @return the one
+     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping("{id}")
     public String getOne(@PathVariable long id) throws JsonProcessingException {
@@ -54,7 +53,7 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Gets public password.
+     * Gets a room's public password.
      *
      * @param roomId the room id
      * @return the public password
@@ -65,8 +64,10 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Gets private password.
+     * Gets a room's private password if the request comes from an ip registered as a moderator
+     * in said room.
      *
+     * @param ip     the ip
      * @param roomId the room id
      * @return the private password
      */
@@ -77,10 +78,11 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Find all questions set.
+     * Gets a room's list of questions.
      *
      * @param roomId the room id
      * @return the set
+     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping("questions/{roomId}")
     public String findAllQuestions(@PathVariable long  roomId) throws JsonProcessingException {
@@ -99,7 +101,7 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Increment too fast.
+     * Increments the too the tooFast attribute of the room.
      *
      * @param roomId the room id
      */
@@ -109,7 +111,7 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Increment too fast.
+     * Decrements the too the tooFast attribute of the room.
      *
      * @param roomId the room id
      */
@@ -119,7 +121,7 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Increment too fast.
+     * Increment the tooSlow attribute of the room.
      *
      * @param roomId the room id
      */
@@ -129,7 +131,7 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Increment too fast.
+     * Decrement the tooSlow attribute of the room.
      *
      * @param roomId the room id
      */

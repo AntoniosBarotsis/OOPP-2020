@@ -12,10 +12,9 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * The type Room config.
+ * The RoomConfig class holds data that have to do with rate limiting.
  */
 @Data
-//@NoArgsConstructor
 @Entity(name = "RoomConfig")
 @Table(name = "room_config")
 public class RoomConfig {

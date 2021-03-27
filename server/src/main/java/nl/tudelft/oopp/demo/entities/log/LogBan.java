@@ -11,7 +11,7 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.users.User;
 
 /**
- * The type Log ban. An [ELEVATED_USER] bans an [IP] at [DATE]
+ * The type Log ban. An [ELEVATED_USER] bans an [IP].
  */
 @NoArgsConstructor
 @Entity(name = "LogBan")

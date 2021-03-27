@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * The type Room controller.
+ * The second version of the Room controller.
  */
 
 @RestController("RoomV2")
@@ -32,7 +32,7 @@ public class RoomControllerV2 {
     private final RoomService roomService;
 
     /**
-     * Find all list.
+     * Returns a list of all rooms.
      *
      * @return the list
      * @throws JsonProcessingException the json processing exception
@@ -43,10 +43,10 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Gets one.
+     * Gets the room that has the passed id.
      *
      * @param id the id
-     * @return the one
+     * @return the room
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "get", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,7 +55,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Gets public password.
+     * Gets a room's public password.
      *
      * @param roomId the room id
      * @return the public password
@@ -66,7 +66,8 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Gets private password.
+     * Gets a room's private password if the request comes from an ip registered as a moderator
+     * in said room.
      *
      * @param roomId  the room id
      * @param request the request
@@ -81,7 +82,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Find all questions set.
+     * Gets a room's list of questions.
      *
      * @param roomId the room id
      * @return the set
@@ -94,7 +95,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Find all polls set.
+     * Gets a room's list of polls.
      *
      * @param roomId the room id
      * @return the set
@@ -105,7 +106,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Increment too fast.
+     * Increments the tooFast attribute of the room.
      *
      * @param roomId the room id
      */
@@ -115,7 +116,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Increment too fast.
+     * Decrements the too the tooFast attribute of the room.
      *
      * @param roomId the room id
      */
@@ -125,7 +126,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Increment too fast.
+     * Increment the tooSlow attribute of the room.
      *
      * @param roomId the room id
      */
@@ -135,7 +136,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Increment too fast.
+     * Decrement the tooSlow attribute of the room.
      *
      * @param roomId the room id
      */
@@ -145,7 +146,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Increment normal speed.
+     * Increment the normalSpeed attribute of the room.
      *
      * @param roomId the room id
      */
@@ -155,7 +156,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Decrement normal speed.
+     * Decrement the normalSpeed attribute of the room.
      *
      * @param roomId the room id
      */
@@ -179,7 +180,8 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Bans a user in the given room given the correct elevated password.
+     * Bans a user in the given room given the correct elevated password. Will throw an exception
+     * if the request's IP is not registered as a moderator in the room.
      *
      * @param roomId           the room id
      * @param userId           the user id
@@ -197,7 +199,8 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Unbans a user in the given room given the correct elevated password.
+     * Unbans a user in the given room given the correct elevated password. Will throw an exception
+     * if the request's IP is not registered as a moderator in the room.
      *
      * @param roomId           the room id
      * @param userId           the user id
@@ -216,7 +219,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Sets room to ongoing or not.
+     * Sets whether the room is ongoing or not.
      *
      * @param roomId    the room id
      * @param isOngoing the is ongoing
@@ -230,7 +233,8 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Export log string.
+     * Exports the action log. Requires the request's IP to be registered as a moderator in the
+     * room.
      *
      * @param roomId  the room id
      * @param request the request
@@ -245,7 +249,8 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Sets student refresh rate.
+     * Sets the student refresh rate. Requires the request's IP to be registered as a moderator in
+     * the current room.
      *
      * @param roomId     the room id
      * @param roomConfig the room config
@@ -259,7 +264,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Create a new room.
+     * Creates a new room.
      *
      * @param username the admin's username
      * @param title    the title of the room
@@ -287,7 +292,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Get the room.
+     * Gets the room given it's password.
      *
      * @param password the room's password
      * @return the room with that password

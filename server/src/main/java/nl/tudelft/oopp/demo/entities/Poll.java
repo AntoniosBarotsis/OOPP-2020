@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * The type Mc question.
+ * The type Mc question. Used to represent multiple choice questions the lecturer creates.
  */
 @Entity(name = "Poll")
 @Table(name = "polls")
@@ -69,6 +69,9 @@ public class Poll {
         this.status = PollStatus.OPEN;
     }
 
+    /**
+     * The enum Poll status.
+     */
     public enum PollStatus {
         /**
          * Open poll status.

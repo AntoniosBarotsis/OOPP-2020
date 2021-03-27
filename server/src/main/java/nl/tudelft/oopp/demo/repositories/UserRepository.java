@@ -12,12 +12,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 
+/**
+ * The interface User repository.
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
 
     /**
-     * Add question to user.
+     * Adds a question to the user's asked questions.
      *
      * @param userId           the user id
      * @param questionsAskedId the questions asked id
@@ -29,9 +32,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void addQuestionToUser(long userId, long questionsAskedId);
 
     /**
-     * Adds questionId to the ids of question user with userId upvoted.
+     * Adds a question to the user's upvoted questions.
      *
-     * @param userId the user id
+     * @param userId     the user id
      * @param questionId the question id
      */
     @Modifying
@@ -42,9 +45,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 
     /**
-     * Removes questionId from the ids of questions user with userId upvoted.
+     * Removes a question from the user's asked questions.
      *
-     * @param userId the user id
+     * @param userId     the user id
      * @param questionId the question id
      */
     @Modifying
@@ -55,18 +58,29 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void removeUpvotedQuestion(Long userId, Long questionId);
 
     /**
-     * Gets the set of questions user with userId upvoted.
+     * Gets the set of questions the user has upvoted.
      *
      * @param userId the user id
+     * @return the upvoted question
      */
     @Transactional
     @Query(value = "SELECT u.questionsUpvoted FROM User u WHERE u.id = ?1")
     HashSet<Question> getUpvotedQuestion(Long userId);
 
+    /**
+     * Finds all students.
+     *
+     * @return the list
+     */
     @Transactional
     @Query(value = "SELECT * FROM USER WHERE dtype = 'Student';", nativeQuery = true)
     List<User> findAllStudents();
 
+    /**
+     * Find all elevated users.
+     *
+     * @return the list
+     */
     @Transactional
     @Query(value = "SELECT * FROM USER WHERE dtype = 'ElevatedUser';", nativeQuery = true)
     List<User> findAllElevateUsers();

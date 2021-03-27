@@ -24,7 +24,7 @@ import nl.tudelft.oopp.demo.entities.users.User;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * The Question class.
+ * The Question class. This is used to represent questions users ask during lectures.
  */
 @Entity(name = "Question")
 @Table(name = "questions")
@@ -76,7 +76,7 @@ public class Question {
     }
 
     /**
-     * Export question to txt string.
+     * Export question to txt format.
      *
      * @return the string
      */
@@ -85,7 +85,7 @@ public class Question {
     }
 
     /**
-     * Export question to json string.
+     * Export question to json format.
      *
      * @return the string
      * @throws JsonProcessingException the json processing exception
@@ -124,7 +124,7 @@ public class Question {
     }
 
     /**
-     * Status to factor int.
+     * Status to String mapping.
      *
      * @return the int
      */

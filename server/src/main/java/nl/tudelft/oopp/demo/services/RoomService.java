@@ -31,7 +31,6 @@ import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,15 +39,10 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class RoomService {
-
-    @Autowired
     private final RoomRepository roomRepository;
-    @Autowired
     private final UserRepository userRepository;
     private final LogEntryRepository logEntryRepository;
     private final RoomConfigRepository roomConfigRepository;
-
-    @Autowired
     private final UserService userService;
 
     /**
@@ -353,7 +347,7 @@ public class RoomService {
     }
 
     /**
-     * Is not authorized boolean.
+     * Returns true if the user's IP is not a moderator IP.
      *
      * @param roomId the room id
      * @param ip     the ip
@@ -371,7 +365,7 @@ public class RoomService {
     }
 
     /**
-     * Is not authorized boolean.
+     * Returns true if the user's id is not a moderator id.
      *
      * @param roomId the room id
      * @param id     the id

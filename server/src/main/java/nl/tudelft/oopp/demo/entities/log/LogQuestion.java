@@ -14,7 +14,7 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.users.Student;
 
 /**
- * The type Log question. A [USER] asks a [QUESTION] at [DATE]
+ * The type Log question. A [USER] asks a [QUESTION].
  */
 @NoArgsConstructor
 @Entity(name = "LogQuestion")
