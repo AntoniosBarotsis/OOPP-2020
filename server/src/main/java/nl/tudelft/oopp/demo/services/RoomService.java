@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -19,8 +18,6 @@ import nl.tudelft.oopp.demo.entities.log.LogBan;
 import nl.tudelft.oopp.demo.entities.log.LogCollection;
 import nl.tudelft.oopp.demo.entities.log.LogJoin;
 import nl.tudelft.oopp.demo.entities.log.LogQuestion;
-import nl.tudelft.oopp.demo.entities.serializers.LogCollectionSerializer;
-import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;

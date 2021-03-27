@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 
@@ -19,7 +20,7 @@ import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.log.LogQuestion;
-import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
+import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
@@ -329,14 +330,9 @@ public class QuestionService {
      *
      * @param questionId the question id
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    public String export(long questionId) throws JsonProcessingException {
-        if (questionRepository.findById(questionId).isPresent()) {
-            return this.mapQuestionExport(List.of(questionRepository.findById(questionId).get()));
-        } else {
-            return "{\"error\": \"JsonProcessingException\"}";
-        }
+    public Question export(long questionId) {
+        return questionRepository.findById(questionId).get();
     }
 
     /**
@@ -344,10 +340,9 @@ public class QuestionService {
      *
      * @param roomId the room id
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    public String exportAll(long roomId) throws JsonProcessingException {
-        return this.mapQuestionExport(roomRepository.findAllQuestions(roomId));
+    public Set<Question> exportAll(long roomId) {
+        return roomRepository.findAllQuestions(roomId);
     }
 
     /**
@@ -356,21 +351,18 @@ public class QuestionService {
      * @param roomId - the room id
      * @param amount - the amount of questions
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    public String exportTop(long roomId, int amount) throws JsonProcessingException {
+    public List<Question> exportTop(long roomId, int amount) {
         if (amount < 1) {
-            return "{\"error: \"Invalid amount supplied\"}";
+            throw new IllegalArgumentException("Invalid amount supplied");
         }
 
-        List<Question> questions = roomRepository
+        return roomRepository
             .findAllQuestions(roomId)
             .stream()
             .sorted(Comparator.comparingInt(Question::getUpvotes).reversed())
             .limit(amount)
             .collect(Collectors.toList());
-
-        return this.mapQuestionExport(questions);
     }
 
     /**
@@ -378,33 +370,13 @@ public class QuestionService {
      *
      * @param roomId the room id
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    public String exportAnswered(long roomId) throws JsonProcessingException {
-        List<Question> questions = roomRepository
+    public List<Question> exportAnswered(long roomId) {
+        return roomRepository
             .findAllQuestions(roomId)
             .stream()
             .filter(Question::isAnswered)
             .collect(Collectors.toList());
-
-        return this.mapQuestionExport(questions);
-    }
-
-    /**
-     * Maps a collection of questions using a custom mapper.
-     *
-     * @param questions the questions
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String mapQuestionExport(Collection<Question> questions) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Question.class, new QuestionExportSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(questions);
-
     }
 
     /**
