@@ -23,7 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     /**
-     * Add long.
+     * Adds a user.
      *
      * @param user the user
      * @return the long
@@ -48,7 +48,7 @@ public class UserService {
     }
 
     /**
-     * Find all string.
+     * Finds all users.
      *
      * @return the string
      * @throws JsonProcessingException the json processing exception
@@ -77,7 +77,7 @@ public class UserService {
      * Adds questionId to the ids of question user with userId upvoted,
      * if he did not upvote it before.
      *
-     * @param userId the user id
+     * @param userId     the user id
      * @param questionId the question id
      */
     public void addUpvotedQuestion(Long userId, Long questionId) {
@@ -98,7 +98,7 @@ public class UserService {
      * Removes questionId from the ids of questions user with userId upvoted,
      * if user upvoted the question before.
      *
-     * @param userId the user id
+     * @param userId     the user id
      * @param questionId the question id
      */
     public void removeUpvotedQuestion(Long userId, Long questionId) {
@@ -118,9 +118,10 @@ public class UserService {
 
 
     /**
-     * Gets the set of questions user with userId upvoted.
+     * Gets the set of questions that have been upvoted by the user.
      *
      * @param userId the user id
+     * @return the upvoted question
      */
     public HashSet<Question> getUpvotedQuestion(Long userId) {
         return userRepository.getUpvotedQuestion(userId);
