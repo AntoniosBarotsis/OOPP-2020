@@ -7,14 +7,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class StartController {
 
+
     @FXML
     private Button buttonJoin;
-    @FXML
-    private Button buttonCreate;
+
+
 
     /**
      * Open the create window.
@@ -22,19 +22,11 @@ public class StartController {
      */
     @FXML
     public void buttonCreate() throws Exception {
-        buttonJoin.setDisable(true);
-        buttonCreate.setDisable(true);
-        Stage stage = new Stage();
+        Stage stage = (Stage) buttonJoin.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/startView/createRoomScene.fxml"));
-        stage.setTitle("Create Screen");
-        stage.setScene(new Scene(root, 960, 540));
+        Scene scene = new Scene(root, 960, 540);
+        stage.setScene(scene);
         stage.show();
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                buttonJoin.setDisable(false);
-                buttonCreate.setDisable(false);
-            }
-        });
     }
 
     /**
@@ -43,19 +35,10 @@ public class StartController {
      */
     @FXML
     public void buttonJoin() throws Exception {
-        buttonJoin.setDisable(true);
-        buttonCreate.setDisable(true);
-        Stage stage = new Stage();
+        Stage stage = (Stage) buttonJoin.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/startView/joinRoomScene.fxml"));
-        stage.setTitle("Create Screen");
-        stage.setScene(new Scene(root, 960, 540));
+        Scene scene = new Scene(root, 960, 540);
+        stage.setScene(scene);
         stage.show();
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                buttonJoin.setDisable(false);
-                buttonCreate.setDisable(false);
-            }
-        });
     }
-
 }

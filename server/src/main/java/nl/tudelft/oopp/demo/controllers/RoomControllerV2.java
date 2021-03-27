@@ -2,10 +2,10 @@ package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import java.util.Date;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
+
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * The type Room controller.
  */
+
 @RestController("RoomV2")
 @RequestMapping("api/v2/rooms")
 @AllArgsConstructor
@@ -191,7 +192,7 @@ public class RoomControllerV2 {
                     @PathParam("userId") long userId,
                     @PathParam("elevatedPassword") String elevatedPassword,
                     HttpServletRequest request)
-        throws UnauthorizedException {
+            throws UnauthorizedException {
         roomService.banUser(roomId, userId, request.getRemoteAddr(), elevatedPassword);
     }
 
@@ -210,7 +211,7 @@ public class RoomControllerV2 {
                       @PathParam("userId") long userId,
                       @PathParam("elevatedPassword") String elevatedPassword,
                       HttpServletRequest request)
-        throws UnauthorizedException, InvalidPasswordException {
+            throws UnauthorizedException, InvalidPasswordException {
         roomService.unbanUser(roomId, userId, request.getRemoteAddr(), elevatedPassword);
     }
 
@@ -239,7 +240,7 @@ public class RoomControllerV2 {
     @GetMapping(value = "exportLog", produces = MediaType.APPLICATION_JSON_VALUE)
     public String exportLog(@PathParam("roomId") long roomId,
                             HttpServletRequest request)
-        throws JsonProcessingException {
+            throws JsonProcessingException {
         return roomService.exportLog(roomId, request.getRemoteAddr());
     }
 
@@ -252,8 +253,8 @@ public class RoomControllerV2 {
      */
     @PutMapping("setConfig")
     public void setConfig(@PathParam("roomId") long roomId,
-                                      @RequestBody RoomConfig roomConfig,
-                                      @PathParam("userId") long userId) {
+                          @RequestBody RoomConfig roomConfig,
+                          @PathParam("userId") long userId) {
         roomService.setConfig(roomId, roomConfig, userId);
     }
 
@@ -261,14 +262,14 @@ public class RoomControllerV2 {
      * Create a new room.
      *
      * @param username the admin's username
-     * @param ip the admin's ip
-     * @param title the title of the room
+     * @param title    the title of the room
+     * @param request  the request
      * @return the newly created room
      */
-    @GetMapping("create")
-    public Room createRoom(@PathParam("username") String username, @PathParam("ip") String ip,
-                           @PathParam("title") String title) {
-        return roomService.createRoom(username, ip, title);
+    @PutMapping("create")
+    public Room createRoom(@PathParam("username") String username, @PathParam("title") String title,
+                           HttpServletRequest request) {
+        return roomService.createRoom(username, request.getRemoteAddr(), title);
     }
 
     /**
@@ -276,13 +277,13 @@ public class RoomControllerV2 {
      *
      * @param password the room's password
      * @param username the user's username
-     * @param ip the user's ip
+     * @param request  the request
      * @return the user
      */
-    @GetMapping("join")
+    @PutMapping("join")
     public User join(@PathParam("password") String password, @PathParam("username") String username,
-                     @PathParam("ip") String ip) {
-        return roomService.join(password, username, ip);
+                     HttpServletRequest request) {
+        return roomService.join(password, username, request.getRemoteAddr());
     }
 
     /**
@@ -300,14 +301,15 @@ public class RoomControllerV2 {
      * Schedule a new room.
      *
      * @param username the admin's username
-     * @param ip the admin's ip
-     * @param title the title of the room
-     * @param date the starting date/time for the room
+     * @param title    the title of the room
+     * @param date     the starting date/time for the room
+     * @param request  the request
      * @return the newly created room
      */
     @PutMapping("schedule")
-    public Room scheduleRoom(@PathParam("username") String username, @PathParam("ip") String ip,
-                             @PathParam("title") String title, @PathParam("date") long date) {
-        return roomService.scheduleRoom(username, ip, title, date);
+    public Room scheduleRoom(@PathParam("username") String username,
+                             @PathParam("title") String title,
+                             @PathParam("date") long date, HttpServletRequest request) {
+        return roomService.scheduleRoom(username, request.getRemoteAddr(), title, date);
     }
 }
