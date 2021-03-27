@@ -1,15 +1,15 @@
 package nl.tudelft.oopp.demo.controllers.startscreen;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -54,20 +54,23 @@ public class CreateController {
         if (!inputSchedule.isSelected()) {
             room = StartCommunication.createRoom(roomName, username);
         } else {
-            //TODO: Insert a error popup when empty
-            String date = inputDate.toString();
+
+            String date = inputDate.getValue().toString();
             String time = inputTime.getText();
 
-            // Since Date is a dick, this is how you make it :)
-            Calendar fullDate = new GregorianCalendar(Integer.parseInt(
-                    (date.substring(0, 3))) + 1900,
-                    Integer.parseInt(date.substring(5, 6)),
-                    Integer.parseInt(date.substring(7, 8)),
-                    Integer.parseInt(time.substring(0, 1)),
-                    Integer.parseInt(time.substring(2, 3)));
-            Date actualDate = fullDate.getTime();
-            room = StartCommunication.createScheduledRoom(roomName, username, actualDate);
+            try {
+                date = date + " " + time + ":00";
+                room = StartCommunication.createScheduledRoom(roomName, username,
+                        new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Error parsing date and time.");
+                alert.showAndWait();
+            }
         }
+
         // Getting all the necessary stuff to join a room :D
         Long roomId = room.getId();
         String password = StartCommunication.getPrivateCode(roomId);
