@@ -1,15 +1,15 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.HashSet;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.helpers.StudentHelper;
+import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.services.UserService;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,10 +31,9 @@ public class UserController {
      * Returns a list of all users.
      *
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAll() throws JsonProcessingException {
+    @GetMapping
+    public List<User> findAll() {
         return userService.findAll();
     }
 
@@ -93,10 +92,9 @@ public class UserController {
      * Find all students string.
      *
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping(value = "findAllStudents", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAllStudents() throws JsonProcessingException {
+    @GetMapping(value = "findAllStudents")
+    public List<User> findAllStudents() {
         return userService.findAllStudents();
     }
 
@@ -104,10 +102,9 @@ public class UserController {
      * Returns all elevated users.
      *
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping(value = "findAllElevatedUsers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAllElevatedUsers() throws JsonProcessingException {
+    @GetMapping(value = "findAllElevatedUsers")
+    public List<User> findAllElevatedUsers() {
         return userService.findAllElevatedUsers();
     }
 }

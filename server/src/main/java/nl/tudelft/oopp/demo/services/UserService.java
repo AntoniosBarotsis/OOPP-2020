@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -51,26 +52,9 @@ public class UserService {
      * Finds all users.
      *
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    public String findAll() throws JsonProcessingException {
-        return mapUser(userRepository.findAll());
-    }
-
-    /**
-     * Map user string.
-     *
-     * @param users the users
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String mapUser(Collection<User> users) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(User.class, new UserSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(users);
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     /**
@@ -131,20 +115,18 @@ public class UserService {
      * Get all students.
      *
      * @return json representation of all students
-     * @throws JsonProcessingException the json processing exception
      */
-    public String findAllStudents() throws JsonProcessingException {
-        return mapUser(userRepository.findAllStudents());
+    public List<User> findAllStudents() {
+        return userRepository.findAllStudents();
     }
 
     /**
      * Get all elevated users.
      *
      * @return json representation of all elevated users
-     * @throws JsonProcessingException the json processing exception
      */
-    public String findAllElevatedUsers() throws JsonProcessingException {
-        return mapUser(userRepository.findAllElevateUsers());
+    public List<User> findAllElevatedUsers() {
+        return userRepository.findAllElevateUsers();
     }
 
     /**
