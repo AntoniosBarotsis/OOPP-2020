@@ -39,8 +39,6 @@ public class UserInstanceCreator implements JsonDeserializer<User> {
             type = User.UserType.LECTURER;
         } else if (statusString.equals("MODERATOR")) {
             type = User.UserType.MODERATOR;
-        } else {
-            type = User.UserType.STUDENT;
         }
 
         // Get the sets of question ids.

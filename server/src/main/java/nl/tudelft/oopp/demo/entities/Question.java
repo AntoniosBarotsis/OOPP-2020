@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,7 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 
 /**
@@ -26,6 +29,7 @@ import nl.tudelft.oopp.demo.entities.users.User;
 @Table(name = "questions")
 @Data
 @NoArgsConstructor
+@JsonSerialize(using = QuestionSerializer.class)
 public class Question {
     @Id
     @SequenceGenerator(
@@ -39,7 +43,7 @@ public class Question {
     )
     @Column(name = "id", updatable = false)
     private long id;
-    @Column(name = "text")
+    @Column(name = "text", columnDefinition = "TEXT")
     private String text;
     @ManyToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "author_id")
@@ -49,6 +53,7 @@ public class Question {
     @Column(name = "score")
     private int score;
     @Column(name = "timeCreated")
+    @EqualsAndHashCode.Exclude
     private Date timeCreated;
     @Column(name = "status")
     private QuestionStatus status;
@@ -124,13 +129,13 @@ public class Question {
      *
      * @return the int
      */
-    public int statusToFactor() {
+    public String statusToString() {
         if (status == Question.QuestionStatus.OPEN) {
-            return 0;
+            return "OPEN";
         } else if (status == Question.QuestionStatus.ANSWERED) {
-            return 1;
+            return "ANSWERED";
         } else {
-            return 2;
+            return "SPAM";
         }
     }
 }

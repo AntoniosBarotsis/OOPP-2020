@@ -1,42 +1,53 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
-import java.io.UnsupportedEncodingException;
-import java.util.HashSet;
-import java.util.Set;
+import java.text.SimpleDateFormat;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import nl.tudelft.oopp.demo.communication.mainmenu.MainStudentCommunication;
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
-
+import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
+import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 
 public class ModQuestionController {
 
     private Question question;
     private User user;
     private Room room;
-    private boolean upvoted = false;
+    private boolean modified;
+    private boolean hasPressedOption;
+    private String answer;
 
 
     @FXML
+    private MenuItem markAsAnsweredOption;
+
+    @FXML
+    private MenuItem answerOption;
+    @FXML
     private Label date;
+
+    @FXML
+    private Label username;
 
     @FXML
     private TextArea questionText;
 
     @FXML
-    private Button upvoteButton;
+    private Label upvoteNumber;
 
     @FXML
-    private TextArea upvoteNumber;
+    private TextArea answerBox;
 
     /**
      * Loads the data of question user and room into controller as well as sets the date,
@@ -48,61 +59,35 @@ public class ModQuestionController {
      */
     @FXML
     public void loadData(Question question, User user, Room room) {
+        //Shows the mark as answer option only if the question isn't already marked as answer
+        if (question.getStatus().equals(Question.QuestionStatus.ANSWERED)) {
+            markAsAnsweredOption.setVisible(false);
+        } else {
+            markAsAnsweredOption.setVisible(true);
+        }
         this.room = room;
         this.user = user;
         this.question = question;
-        date.setText(question.getTimeCreated().toString());
+        this.answer = question.getAnswer();
+
+        //Adds the answer to the answerBox only if question is answered
+        if (answer != "") {
+            answerBox.setText(answer);
+            answerOption.setText("Edit Answer");
+        } else {
+            answerOption.setText("Answer");
+            answerBox.setText("Write answer here:");
+
+        }
+
+        String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
+        date.setText(simplifiedDate);
+
+        username.setText(" " + question.getAuthor().getUsername());
         questionText.setText(question.getText());
         upvoteNumber.setText(Integer.toString(question.getUpvotes()));
-
-        checkAlreadyUpvoted(user, question);
-    }
-
-    /**
-     * Takes a question and increases/decreases the votes,
-     * depending on the user interaction with the upvoting button.
-     * Turns the button grey when upvoted and blue when decreased.
-     */
-    @FXML
-    private void upvote() {
-        if (upvoted) {
-            QuestionViewCommunication.downvote(question.getId());
-
-            upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) - 1));
-            upvoted = !upvoted;
-            upvoteButton.setStyle("-fx-text-fill: #00A6D6");
-
-        } else {
-            QuestionViewCommunication.upvote(question.getId());
-
-            upvoteNumber.setText(String.valueOf(Integer.parseInt(upvoteNumber.getText()) + 1));
-            upvoted = !upvoted;
-            upvoteButton.setStyle("-fx-text-fill: #808080");
-        }
-    }
-
-
-    /**
-     * Checks if the user already upvoted the question, and if the case the upvote
-     * button turns grey and upvoted is true.
-     *
-     * @param user the User entity.
-     * @param question the Question entity.
-     */
-    @FXML
-    private void checkAlreadyUpvoted(User user, Question question) {
-        //        Set<Question> upvotedQuestions = user.getQuestionsUpvoted();
-        //        if (upvotedQuestions.contains(question)) {
-        //            upvoted = true;
-        //            upvoteButton.setStyle("-fx-text-fill: #808080");
-        //        }
-    }
-
-    /**
-     * Sets the question as spam in backend.
-     */
-    public void setAsSpam() {
-        QuestionViewCommunication.setSpam(question.getId());
+        modified = false;
+        hasPressedOption = false;
     }
 
     /**
@@ -110,6 +95,7 @@ public class ModQuestionController {
      */
     public void questionAnswered() {
         QuestionViewCommunication.modMarkAsAnswer(question.getId());
+        markAsAnsweredOption.setVisible(false);
     }
 
 
@@ -119,41 +105,115 @@ public class ModQuestionController {
      * Lastly the questionText is made uneditable again.
      */
     public void edit() {
+        modified = true;
+        hasPressedOption = true;
         questionText.setEditable(true);
+        questionText.requestFocus();
         questionText.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
-                    questionText.setText(questionText.getText().replaceAll("\n", ""));
+                    questionText.setText(questionText.getText().replaceAll("\n", " "));
+
+                    hasPressedOption = false;
+                    modified = false;
+                    StudentHelper studentHelper = new StudentHelper(user.getUsername(), "");
+
+                    QuestionHelper questionHelper = new QuestionHelper(
+                            questionText.getText(), studentHelper);
+
                     questionText.setEditable(false);
-                    try {
-                        QuestionViewCommunication
-                                .editText(question.getId(), questionText.getText());
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+
+                    QuestionViewCommunication
+                            .setText(question.getId(), questionHelper);
                 }
             }
 
         });
 
+
+    }
+
+
+    /**
+     * Getter for modified.
+     *
+     * @return modified
+     */
+    public boolean getModified() {
+        return modified;
     }
 
     /**
      * Bans the user in the backend.
      */
     public void banUser() {
+        QuestionViewCommunication.ban(room.getId(), user.getId());
+
     }
 
     /**
      * Allow answering of question.
      */
     public void answer() {
+
+        hasPressedOption = true;
+        modified = true;
+
+        answerBox.setEditable(true);
+        if (answerBox.getText().equals("Write answer here:")) {
+            answerBox.setText("");
+        }
+        answerBox.requestFocus();
+        answerOption.setText("Edit Answer");
+
+        answerBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    answerBox.setEditable(false);
+                    answerBox.setText(answerBox.getText().replaceAll("\n", " "));
+
+                    hasPressedOption = false;
+                    modified = false;
+
+                    answer = answerBox.getText();
+
+                    question.setAnswer(answer);
+
+                    StudentHelper studentHelper = new StudentHelper(user.getUsername(), "");
+
+                    QuestionHelper questionHelper = new QuestionHelper(
+                            answerBox.getText(), studentHelper);
+
+                    QuestionViewCommunication.setAnswer(question.getId(), questionHelper);
+
+                }
+            }
+
+        });
     }
 
     /**
      * Deletes the marked question.
      */
     public void deleteQuestion() {
+        QuestionViewCommunication.delete(room.getId(), question.getId());
+    }
+
+    /**
+     * Marks questionView as modified when options is clicked.
+     */
+    public void optionsClicked() {
+        modified = true;
+    }
+
+    /**
+     * Marks questionView as not modified when options hides.
+     */
+    public void optionsHidden() {
+        if (!hasPressedOption) {
+            modified = false;
+        }
     }
 }

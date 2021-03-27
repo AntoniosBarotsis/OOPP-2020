@@ -2,7 +2,9 @@ package nl.tudelft.oopp.demo.controllers.mainmenu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -10,17 +12,23 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.MenuButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
+import nl.tudelft.oopp.demo.controllers.questions.ModQuestionController;
+import nl.tudelft.oopp.demo.controllers.questions.SimpleQuestionController;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
@@ -28,18 +36,37 @@ import nl.tudelft.oopp.demo.data.User;
 public class MainModController {
 
     private boolean filterAnswered;
+    private boolean enableSimpleView;
     private List<Question> questionData;
+    private static List<FXMLLoader> loaderList;
     private Room room;
     private User user;
+    private int refreshRate;
+    private Timeline timelineRefresh;
+    private boolean isSettingsOpen;
 
     @FXML
-    private ListView<String> questionList;
+    private ListView<AnchorPane> questionList;
     @FXML
     private Text labelSlow;
     @FXML
     private Text labelFast;
     @FXML
+    private Text labelNormal;
+    @FXML
     private Button buttonAnswered;
+    @FXML
+    private Button buttonSimple;
+    @FXML
+    private Button buttonStartEnd;
+    @FXML
+    private Button buttonShowPolls;
+    @FXML
+    private Button buttonMakePolls;
+    @FXML
+    private Button buttonSettings;
+    @FXML
+    private MenuButton buttonExport;
 
     /**
      * Injects data from previous scene into current MainMenu.
@@ -47,15 +74,25 @@ public class MainModController {
      * @param user current user
      */
     public void loadData(Room room, User user) {
+        // Initialize refresh rate of 0.
+        refreshRate = 0;
         filterAnswered = false;
+        enableSimpleView = false;
+        isSettingsOpen = false;
+        loaderList = new ArrayList<>();
         fetchData(room, user);
 
-        // Automatically fetch data every 5 seconds.
+        // Check for new refresh rate every 5 seconds.
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(5), e -> fetchData(this.room, this.user))
+                new KeyFrame(Duration.seconds(5), e -> repeatFetch(this.room, this.user))
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+
+        // Only lecturer should be able to start/end a lecture.
+        if (!user.getUserType().equals(User.UserType.LECTURER)) {
+            buttonStartEnd.setVisible(false);
+        }
     }
 
     /**
@@ -68,9 +105,15 @@ public class MainModController {
         this.room = MainModCommunication.getRoom(room.getId());
         this.user = user;
 
+        // Changing "Start/End lecture" text is only required if user is lecturer.
+        if (user.getUserType().equals(User.UserType.LECTURER)) {
+            changeOngoingLecture();
+        }
+
         // Set pace labels using the data fetched from server.
         labelSlow.setText(String.valueOf(this.room.getTooSlow()));
         labelFast.setText(String.valueOf(this.room.getTooFast()));
+        labelNormal.setText(String.valueOf(this.room.getNormalSpeed()));
 
         // Fetch questions from database and load them into the ListView.
         this.questionData = MainModCommunication.getQuestions(this.room.getId());
@@ -83,46 +126,186 @@ public class MainModController {
     }
 
     /**
+     * Initializes data to be fetched with a certain delay.
+     * @param room current room
+     * @param user current user
+     */
+    protected void repeatFetch(Room room, User user) {
+        // Check if the refresh rate for questions has changed.
+        if (room.getSettings().getModRefreshRate() != refreshRate) {
+            // Stop the previous timeline.
+            if (timelineRefresh != null) {
+                timelineRefresh.stop();
+            }
+
+            // Update the refresh rate.
+            refreshRate = room.getSettings().getModRefreshRate();
+
+            // Initialize a new timeline with new refresh rate.
+            timelineRefresh = new Timeline(
+                    new KeyFrame(Duration.seconds(refreshRate), e -> fetchData(room, user))
+            );
+            timelineRefresh.setCycleCount(Animation.INDEFINITE);
+            timelineRefresh.play();
+        }
+    }
+
+    /**
      * Populates ListView with Questions data.
      */
     protected void populateListView() {
+        // Check if any of the questions are being modified.
+        for (FXMLLoader loader : loaderList) {
+            if (loader.getController() instanceof ModQuestionController) {
+                if (((ModQuestionController) loader.getController()).getModified()) {
+                    // Stop population of questions if some is being modified.
+                    return;
+                }
+            }
+        }
+        loaderList = new ArrayList<>();
+
         questionList.getItems().clear();
         for (Question question : questionData) {
-            /*
-            TODO: questionList should be loaded with FXML panels instead of string.
-             */
-            boolean answered = question.getStatus().equals(Question.QuestionStatus.ANSWERED);
-            if (!filterAnswered && !answered) {
-                questionList.getItems().add(question.getText());
-            } else if (filterAnswered && answered) {
-                questionList.getItems().add(question.getText());
+            boolean isAnswered = question.getStatus().equals(Question.QuestionStatus.ANSWERED);
+            if (enableSimpleView) {
+                if (!filterAnswered && !isAnswered) {
+                    questionList.getItems().add(loadSimpleQuestionView(question));
+                } else if (filterAnswered && isAnswered) {
+                    questionList.getItems().add(loadSimpleQuestionView(question));
+                }
+            } else {
+                if (!filterAnswered && !isAnswered) {
+                    questionList.getItems().add(loadModQuestionView(question));
+                } else if (filterAnswered && isAnswered) {
+                    questionList.getItems().add(loadModQuestionView(question));
+                }
             }
         }
     }
 
     /**
-     * Handles button "Links" clicks.
+     * Loads a ModQuestionView.
+     * @param question question to be injected
+     * @return anchorPane with injected question
+     */
+    protected AnchorPane loadModQuestionView(Question question) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/questionView/modQuestionView.fxml"));
+        loaderList.add(loader);
+        try {
+            AnchorPane pane = loader.load();
+            ModQuestionController controller = loader.getController();
+            controller.loadData(question, user, room);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new AnchorPane();
+    }
+
+    /**
+     * Loads a SimpleQuestionView.
+     * @param question question to be injected
+     * @return anchorPane with injected question
+     */
+    protected AnchorPane loadSimpleQuestionView(Question question) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/questionView/simplisticView.fxml"));
+        loaderList.add(loader);
+        try {
+            AnchorPane pane = loader.load();
+            SimpleQuestionController controller = loader.getController();
+            controller.loadData(question, user, room);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new AnchorPane();
+    }
+
+    /**
+     * Handles button "Settings" clicks.
      */
     @FXML
-    public void buttonLinksClicked() {
-        String studentCode = "Code for students: "
-                + MainModCommunication.getStudentPassword(room.getId()) + "\n";
-        String moderatorCode = "Code for moderators: "
-                + MainModCommunication.getAdminPassword(room.getId()) + "\n";
+    public void buttonSettingsClicked() throws IOException {
+        // Check if Settings is open.
+        if (isSettingsOpen) {
+            return;
+        }
 
-        // Create custom alert with copy-pastable text.
-        TextArea textArea = new TextArea(studentCode + moderatorCode);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-        GridPane gridPane = new GridPane();
-        gridPane.setMaxWidth(Double.MAX_VALUE);
-        gridPane.add(textArea, 0, 0);
+        // Set Settings window as open.
+        isSettingsOpen = true;
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Room codes");
-        alert.setHeaderText(null);
-        alert.getDialogPane().setContent(gridPane);
-        alert.showAndWait();
+        // Initialize a loader.
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/mainmenu/settings.fxml"));
+        Parent root = loader.load();
+        SettingsController controller = loader.getController();
+
+        // Inject the data.
+        controller.loadData(room, user);
+
+        // Assign options to loader.
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.setOnCloseRequest(e -> {
+            // Set Settings window as closed.
+            isSettingsOpen = false;
+        });
+        stage.show();
+    }
+
+    /**
+     * Handles button "Simple" clicks.
+     */
+    @FXML
+    public void buttonSimpleClicked() {
+        enableSimpleView = !enableSimpleView;
+        populateListView();
+        if (enableSimpleView) {
+            buttonSimple.setText("Moderator view");
+        } else {
+            buttonSimple.setText("Simple view");
+        }
+
+        buttonExport.setVisible(!buttonExport.isVisible());
+        setButtonVisibility(List.of(buttonSettings, buttonStartEnd,
+                buttonMakePolls, buttonShowPolls));
+    }
+
+    /**
+     * Inverts the visibility of the buttons in the list.
+     * @param buttons list of buttons
+     */
+    private static void setButtonVisibility(List<Button> buttons) {
+        for (Button button : buttons) {
+            button.setVisible(!button.isVisible());
+        }
+    }
+
+    /**
+     * Handles button "Start lecture" clicks.
+     */
+    @FXML
+    public void buttonStartEndClicked() {
+        room.setOngoing(!room.isOngoing());
+        MainModCommunication.setOngoingLecture(room.getId(), room.isOngoing(), user.getId());
+        changeOngoingLecture();
+    }
+
+    /**
+     * Inverts "Start/End lecture" button text.
+     */
+    public void changeOngoingLecture() {
+        if (room.isOngoing()) {
+            buttonStartEnd.setText("End lecture");
+        } else {
+            buttonStartEnd.setText("Start lecture");
+        }
     }
 
     /**
@@ -190,7 +373,9 @@ public class MainModController {
      */
     @FXML
     public void exportLogClicked() {
-        //TODO: The MenuItem should export the room log.
+        String title = "room log";
+        String data = MainModCommunication.getRoomLog(this.room.getId());
+        directoryChooser(title, data);
     }
 
     /**

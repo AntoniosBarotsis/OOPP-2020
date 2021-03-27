@@ -3,11 +3,7 @@ package nl.tudelft.oopp.demo.communication.mainmenu;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -16,6 +12,7 @@ import java.util.Date;
 
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
+import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 
 public abstract class MainMenuCommunication {
@@ -43,6 +40,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
         return gson.fromJson(response.body(), new TypeToken<ArrayList<Question>>(){}.getType());
     }
@@ -61,10 +59,13 @@ public abstract class MainMenuCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return new Room(0, "Error loading room", new Date(), false, -1, -1);
+            RoomConfig settings = new RoomConfig(1000, 1000, 600, 600);
+            return new Room(0, "Error loading room", new Date(), false, -1,
+                    -1, -1, false, settings);
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
         return gson.fromJson(response.body(), Room.class);
     }
@@ -85,6 +86,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
         return response.body();
     }
@@ -108,6 +110,7 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
     }
 
@@ -133,24 +136,36 @@ public abstract class MainMenuCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
     }
 
     /**
-     * Fetches IP from endpoint.
-     * @return ip of user
+     * Sends a PUT request to server.
+     * @param url endpoint of request
+     * @param roomConfig settings of room
+     * @return status code or exception message
      */
-    public static String getIp() {
-        String ip = "Error fetching IP!";
+    public static String sendPutRequestRoomConfig(String url, RoomConfig roomConfig) {
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(roomConfig)))
+                .build();
 
+        HttpResponse<String> response = null;
         try {
-            // Get the public IP address of the user.
-            ip = new BufferedReader(new InputStreamReader(
-                    new URL("http://checkip.amazonaws.com").openStream())).readLine();
-        } catch (IOException e) {
-            System.out.println(e);
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
 
-        return ip;
+        return String.valueOf(response.statusCode());
     }
 }

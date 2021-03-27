@@ -4,7 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
+import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
@@ -67,5 +71,112 @@ public class UserService {
         objMapper.registerModule(module);
 
         return objMapper.writeValueAsString(users);
+    }
+
+    /**
+     * Adds questionId to the ids of question user with userId upvoted,
+     * if he did not upvote it before.
+     *
+     * @param userId the user id
+     * @param questionId the question id
+     */
+    public void addUpvotedQuestion(Long userId, Long questionId) {
+        HashSet<Question> set = userRepository.getUpvotedQuestion(userId);
+        boolean contains = false;
+
+        for (Question q: set) {
+            if (q.getId() == questionId) {
+                contains = true;
+            }
+        }
+        if (!contains) {
+            userRepository.addUpvotedQuestion(userId, questionId);
+        }
+    }
+
+    /**
+     * Removes questionId from the ids of questions user with userId upvoted,
+     * if user upvoted the question before.
+     *
+     * @param userId the user id
+     * @param questionId the question id
+     */
+    public void removeUpvotedQuestion(Long userId, Long questionId) {
+        HashSet<Question> set = userRepository.getUpvotedQuestion(userId);
+        boolean contains = false;
+
+        for (Question q: set) {
+            if (q.getId() == questionId) {
+                contains = true;
+            }
+        }
+        if (contains) {
+            userRepository.removeUpvotedQuestion(userId, questionId);
+        }
+
+    }
+
+
+    /**
+     * Gets the set of questions user with userId upvoted.
+     *
+     * @param userId the user id
+     */
+    public HashSet<Question> getUpvotedQuestion(Long userId) {
+        return userRepository.getUpvotedQuestion(userId);
+    }
+
+    /**
+     * Get all students.
+     *
+     * @return json representation of all students
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String findAllStudents() throws JsonProcessingException {
+        return mapUser(userRepository.findAllStudents());
+    }
+
+    /**
+     * Get all elevated users.
+     *
+     * @return json representation of all elevated users
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String findAllElevatedUsers() throws JsonProcessingException {
+        return mapUser(userRepository.findAllElevateUsers());
+    }
+
+    /**
+     * Get an elevated user using their id.
+     *
+     * @param userId the user's id
+     * @return the elevated user
+     */
+    public User getElevated(long userId) {
+        User returnUser = null;
+        for (User user : userRepository.findAllElevateUsers()) {
+            if (user.getId() == userId) {
+                returnUser = user;
+                break;
+            }
+        }
+        return returnUser;
+    }
+
+    /**
+     * Get a student using their id.
+     *
+     * @param userId the user's id
+     * @return the student
+     */
+    public User getStudent(long userId) {
+        User returnUser = null;
+        for (User user : userRepository.findAllStudents()) {
+            if (user.getId() == userId) {
+                returnUser = user;
+                break;
+            }
+        }
+        return returnUser;
     }
 }

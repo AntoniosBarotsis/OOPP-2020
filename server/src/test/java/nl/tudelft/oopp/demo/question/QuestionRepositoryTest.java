@@ -131,7 +131,7 @@ class QuestionRepositoryTest {
 
     @Test
     void getTime() {
-        assertEquals(question1.getTimeCreated(), repository.getTime(id1));
+        assertEquals(question1.getTimeCreated(), repository.getDate(id1));
     }
 
     @Test

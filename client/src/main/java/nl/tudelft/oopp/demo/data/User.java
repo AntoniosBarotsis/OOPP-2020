@@ -93,6 +93,24 @@ public class User {
     }
 
     /**
+     * Adds a question id to questionsUpvoted.
+     *
+     * @param questionId the question id
+     */
+    public void addQuestionUpvoted(Long questionId) {
+        questionsUpvoted.add(questionId);
+    }
+
+    /**
+     * Removes a question id from questionsUpvoted.
+     *
+     * @param questionId the question id
+     */
+    public void removeQuestionUpvoted(Long questionId) {
+        questionsUpvoted.remove(questionId);
+    }
+
+    /**
      * Enum for type of user.
      */
     public enum UserType {

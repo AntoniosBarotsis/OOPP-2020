@@ -1,20 +1,11 @@
 package nl.tudelft.oopp.demo.communication.mainmenu;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
 class MainModCommunicationTest {
-
-    @Test
-    void getStudentPassword() {
-        assertNotNull(MainModCommunication.getStudentPassword(1));
-    }
-
-    @Test
-    void getAdminPassword() {
-        assertNotNull(MainModCommunication.getAdminPassword(1));
-    }
 
     @Test
     void getAllQuestions() {
@@ -29,5 +20,15 @@ class MainModCommunicationTest {
     @Test
     void getAnsweredQuestions() {
         assertNotNull(MainModCommunication.getAnsweredQuestions(1));
+    }
+
+    @Test
+    void getRoomLog() {
+        assertNotNull(MainModCommunication.getRoomLog(1));
+    }
+
+    @Test
+    void setOngoingLecture() {
+        assertDoesNotThrow(() -> MainModCommunication.setOngoingLecture(1, false, 1));
     }
 }

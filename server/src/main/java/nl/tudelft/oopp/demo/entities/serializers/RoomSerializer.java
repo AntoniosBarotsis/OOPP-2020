@@ -20,7 +20,7 @@ public class RoomSerializer extends StdSerializer<Room> {
     @Override
     public void serialize(Room value, JsonGenerator gen, SerializerProvider provider)
         throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         gen.writeStartObject();
         gen.writeNumberField("id", value.getId());
@@ -29,6 +29,19 @@ public class RoomSerializer extends StdSerializer<Room> {
         gen.writeBooleanField("repeatingLecture", value.isRepeatingLecture());
         gen.writeNumberField("tooFast", value.getTooFast());
         gen.writeNumberField("tooSlow", value.getTooSlow());
+        gen.writeNumberField("normalSpeed", value.getNormalSpeed());
+        gen.writeBooleanField("isOngoing", value.isOngoing());
+
+        gen.writeFieldName("roomConfig");
+        gen.writeStartObject();
+        gen.writeNumberField("studentRefreshRate", value.getRoomConfig().getStudentRefreshRate());
+        gen.writeNumberField("modRefreshRate", value.getRoomConfig().getModRefreshRate());
+        gen.writeNumberField("questionCooldown", value.getRoomConfig().getQuestionCooldown());
+        gen.writeNumberField("paceCooldown", value.getRoomConfig().getPaceCooldown());
+        gen.writeEndObject();
+
+        gen.writeNumberField("admin_id", value.getAdmin());
+        gen.writeStringField("normal_password", value.getNormalPassword());
         gen.writeEndObject();
     }
 }

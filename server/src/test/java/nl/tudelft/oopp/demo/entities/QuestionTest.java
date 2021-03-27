@@ -49,11 +49,9 @@ class QuestionTest {
     @Test
     @DirtiesContext(methodMode = BEFORE_METHOD)
     void exportToJson() throws JsonProcessingException {
-        assertThat(q1.exportToJson()).isEqualTo("{\"id\":1,\"text\":\"Question text\",\"author\":"
-            + "{\"id\":1,\"username\":\"Admin\",\"questionsAsked\":[],\"questionsUpvoted\":[],"
-            + "\"type\":\"ADMIN\"},\"upvotes\":0,\"score\":0,\"timeCreated\":"
-            + q1.getTimeCreated().getTime() + ",\"" + "status\":\"OPEN\",\"answer\":null,\""
-            + "answered\"" + ":false}");
+        assertThat(q1.exportToJson()).isEqualTo("{\"id\":1,\"text\":\"Question text\",\"answer"
+            + "\":null,\"upvotes\":0,\"score\":0,\"timeCreated\":\"" + q1.getTimeCreated()
+            + "\",\"QuestionStatus\":\"OPEN\",\"author\":{\"id\":1,\"username\":\"Admin\"}}");
     }
 
     @Test
@@ -65,11 +63,11 @@ class QuestionTest {
 
     @Test
     void statusToFactor() {
-        assertThat(q1.statusToFactor()).isEqualTo(0);
+        assertThat(q1.statusToString()).isEqualTo("OPEN");
         q1.setStatus(Question.QuestionStatus.ANSWERED);
-        assertThat(q1.statusToFactor()).isEqualTo(1);
+        assertThat(q1.statusToString()).isEqualTo("ANSWERED");
         q1.setStatus(Question.QuestionStatus.SPAM);
-        assertThat(q1.statusToFactor()).isEqualTo(2);
+        assertThat(q1.statusToString()).isEqualTo("SPAM");
     }
 
     @Test
