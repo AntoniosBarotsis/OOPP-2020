@@ -1,8 +1,11 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.List;
 import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Poll;
+import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +39,7 @@ public class RoomControllerV1 {
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping
-    public String findAll() throws JsonProcessingException {
+    public List<Room> findAll() throws JsonProcessingException {
         return roomService.findAll();
     }
 
@@ -48,7 +51,7 @@ public class RoomControllerV1 {
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping("{id}")
-    public String getOne(@PathVariable long id) throws JsonProcessingException {
+    public Room getOne(@PathVariable long id) throws JsonProcessingException {
         return roomService.getOne(id);
     }
 
@@ -85,7 +88,7 @@ public class RoomControllerV1 {
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping("questions/{roomId}")
-    public String findAllQuestions(@PathVariable long  roomId) throws JsonProcessingException {
+    public Set<Question> findAllQuestions(@PathVariable long  roomId) throws JsonProcessingException {
         return roomService.findAllQuestions(roomId);
     }
 
