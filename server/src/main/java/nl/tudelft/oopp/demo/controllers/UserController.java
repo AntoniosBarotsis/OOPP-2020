@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-
 import java.util.HashSet;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +29,7 @@ public class UserController {
     /**
      * Returns a list of all users.
      *
-     * @return the string
+     * @return the list
      */
     @GetMapping
     public List<User> findAll() {
@@ -91,7 +90,7 @@ public class UserController {
     /**
      * Find all students string.
      *
-     * @return the string
+     * @return the list
      */
     @GetMapping(value = "findAllStudents")
     public List<User> findAllStudents() {
@@ -101,7 +100,7 @@ public class UserController {
     /**
      * Returns all elevated users.
      *
-     * @return the string
+     * @return the list
      */
     @GetMapping(value = "findAllElevatedUsers")
     public List<User> findAllElevatedUsers() {

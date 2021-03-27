@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
@@ -46,11 +45,9 @@ public class RoomService {
      * Returns a list of all rooms.
      *
      * @return the list
-     * @throws JsonProcessingException the json processing exception
      */
-    public List<Room> findAll() throws JsonProcessingException {
+    public List<Room> findAll() {
         return roomRepository.findAll();
-//        return mapRoom(roomRepository.findAll());
     }
 
     /**
@@ -58,9 +55,8 @@ public class RoomService {
      *
      * @param id the id
      * @return the one
-     * @throws JsonProcessingException the json processing exception
      */
-    public Room getOne(long id) throws JsonProcessingException {
+    public Room getOne(long id) {
         ObjectMapper objMapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addSerializer(Room.class, new RoomSerializer());
@@ -100,9 +96,8 @@ public class RoomService {
      *
      * @param roomId the room id
      * @return the set
-     * @throws JsonProcessingException the json processing exception
      */
-    public Set<Question> findAllQuestions(long roomId) throws JsonProcessingException {
+    public Set<Question> findAllQuestions(long roomId) {
         return roomRepository.findAllQuestions(roomId);
     }
 
@@ -241,9 +236,8 @@ public class RoomService {
      * @param roomId the room id
      * @param ip     the ip
      * @return the log collection
-     * @throws JsonProcessingException the json processing exception
      */
-    public LogCollection exportLog(long roomId, String ip) throws JsonProcessingException {
+    public LogCollection exportLog(long roomId, String ip) {
         if (isNotAuthorized(roomId, ip)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }

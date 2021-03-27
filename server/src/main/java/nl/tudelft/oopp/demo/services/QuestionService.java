@@ -1,14 +1,9 @@
 package nl.tudelft.oopp.demo.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +15,6 @@ import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.log.LogQuestion;
-import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
@@ -329,7 +323,7 @@ public class QuestionService {
      * Exports a single question in JSON format.
      *
      * @param questionId the question id
-     * @return the string
+     * @return the question
      */
     public Question export(long questionId) {
         return questionRepository.findById(questionId).get();
@@ -339,7 +333,7 @@ public class QuestionService {
      * Exports all questions from a given room in JSON format.
      *
      * @param roomId the room id
-     * @return the string
+     * @return the set
      */
     public Set<Question> exportAll(long roomId) {
         return roomRepository.findAllQuestions(roomId);
@@ -350,7 +344,7 @@ public class QuestionService {
      *
      * @param roomId - the room id
      * @param amount - the amount of questions
-     * @return the string
+     * @return the list
      */
     public List<Question> exportTop(long roomId, int amount) {
         if (amount < 1) {
@@ -369,7 +363,7 @@ public class QuestionService {
      * Export answered questions string.
      *
      * @param roomId the room id
-     * @return the string
+     * @return the list
      */
     public List<Question> exportAnswered(long roomId) {
         return roomRepository

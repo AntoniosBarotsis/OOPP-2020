@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Poll;
@@ -36,10 +35,9 @@ public class RoomControllerV1 {
      * Returns a list of all rooms.
      *
      * @return the list
-     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping
-    public List<Room> findAll() throws JsonProcessingException {
+    public List<Room> findAll() {
         return roomService.findAll();
     }
 
@@ -48,10 +46,9 @@ public class RoomControllerV1 {
      *
      * @param id the id
      * @return the one
-     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping("{id}")
-    public Room getOne(@PathVariable long id) throws JsonProcessingException {
+    public Room getOne(@PathVariable long id) {
         return roomService.getOne(id);
     }
 
@@ -85,10 +82,9 @@ public class RoomControllerV1 {
      *
      * @param roomId the room id
      * @return the set
-     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping("questions/{roomId}")
-    public Set<Question> findAllQuestions(@PathVariable long  roomId) throws JsonProcessingException {
+    public Set<Question> findAllQuestions(@PathVariable long  roomId) {
         return roomService.findAllQuestions(roomId);
     }
 

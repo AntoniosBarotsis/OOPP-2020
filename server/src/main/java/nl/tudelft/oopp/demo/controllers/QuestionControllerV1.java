@@ -57,8 +57,9 @@ public class QuestionControllerV1 {
     /**
      * Sets the text of the question given its id and the new question text.
      *
-     * @param questionId the question id
+     * @param questionId  the question id
      * @param newQuestion the encoded value of text that will be set as question's text
+     * @throws UnsupportedEncodingException the unsupported encoding exception
      */
     @GetMapping("setText/{questionId}/{newQuestion}")
     public void setText(@PathVariable long questionId, @PathVariable String newQuestion)
@@ -129,7 +130,7 @@ public class QuestionControllerV1 {
      * Sets the score of the question.
      *
      * @param questionId the question id
-     * @param score the new score value of question
+     * @param score      the new score value of question
      */
     @GetMapping("setScore/{questionId}/{score}")
     public void setScore(@PathVariable long questionId, @PathVariable int score) {
@@ -175,7 +176,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     *Sets the value of status as ANSWERED.
+     * Sets the value of status as ANSWERED.
      *
      * @param questionId the question id
      */
@@ -186,7 +187,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     *Sets the value of status as ANSWERED unless score is greater than 5.
+     * Sets the value of status as ANSWERED unless score is greater than 5.
      *
      * @param questionId the question id
      */
@@ -197,10 +198,10 @@ public class QuestionControllerV1 {
 
 
     /**
-     *Sets the value of status as ANSWERED unless score is greater than maxScore.
+     * Sets the value of status as ANSWERED unless score is greater than maxScore.
      *
-     * @param maxScore the max score for checking weather to mark as answered
      * @param questionId the question id
+     * @param maxScore   the max score for checking weather to mark as answered
      */
     @GetMapping("studentSetAnswered/{questionId}/{maxScore}")
     public void userSetAnswered(@PathVariable long questionId, @PathVariable int maxScore) {
@@ -246,7 +247,7 @@ public class QuestionControllerV1 {
      * Sets the answer of question.
      *
      * @param questionId the question id
-     * @param answer the new answer of question
+     * @param answer     the new answer of question
      */
     @GetMapping("setAnswer/{questionId}/{answer}")
     public void setAnswer(@PathVariable long questionId, @PathVariable String answer) {

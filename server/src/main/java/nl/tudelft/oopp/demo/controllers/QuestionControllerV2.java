@@ -81,7 +81,7 @@ public class QuestionControllerV2 {
      * Export a specific question to JSON.
      *
      * @param questionId the question id
-     * @return the string
+     * @return the question
      */
     @GetMapping(value = "export")
     public Question export(@PathParam("questionId") long questionId) {
@@ -92,7 +92,7 @@ public class QuestionControllerV2 {
      * Export all questions from a room to JSON.
      *
      * @param roomId the room id
-     * @return the string
+     * @return the set
      */
     @GetMapping(value = "exportAll")
     public Set<Question> exportAll(@PathParam("roomId") long roomId) {
@@ -105,7 +105,7 @@ public class QuestionControllerV2 {
      *
      * @param roomId the room id
      * @param amount the amount
-     * @return the string
+     * @return the list
      */
     @GetMapping(value = "exportTop")
     public List<Question> exportTop(@PathParam("roomId") long roomId,
@@ -117,7 +117,7 @@ public class QuestionControllerV2 {
      * Export all answered questions from a room to JSON.
      *
      * @param roomId the room id
-     * @return the string
+     * @return the list
      */
     @GetMapping(value = "exportAnswered")
     public List<Question> exportAnswered(@PathParam("roomId") long roomId) {
@@ -210,7 +210,7 @@ public class QuestionControllerV2 {
      * Gets the score.
      *
      * @param questionId the question id
-     * @return the score value of question
+     * @return the score
      */
     @GetMapping(value = "getScore")
     public int getScore(@PathParam("questionId") long questionId) {
@@ -259,7 +259,7 @@ public class QuestionControllerV2 {
      * Gets the status of question.
      *
      * @param questionId the question id
-     * @return the status of question
+     * @return the status
      */
     @GetMapping(value = "getStatus")
     public Question.QuestionStatus getStatus(@PathParam("questionId") long questionId) {

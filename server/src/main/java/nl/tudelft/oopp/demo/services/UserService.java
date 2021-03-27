@@ -1,16 +1,10 @@
 package nl.tudelft.oopp.demo.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
-import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -51,7 +45,7 @@ public class UserService {
     /**
      * Finds all users.
      *
-     * @return the string
+     * @return the list
      */
     public List<User> findAll() {
         return userRepository.findAll();
