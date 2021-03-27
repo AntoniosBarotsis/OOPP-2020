@@ -30,17 +30,22 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * The type Data config. Adds some test data to the database.
+ */
 @Configuration
 public class DataConfig {
 
     /**
      * Command line runner command line runner.
      *
-     * @param quoteRepository    the quote repository
-     * @param userRepository     the user repository
-     * @param roomRepository     the room repository
-     * @param questionRepository the question repository
-     * @param pollRepository     the poll repository
+     * @param quoteRepository      the quote repository
+     * @param userRepository       the user repository
+     * @param roomRepository       the room repository
+     * @param questionRepository   the question repository
+     * @param pollRepository       the poll repository
+     * @param logEntryRepository   the log entry repository
+     * @param roomConfigRepository the room config repository
      * @return the command line runner
      */
     @Bean

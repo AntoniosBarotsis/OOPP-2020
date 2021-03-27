@@ -87,7 +87,8 @@ public class Room {
     /**
      * Instantiates a new Room. `startingDate` becomes the current date,
      * `bannedIps`, `moderators`, `questions` and `polls` get instantiated as empty HashSets,
-     * `tooFast` and `tooSlow` get initialized to 0. Lastly, passwords are generated.
+     * `tooFast`, `tooSlow` as well as `normalSpeed` get initialized to 0. Lastly, passwords and a
+     *  RoomConfig are generated. The admin's IP gets added to the moderator IPs
      *
      * @param title            the title
      * @param repeatingLecture the repeating lecture
@@ -115,7 +116,7 @@ public class Room {
     }
 
     /**
-     * Instantiates a new Room.
+     * Same as the previous constructor except the `roomConfig` is specified.
      *
      * @param title            the title
      * @param repeatingLecture the repeating lecture
@@ -167,5 +168,3 @@ public class Room {
         return admin.getId();
     }
 }
-
-// TODO Add a rate limit for the clients

@@ -20,7 +20,7 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.users.User;
 
 /**
- * The type Log entry.
+ * The type Log entry. This abstract class represents any loggable event that might occur.
  */
 @Data
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)

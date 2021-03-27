@@ -11,10 +11,9 @@ import javax.persistence.Table;
 import lombok.Data;
 
 /**
- * The type Room config.
+ * The RoomConfig class holds data that have to do with rate limiting.
  */
 @Data
-//@NoArgsConstructor
 @Entity(name = "RoomConfig")
 @Table(name = "room_config")
 public class RoomConfig {

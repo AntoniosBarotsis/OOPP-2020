@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ElevatedUser extends User {
     /**
-     * Instantiates a new Elevated user.
+     * Instantiates a new Elevated user as Admin.
      *
      * @param username the username
      * @param ip       the ip
@@ -27,7 +27,7 @@ public class ElevatedUser extends User {
     }
 
     /**
-     * Instantiates a new Elevated user.
+     * Instantiates a new Elevated user as a Moderator.
      *
      * @param username the username
      * @param ip       the ip

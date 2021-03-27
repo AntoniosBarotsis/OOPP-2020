@@ -11,17 +11,20 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
+/**
+ * The type H2 config. Configures the in memory H2 database.
+ */
 @Configuration
 @EnableJpaRepositories("nl.tudelft.oopp.demo")
 @PropertySource("application-dev.properties")
 @EnableTransactionManagement
 public class H2Config {
-
-    @Autowired
     private Environment environment;
 
     /**
      * Set up the connection to the database.
+     *
+     * @return the data source
      */
     @Bean
     public DataSource dataSource() {
