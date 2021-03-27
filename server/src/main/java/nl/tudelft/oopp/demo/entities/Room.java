@@ -25,6 +25,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * The Room class. Note that the set of banned IPs is not exposed to the client by default
@@ -37,14 +38,12 @@ import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 @JsonSerialize(using = RoomSerializer.class)
 public class Room {
     @Id
-    @SequenceGenerator(
-        name = "room_sequence",
-        sequenceName = "room_sequence",
-        allocationSize = 1
-    )
     @GeneratedValue(
-        strategy = SEQUENCE,
         generator = "room_sequence"
+    )
+    @GenericGenerator(
+        strategy = "nl.tudelft.oopp.demo.entities.RandomIdGenerator",
+        name = "room_sequence"
     )
     @Column(name = "id", updatable = false)
     private long id;

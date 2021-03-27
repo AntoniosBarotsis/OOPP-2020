@@ -18,6 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * The type User.
@@ -29,14 +30,12 @@ import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
 @JsonSerialize(using = UserSerializer.class)
 public abstract class User {
     @Id
-    @SequenceGenerator(
-        name = "user_sequence",
-        sequenceName = "user_sequence",
-        allocationSize = 1
-    )
     @GeneratedValue(
-        strategy = SEQUENCE,
         generator = "user_sequence"
+    )
+    @GenericGenerator(
+        strategy = "nl.tudelft.oopp.demo.entities.RandomIdGenerator",
+        name = "user_sequence"
     )
     @Column(name = "id")
     private long id;
