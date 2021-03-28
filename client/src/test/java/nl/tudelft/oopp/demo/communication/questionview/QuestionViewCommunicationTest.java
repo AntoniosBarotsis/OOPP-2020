@@ -1,9 +1,7 @@
-package nl.tudelft.oopp.demo.communication.questionView;
+package nl.tudelft.oopp.demo.communication.questionview;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-
-import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 import org.junit.jupiter.api.Test;
