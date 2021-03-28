@@ -1,6 +1,7 @@
 package nl.tudelft.oopp.demo.repositories;
 
 import java.util.HashSet;
+import java.util.List;
 import javax.transaction.Transactional;
 
 import nl.tudelft.oopp.demo.entities.Question;
@@ -24,7 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO user_questions_asked (user_id, questions_asked_id) VALUES (?1, ?2)",
-        nativeQuery = true)
+            nativeQuery = true)
     void addQuestionToUser(long userId, long questionsAskedId);
 
     /**
@@ -61,4 +62,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query(value = "SELECT u.questionsUpvoted FROM User u WHERE u.id = ?1")
     HashSet<Question> getUpvotedQuestion(Long userId);
+
+    @Transactional
+    @Query(value = "SELECT * FROM USER WHERE dtype = 'Student';", nativeQuery = true)
+    List<User> findAllStudents();
+
+    @Transactional
+    @Query(value = "SELECT * FROM USER WHERE dtype = 'ElevatedUser';", nativeQuery = true)
+    List<User> findAllElevateUsers();
 }

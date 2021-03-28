@@ -16,11 +16,15 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
+import nl.tudelft.oopp.demo.entities.log.LogQuestion;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
+import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
+import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
@@ -35,6 +39,7 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
+    private final LogEntryRepository logEntryRepository;
     private final UserService userService;
 
     /**
@@ -59,6 +64,12 @@ public class QuestionService {
         question.getAuthor().setId(question.getAuthor().getId());
         questionRepository.save(question);
         questionRepository.addQuestion(roomId, question.getId());
+
+        Room room = roomRepository.getOne(roomId);
+
+        LogQuestion logQuestion = new LogQuestion(room, (Student) question.getAuthor(),
+            question, question.getTimeCreated());
+        logEntryRepository.save(logQuestion);
 
         userRepository.addQuestionToUser(question.getAuthor().getId(), question.getId());
     }

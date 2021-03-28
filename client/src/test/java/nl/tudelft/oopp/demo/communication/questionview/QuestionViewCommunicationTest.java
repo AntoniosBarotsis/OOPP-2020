@@ -2,6 +2,9 @@ package nl.tudelft.oopp.demo.communication.questionview;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+
+import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
+import nl.tudelft.oopp.demo.data.User;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 import org.junit.jupiter.api.Test;
@@ -73,4 +76,7 @@ class QuestionViewCommunicationTest {
     void delete() {
         // assertDoesNotThrow(() -> QuestionViewCommunication.delete(1, 1));
     }
+
+
+    
 }

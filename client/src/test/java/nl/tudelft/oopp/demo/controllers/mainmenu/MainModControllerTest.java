@@ -16,13 +16,13 @@ class MainModControllerTest {
     }
 
     @Test
-    void buttonLinksClicked() {
+    void buttonSettingsClicked() {
         /* Manual test plan to be carried out when testing if everything works correctly.
-        Test plan for testing if buttonLinks works:
+        Test plan for testing if buttonSettings works:
         1. Launch the client application.
         2. Join a room.
-        3. Click on top-right button "Links".
-        4. An informational dialog should appear, which shows code for students and moderators.
+        3. Click on top-right button "Settings".
+        4. A new window with Settings should appear.
          */
     }
 
@@ -122,7 +122,16 @@ class MainModControllerTest {
 
     @Test
     void exportLogClicked() {
-        //To be implemented.
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if exporting the room log works:
+        1. Launch the client application.
+        2. Join a room.
+        3. Upon pressing MenuItem "Export room log", fileChooser window opens.
+        4. Pick a location and file name. You can pick existing text file to overwrite it.
+        5. Room log should get saved to chosen file.
+        6. All resources are closed when writing is finished.
+        7. User receives confirmation or error message when writing is finished.
+         */
     }
 
     /**
@@ -159,6 +168,14 @@ class MainModControllerTest {
      * See {@link #loadData()}.
      */
     @Test
+    void repeatFetch() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
     void populateListView() {
         // Since this method cannot be tested on it's own, follow the linked test plan.
     }
@@ -168,6 +185,14 @@ class MainModControllerTest {
      */
     @Test
     void loadModQuestionView() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void loadSimpleQuestionView() {
         // Since this method cannot be tested on it's own, follow the linked test plan.
     }
 
