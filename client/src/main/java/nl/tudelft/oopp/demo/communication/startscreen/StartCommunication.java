@@ -8,6 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import java.util.Date;
+import java.util.HashSet;
 
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.RoomConfig;
@@ -44,7 +45,9 @@ public class StartCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
-            return null;
+            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
+            return new Room(0, "Error loading room", new Date(),
+                    false, -1, -1, -1, false, roomConfig);
         }
         return gson.fromJson(response.body(), Room.class);
     }
@@ -75,6 +78,9 @@ public class StartCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
+            return new Room(0, "Error loading room", new Date(),
+                    false, -1, -1, -1, false, roomConfig);
         }
         return gson.fromJson(response.body(), Room.class);
     }
@@ -101,6 +107,8 @@ public class StartCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            return new User(0, "error", new HashSet<>(), new HashSet<>(),
+                    User.UserType.STUDENT);
         }
         return gson.fromJson(response.body(), User.class);
     }
@@ -125,6 +133,9 @@ public class StartCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
+            return new Room(0, "Error loading room", new Date(),
+                    false, -1, -1, -1, false, roomConfig);
         }
         return gson.fromJson(response.body(), Room.class);
     }
