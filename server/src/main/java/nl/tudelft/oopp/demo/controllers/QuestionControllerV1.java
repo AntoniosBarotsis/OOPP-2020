@@ -9,7 +9,6 @@ import nl.tudelft.oopp.demo.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +32,7 @@ public class QuestionControllerV1 {
     }
 
     /**
-     * Gets the entity question with id questionId.
+     * Gets a questiongiven its id.
      *
      * @param questionId the question id
      * @return Question entity with id questionId
@@ -45,7 +44,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     * Gets the text of the question.
+     * Gets the text of a question given its id.
      *
      * @param questionId the question id
      * @return a String of the text of the question
@@ -56,7 +55,7 @@ public class QuestionControllerV1 {
     }
 
     /**
-     * Sets the text of the question to be decoded newQuestion.
+     * Sets the text of the question given its id and the new question text.
      *
      * @param questionId the question id
      * @param newQuestion the encoded value of text that will be set as question's text
@@ -69,7 +68,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     * Gets the author.
+     * Gets the question's author given the id.
      *
      * @param questionId the question id
      * @return the author of the question
@@ -81,7 +80,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     * Increases the value of upvote by 1.
+     * Upvotes the question.
      *
      * @param questionId the question id
      */
@@ -92,7 +91,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     * Decreases the value of upvote by 1.
+     * Downvotes the question.
      *
      * @param questionId the question id
      */
@@ -103,7 +102,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     * Gets the number of upvotes.
+     * Gets the number of upvotes of the given question.
      *
      * @param questionId the question id
      * @return the value of upvotes
@@ -115,7 +114,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     * Gets the score.
+     * Gets the score of the given question.
      *
      * @param questionId the question id
      * @return the score value of question
@@ -127,7 +126,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     * Sets the score of question with value score.
+     * Sets the score of the question.
      *
      * @param questionId the question id
      * @param score the new score value of question
@@ -152,7 +151,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     * Gets the date.
+     * Gets the date a question was asked.
      *
      * @param questionId the question id
      * @return the question date
@@ -164,7 +163,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     * Gets the status of question.
+     * Gets the status of the question.
      *
      * @param questionId the question id
      * @return the status of question
@@ -244,7 +243,7 @@ public class QuestionControllerV1 {
 
 
     /**
-     * Sets the answer of question as answer.
+     * Sets the answer of question.
      *
      * @param questionId the question id
      * @param answer the new answer of question

@@ -8,16 +8,6 @@ import org.junit.jupiter.api.Test;
 class MainModCommunicationTest {
 
     @Test
-    void getStudentPassword() {
-        assertNotNull(MainModCommunication.getStudentPassword(1));
-    }
-
-    @Test
-    void getAdminPassword() {
-        assertNotNull(MainModCommunication.getAdminPassword(1));
-    }
-
-    @Test
     void getAllQuestions() {
         assertNotNull(MainModCommunication.getAllQuestions(1));
     }
@@ -30,6 +20,11 @@ class MainModCommunicationTest {
     @Test
     void getAnsweredQuestions() {
         assertNotNull(MainModCommunication.getAnsweredQuestions(1));
+    }
+
+    @Test
+    void getRoomLog() {
+        assertNotNull(MainModCommunication.getRoomLog(1));
     }
 
     @Test

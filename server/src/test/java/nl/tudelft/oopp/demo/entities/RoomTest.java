@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.repositories.PollRepository;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
+import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,8 @@ class RoomTest {
     private PollRepository pollRepository;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private RoomConfigRepository roomConfigRepository;
 
     private ElevatedUser u1;
     private ElevatedUser u2;
@@ -71,6 +74,10 @@ class RoomTest {
         r1.setPolls(Stream.of(p1)
             .collect(Collectors.toSet())
         );
+        RoomConfig roomConfig = new RoomConfig();
+        r1.setRoomConfig(roomConfig);
+
+        roomConfigRepository.save(roomConfig);
         roomRepository.save(r1);
     }
 
@@ -85,7 +92,8 @@ class RoomTest {
     @Test
     @DirtiesContext(methodMode = BEFORE_METHOD)
     void getId() {
-        assertThat(r1.getId()).isEqualTo(1L);
+        assertThat(r1.getId()).isNotNull();
+        assertThat(r1.getId()).isInstanceOf(Long.class);
     }
 
     @Test
@@ -283,7 +291,7 @@ class RoomTest {
         );
         assertThat(r1).isNotEqualTo(r2);
 
-        r2.setId(1);
+        r2.setId(r1.getId());
         assertThat(r1).isNotEqualTo(r2);
 
         r2.setNormalPassword(r1.getNormalPassword());
@@ -292,6 +300,9 @@ class RoomTest {
         assertThat(r1).isNotEqualTo(r2);
 
         r2.setStartingDate(r1.getStartingDate());
+        assertThat(r1).isNotEqualTo(r2);
+
+        r2.setRoomConfig(r1.getRoomConfig());
         assertThat(r1).isEqualTo(r2);
 
         assertThat(r1).isEqualTo(r1);
@@ -320,12 +331,18 @@ class RoomTest {
             pollToString += poll.toString();
         }
 
-        String str = "Room(id=1, title=Room Title, startingDate=" + r1.getStartingDate() + ", "
-            + "repeatingLecture=false, admin=1, moderators=[User(id=1, username=Admin, ip=ip, "
-            + "questionsAsked=[], questionsUpvoted=[], type=ADMIN)], bannedIps=[], questions=["
-            + "" + questionToString + "], polls=[" + pollToString + "], tooFast=0, tooSlow=0, "
-            + "normalSpeed=0, elevatedPassword=" + r1.getElevatedPassword() + ", "
-            + "normalPassword=" + r1.getNormalPassword() + ", isOngoing=" + false + ")";
+        String str = "Room(id=" + r1.getId() + ", title=Room Title, startingDate="
+            + r1.getStartingDate() + ", "
+            + "repeatingLecture=false, admin=" + u1.getId() + ", roomConfig=RoomConfig(id="
+            + r1.getRoomConfig().getId() + ", studentRefreshRate=5, "
+            + "modRefreshRate=5, questionCooldown=300, paceCooldown=300), moderators=[User(id="
+            + u1.getId() + ", "
+            + "username=Admin, ip=ip, "
+            + "questionsAsked=[], questionsUpvoted=[], " + "type=ADMIN)], bannedIps=[], "
+            + "questions=[" + "" + questionToString + "], polls=[" + pollToString
+            + "], tooFast=0, tooSlow=0, " + "normalSpeed=0, elevatedPassword="
+            + r1.getElevatedPassword() + ", " + "normalPassword=" + r1.getNormalPassword()
+            + ", isOngoing=" + false + ")";
 
         assertThat(str).isEqualTo(r1.toString());
     }

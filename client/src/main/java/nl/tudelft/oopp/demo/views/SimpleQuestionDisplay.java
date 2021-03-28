@@ -14,10 +14,9 @@ import javafx.stage.Stage;
 
 import nl.tudelft.oopp.demo.controllers.questions.SimpleQuestionController;
 import nl.tudelft.oopp.demo.data.Question;
-
 import nl.tudelft.oopp.demo.data.QuestionAuthor;
 import nl.tudelft.oopp.demo.data.Room;
-
+import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.User;
 
 public class SimpleQuestionDisplay extends Application {
@@ -31,12 +30,14 @@ public class SimpleQuestionDisplay extends Application {
         SimpleQuestionController controller = loader.getController();
         Question.QuestionStatus open = Question.QuestionStatus.OPEN;
         Date date = new Date();
-        Room room = new Room(1, "room", new Date(), false, 0, 0, 0, true);
+        RoomConfig settings = new RoomConfig(5, 5, 300, 300);
+        Room room = new Room(1, "room", new Date(), false, 0, 0,
+                0, true, settings);
         User user = new User(1, "Daniel", null, new HashSet<>(), User.UserType.MODERATOR);
         QuestionAuthor author = new QuestionAuthor(2, "Roy");
 
         Question question = new Question(1, "Hello",
-                 author,  0, 0, date, open,"Answer");
+                author,  0, 0, date, open,"Answer");
 
         controller.loadData(question, user, room);
 

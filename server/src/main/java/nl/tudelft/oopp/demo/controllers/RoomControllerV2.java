@@ -1,23 +1,30 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
+
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
+import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.RoomConfig;
+import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.RoomService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * The type Room controller.
+ * The second version of the Room controller.
  */
+
 @RestController("RoomV2")
 @RequestMapping("api/v2/rooms")
 @AllArgsConstructor
@@ -25,7 +32,7 @@ public class RoomControllerV2 {
     private final RoomService roomService;
 
     /**
-     * Find all list.
+     * Returns a list of all rooms.
      *
      * @return the list
      * @throws JsonProcessingException the json processing exception
@@ -36,10 +43,10 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Gets one.
+     * Gets the room that has the passed id.
      *
      * @param id the id
-     * @return the one
+     * @return the room
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "get", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,7 +55,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Gets public password.
+     * Gets a room's public password.
      *
      * @param roomId the room id
      * @return the public password
@@ -59,7 +66,8 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Gets private password.
+     * Gets a room's private password if the request comes from an ip registered as a moderator
+     * in said room.
      *
      * @param roomId  the room id
      * @param request the request
@@ -74,7 +82,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Find all questions set.
+     * Gets a room's list of questions.
      *
      * @param roomId the room id
      * @return the set
@@ -82,12 +90,12 @@ public class RoomControllerV2 {
      */
     @GetMapping(value = "questions", produces = MediaType.APPLICATION_JSON_VALUE)
     public String findAllQuestions(@PathParam("roomId") long roomId)
-        throws JsonProcessingException {
+            throws JsonProcessingException {
         return roomService.findAllQuestions(roomId);
     }
 
     /**
-     * Find all polls set.
+     * Gets a room's list of polls.
      *
      * @param roomId the room id
      * @return the set
@@ -98,7 +106,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Increment too fast.
+     * Increments the tooFast attribute of the room.
      *
      * @param roomId the room id
      */
@@ -108,7 +116,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Increment too fast.
+     * Decrements the too the tooFast attribute of the room.
      *
      * @param roomId the room id
      */
@@ -118,7 +126,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Increment too fast.
+     * Increment the tooSlow attribute of the room.
      *
      * @param roomId the room id
      */
@@ -128,7 +136,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Increment too fast.
+     * Decrement the tooSlow attribute of the room.
      *
      * @param roomId the room id
      */
@@ -138,7 +146,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Increment normal speed.
+     * Increment the normalSpeed attribute of the room.
      *
      * @param roomId the room id
      */
@@ -148,7 +156,7 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Decrement normal speed.
+     * Decrement the normalSpeed attribute of the room.
      *
      * @param roomId the room id
      */
@@ -172,25 +180,30 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Bans a user in the given room given the correct elevated password.
+     * Bans a user in the given room given the correct elevated password. Will throw an exception
+     * if the request's IP is not registered as a moderator in the room.
      *
      * @param roomId           the room id
+     * @param userId           the user id
      * @param elevatedPassword the elevated password
      * @param request          the request
      * @throws UnauthorizedException the unauthorized exception
      */
     @PutMapping("ban")
     public void ban(@PathParam("roomId") long roomId,
+                    @PathParam("userId") long userId,
                     @PathParam("elevatedPassword") String elevatedPassword,
                     HttpServletRequest request)
-        throws UnauthorizedException {
-        roomService.banUser(roomId, request.getRemoteAddr(), elevatedPassword);
+            throws UnauthorizedException {
+        roomService.banUser(roomId, userId, request.getRemoteAddr(), elevatedPassword);
     }
 
     /**
-     * Unbans a user in the given room given the correct elevated password.
+     * Unbans a user in the given room given the correct elevated password. Will throw an exception
+     * if the request's IP is not registered as a moderator in the room.
      *
      * @param roomId           the room id
+     * @param userId           the user id
      * @param elevatedPassword the elevated password
      * @param request          the request
      * @throws UnauthorizedException    the unauthorized exception
@@ -198,14 +211,15 @@ public class RoomControllerV2 {
      */
     @PutMapping("unban")
     public void unban(@PathParam("roomId") long roomId,
+                      @PathParam("userId") long userId,
                       @PathParam("elevatedPassword") String elevatedPassword,
                       HttpServletRequest request)
-        throws UnauthorizedException, InvalidPasswordException {
-        roomService.unbanUser(roomId, request.getRemoteAddr(), elevatedPassword);
+            throws UnauthorizedException, InvalidPasswordException {
+        roomService.unbanUser(roomId, userId, request.getRemoteAddr(), elevatedPassword);
     }
 
     /**
-     * Sets room to ongoing or not.
+     * Sets whether the room is ongoing or not.
      *
      * @param roomId    the room id
      * @param isOngoing the is ongoing
@@ -216,5 +230,91 @@ public class RoomControllerV2 {
                     @PathParam("isOngoing") boolean isOngoing,
                     @PathParam("userId") long userId) {
         roomService.setOngoing(roomId, isOngoing, userId);
+    }
+
+    /**
+     * Exports the action log. Requires the request's IP to be registered as a moderator in the
+     * room.
+     *
+     * @param roomId  the room id
+     * @param request the request
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    @GetMapping(value = "exportLog", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String exportLog(@PathParam("roomId") long roomId,
+                            HttpServletRequest request)
+            throws JsonProcessingException {
+        return roomService.exportLog(roomId, request.getRemoteAddr());
+    }
+
+    /**
+     * Sets the student refresh rate. Requires the request's IP to be registered as a moderator in
+     * the current room.
+     *
+     * @param roomId     the room id
+     * @param roomConfig the room config
+     * @param userId     the user id
+     */
+    @PutMapping("setConfig")
+    public void setConfig(@PathParam("roomId") long roomId,
+                          @RequestBody RoomConfig roomConfig,
+                          @PathParam("userId") long userId) {
+        roomService.setConfig(roomId, roomConfig, userId);
+    }
+
+    /**
+     * Creates a new room.
+     *
+     * @param username the admin's username
+     * @param title    the title of the room
+     * @param request  the request
+     * @return the newly created room
+     */
+    @PutMapping("create")
+    public Room createRoom(@PathParam("username") String username, @PathParam("title") String title,
+                           HttpServletRequest request) {
+        return roomService.createRoom(username, request.getRemoteAddr(), title);
+    }
+
+    /**
+     * Create a new user and have him join the room.
+     *
+     * @param password the room's password
+     * @param username the user's username
+     * @param request  the request
+     * @return the user
+     */
+    @PutMapping("join")
+    public User join(@PathParam("password") String password, @PathParam("username") String username,
+                     HttpServletRequest request) {
+        return roomService.join(password, username, request.getRemoteAddr());
+    }
+
+    /**
+     * Gets the room given it's password.
+     *
+     * @param password the room's password
+     * @return the room with that password
+     */
+    @GetMapping("getFromPass")
+    public Room getRoom(@PathParam("password") String password) {
+        return roomService.getRoom(password);
+    }
+
+    /**
+     * Schedule a new room.
+     *
+     * @param username the admin's username
+     * @param title    the title of the room
+     * @param date     the starting date/time for the room
+     * @param request  the request
+     * @return the newly created room
+     */
+    @PutMapping("schedule")
+    public Room scheduleRoom(@PathParam("username") String username,
+                             @PathParam("title") String title,
+                             @PathParam("date") long date, HttpServletRequest request) {
+        return roomService.scheduleRoom(username, request.getRemoteAddr(), title, date);
     }
 }

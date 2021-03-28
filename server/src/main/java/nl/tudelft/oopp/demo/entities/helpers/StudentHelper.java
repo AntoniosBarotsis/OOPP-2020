@@ -5,7 +5,8 @@ import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.users.Student;
 
 /**
- * Student helper class.
+ * Used for deserializing in the controllers. Only has the Student
+ * constructor fields as attributes.
  */
 @Data
 @NoArgsConstructor

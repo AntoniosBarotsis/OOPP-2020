@@ -6,7 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
+import nl.tudelft.oopp.demo.communication.mainmenu.SettingsCommunication;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 
 
@@ -231,7 +231,7 @@ public class QuestionViewCommunication {
      * @param userId the user id
      */
     public static void ban(long roomId, long userId) {
-        String elevatedPassword = MainModCommunication.getAdminPassword(roomId);
+        String elevatedPassword = SettingsCommunication.getAdminPassword(roomId);
         String url = "http://localhost:8080/api/v2/rooms/ban?";
         url = url + "userId=" + userId;
         url = url + "&elevatedPassword=" + elevatedPassword;
