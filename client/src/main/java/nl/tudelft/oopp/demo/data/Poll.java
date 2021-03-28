@@ -135,6 +135,9 @@ public class Poll {
         OPEN,
         /** Closed poll status.
          */
-        CLOSED
+        CLOSED,
+        /** Statistics poll status.
+         */
+        STATISTICS
     }
 }

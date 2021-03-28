@@ -27,17 +27,21 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
+import nl.tudelft.oopp.demo.controllers.polls.ModPollController;
 import nl.tudelft.oopp.demo.controllers.questions.ModQuestionController;
 import nl.tudelft.oopp.demo.controllers.questions.SimpleQuestionController;
+import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
 public class MainModController {
 
+    private boolean filterPolls;
     private boolean filterAnswered;
     private boolean enableSimpleView;
     private List<Question> questionData;
+    private List<Poll> pollData;
     private static List<FXMLLoader> loaderList;
     private Room room;
     private User user;
@@ -76,6 +80,7 @@ public class MainModController {
     public void loadData(Room room, User user) {
         // Initialize refresh rate of 0.
         refreshRate = 0;
+        filterPolls = false;
         filterAnswered = false;
         enableSimpleView = false;
         isSettingsOpen = false;
@@ -115,11 +120,17 @@ public class MainModController {
         labelFast.setText(String.valueOf(this.room.getTooFast()));
         labelNormal.setText(String.valueOf(this.room.getNormalSpeed()));
 
-        // Fetch questions from database and load them into the ListView.
+        // Fetch questions from database.
         this.questionData = MainModCommunication.getQuestions(this.room.getId());
+
+        // Fetch polls from database.
+        this.pollData = MainModCommunication.getPolls(this.room.getId());
 
         // Sort questions by score.
         questionData.sort(Comparator.comparing(Question::getScore).reversed());
+
+        // Sort polls by status.
+        pollData.sort(Comparator.comparing(Poll::getStatus));
 
         // Populate the ListView with the fetched data.
         populateListView();
@@ -151,9 +162,20 @@ public class MainModController {
     }
 
     /**
-     * Populates ListView with Questions data.
+     * Populates ListView with data.
      */
     protected void populateListView() {
+        if (filterPolls) {
+            loadPolls();
+        } else {
+            loadQuestions();
+        }
+    }
+
+    /**
+     * Populates ListView with Question data.
+     */
+    protected void loadQuestions() {
         // Check if any of the questions are being modified.
         for (FXMLLoader loader : loaderList) {
             if (loader.getController() instanceof ModQuestionController) {
@@ -181,6 +203,16 @@ public class MainModController {
                     questionList.getItems().add(loadModQuestionView(question));
                 }
             }
+        }
+    }
+
+    /**
+     * Populates ListView with Poll data.
+     */
+    protected void loadPolls() {
+        questionList.getItems().clear();
+        for (Poll poll : pollData) {
+            questionList.getItems().add(loadPollView(poll));
         }
     }
 
@@ -218,6 +250,29 @@ public class MainModController {
             AnchorPane pane = loader.load();
             SimpleQuestionController controller = loader.getController();
             controller.loadData(question, user, room);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new AnchorPane();
+    }
+
+    /**
+     * Loads a PollView for moderators.
+     * @param poll poll to be injected
+     * @return anchorPane with injected poll
+     */
+    protected AnchorPane loadPollView(Poll poll) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/pollView/pollView.fxml"));
+        loaderList.add(loader);
+        try {
+            ModPollController controller = new ModPollController();
+            controller.loadData(poll, user, room);
+
+            loader.setController(controller);
+            AnchorPane pane = loader.load();
             return pane;
         } catch (IOException e) {
             e.printStackTrace();
@@ -272,8 +327,13 @@ public class MainModController {
             buttonSimple.setText("Simple view");
         }
 
+        // Button should change visibility only for lecturers.
+        if (user.getUserType().equals(User.UserType.LECTURER)) {
+            buttonStartEnd.setVisible(!buttonStartEnd.isVisible());
+        }
+
         buttonExport.setVisible(!buttonExport.isVisible());
-        setButtonVisibility(List.of(buttonSettings, buttonStartEnd,
+        setButtonVisibility(List.of(buttonSettings,
                 buttonMakePolls, buttonShowPolls));
     }
 
@@ -317,11 +377,19 @@ public class MainModController {
     }
 
     /**
-     * Handles button "Previous polls" clicks.
+     * Handles button "Show polls" clicks.
      */
     @FXML
     public void buttonShowPollsClicked() {
-        //TODO: The button should show all previous polls in questionView
+        filterPolls = !filterPolls;
+        populateListView();
+        if (filterPolls) {
+            buttonShowPolls.setText("Show questions");
+            buttonAnswered.setDisable(true);
+        } else {
+            buttonShowPolls.setText("Show polls");
+            buttonAnswered.setDisable(false);
+        }
     }
 
     /**
