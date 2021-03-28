@@ -6,8 +6,6 @@ import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 import org.junit.jupiter.api.Test;
 
-
-
 class QuestionViewCommunicationTest {
     private final String url = "http://localhost:8080/api/v2/questions/";
 
