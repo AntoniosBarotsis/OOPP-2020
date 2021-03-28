@@ -73,4 +73,5 @@ class QuestionViewCommunicationTest {
     void delete() {
         // assertDoesNotThrow(() -> QuestionViewCommunication.delete(1, 1));
     }
+
 }
