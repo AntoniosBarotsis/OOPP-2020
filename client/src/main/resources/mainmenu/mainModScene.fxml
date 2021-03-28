@@ -23,7 +23,7 @@
     <top>
         <AnchorPane prefHeight="54.0" prefWidth="800.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="buttonShowPolls" layoutX="156.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#buttonShowPollsClicked" prefHeight="26.0" prefWidth="86.0" text="Show polls" textAlignment="CENTER" wrapText="true" />
+                <Button fx:id="buttonShowPolls" layoutX="156.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#buttonShowPollsClicked" prefHeight="26.0" prefWidth="112.0" text="Show polls" textAlignment="CENTER" wrapText="true" />
                 <Button fx:id="buttonAnswered" layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#buttonAnsweredClicked" prefWidth="136.0" text="Answered questions" textAlignment="CENTER" />
                 <Button fx:id="buttonSettings" layoutX="713.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#buttonSettingsClicked" text="Settings" />
                 <Text fill="WHITE" layoutX="337.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Too slow" />
