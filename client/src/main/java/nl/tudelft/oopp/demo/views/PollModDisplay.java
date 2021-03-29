@@ -1,19 +1,18 @@
 package nl.tudelft.oopp.demo.views;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.controllers.polls.AnswerPollController;
 import nl.tudelft.oopp.demo.controllers.polls.ModPollController;
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.User;
-
-import java.io.IOException;
-import java.util.*;
 
 public class PollModDisplay extends Application {
 
