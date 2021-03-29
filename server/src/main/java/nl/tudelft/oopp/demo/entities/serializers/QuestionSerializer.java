@@ -42,7 +42,7 @@ public class QuestionSerializer extends StdSerializer<Question> {
         gen.writeNumberField("score", value.getScore());
         gen.writeStringField("timeCreated", value.getTimeCreated().toString());
         gen.writeStringField("QuestionStatus", value.statusToString());
-        gen.writeBooleanField("isBeingAnswered", value.isBeingAnswered());
+        gen.writeBooleanField("BeingAnswered", value.isBeingAnswered());
 
         // Author
         gen.writeFieldName("author");

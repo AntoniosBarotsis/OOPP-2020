@@ -74,13 +74,16 @@ class QuestionViewCommunicationTest {
          //assertThrows(QuestionViewCommunication.ban(1, 1));
     }
 
+    /**
+     * check that the delete method doesn't throw an exception when called
+     */
     @Test
     void delete() {
         Room a = new Room(1, "Title", new Date(), true, 0, 0, 100, true,
                 new RoomConfig(2, 2,2, 2));
         Question b = new Question(1, "Question", new QuestionAuthor(1, "Author"), 0, 0, new Date(),
                 Question.QuestionStatus.OPEN, "", false);
-        assertDoesNotThrow(() -> QuestionViewCommunication.delete(1, 1));
+        assertDoesNotThrow(() -> QuestionViewCommunication.delete(a.getId(), b.getId()));
     }
 
 

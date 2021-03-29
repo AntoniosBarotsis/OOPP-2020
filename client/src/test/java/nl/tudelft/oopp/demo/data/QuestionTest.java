@@ -6,8 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionTest {
 
@@ -108,5 +107,11 @@ class QuestionTest {
     void setAnswer() {
         question.setAnswer("question answer here");
         assertEquals("question answer here", question.getAnswer());
+    }
+
+    @Test
+    void beingAnswered(){
+        question.setBeingAnswered(true);
+        assertTrue(question.getIsBeingAnswered() == true);
     }
 }
