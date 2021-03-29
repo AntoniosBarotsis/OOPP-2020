@@ -42,7 +42,7 @@ public class QuestionInstanceCreator implements JsonDeserializer<Question> {
         int upvotes = jsonObject.get("upvotes").getAsInt();
         int score = jsonObject.get("score").getAsInt();
         String statusString = jsonObject.get("QuestionStatus").getAsString();
-        boolean beingAnswered = jsonObject.get("isBeingAnswered").getAsBoolean();
+        boolean beingAnswered = jsonObject.get("BeingAnswered").getAsBoolean();
 
         // Check if answer is null.
         JsonElement nullableText = jsonObject.get("answer");

@@ -24,6 +24,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import javax.persistence.Entity;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -332,15 +334,38 @@ class QuestionsServiceTest {
     }
 
     @Test
-    void exportTop() {
+    void exportTopError() throws JsonProcessingException {
+        String error=  questionService.exportTop(room.getId(), 0);
+        assertEquals("{\"error\": \"JsonProcessingException\"}", error);
     }
 
     @Test
-    void exportAnswered() {
+    void exportTop() throws JsonProcessingException {
+        questionService.upvote(id1);
+        questionService.upvote(id2);
+        questionService.upvote(id2);
+        String actual=  questionService.exportTop(room.getId(), 2);
+        String expected = "[" + question1.exportToJson() + "," + question2.exportToJson() + "]";
+        assertEquals(expected, actual);
     }
 
     @Test
-    void mapQuestionExport() {
+    void exportAnswered() throws JsonProcessingException {
+        assertEquals("[]", questionService.exportAnswered(room.getId()));
+        questionService.setAnswer(id1, "This question is answered");
+        question1.setAnswer("This question is answered");
+        String expected = "[" + question1.exportToJson() + "]";
+        String actual = questionService.exportAnswered(room.getId());
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void mapQuestionExport() throws JsonProcessingException {
+        String expected = "[" + question1.exportToJson() + "]";
+        Set<Question> questions = new HashSet<Question>();
+        questions.add(question1);
+        String actual = questionService.mapQuestionExport(questions);
+        assertEquals(expected, actual);
     }
 
     @Test
