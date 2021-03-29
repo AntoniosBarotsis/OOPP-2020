@@ -1,27 +1,17 @@
 package nl.tudelft.oopp.demo.entities;
 
-import static javax.persistence.GenerationType.SEQUENCE;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.util.Date;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * The Question class. This is used to represent questions users ask during lectures.
@@ -58,6 +48,8 @@ public class Question {
     private QuestionStatus status;
     @Column(name = "answer")
     private String answer;
+    @Column(name = "beingAnswered")
+    private boolean beingAnswered;
 
     /**
      * Instantiates a new Question.

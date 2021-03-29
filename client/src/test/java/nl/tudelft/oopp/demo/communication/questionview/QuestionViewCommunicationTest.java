@@ -1,18 +1,17 @@
 package nl.tudelft.oopp.demo.communication.questionview;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionViewCommunicationTest {
     private final String url = "http://localhost:8080/api/v2/questions/";
 
     @Test
     void sendEmptyPutRequest() {
-        String link = url;
-        assertDoesNotThrow(() -> QuestionViewCommunication.sendEmptyPutRequest(link));
+        assertDoesNotThrow(() -> QuestionViewCommunication.sendEmptyPutRequest(url));
     }
 
     @Test
@@ -66,12 +65,17 @@ class QuestionViewCommunicationTest {
 
     @Test
     void ban() {
-        // assertDoesNotThrow(() -> QuestionViewCommunication.ban(1, 3));
+         //assertThrows(QuestionViewCommunication.ban(1, 1));
     }
 
     @Test
     void delete() {
-        // assertDoesNotThrow(() -> QuestionViewCommunication.delete(1, 1));
+        assertDoesNotThrow(() -> QuestionViewCommunication.delete(1, 1));
     }
 
+
+    @Test
+    void setBeingAnswered() {
+        assertDoesNotThrow(() -> QuestionViewCommunication.setBeingAnswered(1, true));
+    }
 }

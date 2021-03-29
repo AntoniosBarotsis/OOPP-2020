@@ -1,9 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.util.Date;
-import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
@@ -13,13 +10,11 @@ import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import nl.tudelft.oopp.demo.services.UserService;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
+import java.util.Date;
 
 /**
  * The type Question controller.
@@ -354,6 +349,12 @@ public class QuestionControllerV2 {
     public void setAnswer(@RequestBody QuestionHelper questionHelper,
                           @PathParam("questionId") long questionId) {
         questionService.setAnswer(questionId, questionHelper);
+    }
+
+    @PutMapping(value = "setBeingAnswered")
+    public void setBeingAnswered(@PathParam("questionId") long questionId,
+                                 @PathParam("status") boolean status) {
+        questionService.setBeingAnswered(questionId, status);
     }
 
 }

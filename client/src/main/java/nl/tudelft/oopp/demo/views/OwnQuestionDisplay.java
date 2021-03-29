@@ -1,21 +1,17 @@
 package nl.tudelft.oopp.demo.views;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Date;
-import java.util.HashSet;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.controllers.questions.OwnQuestionController;
-import nl.tudelft.oopp.demo.data.Question;
-import nl.tudelft.oopp.demo.data.QuestionAuthor;
-import nl.tudelft.oopp.demo.data.Room;
-import nl.tudelft.oopp.demo.data.RoomConfig;
-import nl.tudelft.oopp.demo.data.User;
+import nl.tudelft.oopp.demo.data.*;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Date;
+import java.util.HashSet;
 
 public class OwnQuestionDisplay extends Application {
 
@@ -36,7 +32,7 @@ public class OwnQuestionDisplay extends Application {
                 User.UserType.MODERATOR);
         QuestionAuthor author = new QuestionAuthor(1, "Roy");
         Question question = new Question(4, "This is a question",
-                author,  0, 0, date, open,"answer");
+                author,  0, 0, date, open,"answer", false);
 
         controller.loadData(question, user, room);
 
