@@ -223,7 +223,8 @@ public class RoomService {
      * @throws UnauthorizedException    the unauthorized exception
      * @throws InvalidPasswordException the invalid password exception
      */
-    public void unbanUser(long roomId, long userId, String userIp, String ip, String elevatedPassword)
+    public void unbanUser(long roomId, long userId, String userIp, String ip,
+                          String elevatedPassword)
             throws UnauthorizedException, InvalidPasswordException {
         if (isNotAuthorized(roomId, userId)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
