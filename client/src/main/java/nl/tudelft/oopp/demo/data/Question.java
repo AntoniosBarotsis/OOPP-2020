@@ -30,7 +30,8 @@ public class Question {
      * @param answer answer of question
      */
     public Question(long id, String text, QuestionAuthor author, int upvotes, int score,
-                    Date timeCreated, QuestionStatus status, String answer, boolean isBeingAnswered) {
+                    Date timeCreated, QuestionStatus status,
+                    String answer, boolean isBeingAnswered) {
         this.id = id;
         this.text = text;
         this.author = author;
@@ -179,7 +180,7 @@ public class Question {
     }
 
     /**
-     * Setter for the boolean beingAnsweres
+     * Setter for the boolean beingAnswered.
      * @param beingAnswered whether a question is being answered or not
      */
     public void setBeingAnswered(boolean beingAnswered) {

@@ -1,6 +1,12 @@
 package nl.tudelft.oopp.demo.data.deserializers;
 
-import com.google.gson.*;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonNull;
+
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.QuestionAuthor;
 
@@ -62,6 +68,7 @@ public class QuestionInstanceCreator implements JsonDeserializer<Question> {
         }
 
         QuestionAuthor questionAuthor = new QuestionAuthor(authorId, authorUsername);
-        return new Question(id, text, questionAuthor, upvotes, score, date, status, answer, beingAnswered);
+        return new Question(id, text, questionAuthor, upvotes, score,
+                date, status, answer, beingAnswered);
     }
 }
