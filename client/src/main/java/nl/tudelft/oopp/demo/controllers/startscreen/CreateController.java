@@ -43,13 +43,17 @@ public class CreateController {
         String roomName = inputRoomName.getText();
         Room room = null;
         if (roomName.equals("")) {
-            //TODO: Replace this with a error popup
-            roomName = "Room";
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Please insert a roomname!");
+            alert.showAndWait();
         }
         String username = inputUsername.getText();
         if (username.equals("")) {
-            //TODO: Replace this with a error popup
-            username = "Admin";
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Please insert a username");
+            alert.showAndWait();
         }
         if (!inputSchedule.isSelected()) {
             room = StartCommunication.createRoom(roomName, username);
