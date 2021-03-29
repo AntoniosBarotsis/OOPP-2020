@@ -1,11 +1,6 @@
 package nl.tudelft.oopp.demo.entities;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFORE_METHOD;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.util.Date;
-import java.util.List;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
@@ -15,6 +10,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
+
+import java.util.Date;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFORE_METHOD;
 
 @DataJpaTest
 class QuestionTest {
@@ -51,7 +52,8 @@ class QuestionTest {
     void exportToJson() throws JsonProcessingException {
         assertThat(q1.exportToJson()).isEqualTo("{\"id\":" + q1.getId() + ",\"text\":\"Question "
             + "text\",\"answer\":null,\"upvotes\":0,\"score\":0,\"timeCreated\":\""
-            + q1.getTimeCreated() + "\",\"QuestionStatus\":\"OPEN\",\"author\":{\"id\":"
+            + q1.getTimeCreated() + "\",\"QuestionStatus\":\"OPEN\",\"BeingAnswered\":"
+                + q1.isBeingAnswered() +",\"author\":{\"id\":"
             + q1.getAuthor().getId() + ",\"username\":\"Admin\"}}");
     }
 
@@ -190,6 +192,6 @@ class QuestionTest {
             + "author=User(id=" + u1.getId() + ", "
             + "username=Admin, ip=ip, questionsAsked=[], questionsUpvoted=[], type=ADMIN), "
             + "upvotes=0, score=0, timeCreated=" + q1.getTimeCreated() + ", status=OPEN, "
-            + "answer=null)");
+            + "answer=null, beingAnswered="  + q1.isBeingAnswered()+ ")");
     }
 }

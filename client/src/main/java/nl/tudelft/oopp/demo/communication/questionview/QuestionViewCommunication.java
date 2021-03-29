@@ -272,7 +272,12 @@ public class QuestionViewCommunication {
         url = url + "questionId=" + questionId;
         url = url + "&roomId=" + roomId;
 
-        HttpRequest request = HttpRequest.newBuilder().DELETE().uri(URI.create(url)).build();
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .DELETE()
+                .uri(URI.create(url))
+                .build();
+
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
