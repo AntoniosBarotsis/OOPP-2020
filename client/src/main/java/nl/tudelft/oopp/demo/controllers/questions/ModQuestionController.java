@@ -81,6 +81,7 @@ public class ModQuestionController {
         if (question.getIsBeingAnswered()) {
             answerBox.setText("This question is already being answered");
             answerBox.setDisable(true);
+            answerOption.setDisable(true);
         }
         if (!question.getIsBeingAnswered()) {
             if (!answer.equals("")) {
@@ -91,6 +92,7 @@ public class ModQuestionController {
                 answerBox.setText("Write answer here: ");
             }
             answerBox.setDisable(false);
+            answerOption.setDisable(false);
         }
 
         String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
