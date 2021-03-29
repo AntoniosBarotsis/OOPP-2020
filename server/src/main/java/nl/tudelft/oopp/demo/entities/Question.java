@@ -65,6 +65,7 @@ public class Question {
         this.score = 0;
         this.status = QuestionStatus.OPEN;
         this.timeCreated = new Date();
+        this.beingAnswered = false;
     }
 
     /**
