@@ -328,24 +328,24 @@ class QuestionsServiceTest {
 
     @Test
     void exportAll() throws JsonProcessingException {
-        String expected = "[" + question1.exportToJson() + "," + question2.exportToJson() + "," + question3.exportToJson() + "]";
-        String actual = questionService.exportAll(room.getId());
-        assertEquals(expected, actual);
+        Boolean actual = questionService.exportAll(room.getId()).contains(question1.exportToJson());
+        actual = actual && questionService.exportAll(room.getId()).contains(question2.exportToJson());
+        actual = actual && questionService.exportAll(room.getId()).contains(question3.exportToJson());
+        assertTrue(actual);
     }
 
     @Test
     void exportTopError() throws JsonProcessingException {
         String error=  questionService.exportTop(room.getId(), 0);
-        assertEquals("{\"error\": \"JsonProcessingException\"}", error);
+        assertEquals("{\"error: \"Invalid amount supplied\"}", error);
     }
 
     @Test
     void exportTop() throws JsonProcessingException {
         questionService.upvote(id1);
-        questionService.upvote(id2);
-        questionService.upvote(id2);
-        String actual=  questionService.exportTop(room.getId(), 2);
-        String expected = "[" + question1.exportToJson() + "," + question2.exportToJson() + "]";
+        question1.setUpvotes(1);
+        String actual=  questionService.exportTop(room.getId(), 1);
+        String expected = "[" + question1.exportToJson() + "]";
         assertEquals(expected, actual);
     }
 
