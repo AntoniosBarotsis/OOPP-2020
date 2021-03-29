@@ -1,10 +1,16 @@
 package nl.tudelft.oopp.demo.communication.questionview;
 
+import nl.tudelft.oopp.demo.data.Question;
+import nl.tudelft.oopp.demo.data.QuestionAuthor;
+import nl.tudelft.oopp.demo.data.Room;
+import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class QuestionViewCommunicationTest {
     private final String url = "http://localhost:8080/api/v2/questions/";
@@ -70,6 +76,10 @@ class QuestionViewCommunicationTest {
 
     @Test
     void delete() {
+        Room a = new Room(1, "Title", new Date(), true, 0, 0, 100, true,
+                new RoomConfig(2, 2,2, 2));
+        Question b = new Question(1, "Question", new QuestionAuthor(1, "Author"), 0, 0, new Date(),
+                Question.QuestionStatus.OPEN, "", false);
         assertDoesNotThrow(() -> QuestionViewCommunication.delete(1, 1));
     }
 
