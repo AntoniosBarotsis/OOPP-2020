@@ -169,13 +169,13 @@ public class RoomControllerV2 {
      * Returns true if the user has been banned in the given room.
      *
      * @param roomId the room id
-     * @param ip     the ip
+     * @param id     the id
      * @return the boolean
      */
     @GetMapping("isBanned")
     public boolean isBanned(@PathParam("roomId") long roomId,
-                            @PathParam("ip") String ip) {
-        return roomService.isBanned(roomId, ip);
+                            @PathParam("id") long id) {
+        return roomService.isBanned(roomId, id);
     }
 
     /**
@@ -185,7 +185,7 @@ public class RoomControllerV2 {
      * @param roomId           the room id
      * @param userId           the user id
      * @param elevatedPassword the elevated password
-     * @param ip               the ip to ban
+     * @param id               the id of the ip to ban
      * @param request          the request
      * @throws UnauthorizedException the unauthorized exception
      */
@@ -193,10 +193,10 @@ public class RoomControllerV2 {
     public void ban(@PathParam("roomId") long roomId,
                     @PathParam("userId") long userId,
                     @PathParam("elevatedPassword") String elevatedPassword,
-                    @PathParam("ip") String ip,
+                    @PathParam("id") long id,
                     HttpServletRequest request)
             throws UnauthorizedException {
-        roomService.banUser(roomId, userId, request.getRemoteAddr(), ip, elevatedPassword);
+        roomService.banUser(roomId, userId, id, elevatedPassword);
     }
 
     /**
@@ -206,7 +206,7 @@ public class RoomControllerV2 {
      * @param roomId           the room id
      * @param userId           the user id
      * @param elevatedPassword the elevated password
-     * @param ip               the ip to unban
+     * @param id               the id of the ip to ban
      * @param request          the request
      * @throws UnauthorizedException    the unauthorized exception
      * @throws InvalidPasswordException the invalid password exception
@@ -215,10 +215,10 @@ public class RoomControllerV2 {
     public void unban(@PathParam("roomId") long roomId,
                       @PathParam("userId") long userId,
                       @PathParam("elevatedPassword") String elevatedPassword,
-                      @PathParam("ip") String ip,
+                      @PathParam("id") long id,
                       HttpServletRequest request)
             throws UnauthorizedException, InvalidPasswordException {
-        roomService.unbanUser(roomId, userId, request.getRemoteAddr(), ip, elevatedPassword);
+        roomService.unbanUser(roomId, userId, id, elevatedPassword);
     }
 
     /**
