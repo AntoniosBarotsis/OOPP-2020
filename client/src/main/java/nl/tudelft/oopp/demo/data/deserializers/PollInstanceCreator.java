@@ -5,13 +5,13 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import nl.tudelft.oopp.demo.data.Poll;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import nl.tudelft.oopp.demo.data.Poll;
 
 public class PollInstanceCreator implements JsonDeserializer<Poll> {
 
