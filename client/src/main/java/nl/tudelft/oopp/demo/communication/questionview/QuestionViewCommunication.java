@@ -231,7 +231,14 @@ public class QuestionViewCommunication {
      * @param userId the user id
      */
     public static void ban(long roomId, long userId) {
-        String elevatedPassword = SettingsCommunication.getAdminPassword(roomId);
+        String elevatedPassword;
+        try {
+            elevatedPassword = SettingsCommunication.getAdminPassword(roomId);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
         String url = "http://localhost:8080/api/v2/rooms/ban?";
         url = url + "userId=" + userId;
         url = url + "&elevatedPassword=" + elevatedPassword;
