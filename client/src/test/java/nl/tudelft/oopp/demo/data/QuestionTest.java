@@ -1,20 +1,20 @@
 package nl.tudelft.oopp.demo.data;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class QuestionTest {
 
     private Set<Long> set = new HashSet<>();
     private QuestionAuthor author = new QuestionAuthor(1, "Student");
     private Question question = new Question(1, "question", author, 0, 0,
-        new Date(1234567890), Question.QuestionStatus.OPEN, "");
+        new Date(1234567890), Question.QuestionStatus.OPEN, "", false);
 
     @Test
     void constructor() {
