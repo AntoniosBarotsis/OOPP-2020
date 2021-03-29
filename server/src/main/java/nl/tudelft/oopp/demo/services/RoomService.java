@@ -189,11 +189,11 @@ public class RoomService {
      *
      * @param roomId           the room id
      * @param userId           the user id
-     * @param id               the id of the ip to ban
+     * @param idToBeBanned     the to be banned id
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException the unauthorized exception
      */
-    public void banUser(long roomId, long userId, long id, String elevatedPassword)
+    public void banUser(long roomId, long userId, long idToBeBanned, String elevatedPassword)
             throws UnauthorizedException {
         if (isNotAuthorized(roomId, userId)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
@@ -205,7 +205,7 @@ public class RoomService {
             return;
         }
 
-        User userToBan = userRepository.getOne(id);
+        User userToBan = userRepository.getOne(idToBeBanned);
         roomRepository.banUser(roomId, userToBan.getIp());
 
         User userThatBans = userRepository.getOne(userId);
@@ -218,12 +218,12 @@ public class RoomService {
      *
      * @param roomId           the room id
      * @param userId           the id
-     * @param id               the id of the ip to ban
+     * @param idToBeBanned     the to be banned id
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException    the unauthorized exception
      * @throws InvalidPasswordException the invalid password exception
      */
-    public void unbanUser(long roomId, long userId, long id, String elevatedPassword)
+    public void unbanUser(long roomId, long userId, long idToBeBanned, String elevatedPassword)
             throws UnauthorizedException, InvalidPasswordException {
         if (isNotAuthorized(roomId, userId)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
@@ -236,7 +236,7 @@ public class RoomService {
                     + " does not match the Room's Elevated password'");
         }
 
-        User userToBan = userRepository.getOne(id);
+        User userToBan = userRepository.getOne(idToBeBanned);
         roomRepository.unbanUser(roomId, userToBan.getIp());
     }
 

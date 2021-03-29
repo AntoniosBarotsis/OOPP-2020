@@ -185,7 +185,7 @@ public class RoomControllerV2 {
      * @param roomId           the room id
      * @param userId           the user id
      * @param elevatedPassword the elevated password
-     * @param id               the id of the ip to ban
+     * @param idToBeBanned     the to be banned id
      * @param request          the request
      * @throws UnauthorizedException the unauthorized exception
      */
@@ -193,10 +193,10 @@ public class RoomControllerV2 {
     public void ban(@PathParam("roomId") long roomId,
                     @PathParam("userId") long userId,
                     @PathParam("elevatedPassword") String elevatedPassword,
-                    @PathParam("id") long id,
+                    @PathParam("idToBeBanned") long idToBeBanned,
                     HttpServletRequest request)
             throws UnauthorizedException {
-        roomService.banUser(roomId, userId, id, elevatedPassword);
+        roomService.banUser(roomId, userId, idToBeBanned, elevatedPassword);
     }
 
     /**
@@ -206,7 +206,7 @@ public class RoomControllerV2 {
      * @param roomId           the room id
      * @param userId           the user id
      * @param elevatedPassword the elevated password
-     * @param id               the id of the ip to ban
+     * @param idToBeBanned     the id of the ip to ban
      * @param request          the request
      * @throws UnauthorizedException    the unauthorized exception
      * @throws InvalidPasswordException the invalid password exception
@@ -215,10 +215,10 @@ public class RoomControllerV2 {
     public void unban(@PathParam("roomId") long roomId,
                       @PathParam("userId") long userId,
                       @PathParam("elevatedPassword") String elevatedPassword,
-                      @PathParam("id") long id,
+                      @PathParam("idToBeBanned") long idToBeBanned,
                       HttpServletRequest request)
             throws UnauthorizedException, InvalidPasswordException {
-        roomService.unbanUser(roomId, userId, id, elevatedPassword);
+        roomService.unbanUser(roomId, userId, idToBeBanned, elevatedPassword);
     }
 
     /**
