@@ -5,10 +5,10 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="131.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.questions.ModQuestionController">
+<AnchorPane fx:id="wrapper" prefHeight="131.0" prefWidth="760.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.questions.ModQuestionController">
     <children>
         <Label fx:id="date" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="474.0" layoutY="90.0" prefHeight="35.0" prefWidth="298.0" />
-        <Label fx:id="username" layoutX="132.0" layoutY="90.0" prefHeight="35.0" prefWidth="330.0" />
+        <Label fx:id="username" layoutX="101.0" layoutY="90.0" prefHeight="35.0" prefWidth="330.0" />
         <Label fx:id="upvoteNumber" alignment="CENTER" layoutX="14.0" layoutY="90.0" prefHeight="35.0" prefWidth="78.0" style="-fx-border-color: #DBDBDB; -fx-border-width: 1;" textAlignment="CENTER" />
         <TextFlow layoutX="15.0" prefHeight="91.0" prefWidth="639.0">
             <children>

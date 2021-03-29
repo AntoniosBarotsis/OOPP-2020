@@ -1,23 +1,17 @@
 package nl.tudelft.oopp.demo.views;
 
-import java.io.IOException;
-
-import java.net.URL;
-import java.util.Date;
-import java.util.HashSet;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import nl.tudelft.oopp.demo.controllers.questions.SimpleQuestionController;
-import nl.tudelft.oopp.demo.data.Question;
-import nl.tudelft.oopp.demo.data.QuestionAuthor;
-import nl.tudelft.oopp.demo.data.Room;
-import nl.tudelft.oopp.demo.data.RoomConfig;
-import nl.tudelft.oopp.demo.data.User;
+import nl.tudelft.oopp.demo.data.*;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Date;
+import java.util.HashSet;
 
 public class SimpleQuestionDisplay extends Application {
 
@@ -37,7 +31,7 @@ public class SimpleQuestionDisplay extends Application {
         QuestionAuthor author = new QuestionAuthor(2, "Roy");
 
         Question question = new Question(1, "Hello",
-                author,  0, 0, date, open,"Answer");
+                author,  0, 0, date, open,"Answer", false);
 
         controller.loadData(question, user, room);
 

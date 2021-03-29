@@ -1,13 +1,13 @@
 package nl.tudelft.oopp.demo.communication.questionview;
 
 import com.google.gson.Gson;
+import nl.tudelft.oopp.demo.communication.mainmenu.SettingsCommunication;
+import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-
-import nl.tudelft.oopp.demo.communication.mainmenu.SettingsCommunication;
-import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 
 
 
@@ -278,5 +278,37 @@ public class QuestionViewCommunication {
             System.out.println(response.body());
         }
 
+    }
+
+    /**
+     * Sets a question to true or false depending on
+     * whether it is being modified by the moderators.
+     *
+     * @param id the question id
+     * @param b the status of the field
+     */
+    public static void setBeingAnswered(long id, boolean b) {
+        String url = "http://localhost:8080/api/v2/questions/setBeingAnswered?";
+        url = url + "questionId=" + id;
+        url = url + "&status=" + b;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+            System.out.println("HELP");
+        }
     }
 }

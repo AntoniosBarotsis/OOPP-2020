@@ -3,18 +3,7 @@ package nl.tudelft.oopp.demo.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
@@ -29,6 +18,12 @@ import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The type Question service.
@@ -417,5 +412,15 @@ public class QuestionService {
         return roomRepository.getOne(roomId)
             .getBannedIps()
             .contains(question.getAuthor().getIp());
+    }
+
+    /**
+     * sets the field beingAnswered of the question to false or true.
+     *
+     * @param questionId the question to modify
+     * @param status the boolean value of the question.
+     */
+    public void setBeingAnswered(long questionId, boolean status) {
+        questionRepository.setBeingAnswered(questionId, status);
     }
 }

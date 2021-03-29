@@ -1,14 +1,15 @@
 package nl.tudelft.oopp.demo.repositories;
 
-import java.util.Date;
-import java.util.List;
-import javax.transaction.Transactional;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
+import java.util.Date;
+import java.util.List;
 
 /**
  * The interface Question repository.
@@ -227,4 +228,13 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query(value = "UPDATE Question q SET q.answer = ?2 WHERE q.id = ?1")
     void setAnswer(long questionId, String answer);
 
+    /**
+     * Sets the beingAnswered status of a question to true or false.
+     * @param questionId the question to modify
+     * @param answer the value to set the question field to
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Question q SET q.beingAnswered = ?2 WHERE q.id = ?1")
+    void setBeingAnswered(long questionId, boolean answer);
 }
