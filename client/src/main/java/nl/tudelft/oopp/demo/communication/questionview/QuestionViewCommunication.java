@@ -235,7 +235,7 @@ public class QuestionViewCommunication {
         try {
             elevatedPassword = SettingsCommunication.getAdminPassword(roomId);
         }
-        catch (Exception e){
+        catch (Exception e) {
             e.printStackTrace();
             return;
         }
