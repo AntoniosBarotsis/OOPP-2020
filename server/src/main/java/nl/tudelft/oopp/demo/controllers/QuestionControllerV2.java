@@ -357,10 +357,28 @@ public class QuestionControllerV2 {
         questionService.setAnswer(questionId, questionHelper);
     }
 
+    /**
+     * Sets the BeingAnswered field of a question to the associated boolean value.
+     *
+     * @param questionId the id of the corresponding question
+     * @param status the boolean value of the field
+     */
     @PutMapping(value = "setBeingAnswered")
     public void setBeingAnswered(@PathParam("questionId") long questionId,
                                  @PathParam("status") boolean status) {
         questionService.setBeingAnswered(questionId, status);
     }
+
+    /**
+     * Retireves the beingAnswered field of a question.
+     *
+     * @param questionId the id of the corresponding question
+     */
+    @GetMapping(value = "getBeingAnswered")
+    public boolean getBeingAnswered(@PathParam("questionId") long questionId) {
+        return questionService.getBeingAnswered(questionId);
+    }
+
+
 
 }

@@ -322,7 +322,35 @@ public class QuestionViewCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
-            System.out.println("HELP");
         }
+    }
+
+    /**
+     * Retrieves the BeingAnswered boolean field from a question.
+     *
+     * @param id the id of the question
+     * @return whether a question is being answered
+     */
+    public static boolean getBeingAnswered(long id) {
+        String url = "http://localhost:8080/api/v2/questions/getBeingAnswered?";
+        url = url + "questionId=" + id;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .GET()
+                .uri(URI.create(url))
+                .build();
+
+        HttpResponse<String> response = null;
+        try{
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e){
+            e.printStackTrace();
+            return new Boolean(null);
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+        }
+        return Boolean.parseBoolean(response.body());
     }
 }

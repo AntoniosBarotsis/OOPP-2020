@@ -427,4 +427,14 @@ public class QuestionService {
     public void setBeingAnswered(long questionId, boolean status) {
         questionRepository.setBeingAnswered(questionId, status);
     }
+
+
+    /**
+     * Retrieves the boolean beingAnswered field from a question
+     *
+     * @param questionId the id from the question to modify
+     */
+    public boolean getBeingAnswered(long questionId) {
+        return questionRepository.getBeingAnswered(questionId);
+    }
 }

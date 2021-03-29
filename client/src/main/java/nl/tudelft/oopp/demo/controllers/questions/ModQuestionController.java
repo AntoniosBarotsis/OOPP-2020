@@ -173,6 +173,11 @@ public class ModQuestionController {
      */
     public void answer() {
 
+        if (QuestionViewCommunication.getBeingAnswered(question.getId())) {
+            answerBox.setText("This question is already being answered");
+            answerBox.setDisable(true);
+            answerOption.setDisable(true);
+        }
         question.setBeingAnswered(true);
         hasPressedOption = true;
         modified = true;

@@ -241,4 +241,14 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Transactional
     @Query(value = "UPDATE Question q SET q.beingAnswered = ?2 WHERE q.id = ?1")
     void setBeingAnswered(long questionId, boolean answer);
+
+    /**
+     * Gets the beingAnswered field of the question.
+     *
+     * @param questionId the question id
+     * @return the answer
+     */
+    @Transactional
+    @Query(value = "SELECT q.beingAnswered FROM Question q WHERE q.id = ?1")
+    boolean getBeingAnswered(long questionId);
 }

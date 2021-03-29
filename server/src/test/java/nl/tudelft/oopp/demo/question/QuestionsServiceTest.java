@@ -3,14 +3,12 @@ package nl.tudelft.oopp.demo.question;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
-import nl.tudelft.oopp.demo.entities.RoomConfig;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.helpers.StudentHelper;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
-import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.repositories.*;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import nl.tudelft.oopp.demo.services.RoomService;
@@ -20,8 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import javax.persistence.Entity;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
@@ -369,6 +365,14 @@ class QuestionsServiceTest {
     }
 
     @Test
+    void getBeingAnswered(){
+        assertDoesNotThrow(()->questionService.getBeingAnswered(id1));
+    }
+
+    @Test
     void setBeingAnswered() {
+        assertEquals(false, question1.isBeingAnswered());
+        assertDoesNotThrow(() -> questionService.setBeingAnswered(id1, true));
+        assertEquals(true, questionService.getBeingAnswered(id1));
     }
 }
