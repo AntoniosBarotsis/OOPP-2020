@@ -65,6 +65,10 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
         nativeQuery = true)
     void deleteOneQuestion(long roomId, long questionId);
 
+
+
+
+
     /**
      * Delete all questions.
      *

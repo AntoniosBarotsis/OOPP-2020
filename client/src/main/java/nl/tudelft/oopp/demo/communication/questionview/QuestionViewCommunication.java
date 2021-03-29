@@ -228,9 +228,10 @@ public class QuestionViewCommunication {
      * Bans the user.
      *
      * @param roomId the room id
-     * @param userId the user id
+     * @param modId the moderator id
+     * @param authorId the id of the author
      */
-    public static void ban(long roomId, long userId) {
+    public static void ban(long roomId, long modId, long authorId) {
         String elevatedPassword;
         try {
             elevatedPassword = SettingsCommunication.getAdminPassword(roomId);
@@ -240,9 +241,10 @@ public class QuestionViewCommunication {
             return;
         }
         String url = "http://localhost:8080/api/v2/rooms/ban?";
-        url = url + "userId=" + userId;
+        url = url + "modId=" + modId;
         url = url + "&elevatedPassword=" + elevatedPassword;
         url = url + "&roomId=" + roomId;
+        url = url + "&authorId" + authorId;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson("")))

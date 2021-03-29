@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.question;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.RoomConfig;
@@ -24,8 +25,7 @@ import javax.persistence.Entity;
 
 import java.io.UnsupportedEncodingException;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class QuestionServiceTest {
@@ -95,9 +95,9 @@ class QuestionServiceTest {
         userRepository.save(user1);
         userRepository.save(user2);
 
-        questionRepository.save(question1);
-        questionRepository.save(question2);
-        questionRepository.save(question3);
+        questionService.addQuestion(question1, room.getId());
+        questionService.addQuestion(question2, room.getId());
+        questionService.addQuestion(question3, room.getId());
 
         id1 = question1.getId();
         id2 = question2.getId();
@@ -117,7 +117,6 @@ class QuestionServiceTest {
     @Test
     void addQuestion() {
         userRepository.save(user3);
-//        roomRepository.banUser(roomRepository.getNormalRoomId(room.getElevatedPassword()), "IP 3");
         Assertions.assertDoesNotThrow(() -> {
             questionService.addQuestion(question4, room.getId());
         });
@@ -267,34 +266,63 @@ class QuestionServiceTest {
 
     @Test
     void setSpam() {
+        questionService.setSpam(id1);
+        assertEquals(Question.QuestionStatus.SPAM, questionService.getStatus(id1));
+
     }
 
     @Test
     void setOpen() {
+        questionService.setSpam(id1);
+        questionService.setOpen(id1);
+        assertEquals(Question.QuestionStatus.OPEN, questionService.getStatus(id1));
     }
 
     @Test
     void getAnswer() {
+        assertEquals(question1.getAnswer(), questionService.getAnswer(id1));
     }
 
     @Test
-    void setAnswer() {
+    void setAnswerV1() {
+        questionService.setAnswer(id1, "Changed the answer");
+        assertEquals("Changed the answer", questionService.getAnswer(id1));
+
     }
 
     @Test
-    void testSetAnswer() {
+    void setAnswerV2() {
+        StudentHelper studentHelper = new StudentHelper("UserName 1", "IP 1");
+        QuestionHelper questionHelper= new QuestionHelper("Changed the answer", studentHelper);
+        questionService.setAnswer(question1.getId(), questionHelper);
+        assertEquals("Changed the answer", questionService.getAnswer(id1));
     }
 
     @Test
-    void deleteOneQuestion() {
+    void deleteOneQuestion() throws JsonProcessingException {
+        boolean contains = roomService.findAllQuestions(room.getId()).contains("" +id3);
+        assertTrue(contains);
+        questionService.deleteOneQuestion(room.getId(), id3);
+         contains = roomService.findAllQuestions(room.getId()).contains("" +id3);
+        assertFalse(contains);    }
+
+    @Test
+    void deleteAllQuestions() throws JsonProcessingException {
+        questionService.deleteAllQuestions(room.getId());
+        assertEquals("[]", roomService.findAllQuestions(room.getId()));
     }
 
     @Test
-    void deleteAllQuestions() {
+    void exportError() throws JsonProcessingException {
+           String error=  questionService.export(382911230);
+           assertEquals("{\"error\": \"JsonProcessingException\"}", error);
     }
 
     @Test
-    void export() {
+    void export() throws JsonProcessingException {
+        String expected = question1.exportToJson();
+        String actual = questionService.export(id1);
+        assertEquals(expected, actual);
     }
 
     @Test

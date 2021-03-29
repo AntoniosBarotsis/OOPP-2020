@@ -164,7 +164,7 @@ public class ModQuestionController {
      * Bans the user in the backend.
      */
     public void banUser() {
-        QuestionViewCommunication.ban(room.getId(), user.getId());
+        QuestionViewCommunication.ban(room.getId(), user.getId(), question.getAuthor().getId());
 
     }
 
