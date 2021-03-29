@@ -33,7 +33,7 @@ public class UserService {
     }
 
     /**
-     * Returns true if the author does not exist in the database or if the id poitns to a
+     * Returns true if the author does not exist in the database or if the id points to a
      * different user.
      *
      * @param author the author
