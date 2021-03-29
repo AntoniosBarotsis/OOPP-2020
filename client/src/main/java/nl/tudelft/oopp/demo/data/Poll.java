@@ -1,8 +1,11 @@
 package nl.tudelft.oopp.demo.data;
 
+import com.google.gson.annotations.JsonAdapter;
 import java.util.Date;
 import java.util.List;
+import nl.tudelft.oopp.demo.data.deserializers.PollInstanceCreator;
 
+@JsonAdapter(PollInstanceCreator.class)
 public class Poll {
     private long id;
     private String text;
