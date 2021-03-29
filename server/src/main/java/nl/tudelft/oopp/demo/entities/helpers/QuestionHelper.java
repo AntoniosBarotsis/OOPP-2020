@@ -14,7 +14,10 @@ public class QuestionHelper {
     private String text;
     private StudentHelper author;
 
-    /**
+    public QuestionHelper(String text, StudentHelper author) {
+        this.text = text;
+        this.author = author;
+    }    /**
      * Create question.
      *
      * @return the question

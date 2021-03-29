@@ -3,6 +3,8 @@ package nl.tudelft.oopp.demo.question;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.RoomConfig;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
+import nl.tudelft.oopp.demo.entities.helpers.StudentHelper;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
@@ -19,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import javax.persistence.Entity;
+
+import java.io.UnsupportedEncodingException;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -135,62 +139,130 @@ class QuestionServiceTest {
 
     @Test
     void getText() {
+        assertEquals("This is the text 1", questionService.getText(id1));
     }
 
     @Test
-    void setText() {
+    void setTextV1() {
+        try {
+            questionService.setText(id1, "this question has changed");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        assertEquals("this question has changed", questionService.getText(id1));
     }
-
     @Test
-    void testSetText() {
+    void setTextV2() {
+        StudentHelper studentHelper = new StudentHelper("UserName 1", "IP 1");
+        QuestionHelper questionHelper= new QuestionHelper("this question has changed", studentHelper);
+
+        questionService.setText(question1.getId(), questionHelper);
+
+        assertEquals("this question has changed", questionService.getText(id1));
     }
 
     @Test
     void getAuthor() {
+
+        assertEquals(user1, questionService.getAuthor(id1));
     }
 
     @Test
     void upvote() {
+        assertEquals(0, questionService.getUpvotes(id1));
+        questionService.upvote(id1);
+        assertEquals(1, questionService.getUpvotes(id1));
+
     }
 
     @Test
-    void downvote() {
+    void downvoteStaysZero() {
+        assertEquals(0, questionService.getUpvotes(id1));
+        questionService.downvote(id1);
+        assertEquals(0, questionService.getUpvotes(id1));
+    }
+
+    @Test
+    void downvoteStaysDecreases() {
+        assertEquals(0, questionService.getUpvotes(id1));
+        questionService.upvote(id1);
+        assertEquals(1, questionService.getUpvotes(id1));
+        questionService.downvote(id1);
+        assertEquals(0, questionService.getUpvotes(id1));
     }
 
     @Test
     void getUpvotes() {
+        assertEquals(0, questionService.getUpvotes(id1));
     }
 
     @Test
     void getScore() {
+        assertEquals(0, questionService.getScore(id1));
     }
 
     @Test
     void setScore() {
+        questionService.setScore(id1, 10);
+        assertEquals(10, questionService.getScore(id1));
     }
 
     @Test
+    void setScoreNegative() {
+        questionService.setScore(id1, -1);
+        assertEquals(0, questionService.getScore(id1));
+    }
+
+
+    @Test
     void getHighest() {
+        questionService.setScore(id3, 2);
+        assertEquals(id3, questionService.getHighest(0));
     }
 
     @Test
     void getDate() {
+        assertEquals(question1.getTimeCreated(), questionService.getDate(id1));
     }
 
     @Test
     void getStatus() {
+        assertEquals(question1.getStatus(), questionService.getStatus(id1));
+
     }
 
     @Test
     void setAnswered() {
+        questionService.setAnswered(id1);
+        assertEquals(Question.QuestionStatus.ANSWERED, questionService.getStatus(id1));
     }
 
     @Test
-    void userSetAnswered() {
+    void userSetAnsweredLessThan5() {
+        questionService.userSetAnswered(id1);
+        assertEquals(Question.QuestionStatus.ANSWERED, questionService.getStatus(id1));
     }
 
     @Test
-    void testUserSetAnswered() {
+    void userSetAnsweredGreaterThan5() {
+        questionService.setScore(id1, 6);
+        questionService.userSetAnswered(id1);
+        assertEquals(Question.QuestionStatus.OPEN, questionService.getStatus(id1));
+    }
+
+    @Test
+    void userSetAnsweredGreaterThanX() {
+        questionService.setScore(id1, 11);
+        questionService.userSetAnswered(id1, 10);
+        assertEquals(Question.QuestionStatus.OPEN, questionService.getStatus(id1));
+
+    }
+
+    @Test
+    void userSetAnsweredLessThanX() {
+        questionService.setScore(id1, 9);
+        questionService.userSetAnswered(id1, 10);
+        assertEquals(Question.QuestionStatus.ANSWERED, questionService.getStatus(id1));
     }
 
     @Test
