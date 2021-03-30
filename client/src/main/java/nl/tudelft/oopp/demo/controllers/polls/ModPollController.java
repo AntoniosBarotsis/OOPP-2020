@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import nl.tudelft.oopp.demo.communication.polls.PollModAskCommunication;
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
@@ -230,5 +231,6 @@ public class ModPollController extends PollController {
         poll.setText(questionText.getText());
         poll.setStatus(Poll.PollStatus.OPEN);
 
+        PollModAskCommunication.createPoll(poll);
     }
 }
