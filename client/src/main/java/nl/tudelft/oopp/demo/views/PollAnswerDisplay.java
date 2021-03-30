@@ -24,8 +24,9 @@ public class PollAnswerDisplay extends Application {
         AnswerPollController controller = loader.getController();
 
         //Load data
+        //(Add more strings to see dynamic expansion (Max 10 strings)
         String[] a = new String[]{"A", "B", "A", "B", "A", "B", "A", "B"};
-        controller.loadData(Arrays.asList(a));
+        controller.loadView(Arrays.asList(a));
 
         // Load the Stage
         Stage stage = new Stage();

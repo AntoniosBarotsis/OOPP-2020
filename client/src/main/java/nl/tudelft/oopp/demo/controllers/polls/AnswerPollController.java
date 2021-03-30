@@ -9,7 +9,9 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-
+import nl.tudelft.oopp.demo.data.Poll;
+import nl.tudelft.oopp.demo.data.Room;
+import nl.tudelft.oopp.demo.data.User;
 
 
 public class AnswerPollController {
@@ -19,16 +21,33 @@ public class AnswerPollController {
     @FXML
     private ListView<Button> listRight;
 
+    private Poll poll;
+    private User user;
+    private Room room;
+
     private String background = "-fx-background-color: LightBlue";
     private String highlightedBackground = "-fx-background-color: Green";
-    private int correct;
     private List<Button> selected = new ArrayList<>();
+
+    /**
+     * Loader for poll view for students to answer.
+     * @param poll the poll
+     * @param user the user
+     * @param room the room
+     */
+    public void loadData(Poll poll, User user, Room room) {
+        this.poll = poll;
+        this.user = user;
+        this.room = room;
+
+        loadView(poll.getOptions());
+    }
 
     /**
      * Load data into the poll.
      * @param questions List containing all the questions
      */
-    public void loadData(List<String> questions) {
+    public void loadView(List<String> questions) {
         if (questions.size() <= 2) {
             fillLists(questions, 342);
         } else if (questions.size() <= 4) {
