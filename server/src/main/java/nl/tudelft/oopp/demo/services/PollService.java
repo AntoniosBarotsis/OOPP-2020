@@ -130,16 +130,4 @@ public class PollService {
         pollRepository.save(poll);
         return mapPoll(poll);
     }
-
-    /**
-     * Creates a poll.
-     *
-     * @param poll the poll
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String createPoll(Poll poll)
-            throws JsonProcessingException {
-        pollRepository.save(poll);
-        return mapPoll(poll);
-    }
 }
