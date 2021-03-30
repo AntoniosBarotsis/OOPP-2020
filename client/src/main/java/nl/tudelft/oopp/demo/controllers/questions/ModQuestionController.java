@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
+import java.text.SimpleDateFormat;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -14,7 +15,6 @@ import nl.tudelft.oopp.demo.data.User;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 
-import java.text.SimpleDateFormat;
 
 public class ModQuestionController {
 
@@ -177,6 +177,7 @@ public class ModQuestionController {
             answerBox.setText("This question is already being answered");
             answerBox.setDisable(true);
             answerOption.setDisable(true);
+            return;
         }
         question.setBeingAnswered(true);
         hasPressedOption = true;

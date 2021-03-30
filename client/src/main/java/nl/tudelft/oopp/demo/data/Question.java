@@ -1,9 +1,9 @@
 package nl.tudelft.oopp.demo.data;
 
 import com.google.gson.annotations.JsonAdapter;
+import java.util.Date;
 import nl.tudelft.oopp.demo.data.deserializers.QuestionInstanceCreator;
 
-import java.util.Date;
 
 @JsonAdapter(QuestionInstanceCreator.class)
 public class Question {

@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.views;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Date;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,10 +14,6 @@ import nl.tudelft.oopp.demo.data.QuestionAuthor;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.User;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Date;
 
 public class ModQuestionDisplay extends Application {
 
