@@ -34,9 +34,21 @@ public class QuestionSerializer extends StdSerializer<Question> {
         throws IOException {
 
         gen.writeStartObject();
+        gen.writeNumberField("id", value.getId());
         gen.writeStringField("text", value.getText());
         gen.writeStringField("answer", value.getAnswer());
+        gen.writeNumberField("upvotes", value.getUpvotes());
+        gen.writeNumberField("score", value.getScore());
         gen.writeStringField("timeCreated", value.getTimeCreated().toString());
+        gen.writeStringField("QuestionStatus", value.statusToString());
+
+        // Author
+        gen.writeFieldName("author");
+        gen.writeStartObject();
+        gen.writeNumberField("id", value.getAuthor().getId());
+        gen.writeStringField("username", value.getAuthor().getUsername());
+        gen.writeEndObject();
+
         gen.writeEndObject();
     }
 }
