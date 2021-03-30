@@ -1,8 +1,5 @@
 package nl.tudelft.oopp.demo.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +14,6 @@ import nl.tudelft.oopp.demo.entities.log.LogBan;
 import nl.tudelft.oopp.demo.entities.log.LogCollection;
 import nl.tudelft.oopp.demo.entities.log.LogJoin;
 import nl.tudelft.oopp.demo.entities.log.LogQuestion;
-import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
@@ -57,11 +53,6 @@ public class RoomService {
      * @return the one
      */
     public Room getOne(long id) {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Room.class, new RoomSerializer());
-        objMapper.registerModule(module);
-
         return roomRepository.getOne(id);
     }
 

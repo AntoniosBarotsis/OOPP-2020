@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("QuestionV1")
 @RequestMapping("api/v1/questions")
 public class QuestionControllerV1 {
-    @Autowired
     private final QuestionService questionService;
 
     /**
