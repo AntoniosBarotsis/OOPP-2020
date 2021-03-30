@@ -235,8 +235,7 @@ public class QuestionViewCommunication {
         String elevatedPassword;
         try {
             elevatedPassword = SettingsCommunication.getAdminPassword(roomId);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
@@ -342,9 +341,9 @@ public class QuestionViewCommunication {
                 .build();
 
         HttpResponse<String> response = null;
-        try{
+        try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new Boolean(null);
         }

@@ -6,7 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.controllers.questions.ModQuestionController;
-import nl.tudelft.oopp.demo.data.*;
+import nl.tudelft.oopp.demo.data.Question;
+import nl.tudelft.oopp.demo.data.QuestionAuthor;
+import nl.tudelft.oopp.demo.data.Room;
+import nl.tudelft.oopp.demo.data.RoomConfig;
+import nl.tudelft.oopp.demo.data.User;
 
 import java.io.IOException;
 import java.net.URL;

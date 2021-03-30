@@ -430,7 +430,7 @@ public class QuestionService {
 
 
     /**
-     * Retrieves the boolean beingAnswered field from a question
+     * Retrieves the boolean beingAnswered field from a question.
      *
      * @param questionId the id from the question to modify
      */
