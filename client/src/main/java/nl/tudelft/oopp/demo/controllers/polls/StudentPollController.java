@@ -1,6 +1,12 @@
 package nl.tudelft.oopp.demo.controllers.polls;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
@@ -25,7 +31,20 @@ public class StudentPollController extends PollController {
      * Handles button "Options" clicks.
      */
     @FXML
-    public void buttonOptionsClicked() {
-        // TODO: button should launch a new window for Students
+    public void buttonOptionsClicked() throws IOException {
+        // Initialize a loader.
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/pollView/pollAnswerView.fxml"));
+        Parent root = loader.load();
+        AnswerPollController controller = loader.getController();
+
+        // Inject the data.
+        // controller.loadData(poll.getOptions(), 0);
+
+        // Assign options to loader.
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
     }
 }

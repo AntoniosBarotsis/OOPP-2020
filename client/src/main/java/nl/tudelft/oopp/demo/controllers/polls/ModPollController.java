@@ -15,7 +15,8 @@ public class ModPollController extends PollController {
      * @param room current room object
      */
     public void loadData(Poll poll, User user, Room room) {
-        super.loadData(poll, user, room);
+
+
     }
 
     /**

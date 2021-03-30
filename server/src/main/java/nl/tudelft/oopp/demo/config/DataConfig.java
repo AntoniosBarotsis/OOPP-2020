@@ -84,8 +84,9 @@ public class DataConfig {
             User u3 = new Student("Student", ip);
             userRepository.saveAll(List.of(u1, u2, u3, u22));
 
-            Poll p1 = new Poll("Poll title", "Poll text", new ArrayList<>(),
-                List.of("Correct answer"));
+            Poll p1 = new Poll("Poll title", "Poll text",
+                    List.of("A", "B", "Correct answer", "D", "E", "F", "7", "8", "9"),
+                    List.of("Correct answer"));
             pollRepository.saveAll(List.of(p1));
 
             final Question q1 = new Question("Question text 1", u1);
