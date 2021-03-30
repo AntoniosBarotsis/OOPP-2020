@@ -1,12 +1,16 @@
 package nl.tudelft.oopp.demo.data;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+
 
 class QuestionTest {
 
@@ -110,7 +114,7 @@ class QuestionTest {
     }
 
     @Test
-    void beingAnswered(){
+    void beingAnswered() {
         question.setBeingAnswered(true);
         assertTrue(question.getIsBeingAnswered() == true);
     }

@@ -1,5 +1,10 @@
 package nl.tudelft.oopp.demo.question;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
@@ -14,9 +19,9 @@ import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
 import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
+import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
-import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import nl.tudelft.oopp.demo.services.RoomService;
 import nl.tudelft.oopp.demo.services.UserService;
@@ -25,14 +30,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-
-
 
 @DataJpaTest
 class QuestionsServiceTest {
@@ -165,7 +162,7 @@ class QuestionsServiceTest {
     @Test
     void setTextV2() {
         StudentHelper studentHelper = new StudentHelper("UserName 1", "IP 1");
-        QuestionHelper questionHelper= new QuestionHelper("this question has changed",
+        QuestionHelper questionHelper = new QuestionHelper("this question has changed",
                 studentHelper);
 
         questionService.setText(question1.getId(), questionHelper);
@@ -302,7 +299,7 @@ class QuestionsServiceTest {
     @Test
     void setAnswerV2() {
         StudentHelper studentHelper = new StudentHelper("UserName 1", "IP 1");
-        QuestionHelper questionHelper= new QuestionHelper("Changed the answer", studentHelper);
+        QuestionHelper questionHelper = new QuestionHelper("Changed the answer", studentHelper);
         questionService.setAnswer(question1.getId(), questionHelper);
         assertEquals("Changed the answer", questionService.getAnswer(id1));
     }
@@ -338,9 +335,12 @@ class QuestionsServiceTest {
 
     @Test
     void exportAll() throws JsonProcessingException {
-        Boolean actual = questionService.exportAll(room.getId()).contains(question1.exportToJson());
-        actual = actual && questionService.exportAll(room.getId()).contains(question2.exportToJson());
-        actual = actual && questionService.exportAll(room.getId()).contains(question3.exportToJson());
+        Boolean actual = questionService.exportAll(room.getId()).
+                contains(question1.exportToJson());
+        actual = actual && questionService.exportAll(room.getId()).
+                contains(question2.exportToJson());
+        actual = actual && questionService.exportAll(room.getId()).
+                contains(question3.exportToJson());
         assertTrue(actual);
     }
 

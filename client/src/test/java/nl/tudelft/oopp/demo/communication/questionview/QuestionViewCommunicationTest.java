@@ -1,16 +1,15 @@
 package nl.tudelft.oopp.demo.communication.questionview;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.Date;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.QuestionAuthor;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class QuestionViewCommunicationTest {
     private final String url = "http://localhost:8080/api/v2/questions/";

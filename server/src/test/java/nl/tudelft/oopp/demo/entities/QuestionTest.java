@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.entities;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFORE_METHOD;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Date;
 import java.util.List;
@@ -14,9 +17,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFORE_METHOD;
 
 @DataJpaTest
 class QuestionTest {
@@ -193,6 +193,6 @@ class QuestionTest {
             + "author=User(id=" + u1.getId() + ", "
             + "username=Admin, ip=ip, questionsAsked=[], questionsUpvoted=[], type=ADMIN), "
             + "upvotes=0, score=0, timeCreated=" + q1.getTimeCreated() + ", status=OPEN, "
-            + "answer=null, beingAnswered="  + q1.isBeingAnswered()+ ")");
+            + "answer=null, beingAnswered="  + q1.isBeingAnswered() + ")");
     }
 }
