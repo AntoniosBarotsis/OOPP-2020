@@ -1,16 +1,19 @@
 package nl.tudelft.oopp.demo.controllers.polls;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import nl.tudelft.oopp.demo.communication.polls.PollModAskCommunication;
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
 
 
 public class ModPollController extends PollController {
@@ -80,27 +83,28 @@ public class ModPollController extends PollController {
         this.user = user;
         this.room = room;
 
-        List<TextArea> anotherList = Arrays.asList(answerOneText, answerTwoText, answerThreeText, answerFourText,
-                answerFiveText, answerSixText, answerSevenText, answerEightText, answerNineText, answerTenText);
+        List<TextArea> anotherList = Arrays.asList(answerOneText, answerTwoText, answerThreeText,
+                answerFourText, answerFiveText, answerSixText, answerSevenText, answerEightText,
+                answerNineText, answerTenText);
         textList = new ArrayList<>();
         textList.addAll(anotherList);
 
-        List<Button> anotherSelectorList = Arrays.asList(answerOneSelector, answerTwoSelector, answerThreeSelector,
-                answerFourSelector, answerFiveSelector, answerSixSelector, answerSevenSelector, answerEightSelector,
-                answerNineSelector, answerTenSelector);
+        List<Button> anotherSelectorList = Arrays.asList(answerOneSelector, answerTwoSelector,
+                answerThreeSelector, answerFourSelector, answerFiveSelector, answerSixSelector,
+                answerSevenSelector, answerEightSelector, answerNineSelector, answerTenSelector);
         selectorList = new ArrayList<>();
         selectorList.addAll(anotherSelectorList);
 
         selected = new ArrayList<>();
-        for (int i = 0; i < poll.getOptions().size(); i++){
+        for (int i = 0; i < poll.getOptions().size(); i++) {
             selected.add(false);
         }
 
-        for (int i =0; i<poll.getOptions().size(); i++){
-            if(!poll.getOptions().get(i).equals("")) {
+        for (int i = 0; i < poll.getOptions().size(); i++) {
+            if (!poll.getOptions().get(i).equals("")) {
                 String currentOption = poll.getOptions().get(i);
                 textList.get(i).setText(currentOption);
-                if (poll.getCorrectAnswer().contains(currentOption)){
+                if (poll.getCorrectAnswer().contains(currentOption)) {
                     selected.set(i, true);
                     selectorList.get(i).setText("True");
                 }
@@ -117,9 +121,15 @@ public class ModPollController extends PollController {
         // TODO: button should launch a new window for Moderators
     }
 
-    public void selectorClicked (int index) {
+    /**
+     * Changes the selected to have the opposite boolean in index index.
+     * Also changes the text of selectorist
+     *
+     * @param index the number of button clicked minus 1
+     */
+    public void selectorClicked(int index) {
         selected.set(index, !selected.get(index));
-        if(selected.get(index)){
+        if (selected.get(index)) {
             selectorList.get(index).setText("True");
         } else {
             selectorList.get(index).setText("False");
@@ -127,47 +137,82 @@ public class ModPollController extends PollController {
 
     }
 
-    public void selectorOne(ActionEvent actionEvent) {
+
+    /**
+     * Calls selectorClicked with index 0.
+     */
+    public void selectorOne() {
         selectorClicked(0);
     }
 
-    public void selectorTwo(ActionEvent actionEvent) {
+    /**
+     * Calls selectorClicked with index 1.
+     */
+    public void selectorTwo() {
         selectorClicked(1);
     }
 
-    public void selectorThree(ActionEvent actionEvent) {
+    /**
+     * Calls selectorClicked with index 2.
+     */
+    public void selectorThree() {
         selectorClicked(2);
     }
 
-    public void selectorFour(ActionEvent actionEvent) {
+    /**
+     * Calls selectorClicked with index 3.
+     */
+    public void selectorFour() {
         selectorClicked(3);
     }
 
-    public void selectorFive(ActionEvent actionEvent) {
+    /**
+     * Calls selectorClicked with index 4.
+     */
+    public void selectorFive() {
         selectorClicked(4);
     }
 
-    public void selectorSix(ActionEvent actionEvent) {
+    /**
+     * Calls selectorClicked with index 5.
+     */
+    public void selectorSix() {
         selectorClicked(5);
     }
 
-    public void selectorSeven(ActionEvent actionEvent) {
+    /**
+     * Calls selectorClicked with index 6.
+     */
+    public void selectorSeven() {
         selectorClicked(6);
     }
 
-    public void selectorEight(ActionEvent actionEvent) {
+    /**
+     * Calls selectorClicked with index 7.
+     */
+    public void selectorEight() {
         selectorClicked(7);
     }
 
-    public void selectorNine(ActionEvent actionEvent) {
+    /**
+     * Calls selectorClicked with index 8.
+     */
+    public void selectorNine() {
         selectorClicked(8);
     }
 
-    public void selectorTen(ActionEvent actionEvent) {
+    /**
+     * Calls selectorClicked with index 9.
+     */
+    public void selectorTen() {
         selectorClicked(9);
     }
 
-    public void submit(ActionEvent actionEvent) {
+    /**
+     * Updates poll with all the information found in pollModAskView.
+     * Then creates a new poll with the info in the backend.
+     */
+    public void submit() {
         List<String> options = new ArrayList<>();
         List<String> correctAnswers = new ArrayList<>();
         for (TextArea text: textList) {
@@ -186,5 +231,6 @@ public class ModPollController extends PollController {
         poll.setText(questionText.getText());
         poll.setStatus(Poll.PollStatus.OPEN);
 
+        PollModAskCommunication.createPoll(poll);
     }
 }

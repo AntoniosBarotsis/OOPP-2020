@@ -29,8 +29,9 @@ public class PollModDisplay extends Application {
         ModPollController controller = loader.getController();
 
         //Load data
-        List<String> list = Arrays.asList("", "" , "answer 1", "answer 2", "answer 3", "", "", "", "answer 4", "");
-        List<String> listAnswers = Arrays.asList("", "" , "answer 1");
+        List<String> list = Arrays.asList("", "", "answer 1", "answer 2", "answer 3", "", "",
+                "", "answer 4", "");
+        List<String> listAnswers = Arrays.asList("", "", "answer 1");
 
         Poll poll = new Poll(1, "text", new Date(), list,
                 listAnswers, Poll.PollStatus.CLOSED);
