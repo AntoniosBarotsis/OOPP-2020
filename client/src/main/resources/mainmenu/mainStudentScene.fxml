@@ -12,8 +12,8 @@
     <bottom>
         <AnchorPane prefHeight="78.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="buttonSend" layoutX="630.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#buttonSendClicked" prefHeight="60.0" prefWidth="60.0" text="Send" textAlignment="CENTER" />
-            <TextArea fx:id="textQuestion" layoutX="13.0" layoutY="9.0" prefHeight="60.0" prefWidth="610.0" promptText="Ask a question - Beware newlines will get trimmed and will not appear in your question!" wrapText="true" />
+            <Button fx:id="buttonSend" layoutX="630.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#buttonSendClicked" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: white;" text="Send" textAlignment="CENTER" />
+            <TextArea fx:id="textQuestion" layoutX="13.0" layoutY="9.0" prefHeight="60.0" prefWidth="610.0" promptText="Ask a question - Beware newlines will get trimmed and will not appear in your question!" style="-fx-background-color: white;" wrapText="true" />
             <Text fill="WHITE" layoutX="723.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Question cooldown:" textAlignment="CENTER" wrappingWidth="60.00390625" />
             <Text fx:id="labelQuesMin" fill="WHITE" layoutX="735.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fill="WHITE" layoutX="748.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
@@ -27,15 +27,15 @@
    <top>
       <AnchorPane prefHeight="54.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="buttonAnswered" layoutX="22.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#buttonAnsweredClicked" text="Answered questions" textAlignment="CENTER" />
-            <Button fx:id="buttonFast" layoutX="723.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#buttonFastClicked" prefHeight="26.0" prefWidth="65.0" text="Too fast" textAlignment="CENTER" />
-            <Button fx:id="buttonNormal" layoutX="647.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#buttonNormalClicked" prefHeight="26.0" prefWidth="65.0" text="Normal" textAlignment="CENTER" />
-            <Button fx:id="buttonSlow" layoutX="569.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#buttonSlowClicked" prefHeight="26.0" prefWidth="66.0" text="Too slow" textAlignment="CENTER" />
+            <Button fx:id="buttonAnswered" layoutX="22.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#buttonAnsweredClicked" style="-fx-background-color: white;" text="Answered questions" textAlignment="CENTER" />
+            <Button fx:id="buttonFast" layoutX="723.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#buttonFastClicked" prefHeight="26.0" prefWidth="65.0" style="-fx-background-color: white;" text="Too fast" textAlignment="CENTER" />
+            <Button fx:id="buttonNormal" layoutX="647.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#buttonNormalClicked" prefHeight="26.0" prefWidth="65.0" style="-fx-background-color: white;" text="Normal" textAlignment="CENTER" />
+            <Button fx:id="buttonSlow" layoutX="569.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#buttonSlowClicked" prefHeight="26.0" prefWidth="66.0" style="-fx-background-color: white;" text="Too slow" textAlignment="CENTER" />
             <Text fill="WHITE" layoutX="453.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pace cooldown:" textAlignment="CENTER" wrappingWidth="60.00390625" />
             <Text fx:id="labelPaceMin" fill="WHITE" layoutX="521.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fill="WHITE" layoutX="531.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
             <Text fx:id="labelPaceSec" fill="WHITE" layoutX="537.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00" />
-            <Button fx:id="buttonShowPolls" layoutX="155.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#buttonShowPollsClicked" prefHeight="26.0" prefWidth="112.0" text="Show polls" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="buttonShowPolls" layoutX="155.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#buttonShowPollsClicked" prefHeight="26.0" prefWidth="112.0" style="-fx-background-color: white;" text="Show polls" textAlignment="CENTER" wrapText="true" />
          </children>
       </AnchorPane>
    </top>
