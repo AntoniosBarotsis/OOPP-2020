@@ -1,8 +1,12 @@
 package nl.tudelft.oopp.demo.views;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,8 +29,11 @@ public class PollModDisplay extends Application {
         ModPollController controller = loader.getController();
 
         //Load data
-        Poll poll = new Poll(1, "text", new Date(), new ArrayList<String>(),
-                new ArrayList<String>(), Poll.PollStatus.CLOSED);
+        List<String> list = Arrays.asList("", "" , "answer 1", "answer 2", "answer 3", "", "", "", "answer 4", "");
+        List<String> listAnswers = Arrays.asList("", "" , "answer 1");
+
+        Poll poll = new Poll(1, "text", new Date(), list,
+                listAnswers, Poll.PollStatus.CLOSED);
         RoomConfig settings = new RoomConfig(5, 5, 300, 300);
 
         Room room = new Room(1, "room", new Date(), false, 0,0,
