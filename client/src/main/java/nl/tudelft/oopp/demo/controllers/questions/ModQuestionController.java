@@ -7,15 +7,14 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import java.text.SimpleDateFormat;
+
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
-
-import java.text.SimpleDateFormat;
-
 
 public class ModQuestionController {
 
@@ -81,8 +80,8 @@ public class ModQuestionController {
 
         //Check if another moderator is answering the question in order to avoid dual work
         if (question.getIsBeingAnswered()) {
-            answerBox.setText("This question is already being answered. " +
-                    "If you want to edit it, press Answer twice.");
+            answerBox.setText("This question is already being answered. "
+                    + "If you want to edit it, press Answer twice.");
             answerBox.setDisable(true);
         }
         if (!question.getIsBeingAnswered()) {
@@ -171,20 +170,20 @@ public class ModQuestionController {
      */
     public void answer() {
 
-        if(QuestionViewCommunication.getBeingAnswered(question.getId())){
-            if(counter == 0) {
-                answerBox.setText("This question is already being answered. " +
-                        "If you want to edit it, press Answer twice.");
+        if (QuestionViewCommunication.getBeingAnswered(question.getId())) {
+            if (counter == 0) {
+                answerBox.setText("This question is already being answered. "
+                        + "If you want to edit it, press Answer twice.");
                 answerBox.setDisable(true);
                 counter++;
                 return;
             }
 
-            if(counter == 1){
+            if (counter == 1) {
                 answerBox.setText(answerBox.getText().replace("Write answer here: ", ""));
                 answerBox.setText(answerBox.getText().replace(
-                        "This question is already being answered. " +
-                                "If you want to edit it, press Answer twice.", "\n"));
+                        "This question is already being answered. "
+                                + "If you want to edit it, press Answer twice.", "\n"));
 
                 hasPressedOption = true;
                 modified = true;
