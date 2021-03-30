@@ -6,30 +6,26 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.polls.ModPollController">
    <children>
-      <Label fx:id="questionText" layoutX="19.0" layoutY="10.0" prefHeight="76.0" prefWidth="568.0" style="-fx-background-color: #00A6D6; -fx-text-alignment:center; -fx-border-color: black;" text="Write the Question here">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <TextArea fx:id="answerTwoText" layoutX="307.0" layoutY="96.0" prefHeight="65.0" prefWidth="221.0" text="Write answer 2 here:" />
+      <TextArea fx:id="questionText" layoutX="19.0" layoutY="10.0" prefHeight="76.0" prefWidth="568.0" style="-fx-background-color: #00A6D6; -fx-text-alignment: center; -fx-border-color: #00A6D6; -fx-border-radius: 3;" text="Write the Question here" />
+      <TextArea fx:id="answerTwoText" layoutX="307.0" layoutY="96.0" prefHeight="65.0" prefWidth="221.0" promptText="Write answer 2 here:" />
       <Button fx:id="answerTwoSelector" layoutX="529.0" layoutY="96.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" text="X" />
-       <TextArea layoutX="307.0" layoutY="368.0" prefHeight="65.0" prefWidth="221.0" text="Write answer 10 here:" />
+       <TextArea layoutX="307.0" layoutY="368.0" prefHeight="65.0" prefWidth="221.0" promptText="Write answer 10 here:" />
        <Button fx:id="answerTenSelector" layoutX="529.0" layoutY="368.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" text="X" />
-       <TextArea fx:id="answerEightText" layoutX="307.0" layoutY="300.0" prefHeight="65.0" prefWidth="221.0" text="Write answer 8 here:" />
+       <TextArea fx:id="answerEightText" layoutX="307.0" layoutY="300.0" prefHeight="65.0" prefWidth="221.0" promptText="Write answer 8 here:" />
        <Button fx:id="answerEightSelector" layoutX="529.0" layoutY="300.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" text="X" />
-       <TextArea fx:id="answerSixText" layoutX="307.0" layoutY="233.0" prefHeight="65.0" prefWidth="221.0" text="Write answer 6 here:" />
+       <TextArea fx:id="answerSixText" layoutX="307.0" layoutY="233.0" prefHeight="65.0" prefWidth="221.0" promptText="Write answer 6 here:" />
        <Button fx:id="answerSixSelector" layoutX="529.0" layoutY="233.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" text="X" />
-       <TextArea fx:id="answerFourText" layoutX="307.0" layoutY="165.0" prefHeight="65.0" prefWidth="221.0" text="Write answer 4 here:" />
+       <TextArea fx:id="answerFourText" layoutX="307.0" layoutY="165.0" prefHeight="65.0" prefWidth="221.0" promptText="Write answer 4 here:" />
        <Button fx:id="answerFourSelector" layoutX="529.0" layoutY="165.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" text="X" />
-       <TextArea fx:id="answerOneText" layoutX="18.0" layoutY="96.0" prefHeight="65.0" prefWidth="221.0" text="Write answer 1 here:" />
+       <TextArea fx:id="answerOneText" layoutX="18.0" layoutY="96.0" prefHeight="65.0" prefWidth="221.0" promptText="Write answer 1 here:" />
        <Button fx:id="answerOneSelector" layoutX="240.0" layoutY="96.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" text="X" />
-       <TextArea fx:id="answerNineText" layoutX="18.0" layoutY="368.0" prefHeight="65.0" prefWidth="221.0" text="Write answer 9 here:" />
+       <TextArea fx:id="answerNineText" layoutX="18.0" layoutY="368.0" prefHeight="65.0" prefWidth="221.0" promptText="Write answer 9 here:" />
        <Button fx:id="answerNineSelector" layoutX="240.0" layoutY="368.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" text="X" />
-       <TextArea fx:id="answerSevenText" layoutX="18.0" layoutY="300.0" prefHeight="65.0" prefWidth="221.0" text="Write answer 7 here:" />
+       <TextArea fx:id="answerSevenText" layoutX="18.0" layoutY="300.0" prefHeight="65.0" prefWidth="221.0" promptText="Write answer 7 here:" />
        <Button fx:id="answerSevenSelector" layoutX="240.0" layoutY="300.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" text="X" />
-       <TextArea fx:id="answerFiveText" layoutX="18.0" layoutY="233.0" prefHeight="65.0" prefWidth="221.0" text="Write answer 5 here:" />
+       <TextArea fx:id="answerFiveText" layoutX="18.0" layoutY="233.0" prefHeight="65.0" prefWidth="221.0" promptText="Write answer 5 here:" />
        <Button fx:id="answerFiveSelector" layoutX="240.0" layoutY="233.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" text="X" />
-       <TextArea fx:id="answerThreeText" layoutX="18.0" layoutY="165.0" prefHeight="65.0" prefWidth="221.0" text="Write answer 3 here:" />
+       <TextArea fx:id="answerThreeText" layoutX="18.0" layoutY="165.0" prefHeight="65.0" prefWidth="221.0" promptText="Write answer 3 here:" />
        <Button fx:id="answerThreeSelector" layoutX="240.0" layoutY="165.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="60.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" text="X" />
       <Button fx:id="submitButton" layoutX="99.0" layoutY="443.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="123.0" style="-fx-background-color: #00A6D6;" text="Submit">
          <font>
