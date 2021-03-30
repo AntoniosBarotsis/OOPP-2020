@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers.polls;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import javafx.fxml.FXML;
@@ -46,5 +47,5 @@ public abstract class PollController {
      * Handles button "Options" clicks.
      */
     @FXML
-    public abstract void buttonOptionsClicked();
+    public abstract void buttonOptionsClicked() throws IOException;
 }
