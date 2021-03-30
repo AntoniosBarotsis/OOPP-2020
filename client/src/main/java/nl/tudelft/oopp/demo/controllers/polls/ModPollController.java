@@ -128,7 +128,7 @@ public class ModPollController extends PollController {
      */
     public void selectorClicked(int index) {
         selected.set(index, !selected.get(index));
-        if(selected.get(index)) {
+        if (selected.get(index)) {
             selectorList.get(index).setText("True");
         } else {
             selectorList.get(index).setText("False");
