@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.serializers.PollSerializer;
+import nl.tudelft.oopp.demo.exceptions.InvalidPollStatusException;
 import nl.tudelft.oopp.demo.repositories.PollRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,8 +119,8 @@ public class PollService {
     /**
      * Create a poll.
      *
-     * @param title the Poll's title
-     * @param text the Poll's text
+     * @param title   the Poll's title
+     * @param text    the Poll's text
      * @param options the Poll's options
      * @param answers the Poll's answers
      * @return the newly created Poll
@@ -130,5 +131,25 @@ public class PollService {
         Poll poll = new Poll(title, text, Arrays.asList(options), Arrays.asList(answers));
         pollRepository.save(poll);
         return mapPoll(poll);
+    }
+
+    /**
+     * Set poll status.
+     *
+     * @param pollId the Poll's ID
+     * @param status the poll status
+     */
+    public void setStatus(long pollId, String status) {
+        Poll.PollStatus pollStatus;
+        if (status.equalsIgnoreCase("open")) {
+            pollStatus = Poll.PollStatus.OPEN;
+        } else if (status.equalsIgnoreCase("closed")) {
+            pollStatus = Poll.PollStatus.CLOSED;
+        } else if (status.equalsIgnoreCase("statistics")) {
+            pollStatus = Poll.PollStatus.STATISTICS;
+        } else {
+            throw new InvalidPollStatusException(status + " is not a valid PollStatus");
+        }
+        pollRepository.updateStatus(pollId, pollStatus);
     }
 }

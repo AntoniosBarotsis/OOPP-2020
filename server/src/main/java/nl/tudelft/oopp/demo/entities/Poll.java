@@ -78,6 +78,10 @@ public class Poll {
         /**
          * Closed poll status.
          */
-        CLOSED
+        CLOSED,
+        /**
+         * Statistics poll status.
+         */
+        STATISTICS
     }
 }
