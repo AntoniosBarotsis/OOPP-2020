@@ -1,6 +1,9 @@
 package nl.tudelft.oopp.demo.question;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
+import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
@@ -9,7 +12,11 @@ import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
-import nl.tudelft.oopp.demo.repositories.*;
+import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
+import nl.tudelft.oopp.demo.repositories.QuestionRepository;
+import nl.tudelft.oopp.demo.repositories.RoomRepository;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
+import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import nl.tudelft.oopp.demo.services.RoomService;
 import nl.tudelft.oopp.demo.services.UserService;
@@ -19,11 +26,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.io.UnsupportedEncodingException;
-import java.util.HashSet;
-import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+
 
 @DataJpaTest
 class QuestionsServiceTest {
@@ -75,8 +84,10 @@ class QuestionsServiceTest {
     @BeforeEach
     void setUp() {
         userService = new UserService(userRepository);
-        questionService = new QuestionService(questionRepository, userRepository, roomRepository, logEntryRepository, userService);
-        roomService = new RoomService(roomRepository, userRepository, logEntryRepository, roomConfigRepository, userService);
+        questionService = new QuestionService(questionRepository, userRepository,
+                roomRepository, logEntryRepository, userService);
+        roomService = new RoomService(roomRepository, userRepository,
+                logEntryRepository, roomConfigRepository, userService);
 
         user1 = new Student("UserName 1", "IP 1");
         user2 = new Student("UserName 2", "IP 2");
@@ -123,11 +134,12 @@ class QuestionsServiceTest {
 
     @Test
     void addQuestionUnauthorisedUser() {
-//        userRepository.save(user3);
-//        roomService.banUser(room.getId(),user3.getId(), user3.getIp(), room.getElevatedPassword());
-//        Assertions.assertThrows(UnauthorizedException.class, () -> {
-//            questionService.addQuestion(question4, room.getId());
-//        });
+        //userRepository.save(user3);
+        //roomService.banUser(room.getId(),user3.getId(), user3.getIp(),
+        //room.getElevatedPassword());
+        //Assertions.assertThrows(UnauthorizedException.class, () -> {
+            //questionService.addQuestion(question4, room.getId());
+        //});
     }
 
 
@@ -153,7 +165,8 @@ class QuestionsServiceTest {
     @Test
     void setTextV2() {
         StudentHelper studentHelper = new StudentHelper("UserName 1", "IP 1");
-        QuestionHelper questionHelper= new QuestionHelper("this question has changed", studentHelper);
+        QuestionHelper questionHelper= new QuestionHelper("this question has changed",
+                studentHelper);
 
         questionService.setText(question1.getId(), questionHelper);
 
@@ -219,7 +232,8 @@ class QuestionsServiceTest {
 
     @Test
     void getDate() {
-        assertEquals(question1.getTimeCreated(), questionService.getDate(id1));
+        assertEquals(question1.getTimeCreated(),
+                questionService.getDate(id1));
     }
 
     @Test
@@ -296,10 +310,10 @@ class QuestionsServiceTest {
 
     @Test
     void deleteOneQuestion() throws JsonProcessingException {
-        boolean contains = roomService.findAllQuestions(room.getId()).contains("" +id3);
+        boolean contains = roomService.findAllQuestions(room.getId()).contains("" + id3);
         assertTrue(contains);
         questionService.deleteOneQuestion(room.getId(), id3);
-        contains = roomService.findAllQuestions(room.getId()).contains("" +id3);
+        contains = roomService.findAllQuestions(room.getId()).contains("" + id3);
         assertFalse(contains);
     }
 
@@ -311,7 +325,7 @@ class QuestionsServiceTest {
 
     @Test
     void exportError() throws JsonProcessingException {
-        String error=  questionService.export(382911230);
+        String error =  questionService.export(382911230);
         assertEquals("{\"error\": \"JsonProcessingException\"}", error);
     }
 
@@ -332,7 +346,7 @@ class QuestionsServiceTest {
 
     @Test
     void exportTopError() throws JsonProcessingException {
-        String error=  questionService.exportTop(room.getId(), 0);
+        String error =  questionService.exportTop(room.getId(), 0);
         assertEquals("{\"error: \"Invalid amount supplied\"}", error);
     }
 
@@ -340,7 +354,7 @@ class QuestionsServiceTest {
     void exportTop() throws JsonProcessingException {
         questionService.upvote(id1);
         question1.setUpvotes(1);
-        String actual=  questionService.exportTop(room.getId(), 1);
+        String actual =  questionService.exportTop(room.getId(), 1);
         String expected = "[" + question1.exportToJson() + "]";
         assertEquals(expected, actual);
     }
@@ -365,8 +379,8 @@ class QuestionsServiceTest {
     }
 
     @Test
-    void getBeingAnswered(){
-        assertDoesNotThrow(()->questionService.getBeingAnswered(id1));
+    void getBeingAnswered() {
+        assertDoesNotThrow(() -> questionService.getBeingAnswered(id1));
     }
 
     @Test
