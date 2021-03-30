@@ -1,16 +1,6 @@
 package nl.tudelft.oopp.demo.question;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-
-import java.io.UnsupportedEncodingException;
-import java.util.HashSet;
-import java.util.Set;
-
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
@@ -19,20 +9,21 @@ import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
-import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
-import nl.tudelft.oopp.demo.repositories.QuestionRepository;
-import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
-import nl.tudelft.oopp.demo.repositories.RoomRepository;
-import nl.tudelft.oopp.demo.repositories.UserRepository;
+import nl.tudelft.oopp.demo.repositories.*;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import nl.tudelft.oopp.demo.services.RoomService;
 import nl.tudelft.oopp.demo.services.UserService;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class QuestionsServiceTest {
@@ -160,6 +151,7 @@ class QuestionsServiceTest {
         }
         assertEquals("this question has changed", questionService.getText(id1));
     }
+
     @Test
     void setTextV2() {
         StudentHelper studentHelper = new StudentHelper("UserName 1", "IP 1");
