@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers.questions;
 
-import java.text.SimpleDateFormat;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -15,6 +14,8 @@ import nl.tudelft.oopp.demo.data.User;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 
+import java.text.SimpleDateFormat;
+
 
 public class ModQuestionController {
 
@@ -24,7 +25,7 @@ public class ModQuestionController {
     private boolean modified;
     private boolean hasPressedOption;
     private String answer;
-
+    int counter;
 
     @FXML
     private MenuItem markAsAnsweredOption;
@@ -67,6 +68,7 @@ public class ModQuestionController {
         this.user = user;
         this.question = question;
         this.answer = question.getAnswer();
+        counter = 0;
 
         //Adds the answer to the answerBox only if question is answered
         if (!answer.equals("")) {
@@ -79,9 +81,9 @@ public class ModQuestionController {
 
         //Check if another moderator is answering the question in order to avoid dual work
         if (question.getIsBeingAnswered()) {
-            answerBox.setText("This question is already being answered");
+            answerBox.setText("This question is already being answered. " +
+                    "If you want to edit it, press Answer twice.");
             answerBox.setDisable(true);
-            answerOption.setDisable(true);
         }
         if (!question.getIsBeingAnswered()) {
             if (!answer.equals("")) {
@@ -92,7 +94,6 @@ public class ModQuestionController {
                 answerBox.setText("Write answer here: ");
             }
             answerBox.setDisable(false);
-            answerOption.setDisable(false);
         }
 
         String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
@@ -144,10 +145,7 @@ public class ModQuestionController {
                             .setText(question.getId(), questionHelper);
                 }
             }
-
         });
-
-
     }
 
 
@@ -173,27 +171,48 @@ public class ModQuestionController {
      */
     public void answer() {
 
-        if (QuestionViewCommunication.getBeingAnswered(question.getId())) {
-            answerBox.setText("This question is already being answered");
-            answerBox.setDisable(true);
-            answerOption.setDisable(true);
-            return;
+        if(QuestionViewCommunication.getBeingAnswered(question.getId())){
+            if(counter == 0) {
+                answerBox.setText("This question is already being answered. " +
+                        "If you want to edit it, press Answer twice.");
+                answerBox.setDisable(true);
+                counter++;
+                return;
+            }
+
+            if(counter == 1){
+                answerBox.setText(answerBox.getText().replace("Write answer here: ", ""));
+                answerBox.setText(answerBox.getText().replace(
+                        "This question is already being answered. " +
+                                "If you want to edit it, press Answer twice.", "\n"));
+
+                hasPressedOption = true;
+                modified = true;
+
+                answerBox.setDisable(false);
+                answerBox.setEditable(true);
+                answerBox.requestFocus();
+
+                counter = 0;
+            }
         }
+        answerBox.setText(answerBox.getText().replace("Write answer here: ", ""));
+
         question.setBeingAnswered(true);
         hasPressedOption = true;
         modified = true;
 
         QuestionViewCommunication.setBeingAnswered(question.getId(), true);
 
+        answerBox.setDisable(false);
         answerBox.setEditable(true);
-        answerBox.setText(answerBox.getText().replace("Write answer here: ", ""));
         answerBox.requestFocus();
-
 
         answerBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
+
                     answerBox.setEditable(false);
                     answerBox.setText(answerBox.getText().replaceAll("\n", " "));
 
