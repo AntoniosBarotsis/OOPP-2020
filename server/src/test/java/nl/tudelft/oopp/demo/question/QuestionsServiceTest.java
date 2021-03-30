@@ -31,6 +31,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+
+
 @DataJpaTest
 class QuestionsServiceTest {
 
@@ -335,12 +337,12 @@ class QuestionsServiceTest {
 
     @Test
     void exportAll() throws JsonProcessingException {
-        Boolean actual = questionService.exportAll(room.getId()).
-                contains(question1.exportToJson());
-        actual = actual && questionService.exportAll(room.getId()).
-                contains(question2.exportToJson());
-        actual = actual && questionService.exportAll(room.getId()).
-                contains(question3.exportToJson());
+        Boolean actual = questionService.exportAll(room.getId())
+                .contains(question1.exportToJson());
+        actual = actual && questionService.exportAll(room.getId())
+                .contains(question2.exportToJson());
+        actual = actual && questionService.exportAll(room.getId())
+                .contains(question3.exportToJson());
         assertTrue(actual);
     }
 
