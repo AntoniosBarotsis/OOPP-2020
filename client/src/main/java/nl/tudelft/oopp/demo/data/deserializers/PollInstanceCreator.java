@@ -40,7 +40,7 @@ public class PollInstanceCreator implements JsonDeserializer<Poll> {
         // Try to parse the input Date format.
         Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss")
+            date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                     .parse(jsonObject.get("timeCreated").getAsString());
         } catch (ParseException e) {
             date = new Date();
