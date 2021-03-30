@@ -75,16 +75,6 @@ public class QuestionViewCommunication {
 
     }
 
-    /**
-     * Adds the ip of user to bannedIps.
-     * NOT FINISHED
-     *
-     * @param id the question id.
-     */
-
-    public static void banUser(long id) {
-    }
-
 
     /**
      * Increments the value of upvote by 1 in the backend.
@@ -237,26 +227,61 @@ public class QuestionViewCommunication {
             e.printStackTrace();
             return;
         }
+        
+        
         String url = "http://localhost:8080/api/v2/rooms/ban?";
-        url = url + "modId=" + modId;
+        url = url + "userId=" + modId;
         url = url + "&elevatedPassword=" + elevatedPassword;
         url = url + "&roomId=" + roomId;
-        url = url + "&authorId" + authorId;
+        url = url + "&idToBeBanned" + authorId;
+
+        if(!isBanned(roomId, authorId)) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson("")))
+                    .uri(URI.create(url)).build();
+            HttpResponse<String> response = null;
+            try {
+                response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            if (response.statusCode() != 200) {
+                System.out.println("Status: " + response.statusCode());
+                System.out.println(response.body());
+            }
+        }
+    }
+
+    /**
+     * Returns wether a user is banned or not.
+     *
+     * @param roomId the room id.
+     * @param authorId the id of the user.
+     * @return boolean of is the user banned.
+     */
+    private static boolean isBanned(Long roomId, Long authorId) {
+        String url = "http://localhost:8080/api/v2/rooms/isBanned?";
+        url = url + "id=" + authorId;
+        url = url + "&roomId=" + roomId;
 
         HttpRequest request = HttpRequest.newBuilder()
-                .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson("")))
+                .GET()
                 .uri(URI.create(url)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
 
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
         }
+        return Boolean.parseBoolean(response.body());
+
     }
 
     /**\
@@ -288,6 +313,7 @@ public class QuestionViewCommunication {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
         }
+
 
     }
 
