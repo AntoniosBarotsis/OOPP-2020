@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ public class PollService {
     private final RoomRepository roomRepository;
 
     public String findAll() throws JsonProcessingException {
-        return pollRepository.findAll().toString();
+        return mapPolls(pollRepository.findAll());
     }
 
     /**
@@ -124,9 +125,9 @@ public class PollService {
      * @return the newly created Poll
      * @throws JsonProcessingException the json processing exception
      */
-    public String createPoll(String title, String text, List<String> options, List<String> answers)
+    public String createPoll(String title, String text, String[] options, String[] answers)
             throws JsonProcessingException {
-        Poll poll = new Poll(title, text, options, answers);
+        Poll poll = new Poll(title, text, Arrays.asList(options), Arrays.asList(answers));
         pollRepository.save(poll);
         return mapPoll(poll);
     }

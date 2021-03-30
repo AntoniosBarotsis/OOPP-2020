@@ -29,7 +29,7 @@ public class AnswerService {
      * @throws JsonProcessingException the json processing exception
      */
     public String findAll() throws JsonProcessingException {
-        return answerRepository.findAll().toString();
+        return mapAnswers(answerRepository.findAll());
     }
 
     /**

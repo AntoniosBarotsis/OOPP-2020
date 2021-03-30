@@ -80,10 +80,10 @@ public class PollController {
      * @return the newly created Poll
      * @throws JsonProcessingException the json processing exception
      */
-    @PutMapping("create")
+    @GetMapping("create")
     public String createPoll(@PathParam("title") String title, @PathParam("text") String text,
-                             @PathParam("options") List<String> options,
-                             @PathParam("answers") List<String> answers)
+                             @PathParam("options") String[] options,
+                             @PathParam("answers") String[] answers)
             throws JsonProcessingException {
         return pollService.createPoll(title, text, options, answers);
     }
