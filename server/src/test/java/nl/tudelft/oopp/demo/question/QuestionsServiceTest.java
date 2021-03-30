@@ -6,9 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.Set;
+
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
@@ -25,13 +27,12 @@ import nl.tudelft.oopp.demo.repositories.UserRepository;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import nl.tudelft.oopp.demo.services.RoomService;
 import nl.tudelft.oopp.demo.services.UserService;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-
 
 @DataJpaTest
 class QuestionsServiceTest {
@@ -111,8 +112,6 @@ class QuestionsServiceTest {
         id1 = question1.getId();
         id2 = question2.getId();
         id3 = question3.getId();
-
-
 
     }
 
