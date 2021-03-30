@@ -235,7 +235,7 @@ public class QuestionViewCommunication {
         url = url + "&roomId=" + roomId;
         url = url + "&idToBeBanned" + authorId;
 
-        if(!isBanned(roomId, authorId)) {
+        if (!isBanned(roomId, authorId)) {
             HttpRequest request = HttpRequest.newBuilder()
                     .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson("")))
                     .uri(URI.create(url)).build();
