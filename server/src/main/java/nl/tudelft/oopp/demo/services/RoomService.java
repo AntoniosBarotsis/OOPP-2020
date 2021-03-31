@@ -1,10 +1,5 @@
 package nl.tudelft.oopp.demo.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -19,9 +14,6 @@ import nl.tudelft.oopp.demo.entities.log.LogBan;
 import nl.tudelft.oopp.demo.entities.log.LogCollection;
 import nl.tudelft.oopp.demo.entities.log.LogJoin;
 import nl.tudelft.oopp.demo.entities.log.LogQuestion;
-import nl.tudelft.oopp.demo.entities.serializers.LogCollectionSerializer;
-import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
-import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
@@ -49,10 +41,9 @@ public class RoomService {
      * Returns a list of all rooms.
      *
      * @return the list
-     * @throws JsonProcessingException the json processing exception
      */
-    public String findAll() throws JsonProcessingException {
-        return mapRoom(roomRepository.findAll());
+    public List<Room> findAll() {
+        return roomRepository.findAll();
     }
 
     /**
@@ -60,15 +51,9 @@ public class RoomService {
      *
      * @param id the id
      * @return the one
-     * @throws JsonProcessingException the json processing exception
      */
-    public String getOne(long id) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Room.class, new RoomSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(roomRepository.getOne(id));
+    public Room getOne(long id) {
+        return roomRepository.getOne(id);
     }
 
     /**
@@ -102,10 +87,9 @@ public class RoomService {
      *
      * @param roomId the room id
      * @return the set
-     * @throws JsonProcessingException the json processing exception
      */
-    public String findAllQuestions(long roomId) throws JsonProcessingException {
-        return mapQuestion(roomRepository.findAllQuestions(roomId));
+    public Set<Question> findAllQuestions(long roomId) {
+        return roomRepository.findAllQuestions(roomId);
     }
 
     /**
@@ -243,9 +227,8 @@ public class RoomService {
      * @param roomId the room id
      * @param ip     the ip
      * @return the log collection
-     * @throws JsonProcessingException the json processing exception
      */
-    public String exportLog(long roomId, String ip) throws JsonProcessingException {
+    public LogCollection exportLog(long roomId, String ip) {
         if (isNotAuthorized(roomId, ip)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
@@ -254,7 +237,7 @@ public class RoomService {
         List<LogJoin> joins = logEntryRepository.findAllJoins(roomId);
         List<LogQuestion> questions = logEntryRepository.findAllQuestions(roomId);
 
-        return mapLogCollection(new LogCollection(bans, joins, questions));
+        return new LogCollection(bans, joins, questions);
     }
 
     /**
@@ -296,54 +279,6 @@ public class RoomService {
 
         roomConfigRepository.setConfig(roomId, studentRefreshRate, modRefreshRate,
                 questionCooldown, paceCooldown);
-    }
-
-    /**
-     * Map question string.
-     *
-     * @param questions the questions
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String mapQuestion(Collection<Question> questions) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Question.class, new QuestionSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(questions);
-    }
-
-    /**
-     * Map user string.
-     *
-     * @param rooms the users
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String mapRoom(Collection<Room> rooms) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Room.class, new RoomSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(rooms);
-    }
-
-    /**
-     * Map log collection string.
-     *
-     * @param logCollection the log collection
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String mapLogCollection(LogCollection logCollection) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(LogCollection.class, new LogCollectionSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(logCollection);
     }
 
     /**

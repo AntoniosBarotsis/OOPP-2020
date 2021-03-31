@@ -1,7 +1,5 @@
 package nl.tudelft.oopp.demo.entities;
 
-import static javax.persistence.GenerationType.SEQUENCE;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

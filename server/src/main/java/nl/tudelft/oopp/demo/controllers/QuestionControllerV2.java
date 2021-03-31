@@ -2,6 +2,8 @@ package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
@@ -81,7 +83,7 @@ public class QuestionControllerV2 {
      * Export a specific question to JSON.
      *
      * @param questionId the question id
-     * @return the string
+     * @return the question
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "export", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -94,7 +96,7 @@ public class QuestionControllerV2 {
      * Export all questions from a room to JSON.
      *
      * @param roomId the room id
-     * @return the string
+     * @return the set
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "exportAll", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -109,13 +111,12 @@ public class QuestionControllerV2 {
      *
      * @param roomId the room id
      * @param amount the amount
-     * @return the string
+     * @return the list
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "exportTop", produces = MediaType.APPLICATION_JSON_VALUE)
     public String exportTop(@PathParam("roomId") long roomId,
-                            @PathParam("amount") int amount)
-        throws JsonProcessingException {
+                            @PathParam("amount") int amount) throws JsonProcessingException {
         return questionService.exportTop(roomId, amount);
     }
 
@@ -123,7 +124,7 @@ public class QuestionControllerV2 {
      * Export all answered questions from a room to JSON.
      *
      * @param roomId the room id
-     * @return the string
+     * @return the list
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "exportAnswered", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -218,7 +219,7 @@ public class QuestionControllerV2 {
      * Gets the score.
      *
      * @param questionId the question id
-     * @return the score value of question
+     * @return the score
      */
     @GetMapping(value = "getScore")
     public int getScore(@PathParam("questionId") long questionId) {
@@ -267,7 +268,7 @@ public class QuestionControllerV2 {
      * Gets the status of question.
      *
      * @param questionId the question id
-     * @return the status of question
+     * @return the status
      */
     @GetMapping(value = "getStatus")
     public Question.QuestionStatus getStatus(@PathParam("questionId") long questionId) {

@@ -1,20 +1,20 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
+import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
+import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.RoomConfig;
+import nl.tudelft.oopp.demo.entities.log.LogCollection;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.RoomService;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * The second version of the Room controller.
  */
-
 @RestController("RoomV2")
 @RequestMapping("api/v2/rooms")
 @AllArgsConstructor
@@ -35,10 +34,9 @@ public class RoomControllerV2 {
      * Returns a list of all rooms.
      *
      * @return the list
-     * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAll() throws JsonProcessingException {
+    @GetMapping
+    public List<Room> findAll() {
         return roomService.findAll();
     }
 
@@ -47,10 +45,9 @@ public class RoomControllerV2 {
      *
      * @param id the id
      * @return the room
-     * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping(value = "get", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getOne(@PathParam("id") long id) throws JsonProcessingException {
+    @GetMapping(value = "get")
+    public Room getOne(@PathParam("id") long id) {
         return roomService.getOne(id);
     }
 
@@ -86,11 +83,9 @@ public class RoomControllerV2 {
      *
      * @param roomId the room id
      * @return the set
-     * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping(value = "questions", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAllQuestions(@PathParam("roomId") long roomId)
-            throws JsonProcessingException {
+    @GetMapping(value = "questions")
+    public Set<Question> findAllQuestions(@PathParam("roomId") long roomId) {
         return roomService.findAllQuestions(roomId);
     }
 
@@ -238,13 +233,11 @@ public class RoomControllerV2 {
      *
      * @param roomId  the room id
      * @param request the request
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
+     * @return the log collection
      */
-    @GetMapping(value = "exportLog", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String exportLog(@PathParam("roomId") long roomId,
-                            HttpServletRequest request)
-            throws JsonProcessingException {
+    @GetMapping(value = "exportLog")
+    public LogCollection exportLog(@PathParam("roomId") long roomId,
+                                   HttpServletRequest request) {
         return roomService.exportLog(roomId, request.getRemoteAddr());
     }
 
