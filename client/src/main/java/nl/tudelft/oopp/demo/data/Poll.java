@@ -33,7 +33,16 @@ public class Poll {
         this.status = status;
     }
 
-    public Poll(String text, List<String> options, List<String> correctAnswer, Poll.PollStatus status) {
+    /**
+     * Initializes a new poll.
+     *
+     * @param text the poll text
+     * @param options the options of the poll
+     * @param correctAnswer the correct answers of the poll
+     * @param status the status of the poll
+     */
+    public Poll(String text, List<String> options, List<String> correctAnswer,
+                Poll.PollStatus status) {
         this.text = text;
         this.options = options;
         this.correctAnswer = correctAnswer;
