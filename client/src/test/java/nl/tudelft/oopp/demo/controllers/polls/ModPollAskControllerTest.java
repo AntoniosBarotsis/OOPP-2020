@@ -2,7 +2,7 @@ package nl.tudelft.oopp.demo.controllers.polls;
 
 import org.junit.jupiter.api.Test;
 
-class ModPollControllerTest {
+class ModPollAskControllerTest {
 
     /**
      * Follow the manual test plan for fetching polls from server first.

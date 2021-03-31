@@ -16,6 +16,7 @@ public class PollModAskCommunication {
     private static Gson gson = new Gson();
 
 
+
     /**
      * Checks if a poll is already created, and if it isn't creates that poll.
      * Otherwise updates the information of the poll.
@@ -24,17 +25,14 @@ public class PollModAskCommunication {
      */
     public static void createPoll(Poll poll) {
         //Add checker for if poll already created, update information instead.
-        String url = "http://localhost:8080/api/v1/polls/create?";
-        url = url + "text=" + poll.getText();
-        url = url + "&title=Title";
-        url = url + "&options=" + poll.getOptions();
-        url = url + "&answers=" + poll.getCorrectAnswer();
+        String url = "http://localhost:8080/api/v1/polls/createPoll?";
 
-        HttpRequest request = HttpRequest.newBuilder()
+        HttpRequest request = HttpRequest
+                .newBuilder()
                 .uri(URI.create(url))
-                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(poll)))
                 .build();
-
 
         HttpResponse<String> response = null;
         try {
@@ -47,4 +45,5 @@ public class PollModAskCommunication {
             System.out.println("Status: " + response.statusCode());
         }
     }
+
 }

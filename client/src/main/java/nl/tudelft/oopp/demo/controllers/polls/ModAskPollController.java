@@ -16,7 +16,7 @@ import nl.tudelft.oopp.demo.data.User;
 
 
 
-public class ModPollController extends PollController {
+public class ModAskPollController extends PollController {
 
     @FXML
     private TextArea questionText;

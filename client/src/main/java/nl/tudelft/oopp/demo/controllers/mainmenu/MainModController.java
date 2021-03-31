@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
-import nl.tudelft.oopp.demo.controllers.polls.ModPollController;
+import nl.tudelft.oopp.demo.controllers.polls.ModAskPollController;
 import nl.tudelft.oopp.demo.controllers.questions.ModQuestionController;
 import nl.tudelft.oopp.demo.controllers.questions.SimpleQuestionController;
 import nl.tudelft.oopp.demo.data.Poll;
@@ -268,7 +268,7 @@ public class MainModController {
                 .getResource("/pollView/pollView.fxml"));
         loaderList.add(loader);
         try {
-            ModPollController controller = new ModPollController();
+            ModAskPollController controller = new ModAskPollController();
             controller.loadData(poll, user, room);
 
             loader.setController(controller);

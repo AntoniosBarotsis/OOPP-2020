@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.polls.ModPollController">
+<AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.oopp.demo.controllers.polls.ModAskPollController">
    <children>
       <TextArea fx:id="questionText" layoutX="19.0" layoutY="10.0" prefHeight="76.0" prefWidth="568.0" style="-fx-background-color: #00A6D6; -fx-text-alignment: center; -fx-border-color: #00A6D6; -fx-border-radius: 3;" promptText="Write the Question here" />
       <TextArea fx:id="answerTwoText" layoutX="307.0" layoutY="96.0" prefHeight="65.0" prefWidth="221.0" promptText="Write answer 2 here:" />

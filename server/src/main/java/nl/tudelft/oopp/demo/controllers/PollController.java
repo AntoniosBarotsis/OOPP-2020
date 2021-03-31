@@ -3,14 +3,17 @@ package nl.tudelft.oopp.demo.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
+import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.services.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 /**
  * The type Poll controller.
@@ -87,6 +90,18 @@ public class PollController {
             throws JsonProcessingException {
         return pollService.createPoll(title, text, options, answers);
     }
+    /**
+     * Creates a poll.
+     *
+     * @param poll the poll
+     * @throws JsonProcessingException the json processing exception
+     */
+    @PutMapping("createPoll")
+    public String createPoll(@RequestBody Poll poll)
+            throws JsonProcessingException {
+        return pollService.createPoll(poll);
+    }
+
 
     /**
      * Set Poll status.
