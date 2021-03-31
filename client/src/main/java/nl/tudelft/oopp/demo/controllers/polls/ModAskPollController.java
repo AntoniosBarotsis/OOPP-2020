@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -15,7 +14,7 @@ import nl.tudelft.oopp.demo.data.User;
 import nl.tudelft.oopp.demo.data.helper.PollHelper;
 
 
-public class ModAskPollController extends PollController {
+public class ModAskPollController {
 
     @FXML
     private TextArea questionText;
@@ -111,13 +110,6 @@ public class ModAskPollController extends PollController {
         }
 
 
-    }
-
-    /**
-     * Handles button "Options" clicks.
-     */
-    public void buttonOptionsClicked() {
-        // TODO: button should launch a new window for Moderators
     }
 
     /**

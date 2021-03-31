@@ -58,7 +58,10 @@ class MainModControllerTest {
 
     @Test
     void buttonMakePollsClicked() {
-        //To be implemented.
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if pressing "Ask multiple choice question" works:
+        1. Upon pressing the button, a new poll window should launch.
+         */
     }
 
     @Test

@@ -39,7 +39,7 @@ public class StudentPollController extends PollController {
         AnswerPollController controller = loader.getController();
 
         // Inject the data.
-        // controller.loadData(poll.getOptions(), 0);
+        controller.loadData(poll, user, room);
 
         // Assign options to loader.
         Stage stage = new Stage();
