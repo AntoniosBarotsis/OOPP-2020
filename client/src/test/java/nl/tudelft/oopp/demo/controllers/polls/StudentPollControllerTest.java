@@ -19,8 +19,14 @@ class StudentPollControllerTest {
          */
     }
 
+    /**
+     * Follow the manual test plan for fetching polls from server first.
+     */
     @Test
     void buttonOptionsClicked() {
-        // TODO: implement the button click event
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if pressing "Options" works:
+        1. Upon pressing the button, a new poll window should launch.
+         */
     }
 }

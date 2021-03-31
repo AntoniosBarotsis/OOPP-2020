@@ -19,11 +19,6 @@ class ModPollAskControllerTest {
     }
 
     @Test
-    void buttonOptionsClicked() {
-        // TODO: implement the button click event
-    }
-
-    @Test
     void testSelectors() {
         /* Manual test plan to be carried out when testing if everything works correctly.
         Test plan for testing if loading a poll works:

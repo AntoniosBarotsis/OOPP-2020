@@ -272,10 +272,10 @@ public class MainModController {
 
         try {
             ModPollController controller = new ModPollController();
-            controller.loadData(poll, user, room);
-
             loader.setController(controller);
+
             AnchorPane pane = loader.load();
+            controller.loadData(poll, user, room);
             return pane;
         } catch (IOException e) {
             e.printStackTrace();
