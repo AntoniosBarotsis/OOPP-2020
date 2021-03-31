@@ -82,9 +82,9 @@ public class PollController {
      * @throws JsonProcessingException the json processing exception
      */
     @PutMapping("create")
-    public String createPoll(@RequestBody PollHelper pollHelper)
+    public String createPoll(@RequestBody PollHelper pollHelper, @PathParam("roomId") long roomId)
             throws JsonProcessingException {
-        return pollService.createPoll(pollHelper);
+        return pollService.createPoll(pollHelper, roomId);
     }
 
     /**
