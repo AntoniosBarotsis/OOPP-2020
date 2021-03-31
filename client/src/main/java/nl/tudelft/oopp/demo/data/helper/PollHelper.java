@@ -23,8 +23,8 @@ public class PollHelper {
      * @param correctAnswer the correct answers in the poll
      * @param status the poll status
      */
-    public PollHelper(String text, List<String> options, List<String> correctAnswer
-            , Poll.PollStatus status) {
+    public PollHelper(String text, List<String> options, List<String> correctAnswer,
+                      Poll.PollStatus status) {
         this.text = text;
         this.options = options;
         this. correctAnswer = correctAnswer;
