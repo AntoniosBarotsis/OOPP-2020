@@ -232,6 +232,6 @@ public class ModAskPollController extends PollController {
         String text = questionText.getText();
 
         PollHelper pollHelper = new PollHelper(text, options, correctAnswers);
-        PollModAskCommunication.createPoll(pollHelper);
+        PollModAskCommunication.createPoll(pollHelper, room.getId());
     }
 }

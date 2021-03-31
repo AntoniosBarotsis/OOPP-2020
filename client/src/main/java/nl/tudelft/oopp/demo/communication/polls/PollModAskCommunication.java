@@ -24,9 +24,10 @@ public class PollModAskCommunication {
      *
      * @param pollHelper the poll that is added in the backend.
      */
-    public static void createPoll(PollHelper pollHelper) {
+    public static void createPoll(PollHelper pollHelper, long roomId) {
         //Add checker for if poll already created, update information instead.
-        String url = "http://localhost:8080/api/v1/polls/createPoll?";
+        String url = "http://localhost:8080/api/v1/polls/create?";
+        url = url + "roomId=" + roomId;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
