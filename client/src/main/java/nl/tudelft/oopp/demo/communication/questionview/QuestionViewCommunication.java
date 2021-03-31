@@ -233,7 +233,7 @@ public class QuestionViewCommunication {
         url = url + "userId=" + modId;
         url = url + "&elevatedPassword=" + elevatedPassword;
         url = url + "&roomId=" + roomId;
-        url = url + "&idToBeBanned" + authorId;
+        url = url + "&idToBeBanned=" + authorId;
 
         if (!isBanned(roomId, authorId)) {
             HttpRequest request = HttpRequest.newBuilder()

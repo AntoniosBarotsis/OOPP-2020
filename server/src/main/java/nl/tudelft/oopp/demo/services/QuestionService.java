@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
@@ -328,26 +329,20 @@ public class QuestionService {
      * Exports a single question in JSON format.
      *
      * @param questionId the question id
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
+     * @return the question
      */
     public String export(long questionId) throws JsonProcessingException {
-        if (questionRepository.findById(questionId).isPresent()) {
-            return this.mapQuestionExport(List.of(questionRepository.findById(questionId).get()));
-        } else {
-            return "{\"error\": \"JsonProcessingException\"}";
-        }
+        return mapQuestionExport(List.of(questionRepository.findById(questionId).get()));
     }
 
     /**
      * Exports all questions from a given room in JSON format.
      *
      * @param roomId the room id
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
+     * @return the set
      */
     public String exportAll(long roomId) throws JsonProcessingException {
-        return this.mapQuestionExport(roomRepository.findAllQuestions(roomId));
+        return mapQuestionExport(roomRepository.findAllQuestions(roomId));
     }
 
     /**
@@ -355,12 +350,11 @@ public class QuestionService {
      *
      * @param roomId - the room id
      * @param amount - the amount of questions
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
+     * @return the list
      */
     public String exportTop(long roomId, int amount) throws JsonProcessingException {
         if (amount < 1) {
-            return "{\"error: \"Invalid amount supplied\"}";
+            throw new IllegalArgumentException("Invalid amount supplied");
         }
 
         List<Question> questions = roomRepository
@@ -370,15 +364,14 @@ public class QuestionService {
             .limit(amount)
             .collect(Collectors.toList());
 
-        return this.mapQuestionExport(questions);
+        return mapQuestionExport(questions);
     }
 
     /**
      * Export answered questions string.
      *
      * @param roomId the room id
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
+     * @return the list
      */
     public String exportAnswered(long roomId) throws JsonProcessingException {
         List<Question> questions = roomRepository
@@ -387,8 +380,9 @@ public class QuestionService {
             .filter(Question::isAnswered)
             .collect(Collectors.toList());
 
-        return this.mapQuestionExport(questions);
+        return mapQuestionExport(questions);
     }
+
 
     /**
      * Maps a collection of questions using a custom mapper.
@@ -438,4 +432,5 @@ public class QuestionService {
     public boolean getBeingAnswered(long questionId) {
         return questionRepository.getBeingAnswered(questionId);
     }
+
 }

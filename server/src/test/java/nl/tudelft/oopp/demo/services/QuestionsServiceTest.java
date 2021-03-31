@@ -29,10 +29,6 @@ import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 
-import nl.tudelft.oopp.demo.services.QuestionService;
-import nl.tudelft.oopp.demo.services.RoomService;
-import nl.tudelft.oopp.demo.services.UserService;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,6 +71,7 @@ class QuestionsServiceTest {
     private User user1;
     private User user2;
     private User user3;
+    private User bannedUser;
     private ElevatedUser admin;
 
 
@@ -82,6 +79,7 @@ class QuestionsServiceTest {
     private Question question2;
     private Question question3;
     private Question question4;
+    private Question question5;
 
     private Room room;
 
@@ -99,7 +97,8 @@ class QuestionsServiceTest {
         user2 = new Student("UserName 2", "IP 2");
         user3 = new Student("UserName 3", "ajnkdsjnasdjnascjnk");
 
-        admin = new ElevatedUser("admin", "IP 4", true);
+
+
 
         question1 = new Question("This is the text 1", user1);
         question2 = new Question("This is the text 2", user1);
@@ -110,6 +109,14 @@ class QuestionsServiceTest {
 
         userRepository.save(user1);
         userRepository.save(user2);
+
+        admin = (ElevatedUser) roomService.join(room.getElevatedPassword(), "admin", "IP 4");
+
+        bannedUser =  roomService.join(room.getNormalPassword(), "banned", "IP 5");
+        roomService.banUser(room.getId(), admin.getId(), bannedUser.getId(),
+                room.getElevatedPassword());
+
+        question5 = new Question("This is the question of banned user", bannedUser);
 
         questionService.addQuestion(question1, room.getId());
         questionService.addQuestion(question2, room.getId());
@@ -138,11 +145,8 @@ class QuestionsServiceTest {
 
     @Test
     void addQuestionUnauthorisedUser() {
-        //userRepository.save(user3);
-        //roomService.banUser(room.getId(),user3.getId(), user3.getIp(),
-        //room.getElevatedPassword());
         //Assertions.assertThrows(UnauthorizedException.class, () -> {
-            //questionService.addQuestion(question4, room.getId());
+            //questionService.addQuestion(question5, room.getId());
         //});
     }
 
@@ -315,23 +319,25 @@ class QuestionsServiceTest {
 
     @Test
     void deleteOneQuestion() throws JsonProcessingException {
-        boolean contains = roomService.findAllQuestions(room.getId()).contains("" + id3);
+        boolean contains = roomService.findAllQuestions(room.getId()).contains(question3);
         assertTrue(contains);
         questionService.deleteOneQuestion(room.getId(), id3);
-        contains = roomService.findAllQuestions(room.getId()).contains("" + id3);
+        contains = roomService.findAllQuestions(room.getId()).contains(question3);
         assertFalse(contains);
     }
 
     @Test
     void deleteAllQuestions() throws JsonProcessingException {
         questionService.deleteAllQuestions(room.getId());
-        assertEquals("[]", roomService.findAllQuestions(room.getId()));
+        assertEquals(new HashSet<>(), roomService.findAllQuestions(room.getId()));
     }
 
     @Test
     void exportError() throws JsonProcessingException {
-        String error =  questionService.export(382911230);
-        assertEquals("{\"error\": \"JsonProcessingException\"}", error);
+        Assertions.assertThrows(Exception.class, () -> {
+            String error =  questionService.export(382911230);
+
+        });
     }
 
     @Test
@@ -354,8 +360,9 @@ class QuestionsServiceTest {
 
     @Test
     void exportTopError() throws JsonProcessingException {
-        String error =  questionService.exportTop(room.getId(), 0);
-        assertEquals("{\"error: \"Invalid amount supplied\"}", error);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            String error =  questionService.exportTop(room.getId(), 0);
+        });
     }
 
     @Test
