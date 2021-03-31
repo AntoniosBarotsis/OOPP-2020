@@ -26,7 +26,6 @@ public class PollSerializer extends StdSerializer<Poll> {
         gen.writeStartObject();
 
         gen.writeNumberField("id", value.getId());
-        gen.writeStringField("title", value.getTitle());
         gen.writeStringField("text", value.getText());
         gen.writeStringField("status", value.getStatus().toString());
         gen.writeStringField("timeCreated", dateFormat.format(value.getTimeCreated()));

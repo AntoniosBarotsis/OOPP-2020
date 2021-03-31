@@ -83,11 +83,11 @@ public class DataConfig {
             User u3 = new Student("Student", ip);
             userRepository.saveAll(List.of(u1, u2, u3, u22));
 
-            Poll p1 = new Poll("Poll title", "Poll text",
+            Poll p1 = new Poll("Poll text",
                     List.of("A", "B", "Correct answer", "D", "E", "F", "7", "8", "9"),
                     List.of("Correct answer"));
 
-            Poll p2 = new Poll("Poll title", "Poll text",
+            Poll p2 = new Poll("Poll text",
                     List.of("A", "B", "Correct answer", "D", "E", "F", "7", "8", "9"),
                     List.of("Correct answer"));
             p2.setStatus(Poll.PollStatus.CLOSED);

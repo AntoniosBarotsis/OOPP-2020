@@ -230,9 +230,8 @@ public class ModAskPollController extends PollController {
         poll.setStatus(Poll.PollStatus.OPEN);
 
         String text = questionText.getText();
-        Poll.PollStatus status = Poll.PollStatus.OPEN;
 
-        PollHelper pollHelper = new PollHelper(text, options, correctAnswers, status);
+        PollHelper pollHelper = new PollHelper(text, options, correctAnswers);
         PollModAskCommunication.createPoll(pollHelper);
     }
 }

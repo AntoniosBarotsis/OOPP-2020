@@ -51,7 +51,7 @@ public class PollTest {
 
         userRepository.saveAll(List.of(e1, s1));
 
-        p1 = new Poll("Poll title", "Poll text", List.of("Wrong answer1", "Wrong answer2",
+        p1 = new Poll("Poll text", List.of("Wrong answer1", "Wrong answer2",
                 "Wrong answer3", "Wrong answer4", "Correct answer1", "Correct answer2"),
                 List.of("Correct answer1", "Correct answer2"));
 
@@ -77,17 +77,6 @@ public class PollTest {
         assertThat(pollRepository).isNotNull();
         assertThat(answerRepository).isNotNull();
         assertThat(roomConfigRepository).isNotNull();
-    }
-
-    @Test
-    void getTitle() {
-        assertThat(p1.getTitle()).isEqualTo("Poll title");
-    }
-
-    @Test
-    void setTitle() {
-        p1.setTitle("Poll title 2");
-        assertThat(p1.getTitle()).isEqualTo("Poll title 2");
     }
 
     @Test

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
+import nl.tudelft.oopp.demo.entities.helpers.PollHelper;
 import nl.tudelft.oopp.demo.services.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -76,34 +77,15 @@ public class PollController {
     /**
      * Create a poll.
      *
-     * @param title the Poll's title
-     * @param text the Poll's text
-     * @param options the Poll's options
-     * @param answers the Poll's answers
+     * @param pollHelper the Pollhelper
      * @return the newly created Poll
      * @throws JsonProcessingException the json processing exception
      */
     @PutMapping("create")
-    public String createPoll(@PathParam("title") String title, @PathParam("text") String text,
-                             @PathParam("options") String[] options,
-                             @PathParam("answers") String[] answers)
+    public String createPoll(@RequestBody PollHelper pollHelper)
             throws JsonProcessingException {
-        return pollService.createPoll(title, text, options, answers);
+        return pollService.createPoll(pollHelper);
     }
-
-    
-    /**
-     * Creates a poll.
-     *
-     * @param poll the poll
-     * @throws JsonProcessingException the json processing exception
-     */
-    @PutMapping("createPoll")
-    public String createPoll(@RequestBody Poll poll)
-            throws JsonProcessingException {
-        return pollService.createPoll(poll);
-    }
-
 
     /**
      * Set Poll status.

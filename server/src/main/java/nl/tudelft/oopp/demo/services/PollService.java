@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
+import nl.tudelft.oopp.demo.entities.helpers.PollHelper;
 import nl.tudelft.oopp.demo.entities.serializers.PollSerializer;
 import nl.tudelft.oopp.demo.exceptions.InvalidPollStatusException;
 import nl.tudelft.oopp.demo.repositories.PollRepository;
@@ -119,32 +120,17 @@ public class PollService {
     /**
      * Create a poll.
      *
-     * @param title   the Poll's title
-     * @param text    the Poll's text
-     * @param options the Poll's options
-     * @param answers the Poll's answers
+     * @param pollHelper the pollhelper
      * @return the newly created Poll
      * @throws JsonProcessingException the json processing exception
      */
-    public String createPoll(String title, String text, String[] options, String[] answers)
+    public String createPoll(PollHelper pollHelper)
             throws JsonProcessingException {
-        Poll poll = new Poll(title, text, Arrays.asList(options), Arrays.asList(answers));
+        Poll poll = new Poll(pollHelper.getText(), pollHelper.getOptions(),
+                pollHelper.getCorrectAnswer());
         pollRepository.save(poll);
         return mapPoll(poll);
     }
-
-    /**
-     * Creates a poll.
-     *
-     * @param poll the poll
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String createPoll(Poll poll)
-            throws JsonProcessingException {
-        pollRepository.save(poll);
-        return mapPoll(poll);
-    }
-
 
     /**
      * Set poll status.

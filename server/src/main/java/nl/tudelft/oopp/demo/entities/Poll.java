@@ -5,7 +5,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 import java.util.Date;
 
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -36,8 +35,6 @@ public class Poll {
     )
     @Column(name = "id", updatable = false)
     private long id;
-    @Column(name = "title")
-    private String title;
     @Column(name = "text")
     private String text;
     @Column(name = "timeCreated")
@@ -54,14 +51,12 @@ public class Poll {
     /**
      * Instantiates a new Poll.
      *
-     * @param title         the title
      * @param text          the text
      * @param options       the options
      * @param correctAnswer the correct answer
      */
-    public Poll(String title, String text, List<String> options,
+    public Poll(String text, List<String> options,
                 List<String> correctAnswer) {
-        this.title = title;
         this.text = text;
         this.options = options;
         this.correctAnswer = correctAnswer;
