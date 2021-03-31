@@ -8,6 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import nl.tudelft.oopp.demo.data.Poll;
+import nl.tudelft.oopp.demo.data.helper.PollHelper;
 
 
 public class PollModAskCommunication {
@@ -21,9 +22,9 @@ public class PollModAskCommunication {
      * Checks if a poll is already created, and if it isn't creates that poll.
      * Otherwise updates the information of the poll.
      *
-     * @param poll the poll that is added in the backend.
+     * @param pollHelper the poll that is added in the backend.
      */
-    public static void createPoll(Poll poll) {
+    public static void createPoll(PollHelper pollHelper) {
         //Add checker for if poll already created, update information instead.
         String url = "http://localhost:8080/api/v1/polls/createPoll?";
 
@@ -31,7 +32,7 @@ public class PollModAskCommunication {
                 .newBuilder()
                 .uri(URI.create(url))
                 .header("Content-Type", "application/json")
-                .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(poll)))
+                .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(pollHelper)))
                 .build();
 
         HttpResponse<String> response = null;

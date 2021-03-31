@@ -12,8 +12,7 @@ import nl.tudelft.oopp.demo.communication.polls.PollModAskCommunication;
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
-
-
+import nl.tudelft.oopp.demo.data.helper.PollHelper;
 
 
 public class ModAskPollController extends PollController {
@@ -220,7 +219,6 @@ public class ModAskPollController extends PollController {
                 options.add(text.getText());
             }
         }
-
         for (int i = 0; i < 10; i++) {
             if (selected.get(i) && !textList.get(i).getText().equals("")) {
                 correctAnswers.add(textList.get(i).getText());
@@ -231,6 +229,10 @@ public class ModAskPollController extends PollController {
         poll.setText(questionText.getText());
         poll.setStatus(Poll.PollStatus.OPEN);
 
-        PollModAskCommunication.createPoll(poll);
+        String text = questionText.getText();
+        Poll.PollStatus status = Poll.PollStatus.OPEN;
+
+        PollHelper pollHelper = new PollHelper(text, options, correctAnswers, status);
+        PollModAskCommunication.createPoll(pollHelper);
     }
 }

@@ -33,6 +33,14 @@ public class Poll {
         this.status = status;
     }
 
+    public Poll(String text, List<String> options, List<String> correctAnswer, Poll.PollStatus status) {
+        this.text = text;
+        this.options = options;
+        this.correctAnswer = correctAnswer;
+        this.timeCreated = new Date();
+        this.status = status;
+    }
+
     /**
      * Getter for id of poll.
      * @return id of poll
