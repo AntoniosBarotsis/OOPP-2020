@@ -1,8 +1,6 @@
 package nl.tudelft.oopp.demo.views;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.controllers.polls.ModPollController;
+import nl.tudelft.oopp.demo.controllers.polls.ModAskPollController;
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.RoomConfig;
@@ -26,12 +24,12 @@ public class PollModDisplay extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/pollView/pollModAskView.fxml"));
         Parent root = loader.load();
-        ModPollController controller = loader.getController();
+        ModAskPollController controller = loader.getController();
 
         //Load data
-        List<String> list = Arrays.asList("", "", "answer 1", "answer 2", "answer 3", "", "",
-                "", "answer 4", "");
-        List<String> listAnswers = Arrays.asList("", "", "answer 1");
+        List<String> list = Arrays.asList("", "", "answer1", "answer2", "answer3", "", "",
+                "", "answer4", "");
+        List<String> listAnswers = Arrays.asList("", "", "answer1");
 
         Poll poll = new Poll(1, "text", new Date(), list,
                 listAnswers, Poll.PollStatus.CLOSED);
