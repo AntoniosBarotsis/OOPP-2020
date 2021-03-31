@@ -260,7 +260,7 @@ public class QuestionViewCommunication {
      * @param authorId the id of the user.
      * @return boolean of is the user banned.
      */
-    private static boolean isBanned(Long roomId, Long authorId) {
+    public static boolean isBanned(Long roomId, Long authorId) {
         String url = "http://localhost:8080/api/v2/rooms/isBanned?";
         url = url + "id=" + authorId;
         url = url + "&roomId=" + roomId;
@@ -273,8 +273,7 @@ public class QuestionViewCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
-
+            return new Boolean(null);
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());

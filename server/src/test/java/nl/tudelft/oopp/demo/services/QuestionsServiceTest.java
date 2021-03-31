@@ -1,4 +1,4 @@
-package nl.tudelft.oopp.demo.question;
+package nl.tudelft.oopp.demo.services;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;

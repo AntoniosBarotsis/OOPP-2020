@@ -46,11 +46,6 @@ class QuestionViewCommunicationTest {
     }
 
     @Test
-    void banUser() {
-        //assertDoesNotThrow(() -> QuestionViewCommunication.ban(roomId, modId, authorId));
-    }
-
-    @Test
     void downvote() {
         assertDoesNotThrow(() -> QuestionViewCommunication.downvote(id));
     }
@@ -81,11 +76,18 @@ class QuestionViewCommunicationTest {
 
     @Test
     void ban() {
-         // assertThrows(QuestionViewCommunication.ban(id, userId));
+        // Will work properly when the server is initiated
+        // assertDoesNotThrow(() -> QuestionViewCommunication.ban(id, 1, userId));
+    }
+
+    @Test
+    void isBanned() {
+        assertNotNull(QuestionViewCommunication.isBanned(id, userId));
     }
 
     @Test
     void delete() {
+        // Will work properly when the server is initiated
         // assertDoesNotThrow(() -> QuestionViewCommunication.delete(id, userId));
     }
 
