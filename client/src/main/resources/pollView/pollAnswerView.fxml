@@ -33,6 +33,6 @@
             <ListView fx:id="listLeft" prefHeight="200.0" prefWidth="200.0" style="-fx-control-inner-background-alt: #C4C4C4; -fx-control-inner-background: #C4C4C4;" GridPane.columnIndex="1" />
          </children>
       </GridPane>
-      <Button mnemonicParsing="false" style="-fx-background-color: #FFFFFF;" text="Submit" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Button mnemonicParsing="false" onMouseClicked="#submitButton" style="-fx-background-color: #FFFFFF;" text="Submit" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
    </children>
 </GridPane>
