@@ -12,7 +12,8 @@ class PollModAskCommunicationTest {
 
     @Test
     void createPoll() {
-        PollHelper testPoll = new PollHelper( "poll", new ArrayList<>(), new ArrayList<>(), Poll.PollStatus.CLOSED);
+        PollHelper testPoll = new PollHelper("poll", new ArrayList<>(), new ArrayList<>(),
+                Poll.PollStatus.CLOSED);
         assertDoesNotThrow(() -> PollModAskCommunication.createPoll(testPoll));
     }
 }
