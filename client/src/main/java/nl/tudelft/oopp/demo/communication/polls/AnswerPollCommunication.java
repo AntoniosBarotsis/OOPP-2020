@@ -1,16 +1,11 @@
 package nl.tudelft.oopp.demo.communication.polls;
 
 import com.google.gson.Gson;
-import nl.tudelft.oopp.demo.data.Poll;
-import nl.tudelft.oopp.demo.data.Room;
-import nl.tudelft.oopp.demo.data.RoomConfig;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Date;
-import java.util.List;
+import nl.tudelft.oopp.demo.data.Poll;
 
 public class AnswerPollCommunication {
 
@@ -46,6 +41,12 @@ public class AnswerPollCommunication {
         }
     }
 
+    /**
+     * Get the poll.
+     *
+     * @param pollId the poll id
+     * @return the poll
+     */
     public static Poll getPoll(long pollId) {
         String url = "http://localhost:8080/api/v1/polls/get?id=" + pollId;
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();

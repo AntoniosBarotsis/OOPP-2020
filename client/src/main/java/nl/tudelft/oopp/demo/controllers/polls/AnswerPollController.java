@@ -112,6 +112,9 @@ public class AnswerPollController {
         return button;
     }
 
+    /**
+     * Submit button.
+     */
     public void submitButton() {
         String answers = formatButtons();
         AnswerPollCommunication.createAnswer(answers, poll.getId(), user.getId());
@@ -119,10 +122,15 @@ public class AnswerPollController {
         oldStage.close();
     }
 
+    /**
+     * Format buttons.
+     *
+     * @return the string
+     */
     public String formatButtons() {
         String string = new String();
-        for(int i = 0; i < selected.size(); i++) {
-            if (i < selected.size() -1) {
+        for (int i = 0; i < selected.size(); i++) {
+            if (i < (selected.size() - 1)) {
                 string += selected.get(i).getText() + ",";
             } else {
                 string += selected.get(i).getText();

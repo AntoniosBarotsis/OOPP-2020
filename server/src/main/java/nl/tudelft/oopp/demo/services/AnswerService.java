@@ -3,10 +3,13 @@ package nl.tudelft.oopp.demo.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.util.Collection;
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Answer;
+import nl.tudelft.oopp.demo.entities.helpers.AnswerHelper;
 import nl.tudelft.oopp.demo.entities.serializers.AnswerSerializer;
 import nl.tudelft.oopp.demo.repositories.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,15 +81,13 @@ public class AnswerService {
     /**
      * Create a new Answer.
      *
-     * @param answers the given answers
-     * @param pollId the poll's ID
-     * @param userId the user's ID
+     * @param answerHelper the AnswerHelper
      * @return the newly created Answer
      * @throws JsonProcessingException the json processing exception
      */
-    public String create(List<String> answers, long pollId, long userId)
+    public String create(AnswerHelper answerHelper)
             throws JsonProcessingException {
-        Answer answer = new Answer(answers, pollId, userId);
+        Answer answer = answerHelper.createAnswer();
         answerRepository.save(answer);
         return mapAnswer(answer);
     }

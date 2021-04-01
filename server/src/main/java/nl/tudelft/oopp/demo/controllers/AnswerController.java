@@ -1,14 +1,15 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.util.List;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
+import nl.tudelft.oopp.demo.entities.helpers.AnswerHelper;
 import nl.tudelft.oopp.demo.services.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,14 +50,11 @@ public class AnswerController {
     /**
      * Create an Answer.
      *
-     * @param answers the selected answers
-     * @param pollId  the poll's ID
-     * @param userId  the user's ID
+     * @param answerHelper the AnswerHelper
      * @throws JsonProcessingException the json processing exception
      */
     @PutMapping("create")
-    public void create(@PathParam("answers") List<String> answers, @PathParam("pollId") long pollId,
-                       @PathParam("userId") long userId) throws JsonProcessingException {
-        answerService.create(answers, pollId, userId);
+    public void create(@RequestBody AnswerHelper answerHelper) throws JsonProcessingException {
+        answerService.create(answerHelper);
     }
 }
