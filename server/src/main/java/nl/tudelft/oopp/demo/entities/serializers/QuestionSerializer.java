@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
+import javax.validation.constraints.Null;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,13 @@ public class QuestionSerializer extends StdSerializer<Question> {
     @Override
     public void serialize(Question value, JsonGenerator gen, SerializerProvider provider)
         throws IOException {
-        value = questionRepository.getOne(value.getId());
-        value.updateScore();
-        questionRepository.save(value);
+        try {
+            value = questionRepository.getOne(value.getId());
+            value.updateScore();
+            questionRepository.save(value);
+        } catch (NullPointerException ignored) {
+
+        }
 
         gen.writeStartObject();
         gen.writeNumberField("id", value.getId());
