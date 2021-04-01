@@ -62,7 +62,7 @@ public class PollModAskCommunication {
                 .build();
 
         HttpResponse<String> response = null;
-        try{
+        try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();

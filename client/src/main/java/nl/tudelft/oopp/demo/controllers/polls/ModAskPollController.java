@@ -221,13 +221,13 @@ public class ModAskPollController {
         submitButton.setVisible(false);
 
         int trueCounter = 0;
-        for(boolean a : selected){
-            if(a){
+        for (boolean a : selected) {
+            if(a) {
                 trueCounter++;
                 break;
             }
         }
-        if(trueCounter==0){
+        if (trueCounter == 0) {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setContentText("At least one question needs to be marked as true.");
             a.setHeaderText("Empty true error.");
@@ -263,6 +263,9 @@ public class ModAskPollController {
         showStatisticsButton.setDisable(true);
     }
 
+    /**
+     * Sets the status of the poll to closed.
+     */
     public void closePoll() {
         submitButton.setDisable(false);
         submitButton.setVisible(true);
