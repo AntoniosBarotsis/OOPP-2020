@@ -6,6 +6,6 @@ import nl.tudelft.oopp.demo.views.StartDisplay;
 
 public class MainApp {
     public static void main(String[] args) {
-        PollModDisplay.main(new String[0]);
+        PollAnswerDisplay.main(new String[0]);
     }
 }

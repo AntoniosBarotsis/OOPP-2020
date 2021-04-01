@@ -6,6 +6,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import nl.tudelft.oopp.demo.data.Poll;
+import nl.tudelft.oopp.demo.data.helper.AnswerHelper;
+import nl.tudelft.oopp.demo.data.helper.PollHelper;
 
 public class AnswerPollCommunication {
 
@@ -15,17 +17,16 @@ public class AnswerPollCommunication {
 
     /**
      * Creating of a answer for a user.
-     * @param answers Correct format list (*String1*,*String2*, etc.)
-     * @param pollId the id of the poll
-     * @param userId the id of the user
+     * @param answerHelper The helper used for creating answers
      */
-    public static void createAnswer(String answers, long pollId, long userId) {
-        String url = "http://localhost:8080/api/v1/answers/create?answers=" + answers.trim()
-                + "&pollId=" + pollId
-                + "&userId=" + userId;
-        HttpRequest request = HttpRequest.newBuilder()
+    public static void createAnswer(AnswerHelper answerHelper) {
+        String url = "http://localhost:8080/api/v1/answers/create?";
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
                 .uri(URI.create(url))
-                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(answerHelper)))
                 .build();
 
         HttpResponse<String> response = null;
@@ -37,9 +38,9 @@ public class AnswerPollCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
-            return;
         }
     }
+
 
     /**
      * Get the poll.

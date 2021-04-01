@@ -15,6 +15,7 @@ import nl.tudelft.oopp.demo.communication.polls.AnswerPollCommunication;
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
+import nl.tudelft.oopp.demo.data.helper.AnswerHelper;
 
 
 public class AnswerPollController {
@@ -116,8 +117,9 @@ public class AnswerPollController {
      * Submit button.
      */
     public void submitButton() {
-        String answers = formatButtons();
-        AnswerPollCommunication.createAnswer(answers, poll.getId(), user.getId());
+        List<String> answers = formatButtons();
+        AnswerHelper answerHelper = new AnswerHelper(user.getId(), poll.getId(), answers);
+        AnswerPollCommunication.createAnswer(answerHelper);
         Stage oldStage = (Stage) listLeft.getScene().getWindow();
         oldStage.close();
     }
@@ -127,16 +129,12 @@ public class AnswerPollController {
      *
      * @return the string
      */
-    public String formatButtons() {
-        String string = new String();
-        for (int i = 0; i < selected.size(); i++) {
-            if (i < (selected.size() - 1)) {
-                string += selected.get(i).getText() + ",";
-            } else {
-                string += selected.get(i).getText();
-            }
+    public List<String> formatButtons() {
+        List<String> list = new ArrayList<>();
+        for (Button button : selected) {
+            list.add(button.getText());
         }
-        return string;
+        return list;
     }
 
 }
