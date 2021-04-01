@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
 import nl.tudelft.oopp.demo.entities.Question;
-
+import nl.tudelft.oopp.demo.repositories.QuestionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -13,6 +14,8 @@ import nl.tudelft.oopp.demo.entities.Question;
  * text, answer and timeCreated
  */
 public class QuestionSerializer extends StdSerializer<Question> {
+    @Autowired
+    private QuestionRepository questionRepository;
 
     /**
      * Instantiates a new Question serializer.
@@ -33,6 +36,9 @@ public class QuestionSerializer extends StdSerializer<Question> {
     @Override
     public void serialize(Question value, JsonGenerator gen, SerializerProvider provider)
         throws IOException {
+        value = questionRepository.getOne(value.getId());
+        value.updateScore();
+        questionRepository.save(value);
 
         gen.writeStartObject();
         gen.writeNumberField("id", value.getId());
