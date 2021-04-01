@@ -30,7 +30,6 @@ import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 
-
 /**
  * The type Question service.
  */
@@ -330,6 +329,7 @@ public class QuestionService {
      *
      * @param questionId the question id
      * @return the question
+     * @throws JsonProcessingException the json processing exception
      */
     public String export(long questionId) throws JsonProcessingException {
         return mapQuestionExport(List.of(questionRepository.findById(questionId).get()));
@@ -340,6 +340,7 @@ public class QuestionService {
      *
      * @param roomId the room id
      * @return the set
+     * @throws JsonProcessingException the json processing exception
      */
     public String exportAll(long roomId) throws JsonProcessingException {
         return mapQuestionExport(roomRepository.findAllQuestions(roomId));
@@ -351,6 +352,7 @@ public class QuestionService {
      * @param roomId - the room id
      * @param amount - the amount of questions
      * @return the list
+     * @throws JsonProcessingException the json processing exception
      */
     public String exportTop(long roomId, int amount) throws JsonProcessingException {
         if (amount < 1) {
@@ -372,6 +374,7 @@ public class QuestionService {
      *
      * @param roomId the room id
      * @return the list
+     * @throws JsonProcessingException the json processing exception
      */
     public String exportAnswered(long roomId) throws JsonProcessingException {
         List<Question> questions = roomRepository
@@ -391,6 +394,8 @@ public class QuestionService {
      * @return the list
      */
     public List<Question> sortByScore(long roomId) {
+        refreshScore(roomId);
+
         Comparator<Question> comp = Comparator.comparing(Question::getScore)
             .thenComparing(q -> q.getTimeCreated().getTime())
             .reversed();
@@ -451,4 +456,16 @@ public class QuestionService {
         return questionRepository.getBeingAnswered(questionId);
     }
 
+    /**
+     * Refreshes score.
+     *
+     * @param roomId the room id
+     */
+    public void refreshScore(long roomId) {
+        roomRepository.findAllQuestions(roomId)
+            .forEach(q -> {
+                q.updateScore();
+                questionRepository.save(q);
+            });
+    }
 }
