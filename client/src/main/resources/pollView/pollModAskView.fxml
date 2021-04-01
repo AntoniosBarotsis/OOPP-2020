@@ -37,7 +37,7 @@
          <font>
             <Font size="14.0" />
          </font></Button>
-       <Button fx:id="closePollButton" layoutX="245.0" layoutY="443.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="123.0" style="-fx-background-color: #eb7245;" text="Close Poll">
+       <Button fx:id="closePollButton" layoutX="245.0" layoutY="443.0" mnemonicParsing="false" onAction="#closePoll" prefHeight="28.0" prefWidth="123.0" style="-fx-background-color: #eb7245;" text="Close Poll">
          <font>
             <Font size="14.0" />
          </font></Button>

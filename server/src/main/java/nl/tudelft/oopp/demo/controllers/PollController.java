@@ -97,5 +97,4 @@ public class PollController {
     public void setStatus(@PathParam("pollId") long pollId, @PathParam("status") String status) {
         pollService.setStatus(pollId, status);
     }
-
 }

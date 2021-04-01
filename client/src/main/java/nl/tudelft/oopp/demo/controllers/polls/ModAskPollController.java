@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import nl.tudelft.oopp.demo.communication.polls.PollModAskCommunication;
@@ -61,6 +63,14 @@ public class ModAskPollController {
     @FXML
     private Button answerTenSelector;
 
+    @FXML
+    private Button submitButton;
+    @FXML
+    private Button closePollButton;
+    @FXML
+    private Button showStatisticsButton;
+
+
     private Poll poll;
     private User user;
     private Room room;
@@ -108,6 +118,9 @@ public class ModAskPollController {
                 }
             }
         }
+
+        closePollButton.setDisable(false);
+        showStatisticsButton.setDisable(false);
 
 
     }
@@ -204,6 +217,24 @@ public class ModAskPollController {
      * Then creates a new poll with the info in the backend.
      */
     public void submit() {
+        submitButton.setDisable(true);
+        submitButton.setVisible(false);
+
+        int trueCounter = 0;
+        for(boolean a : selected){
+            if(a){
+                trueCounter++;
+                break;
+            }
+        }
+        if(trueCounter==0){
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("At least one question needs to be marked as true.");
+            a.setHeaderText("Empty true error.");
+            a.show();
+            return;
+        }
+
         List<String> options = new ArrayList<>();
         List<String> correctAnswers = new ArrayList<>();
         for (TextArea text: textList) {
@@ -224,6 +255,21 @@ public class ModAskPollController {
         String text = questionText.getText();
 
         PollHelper pollHelper = new PollHelper(text, options, correctAnswers);
+
+        // Remember to check if the poll already exists :)
         PollModAskCommunication.createPoll(pollHelper);
+
+        closePollButton.setDisable(true);
+        showStatisticsButton.setDisable(true);
+    }
+
+    public void closePoll() {
+        submitButton.setDisable(false);
+        submitButton.setVisible(true);
+
+        closePollButton.setDisable(true);
+        showStatisticsButton.setDisable(true);
+
+        PollModAskCommunication.closePoll(room, poll, Poll.PollStatus.CLOSED);
     }
 }
