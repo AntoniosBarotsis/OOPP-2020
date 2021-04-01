@@ -49,11 +49,17 @@ public class PollModAskCommunication {
         }
     }
 
-    public static void closePoll(Room room, Poll poll, Poll.PollStatus status) {
+    /**
+     * Sets the status of the poll to the given one in the parameters
+     *
+     * @param poll the poll to change.
+     * @param status The new status.
+     */
+    public static void setStatus(Poll poll, Poll.PollStatus status) {
         String url = "http://localhost:8080/api/v1/polls/status?";
 
         url = url + "&pollId=" + poll.getId();
-        url = url + "&status=" + poll.getStatus().toString();
+        url = url + "&status=" + status.toString();
 
         HttpRequest request = HttpRequest
                 .newBuilder()

@@ -226,7 +226,7 @@ public class ModAskPollController {
 
         int trueCounter = 0;
         for (boolean a : selected) {
-            if(a) {
+            if (a) {
                 trueCounter++;
                 break;
             }
@@ -277,6 +277,6 @@ public class ModAskPollController {
         closePollButton.setDisable(true);
         showStatisticsButton.setDisable(true);
 
-        PollModAskCommunication.closePoll(room, poll, Poll.PollStatus.CLOSED);
+        PollModAskCommunication.setStatus(poll, Poll.PollStatus.CLOSED);
     }
 }
