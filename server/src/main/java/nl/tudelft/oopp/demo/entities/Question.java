@@ -133,5 +133,17 @@ public class Question {
             return "SPAM";
         }
     }
+
+    /**
+     * Updates the score. The formula used is upvotes + minutes since creation.
+     */
+    public void updateScore() {
+        long timeDifference = new Date().getTime() - timeCreated.getTime();
+        int minutesDifference = (int) ((timeDifference / 1000) % 60);
+
+        System.out.println(upvotes + " " + minutesDifference);
+
+        this.score = minutesDifference + upvotes;
+    }
 }
 
