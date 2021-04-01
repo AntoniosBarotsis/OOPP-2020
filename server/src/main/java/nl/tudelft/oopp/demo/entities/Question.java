@@ -144,9 +144,7 @@ public class Question {
      */
     public void updateScore() {
         long timeDifference = new Date().getTime() - timeCreated.getTime();
-        int minutesDifference = (int) ((timeDifference / 1000) % 60);
-
-        System.out.println(upvotes + " " + minutesDifference);
+        int minutesDifference = (int) ((timeDifference / (1000 * 60)) % 60);
 
         this.score = minutesDifference + upvotes;
     }
