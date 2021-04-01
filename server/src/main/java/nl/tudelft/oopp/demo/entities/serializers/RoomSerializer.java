@@ -20,7 +20,7 @@ public class RoomSerializer extends StdSerializer<Room> {
     @Override
     public void serialize(Room value, JsonGenerator gen, SerializerProvider provider)
         throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         gen.writeStartObject();
         gen.writeNumberField("id", value.getId());
@@ -40,6 +40,8 @@ public class RoomSerializer extends StdSerializer<Room> {
         gen.writeNumberField("paceCooldown", value.getRoomConfig().getPaceCooldown());
         gen.writeEndObject();
 
+        gen.writeNumberField("admin_id", value.getAdmin());
+        gen.writeStringField("normal_password", value.getNormalPassword());
         gen.writeEndObject();
     }
 }

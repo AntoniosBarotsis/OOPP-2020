@@ -3,8 +3,10 @@ package nl.tudelft.oopp.demo.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
+
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+
 /**
  * The type Question controller.
  */
@@ -33,7 +37,7 @@ public class QuestionControllerV2 {
     private final UserService userService;
 
     /**
-     * Add question.
+     * Add question to the given room.
      *
      * @param questionHelper the question helper
      * @param roomId         the room id
@@ -57,7 +61,7 @@ public class QuestionControllerV2 {
     }
 
     /**
-     * Delete one question.
+     * Delete a question using the id.
      *
      * @param roomId     the room id
      * @param questionId the question id
@@ -69,7 +73,7 @@ public class QuestionControllerV2 {
     }
 
     /**
-     * Delete all questions.
+     * Delete all questions in a room.
      *
      * @param roomId the room id
      */
@@ -79,10 +83,10 @@ public class QuestionControllerV2 {
     }
 
     /**
-     * Export question to json string.
+     * Export a specific question to JSON.
      *
      * @param questionId the question id
-     * @return the string
+     * @return the question
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "export", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,10 +96,10 @@ public class QuestionControllerV2 {
     }
 
     /**
-     * Export all questions from a room to json string.
+     * Export all questions from a room to JSON.
      *
      * @param roomId the room id
-     * @return the string
+     * @return the set
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "exportAll", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -106,25 +110,24 @@ public class QuestionControllerV2 {
 
 
     /**
-     * Export top {amount} of questions to json string.
+     * Export a variable amount of questions from a room to JSON.
      *
      * @param roomId the room id
      * @param amount the amount
-     * @return the string
+     * @return the list
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "exportTop", produces = MediaType.APPLICATION_JSON_VALUE)
     public String exportTop(@PathParam("roomId") long roomId,
-                            @PathParam("amount") int amount)
-        throws JsonProcessingException {
+                            @PathParam("amount") int amount) throws JsonProcessingException {
         return questionService.exportTop(roomId, amount);
     }
 
     /**
-     * Export answered questions only string.
+     * Export all answered questions from a room to JSON.
      *
      * @param roomId the room id
-     * @return the string
+     * @return the list
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "exportAnswered", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -150,7 +153,6 @@ public class QuestionControllerV2 {
      * @param questionId the question id
      * @return Question entity with id questionId
      */
-
     @GetMapping(value = "getQuestion")
     public Question getQuestion(@PathParam("questionId") long questionId) {
         return questionService.getQuestion(questionId);
@@ -169,10 +171,10 @@ public class QuestionControllerV2 {
     }
 
     /**
-     * Sets the text of the question to be the question in questionHelper.
+     * Sets the text of the question given a questionHelper object.
      *
-     * @param questionId the question id
      * @param questionHelper the questionHelper with the next text
+     * @param questionId     the question id
      */
     @PutMapping(value = "setText")
     public void setText(@RequestBody QuestionHelper questionHelper,
@@ -182,7 +184,7 @@ public class QuestionControllerV2 {
 
 
     /**
-     * Gets the author.
+     * Gets the author of a question.
      *
      * @param questionId the question id
      * @return the author of the question
@@ -194,7 +196,7 @@ public class QuestionControllerV2 {
 
 
     /**
-     * Increases the value of upvote by 1.
+     * Upvotes a question.
      *
      * @param questionId the question id
      */
@@ -205,7 +207,7 @@ public class QuestionControllerV2 {
 
 
     /**
-     * Decreases the value of upvote by 1.
+     * Downvotes a question.
      *
      * @param questionId the question id
      */
@@ -231,7 +233,7 @@ public class QuestionControllerV2 {
      * Gets the score.
      *
      * @param questionId the question id
-     * @return the score value of question
+     * @return the score
      */
     @GetMapping(value = "getScore")
     public int getScore(@PathParam("questionId") long questionId) {
@@ -240,10 +242,10 @@ public class QuestionControllerV2 {
 
 
     /**
-     * Sets the score of question with value score.
+     * Sets the score of question.
      *
      * @param questionId the question id
-     * @param score the new score value of question
+     * @param score      the new score value of question
      */
     @PutMapping(value = "setScore")
     public void setScore(@PathParam("questionId") long questionId, @PathParam("score") int score) {
@@ -265,7 +267,7 @@ public class QuestionControllerV2 {
 
 
     /**
-     * Gets the date.
+     * Gets the date a question was asked.
      *
      * @param questionId the question id
      * @return the question date
@@ -280,7 +282,7 @@ public class QuestionControllerV2 {
      * Gets the status of question.
      *
      * @param questionId the question id
-     * @return the status of question
+     * @return the status
      */
     @GetMapping(value = "getStatus")
     public Question.QuestionStatus getStatus(@PathParam("questionId") long questionId) {
@@ -289,7 +291,7 @@ public class QuestionControllerV2 {
 
 
     /**
-     *Sets the value of status as ANSWERED.
+     * Sets the value of status as ANSWERED.
      *
      * @param questionId the question id
      */
@@ -300,7 +302,7 @@ public class QuestionControllerV2 {
 
 
     /**
-     *Sets the value of status as ANSWERED unless score is greater than 5.
+     * Sets the value of status as ANSWERED unless score is greater than 5.
      *
      * @param questionId the question id
      */
@@ -311,10 +313,10 @@ public class QuestionControllerV2 {
 
 
     /**
-     *Sets the value of status as ANSWERED unless score is greater than maxScore.
+     * Sets the value of status as ANSWERED unless score is greater than maxScore.
      *
-     * @param maxScore the max score for checking weather to mark as answered
      * @param questionId the question id
+     * @param maxScore   the max score for checking weather to mark as answered
      */
     @PutMapping(value = "studentSetAnswered")
     public void studentSetAnswered(
@@ -360,13 +362,37 @@ public class QuestionControllerV2 {
     /**
      * Sets the answer of question as the text of questionHelper.
      *
-     * @param questionId the question id
      * @param questionHelper the questionHelper with the new answer as its text
+     * @param questionId     the question id
      */
     @PutMapping(value = "setAnswer")
     public void setAnswer(@RequestBody QuestionHelper questionHelper,
                           @PathParam("questionId") long questionId) {
         questionService.setAnswer(questionId, questionHelper);
     }
+
+    /**
+     * Sets the BeingAnswered field of a question to the associated boolean value.
+     *
+     * @param questionId the id of the corresponding question
+     * @param status the boolean value of the field
+     */
+    @PutMapping(value = "setBeingAnswered")
+    public void setBeingAnswered(@PathParam("questionId") long questionId,
+                                 @PathParam("status") boolean status) {
+        questionService.setBeingAnswered(questionId, status);
+    }
+
+    /**
+     * Retireves the beingAnswered field of a question.
+     *
+     * @param questionId the id of the corresponding question
+     */
+    @GetMapping(value = "getBeingAnswered")
+    public boolean getBeingAnswered(@PathParam("questionId") long questionId) {
+        return questionService.getBeingAnswered(questionId);
+    }
+
+
 
 }

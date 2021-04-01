@@ -4,9 +4,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import nl.tudelft.oopp.demo.entities.Question;
+
 
 
 /**
@@ -43,6 +42,7 @@ public class QuestionSerializer extends StdSerializer<Question> {
         gen.writeNumberField("score", value.getScore());
         gen.writeStringField("timeCreated", value.getTimeCreated().toString());
         gen.writeStringField("QuestionStatus", value.statusToString());
+        gen.writeBooleanField("BeingAnswered", value.isBeingAnswered());
 
         // Author
         gen.writeFieldName("author");

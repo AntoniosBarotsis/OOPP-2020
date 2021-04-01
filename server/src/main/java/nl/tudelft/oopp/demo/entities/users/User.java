@@ -3,6 +3,7 @@ package nl.tudelft.oopp.demo.entities.users;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -11,11 +12,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * The type User.
@@ -24,16 +28,15 @@ import nl.tudelft.oopp.demo.entities.Question;
 @Inheritance
 @Data
 @NoArgsConstructor
+@JsonSerialize(using = UserSerializer.class)
 public abstract class User {
     @Id
-    @SequenceGenerator(
-        name = "user_sequence",
-        sequenceName = "user_sequence",
-        allocationSize = 1
-    )
     @GeneratedValue(
-        strategy = SEQUENCE,
         generator = "user_sequence"
+    )
+    @GenericGenerator(
+        strategy = "nl.tudelft.oopp.demo.entities.RandomIdGenerator",
+        name = "user_sequence"
     )
     @Column(name = "id")
     private long id;
@@ -45,7 +48,7 @@ public abstract class User {
     @OneToMany
     @Column(name = "questions_asked")
     private Set<Question> questionsAsked;
-    @OneToMany
+    @ManyToMany
     @Column(name = "questions_upvoted")
     private Set<Question> questionsUpvoted;
     @Column(name = "type")

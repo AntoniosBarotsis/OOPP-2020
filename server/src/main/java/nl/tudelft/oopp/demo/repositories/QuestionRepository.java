@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+
+
 /**
  * The interface Question repository.
  */
@@ -41,7 +43,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     /**
      * Sets the text of the question to be newQuestion.
      *
-     * @param questionId the question id
+     * @param questionId  the question id
      * @param newQuestion the value of text that will be set as question's text
      */
     @Modifying
@@ -49,7 +51,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Query(value = "UPDATE Question q SET q.text = ?2 WHERE q.id =?1")
     void setText(long questionId, String newQuestion);
-
 
 
     /**
@@ -64,6 +65,10 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
         + "rooms_questions.questions_id = ?2",
         nativeQuery = true)
     void deleteOneQuestion(long roomId, long questionId);
+
+
+
+
 
     /**
      * Delete all questions.
@@ -133,7 +138,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      * Sets the score of question with value score.
      *
      * @param questionId the question id
-     * @param score the new score value of question
+     * @param score      the new score value of question
      */
     @Modifying
     @Transactional
@@ -152,7 +157,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     * Gets the date.
+     * Gets the date the question was created.
      *
      * @param questionId the question id
      * @return the question date
@@ -174,7 +179,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 
     /**
-     *Sets the value of status as ANSWERED.
+     * Sets the value of status as ANSWERED.
      *
      * @param questionId the question id
      */
@@ -221,11 +226,30 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
      * Sets the answer of question as answer.
      *
      * @param questionId the question id
-     * @param answer the new answer of question
+     * @param answer     the new answer of question
      */
     @Modifying
     @Transactional
     @Query(value = "UPDATE Question q SET q.answer = ?2 WHERE q.id = ?1")
     void setAnswer(long questionId, String answer);
 
+    /**
+     * Sets the beingAnswered status of a question to true or false.
+     * @param questionId the question to modify
+     * @param answer the value to set the question field to
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Question q SET q.beingAnswered = ?2 WHERE q.id = ?1")
+    void setBeingAnswered(long questionId, boolean answer);
+
+    /**
+     * Gets the beingAnswered field of the question.
+     *
+     * @param questionId the question id
+     * @return the answer
+     */
+    @Transactional
+    @Query(value = "SELECT q.beingAnswered FROM Question q WHERE q.id = ?1")
+    boolean getBeingAnswered(long questionId);
 }

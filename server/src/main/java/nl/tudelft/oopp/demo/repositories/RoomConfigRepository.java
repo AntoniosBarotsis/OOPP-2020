@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public interface RoomConfigRepository extends JpaRepository<RoomConfig, Long> {
 
     /**
-     * Sets student refresh rate.
+     * Sets the room config.
      *
      * @param roomId             the room id
      * @param studentRefreshRate the student refresh rate

@@ -148,3 +148,6 @@ build
 !gradle-wrapper.jar
 
 .vscode/
+
+server/build/docs
+client/build/docs
