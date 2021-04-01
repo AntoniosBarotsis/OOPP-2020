@@ -9,6 +9,9 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import nl.tudelft.oopp.demo.communication.polls.AnswerPollCommunication;
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
@@ -20,6 +23,8 @@ public class AnswerPollController {
     private ListView<Button> listLeft;
     @FXML
     private ListView<Button> listRight;
+    @FXML
+    private Text textQuestion;
 
     private Poll poll;
     private User user;
@@ -41,6 +46,7 @@ public class AnswerPollController {
         this.room = room;
 
         loadView(poll.getOptions());
+        textQuestion.setText(poll.getText());
     }
 
     /**
@@ -104,6 +110,25 @@ public class AnswerPollController {
             }
         });
         return button;
+    }
+
+    public void submitButton() {
+        String answers = formatButtons();
+        AnswerPollCommunication.createAnswer(answers, poll.getId(), user.getId());
+        Stage oldStage = (Stage) listLeft.getScene().getWindow();
+        oldStage.close();
+    }
+
+    public String formatButtons() {
+        String string = new String();
+        for(int i = 0; i < selected.size(); i++) {
+            if (i < selected.size() -1) {
+                string += selected.get(i).getText() + ",";
+            } else {
+                string += selected.get(i).getText();
+            }
+        }
+        return string;
     }
 
 }
