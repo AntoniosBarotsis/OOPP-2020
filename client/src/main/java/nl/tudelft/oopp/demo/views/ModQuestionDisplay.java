@@ -3,7 +3,6 @@ package nl.tudelft.oopp.demo.views;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,7 +33,7 @@ public class ModQuestionDisplay extends Application {
 
         QuestionAuthor author = new QuestionAuthor(2, "Roy");
         Question question = new Question(4, "This is a question",
-                author,  0, 0, date, open,"");
+                author,  0, 0, date, open,"", false);
 
         controller.loadData(question, user, room);
 

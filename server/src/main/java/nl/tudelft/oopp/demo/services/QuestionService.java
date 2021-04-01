@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
@@ -29,6 +28,8 @@ import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+
+
 
 /**
  * The type Question service.
@@ -382,17 +383,6 @@ public class QuestionService {
         return mapQuestionExport(questions);
     }
 
-    /**
-     * Returns true if the user is banned in the given room.
-     * @param question the question
-     * @param roomId the room id
-     * @return boolean
-     */
-    private boolean userIsBanned(Question question, long roomId) {
-        return roomRepository.getOne(roomId)
-            .getBannedIps()
-            .contains(question.getAuthor().getIp());
-    }
 
     /**
      * Maps a collection of questions using a custom mapper.
@@ -410,4 +400,37 @@ public class QuestionService {
         return objMapper.writeValueAsString(questions);
 
     }
+
+    /**
+     * Returns true if the user is banned in the given room.
+     * @param question the question
+     * @param roomId the room id
+     * @return boolean
+     */
+    private boolean userIsBanned(Question question, long roomId) {
+        return roomRepository.getOne(roomId)
+            .getBannedIps()
+            .contains(question.getAuthor().getIp());
+    }
+
+    /**
+     * sets the field beingAnswered of the question to false or true.
+     *
+     * @param questionId the question to modify
+     * @param status the boolean value of the question.
+     */
+    public void setBeingAnswered(long questionId, boolean status) {
+        questionRepository.setBeingAnswered(questionId, status);
+    }
+
+
+    /**
+     * Retrieves the boolean beingAnswered field from a question.
+     *
+     * @param questionId the id from the question to modify
+     */
+    public boolean getBeingAnswered(long questionId) {
+        return questionRepository.getBeingAnswered(questionId);
+    }
+
 }

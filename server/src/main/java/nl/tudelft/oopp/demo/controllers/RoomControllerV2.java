@@ -186,10 +186,10 @@ public class RoomControllerV2 {
      * @throws UnauthorizedException the unauthorized exception
      */
     @PutMapping("ban")
-    public void ban(@PathParam("roomId") long roomId,
-                    @PathParam("userId") long userId,
+    public void ban(@PathParam("roomId") Long roomId,
+                    @PathParam("userId") Long userId,
                     @PathParam("elevatedPassword") String elevatedPassword,
-                    @PathParam("idToBeBanned") long idToBeBanned,
+                    @PathParam("idToBeBanned") Long idToBeBanned,
                     HttpServletRequest request)
             throws UnauthorizedException {
         roomService.banUser(roomId, userId, idToBeBanned, elevatedPassword);

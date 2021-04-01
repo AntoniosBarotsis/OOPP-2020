@@ -7,6 +7,7 @@ import java.io.IOException;
 import nl.tudelft.oopp.demo.entities.Question;
 
 
+
 /**
  * The type Question serializer. This limits the Question files to
  * text, answer and timeCreated
@@ -41,6 +42,7 @@ public class QuestionSerializer extends StdSerializer<Question> {
         gen.writeNumberField("score", value.getScore());
         gen.writeStringField("timeCreated", value.getTimeCreated().toString());
         gen.writeStringField("QuestionStatus", value.statusToString());
+        gen.writeBooleanField("BeingAnswered", value.isBeingAnswered());
 
         // Author
         gen.writeFieldName("author");

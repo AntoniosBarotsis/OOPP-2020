@@ -310,14 +310,14 @@ public class RoomService {
      * @return the boolean
      */
     public boolean isNotAuthorized(long roomId, long id) {
-        List<Long> authorizedIps = roomRepository
+        List<Long> authorizedIds = roomRepository
                 .getOne(roomId)
                 .getModerators()
                 .stream()
                 .map(User::getId)
                 .collect(Collectors.toList());
 
-        return !authorizedIps.contains(id);
+        return !authorizedIds.contains(id);
     }
 
     /**

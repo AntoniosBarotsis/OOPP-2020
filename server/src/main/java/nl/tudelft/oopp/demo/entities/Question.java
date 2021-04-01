@@ -1,7 +1,6 @@
 package nl.tudelft.oopp.demo.entities;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
@@ -19,6 +18,8 @@ import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import org.hibernate.annotations.GenericGenerator;
+
+
 
 /**
  * The Question class. This is used to represent questions users ask during lectures.
@@ -55,6 +56,8 @@ public class Question {
     private QuestionStatus status;
     @Column(name = "answer")
     private String answer;
+    @Column(name = "beingAnswered")
+    private boolean beingAnswered;
 
     /**
      * Instantiates a new Question.
@@ -70,6 +73,7 @@ public class Question {
         this.score = 0;
         this.status = QuestionStatus.OPEN;
         this.timeCreated = new Date();
+        this.beingAnswered = false;
     }
 
     /**

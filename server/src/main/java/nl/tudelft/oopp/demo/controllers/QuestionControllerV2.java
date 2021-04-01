@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
+
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 /**
  * The type Question controller.
@@ -356,5 +359,29 @@ public class QuestionControllerV2 {
                           @PathParam("questionId") long questionId) {
         questionService.setAnswer(questionId, questionHelper);
     }
+
+    /**
+     * Sets the BeingAnswered field of a question to the associated boolean value.
+     *
+     * @param questionId the id of the corresponding question
+     * @param status the boolean value of the field
+     */
+    @PutMapping(value = "setBeingAnswered")
+    public void setBeingAnswered(@PathParam("questionId") long questionId,
+                                 @PathParam("status") boolean status) {
+        questionService.setBeingAnswered(questionId, status);
+    }
+
+    /**
+     * Retireves the beingAnswered field of a question.
+     *
+     * @param questionId the id of the corresponding question
+     */
+    @GetMapping(value = "getBeingAnswered")
+    public boolean getBeingAnswered(@PathParam("questionId") long questionId) {
+        return questionService.getBeingAnswered(questionId);
+    }
+
+
 
 }

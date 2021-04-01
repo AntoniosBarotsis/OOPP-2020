@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import lombok.Data;
@@ -47,7 +48,7 @@ public abstract class User {
     @OneToMany
     @Column(name = "questions_asked")
     private Set<Question> questionsAsked;
-    @OneToMany
+    @ManyToMany
     @Column(name = "questions_upvoted")
     private Set<Question> questionsUpvoted;
     @Column(name = "type")
