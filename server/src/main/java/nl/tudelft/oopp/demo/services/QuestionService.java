@@ -100,7 +100,7 @@ public class QuestionService {
     /**
      * Sets the text of the question to be decoded newQuestion.
      *
-     * @param questionId the question id
+     * @param questionId  the question id
      * @param newQuestion the encoded value of text that will be set as question's text.
      */
     public void setText(long questionId, QuestionHelper newQuestion) {
@@ -111,8 +111,9 @@ public class QuestionService {
     /**
      * Sets the text of the question to be decoded newQuestion.
      *
-     * @param questionId the question id
+     * @param questionId  the question id
      * @param newQuestion the encoded value of text that will be set as question's text.
+     * @throws UnsupportedEncodingException the unsupported encoding exception
      */
     public void setText(long questionId, String newQuestion) throws UnsupportedEncodingException {
         questionRepository.setText(questionId, URLDecoder
@@ -178,7 +179,7 @@ public class QuestionService {
      * Sets the score of question with value score.
      *
      * @param questionId the question id
-     * @param score the new score value of question
+     * @param score      the new score value of question
      */
     public void setScore(long questionId, int score) {
         questionRepository.setScore(questionId, Math.max(score, 0));
@@ -219,7 +220,7 @@ public class QuestionService {
 
 
     /**
-     *Sets the value of status as ANSWERED.
+     * Sets the value of status as ANSWERED.
      *
      * @param questionId the question id
      */
@@ -228,7 +229,7 @@ public class QuestionService {
     }
 
     /**
-     *Sets the value of status as ANSWERED, unless its score is greater than 5.
+     * Sets the value of status as ANSWERED, unless its score is greater than 5.
      *
      * @param questionId the question id
      */
@@ -239,10 +240,10 @@ public class QuestionService {
     }
 
     /**
-     *Sets the value of status as ANSWERED, unless its score is greater than maxScore.
+     * Sets the value of status as ANSWERED, unless its score is greater than maxScore.
      *
-     * @param maxScore the max score for changing the status to answered
      * @param questionId the question id
+     * @param maxScore   the max score for changing the status to answered
      */
     public void userSetAnswered(long questionId, int maxScore) {
         if (questionRepository.getScore(questionId) <= maxScore) {
@@ -259,7 +260,6 @@ public class QuestionService {
     public void setSpam(long questionId) {
         questionRepository.setSpam(questionId);
     }
-
 
 
     /**
@@ -286,7 +286,7 @@ public class QuestionService {
     /**
      * Sets the answer of question as the text of questionHelper.
      *
-     * @param questionId the question id
+     * @param questionId     the question id
      * @param questionHelper the questionHelper with the new answer as its text
      */
     public void setAnswer(long questionId, QuestionHelper questionHelper) {
@@ -298,7 +298,7 @@ public class QuestionService {
      * Sets the answer of question as answer.
      *
      * @param questionId the question id
-     * @param answer the new answer of question
+     * @param answer     the new answer of question
      */
     public void setAnswer(long questionId, String answer) {
         questionRepository.setAnswer(questionId, answer);
@@ -351,7 +351,7 @@ public class QuestionService {
     }
 
     /**
-     * Exports a given amount of questions in JSON format sorted by score.
+     * Exports a given amount of questions in JSON format sorted by upvotes.
      *
      * @param roomId - the room id
      * @param amount - the amount of questions
@@ -388,6 +388,24 @@ public class QuestionService {
             .collect(Collectors.toList());
 
         return this.mapQuestionExport(questions);
+    }
+
+    /**
+     * Sort questions by score.
+     *
+     * @param roomId the room id
+     * @return the list
+     */
+    public List<Question> sortByScore(long roomId) {
+        Comparator<Question> comp = Comparator.comparing(Question::getScore)
+            .thenComparing(q -> q.getTimeCreated().getTime())
+            .reversed();
+
+        return roomRepository
+            .findAllQuestions(roomId)
+            .stream()
+            .sorted(comp)
+            .collect(Collectors.toList());
     }
 
     /**
