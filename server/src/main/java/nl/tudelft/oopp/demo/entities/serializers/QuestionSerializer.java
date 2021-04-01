@@ -42,7 +42,7 @@ public class QuestionSerializer extends StdSerializer<Question> {
             value.updateScore();
             questionRepository.save(value);
         } catch (NullPointerException ignored) {
-
+            // Investigate why these are thrown
         }
 
         gen.writeStartObject();

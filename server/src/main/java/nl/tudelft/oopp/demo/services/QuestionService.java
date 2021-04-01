@@ -421,7 +421,6 @@ public class QuestionService {
         objMapper.registerModule(module);
 
         return objMapper.writeValueAsString(questions);
-
     }
 
     /**
