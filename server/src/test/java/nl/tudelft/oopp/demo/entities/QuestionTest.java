@@ -49,16 +49,6 @@ class QuestionTest {
     }
 
     @Test
-    @DirtiesContext(methodMode = BEFORE_METHOD)
-    void exportToJson() throws JsonProcessingException {
-        assertThat(q1.exportToJson()).isEqualTo("{\"id\":" + q1.getId()
-                + ",\"text\":\"Question " + "text\",\"answer\":null,\"upvotes\":0,\"score\":0,"
-                + "\"timeCreated\":\"" + q1.getTimeCreated() + "\",\"QuestionStatus\":\"OPEN\","
-                + "\"BeingAnswered\":" + q1.isBeingAnswered() + ",\"author\":{\"id\":"
-                + q1.getAuthor().getId() + ",\"username\":\"Admin\"}}");
-    }
-
-    @Test
     void isAnswered() {
         assertThat(q1.isAnswered()).isEqualTo(false);
         q1.setAnswer("answer");
