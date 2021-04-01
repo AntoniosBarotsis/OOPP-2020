@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 import nl.tudelft.oopp.demo.communication.polls.PollModAskCommunication;
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
@@ -17,6 +18,9 @@ import nl.tudelft.oopp.demo.data.helper.PollHelper;
 
 
 public class ModAskPollController {
+
+    @FXML
+    private AnchorPane scene;
 
     @FXML
     private TextArea questionText;

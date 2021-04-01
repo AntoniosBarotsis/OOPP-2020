@@ -41,6 +41,7 @@ public class PollModDisplay extends Application {
         controller.loadData(poll, user, room);
 
         primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
