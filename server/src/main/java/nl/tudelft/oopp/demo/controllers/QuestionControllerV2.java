@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
@@ -130,6 +131,17 @@ public class QuestionControllerV2 {
     public String exportAnswered(@PathParam("roomId") long roomId)
         throws JsonProcessingException {
         return questionService.exportAnswered(roomId);
+    }
+
+    /**
+     * Sort questions by score.
+     *
+     * @param roomId the room id
+     * @return the list
+     */
+    @GetMapping("sortByScore")
+    public List<Question> sortByScore(@PathParam("roomId") long roomId) {
+        return questionService.sortByScore(roomId);
     }
 
     /**
