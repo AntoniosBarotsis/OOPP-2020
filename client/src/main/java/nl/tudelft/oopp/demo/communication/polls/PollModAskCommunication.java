@@ -50,7 +50,7 @@ public class PollModAskCommunication {
     }
 
     /**
-     * Sets the status of the poll to the given one in the parameters
+     * Sets the status of the poll to the given one in the parameters.
      *
      * @param poll the poll to change.
      * @param status The new status.
