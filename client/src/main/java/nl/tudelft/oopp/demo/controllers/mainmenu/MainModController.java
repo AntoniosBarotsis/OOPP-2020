@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javafx.animation.Animation;
@@ -28,6 +30,7 @@ import javafx.util.Duration;
 
 import nl.tudelft.oopp.demo.communication.mainmenu.MainModCommunication;
 import nl.tudelft.oopp.demo.controllers.polls.ModAskPollController;
+import nl.tudelft.oopp.demo.controllers.polls.ModPollController;
 import nl.tudelft.oopp.demo.controllers.questions.ModQuestionController;
 import nl.tudelft.oopp.demo.controllers.questions.SimpleQuestionController;
 import nl.tudelft.oopp.demo.data.Poll;
@@ -266,13 +269,13 @@ public class MainModController {
     protected AnchorPane loadPollView(Poll poll) {
         FXMLLoader loader = new FXMLLoader(getClass()
                 .getResource("/pollView/pollView.fxml"));
-        loaderList.add(loader);
-        try {
-            ModAskPollController controller = new ModAskPollController();
-            controller.loadData(poll, user, room);
 
+        try {
+            ModPollController controller = new ModPollController();
             loader.setController(controller);
+
             AnchorPane pane = loader.load();
+            controller.loadData(poll, user, room);
             return pane;
         } catch (IOException e) {
             e.printStackTrace();
@@ -372,8 +375,25 @@ public class MainModController {
      * Handles button "As a multiple choice" clicks.
      */
     @FXML
-    public void buttonMakePollsClicked() {
-        //TODO: The button should open new window to create polls.
+    public void buttonMakePollsClicked() throws IOException {
+        // Initialize a loader.
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/pollView/pollModAskView.fxml"));
+        Parent root = loader.load();
+        ModAskPollController controller = loader.getController();
+
+
+        // Inject the data.
+        Poll poll = new Poll(1L, "text", new Date(),
+                Arrays.asList("", "", "", "", "", "", "", "", "", ""),
+                new ArrayList<>(), Poll.PollStatus.OPEN);
+        controller.loadData(poll, user, room);
+
+        // Assign options to loader.
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
     }
 
     /**
