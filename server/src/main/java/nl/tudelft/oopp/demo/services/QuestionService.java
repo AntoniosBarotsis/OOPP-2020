@@ -10,8 +10,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionExportHelper;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.log.LogQuestion;
 import nl.tudelft.oopp.demo.entities.users.Student;
@@ -30,6 +32,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
+@Log4j2
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
@@ -325,7 +328,7 @@ public class QuestionService {
      * @param questionId the question id
      * @return the question
      */
-    public String export(long questionId) {
+    public List<QuestionExportHelper> export(long questionId) {
         return mapQuestionExport(List.of(questionRepository.findById(questionId).get()));
     }
 
@@ -335,7 +338,7 @@ public class QuestionService {
      * @param roomId the room id
      * @return the set
      */
-    public String exportAll(long roomId) {
+    public List<QuestionExportHelper> exportAll(long roomId) {
         return mapQuestionExport(roomRepository.findAllQuestions(roomId));
     }
 
@@ -346,7 +349,7 @@ public class QuestionService {
      * @param amount - the amount of questions
      * @return the list
      */
-    public String exportTop(long roomId, int amount) {
+    public List<QuestionExportHelper> exportTop(long roomId, int amount) {
         if (amount < 1) {
             throw new IllegalArgumentException("Invalid amount supplied");
         }
@@ -367,7 +370,7 @@ public class QuestionService {
      * @param roomId the room id
      * @return the list
      */
-    public String exportAnswered(long roomId) {
+    public List<QuestionExportHelper> exportAnswered(long roomId) {
         List<Question> questions = roomRepository
             .findAllQuestions(roomId)
             .stream()
@@ -404,12 +407,11 @@ public class QuestionService {
      * @param questions the questions
      * @return the string
      */
-    public String mapQuestionExport(Collection<Question> questions) {
+    public List<QuestionExportHelper> mapQuestionExport(Collection<Question> questions) {
         return questions
             .stream()
-            .map(Question::exportToJson)
-            .collect(Collectors.toList())
-            .toString();
+            .map(q -> new QuestionExportHelper(q.getText(), q.getAnswer(), q.getTimeCreated()))
+            .collect(Collectors.toList());
     }
 
     /**
