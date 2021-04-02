@@ -410,7 +410,7 @@ public class QuestionService {
     public List<QuestionExportHelper> mapQuestionExport(Collection<Question> questions) {
         return questions
             .stream()
-            .map(q -> new QuestionExportHelper(q.getText(), q.getAnswer(), q.getTimeCreated()))
+            .map(QuestionExportHelper::of)
             .collect(Collectors.toList());
     }
 
