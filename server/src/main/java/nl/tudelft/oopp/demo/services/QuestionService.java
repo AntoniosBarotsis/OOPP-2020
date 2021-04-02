@@ -394,7 +394,7 @@ public class QuestionService {
      * @return the list
      */
     public List<Question> sortByScore(long roomId) {
-        refreshScore(roomId);
+        refreshScoreByRoom(roomId);
 
         Comparator<Question> comp = Comparator.comparing(Question::getScore)
             .thenComparing(q -> q.getTimeCreated().getTime())
@@ -439,7 +439,7 @@ public class QuestionService {
      * sets the field beingAnswered of the question to false or true.
      *
      * @param questionId the question to modify
-     * @param status the boolean value of the question.
+     * @param status     the boolean value of the question.
      */
     public void setBeingAnswered(long questionId, boolean status) {
         questionRepository.setBeingAnswered(questionId, status);
@@ -450,6 +450,7 @@ public class QuestionService {
      * Retrieves the boolean beingAnswered field from a question.
      *
      * @param questionId the id from the question to modify
+     * @return the being answered
      */
     public boolean getBeingAnswered(long questionId) {
         return questionRepository.getBeingAnswered(questionId);
@@ -460,11 +461,22 @@ public class QuestionService {
      *
      * @param roomId the room id
      */
-    public void refreshScore(long roomId) {
+    public void refreshScoreByRoom(long roomId) {
         roomRepository.findAllQuestions(roomId)
             .forEach(q -> {
                 q.updateScore();
                 questionRepository.save(q);
             });
+    }
+
+    /**
+     * Refresh score.
+     *
+     * @param questionId the question id
+     */
+    public void refreshScore(long questionId) {
+        Question question = questionRepository.getOne(questionId);
+        question.updateScore();
+        questionRepository.save(question);
     }
 }
