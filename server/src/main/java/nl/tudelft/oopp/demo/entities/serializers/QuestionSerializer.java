@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class QuestionSerializer extends StdSerializer<Question> {
     @Autowired
     private QuestionService questionService;
+    private final QuestionExportSerializer questionExportSerializer =
+        new QuestionExportSerializer();
 
     /**
      * Instantiates a new Question serializer.
@@ -39,7 +41,8 @@ public class QuestionSerializer extends StdSerializer<Question> {
         try {
             questionService.refreshScore(value.getId());
         } catch (NullPointerException ignored) {
-            // Investigate why these are thrown
+            questionExportSerializer.serialize(value, gen, provider);
+            return;
         }
 
         gen.writeStartObject();
