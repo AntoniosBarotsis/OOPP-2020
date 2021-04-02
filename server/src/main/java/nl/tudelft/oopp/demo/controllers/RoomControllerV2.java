@@ -236,6 +236,18 @@ public class RoomControllerV2 {
     }
 
     /**
+     * Is ongoing object.
+     *
+     * @param roomId the room id
+     * @return the object
+     * @throws JsonProcessingException the json processing exception
+     */
+    @GetMapping(value = "isOngoing", produces = MediaType.APPLICATION_JSON_VALUE)
+    Object isOngoing(@PathParam("roomId") long roomId) throws JsonProcessingException {
+        return roomService.isOngoing(roomId);
+    }
+
+    /**
      * Exports the action log. Requires the request's IP to be registered as a moderator in the
      * room.
      *
