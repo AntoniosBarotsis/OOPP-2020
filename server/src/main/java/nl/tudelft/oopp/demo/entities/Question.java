@@ -86,6 +86,18 @@ public class Question {
     }
 
     /**
+     * Export question to json format.
+     *
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String exportToJson() throws JsonProcessingException {
+        ObjectMapper objMapper = new ObjectMapper();
+
+        return objMapper.writeValueAsString(this);
+    }
+
+    /**
      * Returns true if the question has been answered.
      *
      * @return the boolean
