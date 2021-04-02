@@ -22,7 +22,6 @@ import nl.tudelft.oopp.demo.entities.users.User;
 import org.hibernate.annotations.GenericGenerator;
 
 
-
 /**
  * The Question class. This is used to represent questions users ask during lectures.
  */
@@ -93,16 +92,7 @@ public class Question {
      * @return the string
      */
     public String exportToJson() {
-        try {
-            ObjectMapper objMapper = new ObjectMapper();
-            SimpleModule module = new SimpleModule();
-            module.addSerializer(QuestionExportHelper.class, new QuestionExportSerializer());
-            objMapper.registerModule(module);
-
-            return objMapper.writeValueAsString(this);
-        } catch (Exception e) {
-            return null;
-        }
+        return QuestionExportHelper.of(this).toString();
     }
 
     /**
