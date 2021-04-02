@@ -1,9 +1,7 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 
 /**
@@ -87,11 +84,9 @@ public class QuestionControllerV2 {
      *
      * @param questionId the question id
      * @return the question
-     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "export", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String export(@PathParam("questionId") long questionId)
-        throws JsonProcessingException {
+    public String export(@PathParam("questionId") long questionId) {
         return questionService.export(questionId);
     }
 
@@ -100,11 +95,9 @@ public class QuestionControllerV2 {
      *
      * @param roomId the room id
      * @return the set
-     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "exportAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String exportAll(@PathParam("roomId") long roomId)
-        throws JsonProcessingException {
+    public String exportAll(@PathParam("roomId") long roomId) {
         return questionService.exportAll(roomId);
     }
 
@@ -115,11 +108,10 @@ public class QuestionControllerV2 {
      * @param roomId the room id
      * @param amount the amount
      * @return the list
-     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "exportTop", produces = MediaType.APPLICATION_JSON_VALUE)
     public String exportTop(@PathParam("roomId") long roomId,
-                            @PathParam("amount") int amount) throws JsonProcessingException {
+                            @PathParam("amount") int amount) {
         return questionService.exportTop(roomId, amount);
     }
 
@@ -128,11 +120,9 @@ public class QuestionControllerV2 {
      *
      * @param roomId the room id
      * @return the list
-     * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "exportAnswered", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String exportAnswered(@PathParam("roomId") long roomId)
-        throws JsonProcessingException {
+    public String exportAnswered(@PathParam("roomId") long roomId) {
         return questionService.exportAnswered(roomId);
     }
 
@@ -392,7 +382,4 @@ public class QuestionControllerV2 {
     public boolean getBeingAnswered(@PathParam("questionId") long questionId) {
         return questionService.getBeingAnswered(questionId);
     }
-
-
-
 }
