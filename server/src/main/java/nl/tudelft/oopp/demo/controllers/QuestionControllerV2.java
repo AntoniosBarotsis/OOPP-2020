@@ -7,6 +7,7 @@ import javax.websocket.server.PathParam;
 
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionExportHelper;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
@@ -85,8 +86,8 @@ public class QuestionControllerV2 {
      * @param questionId the question id
      * @return the question
      */
-    @GetMapping(value = "export", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String export(@PathParam("questionId") long questionId) {
+    @GetMapping("export")
+    public List<QuestionExportHelper> export(@PathParam("questionId") long questionId) {
         return questionService.export(questionId);
     }
 
@@ -96,8 +97,8 @@ public class QuestionControllerV2 {
      * @param roomId the room id
      * @return the set
      */
-    @GetMapping(value = "exportAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String exportAll(@PathParam("roomId") long roomId) {
+    @GetMapping("exportAll")
+    public List<QuestionExportHelper> exportAll(@PathParam("roomId") long roomId) {
         return questionService.exportAll(roomId);
     }
 
@@ -109,9 +110,9 @@ public class QuestionControllerV2 {
      * @param amount the amount
      * @return the list
      */
-    @GetMapping(value = "exportTop", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String exportTop(@PathParam("roomId") long roomId,
-                            @PathParam("amount") int amount) {
+    @GetMapping("exportTop")
+    public List<QuestionExportHelper> exportTop(@PathParam("roomId") long roomId,
+                                                @PathParam("amount") int amount) {
         return questionService.exportTop(roomId, amount);
     }
 
@@ -121,8 +122,8 @@ public class QuestionControllerV2 {
      * @param roomId the room id
      * @return the list
      */
-    @GetMapping(value = "exportAnswered", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String exportAnswered(@PathParam("roomId") long roomId) {
+    @GetMapping("exportAnswered")
+    public List<QuestionExportHelper> exportAnswered(@PathParam("roomId") long roomId) {
         return questionService.exportAnswered(roomId);
     }
 
@@ -365,7 +366,7 @@ public class QuestionControllerV2 {
      * Sets the BeingAnswered field of a question to the associated boolean value.
      *
      * @param questionId the id of the corresponding question
-     * @param status the boolean value of the field
+     * @param status     the boolean value of the field
      */
     @PutMapping(value = "setBeingAnswered")
     public void setBeingAnswered(@PathParam("questionId") long questionId,
@@ -377,6 +378,7 @@ public class QuestionControllerV2 {
      * Retireves the beingAnswered field of a question.
      *
      * @param questionId the id of the corresponding question
+     * @return the being answered
      */
     @GetMapping(value = "getBeingAnswered")
     public boolean getBeingAnswered(@PathParam("questionId") long questionId) {
