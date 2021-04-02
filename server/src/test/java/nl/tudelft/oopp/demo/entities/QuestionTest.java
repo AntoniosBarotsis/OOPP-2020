@@ -51,8 +51,8 @@ class QuestionTest {
     @Test
     @DirtiesContext(methodMode = BEFORE_METHOD)
     void exportToJson() {
-        assertThat(q1.exportToJson()).isEqualTo("{\"text\":\"Question text\",\"answer\":null,"
-            + "\"timeCreated\":\"" + q1.getTimeCreated() + "\"}");
+        assertThat(q1.exportToJson()).isEqualTo("QuestionExportHelper(text=Question text,"
+            + " answer=null, timeCreated=" + q1.getTimeCreated() + ")");
     }
 
     @Test

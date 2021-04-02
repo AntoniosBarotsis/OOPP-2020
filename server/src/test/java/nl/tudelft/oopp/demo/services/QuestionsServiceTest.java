@@ -10,10 +10,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionExportHelper;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.helpers.StudentHelper;
 
@@ -335,7 +337,7 @@ class QuestionsServiceTest {
     @Test
     void exportError() throws JsonProcessingException {
         Assertions.assertThrows(Exception.class, () -> {
-            String error =  questionService.export(382911230);
+            List<QuestionExportHelper> error =  questionService.export(382911230);
 
         });
     }
@@ -343,17 +345,17 @@ class QuestionsServiceTest {
     @Test
     void export() throws JsonProcessingException {
         String expected = "[" + question1.exportToJson() + "]";
-        String actual = questionService.export(id1);
-        assertEquals(expected, actual);
+        List<QuestionExportHelper> actual = questionService.export(id1);
+        assertEquals(expected, actual.toString());
     }
 
     @Test
     void exportAll() throws JsonProcessingException {
-        boolean actual = questionService.exportAll(room.getId())
+        boolean actual = questionService.exportAll(room.getId()).toString()
                 .contains(question1.exportToJson());
-        actual = actual && questionService.exportAll(room.getId())
+        actual = actual && questionService.exportAll(room.getId()).toString()
                 .contains(question2.exportToJson());
-        actual = actual && questionService.exportAll(room.getId())
+        actual = actual && questionService.exportAll(room.getId()).toString()
                 .contains(question3.exportToJson());
         assertTrue(actual);
     }
@@ -361,7 +363,7 @@ class QuestionsServiceTest {
     @Test
     void exportTopError() throws JsonProcessingException {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            String error =  questionService.exportTop(room.getId(), 0);
+            List<QuestionExportHelper> error =  questionService.exportTop(room.getId(), 0);
         });
     }
 
@@ -369,19 +371,19 @@ class QuestionsServiceTest {
     void exportTop() throws JsonProcessingException {
         questionService.upvote(id1);
         question1.setUpvotes(1);
-        String actual =  questionService.exportTop(room.getId(), 1);
+        List<QuestionExportHelper> actual =  questionService.exportTop(room.getId(), 1);
         String expected = "[" + question1.exportToJson() + "]";
-        assertEquals(expected, actual);
+        assertEquals(expected, actual.toString());
     }
 
     @Test
     void exportAnswered() throws JsonProcessingException {
-        assertEquals("[]", questionService.exportAnswered(room.getId()));
+        assertEquals("[]", questionService.exportAnswered(room.getId()).toString());
         questionService.setAnswer(id1, "This question is answered");
         question1.setAnswer("This question is answered");
         String expected = "[" + question1.exportToJson() + "]";
-        String actual = questionService.exportAnswered(room.getId());
-        assertEquals(expected, actual);
+        List<QuestionExportHelper> actual = questionService.exportAnswered(room.getId());
+        assertEquals(expected, actual.toString());
     }
 
     @Test
@@ -389,8 +391,8 @@ class QuestionsServiceTest {
         String expected = "[" + question1.exportToJson() + "]";
         Set<Question> questions = new HashSet<Question>();
         questions.add(question1);
-        String actual = questionService.mapQuestionExport(questions);
-        assertEquals(expected, actual);
+        List<QuestionExportHelper> actual = questionService.mapQuestionExport(questions);
+        assertEquals(expected, actual.toString());
     }
 
     @Test
