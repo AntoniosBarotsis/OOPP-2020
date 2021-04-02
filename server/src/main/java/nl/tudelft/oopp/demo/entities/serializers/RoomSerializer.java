@@ -7,8 +7,13 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.services.RoomService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class RoomSerializer extends StdSerializer<Room> {
+    @Autowired
+    private RoomService roomService;
+
     public RoomSerializer() {
         this(null);
     }
@@ -20,12 +25,16 @@ public class RoomSerializer extends StdSerializer<Room> {
     @Override
     public void serialize(Room value, JsonGenerator gen, SerializerProvider provider)
         throws IOException {
+        roomService.refreshOngoing(value.getId());
+
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         gen.writeStartObject();
         gen.writeNumberField("id", value.getId());
         gen.writeStringField("title", value.getTitle());
-        gen.writeStringField("timeCreated", dateFormat.format(value.getStartingDate()));
+        gen.writeStringField("timeCreated", dateFormat.format(value.getTimeCreated()));
+        gen.writeStringField("startingDate", "dateFormat.format(value.getStartingDate())");
+        gen.writeStringField("endingDate", "dateFormat.format(value.getEndingDate())");
         gen.writeBooleanField("repeatingLecture", value.isRepeatingLecture());
         gen.writeNumberField("tooFast", value.getTooFast());
         gen.writeNumberField("tooSlow", value.getTooSlow());
