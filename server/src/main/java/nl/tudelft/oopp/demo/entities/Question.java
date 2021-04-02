@@ -1,8 +1,8 @@
 package nl.tudelft.oopp.demo.entities;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionExportHelper;
+import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import org.hibernate.annotations.GenericGenerator;
@@ -93,6 +95,9 @@ public class Question {
     public String exportToJson() {
         try {
             ObjectMapper objMapper = new ObjectMapper();
+            SimpleModule module = new SimpleModule();
+            module.addSerializer(QuestionExportHelper.class, new QuestionExportSerializer());
+            objMapper.registerModule(module);
 
             return objMapper.writeValueAsString(this);
         } catch (Exception e) {
