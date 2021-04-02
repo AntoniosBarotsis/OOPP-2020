@@ -1,8 +1,5 @@
 package nl.tudelft.oopp.demo.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -11,14 +8,12 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.log.LogQuestion;
-import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
@@ -329,9 +324,8 @@ public class QuestionService {
      *
      * @param questionId the question id
      * @return the question
-     * @throws JsonProcessingException the json processing exception
      */
-    public String export(long questionId) throws JsonProcessingException {
+    public String export(long questionId) {
         return mapQuestionExport(List.of(questionRepository.findById(questionId).get()));
     }
 
@@ -340,9 +334,8 @@ public class QuestionService {
      *
      * @param roomId the room id
      * @return the set
-     * @throws JsonProcessingException the json processing exception
      */
-    public String exportAll(long roomId) throws JsonProcessingException {
+    public String exportAll(long roomId) {
         return mapQuestionExport(roomRepository.findAllQuestions(roomId));
     }
 
@@ -352,9 +345,8 @@ public class QuestionService {
      * @param roomId - the room id
      * @param amount - the amount of questions
      * @return the list
-     * @throws JsonProcessingException the json processing exception
      */
-    public String exportTop(long roomId, int amount) throws JsonProcessingException {
+    public String exportTop(long roomId, int amount) {
         if (amount < 1) {
             throw new IllegalArgumentException("Invalid amount supplied");
         }
@@ -374,9 +366,8 @@ public class QuestionService {
      *
      * @param roomId the room id
      * @return the list
-     * @throws JsonProcessingException the json processing exception
      */
-    public String exportAnswered(long roomId) throws JsonProcessingException {
+    public String exportAnswered(long roomId) {
         List<Question> questions = roomRepository
             .findAllQuestions(roomId)
             .stream()
@@ -412,15 +403,13 @@ public class QuestionService {
      *
      * @param questions the questions
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    public String mapQuestionExport(Collection<Question> questions) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Question.class, new QuestionExportSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(questions);
+    public String mapQuestionExport(Collection<Question> questions) {
+        return questions
+            .stream()
+            .map(Question::exportToJson)
+            .collect(Collectors.toList())
+            .toString();
     }
 
     /**
