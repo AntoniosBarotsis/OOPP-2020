@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
+import lombok.extern.log4j.Log4j2;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * The type Question serializer. This limits the Question files to
  * text, answer and timeCreated
  */
+@Log4j2
 public class QuestionSerializer extends StdSerializer<Question> {
     @Autowired
     private QuestionService questionService;
@@ -38,12 +40,7 @@ public class QuestionSerializer extends StdSerializer<Question> {
     @Override
     public void serialize(Question value, JsonGenerator gen, SerializerProvider provider)
         throws IOException {
-        try {
-            questionService.refreshScore(value.getId());
-        } catch (NullPointerException ignored) {
-            questionExportSerializer.serialize(value, gen, provider);
-            return;
-        }
+        questionService.refreshScore(value.getId());
 
         gen.writeStartObject();
         gen.writeNumberField("id", value.getId());
