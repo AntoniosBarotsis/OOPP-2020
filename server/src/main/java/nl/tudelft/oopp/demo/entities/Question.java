@@ -89,12 +89,15 @@ public class Question {
      * Export question to json format.
      *
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    public String exportToJson() throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
+    public String exportToJson() {
+        try {
+            ObjectMapper objMapper = new ObjectMapper();
 
-        return objMapper.writeValueAsString(this);
+            return objMapper.writeValueAsString(this);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
