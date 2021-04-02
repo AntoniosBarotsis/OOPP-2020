@@ -417,4 +417,41 @@ public class RoomService {
         }
         return roomRepository.getOne(id);
     }
+
+    /**
+     * Is ongoing string.
+     *
+     * @param roomId the room id
+     * @return the string
+     * @throws JsonProcessingException the json processing exception
+     */
+    public String isOngoing(long roomId) throws JsonProcessingException {
+        ObjectMapper obj = new ObjectMapper();
+        Room room = roomRepository.getOne(roomId);
+
+        Object tmp = new Object() {
+            final Date startingDate = room.getStartingDate();
+            final boolean isOngoing = room.isOngoing();
+
+            public Date getStartingDate() {
+                return startingDate;
+            }
+
+            public boolean isOngoing() {
+                return isOngoing;
+            }
+        };
+        return obj.writeValueAsString(tmp);
+    }
+
+    /**
+     * Refresh ongoing.
+     *
+     * @param roomId the room id
+     */
+    public void refreshOngoing(long roomId) {
+        Room room = roomRepository.getOne(roomId);
+        room.refreshOngoing();
+        roomRepository.save(room);
+    }
 }
