@@ -30,7 +30,8 @@ public class QuestionExportSerializer extends StdSerializer<QuestionExportHelper
     }
 
     @Override
-    public void serialize(QuestionExportHelper value, JsonGenerator gen, SerializerProvider provider)
+    public void serialize(QuestionExportHelper value, JsonGenerator gen,
+                          SerializerProvider provider)
         throws IOException {
 
         gen.writeStartObject();
