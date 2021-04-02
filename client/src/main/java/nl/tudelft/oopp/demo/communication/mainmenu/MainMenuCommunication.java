@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Date;
 
+import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.RoomConfig;
@@ -44,6 +45,29 @@ public abstract class MainMenuCommunication {
             return new ArrayList<>();
         }
         return gson.fromJson(response.body(), new TypeToken<ArrayList<Question>>(){}.getType());
+    }
+
+    /**
+     * Request all polls in a room.
+     * @param id id of a room
+     * @return list of polls in a room
+     */
+    public static ArrayList<Poll> getPolls(long id) {
+        String link = url + "rooms/polls?roomId=";
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(link + id)).build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
+        }
+        return gson.fromJson(response.body(), new TypeToken<ArrayList<Poll>>(){}.getType());
     }
 
     /**

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="120.0" prefWidth="770.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Line endX="660.0" endY="-1.52587890625E-5" layoutX="105.0" layoutY="112.0" startX="-100.0" stroke="#00a6d6" strokeWidth="5.0" />
+      <Label fx:id="labelText" layoutX="14.0" layoutY="14.0" prefHeight="58.0" prefWidth="615.0" text="Label" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelTimeCreated" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="466.0" layoutY="72.0" prefHeight="35.0" prefWidth="287.0" />
+      <Label fx:id="labelStatus" layoutX="14.0" layoutY="72.0" prefHeight="35.0" prefWidth="226.0" text="Status: " />
+      <Label fx:id="labelParticipants" layoutX="240.0" layoutY="72.0" prefHeight="35.0" prefWidth="226.0" text="Participants: " />
+      <Button fx:id="buttonOptions" layoutX="640.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#buttonOptionsClicked" prefHeight="58.0" prefWidth="116.0" style="-fx-background-color: white; -fx-border-color: #00A6D6; -fx-border-width: 2;" text="Options" textAlignment="CENTER">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

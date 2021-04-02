@@ -34,6 +34,12 @@ include:
   * Don’t be afraid to ask for help
   * Discuss and have a general consensus about changes before applying them to the project
 
+* For failing any of the above, consequences will be involved:
+  * If you fail to be respectful, it will first be brought to your attention, and if it still goes on it will be brought up to the TA or other appropriate supervisors.
+  * If you fail to attend a meeting without a reason, you will be expected to gain the information shared during the meetings in another way (e.g. by asking group members).
+  * If you fail to complete your work for a certain sprint, you are expected to catch up and finish it by the end of the next one.
+  * If you are an irresponsible team member in general, depending on the severity, consequences range from simply informing you to involving the appropriate supervisors.
+
 
 Examples of unacceptable behavior by participants include:
 
