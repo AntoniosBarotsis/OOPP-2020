@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionExportHelper;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
+import nl.tudelft.oopp.demo.entities.helpers.RoomHelper;
 import nl.tudelft.oopp.demo.entities.helpers.StudentHelper;
 
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
@@ -107,7 +109,9 @@ class QuestionsServiceTest {
         question3 = new Question("This is the text 3", user2);
         question4 = new Question("This is the text 4", user3);
 
-        room = roomService.createRoom("admin", "IP 4", "roomName");
+        RoomHelper rh = new RoomHelper("title", "admin", false,
+            new Date(), new Date());
+        room = roomService.createRoom(rh,"IP 4");
 
         userRepository.save(user1);
         userRepository.save(user2);

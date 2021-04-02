@@ -302,6 +302,12 @@ class RoomTest {
         r2.setStartingDate(r1.getStartingDate());
         assertThat(r1).isNotEqualTo(r2);
 
+        r2.setEndingDate(r1.getEndingDate());
+        assertThat(r1).isNotEqualTo(r2);
+
+        r2.setTimeCreated(r1.getTimeCreated());
+        assertThat(r1).isNotEqualTo(r2);
+
         r2.setRoomConfig(r1.getRoomConfig());
         assertThat(r1).isEqualTo(r2);
 
@@ -332,7 +338,8 @@ class RoomTest {
         }
 
         String str = "Room(id=" + r1.getId() + ", title=Room Title, startingDate="
-            + r1.getStartingDate() + ", "
+            + r1.getStartingDate() + ", endingDate=" + r1.getEndingDate() + ", timeCreated="
+            + r1.getTimeCreated() + ", "
             + "repeatingLecture=false, admin=" + u1.getId() + ", roomConfig=RoomConfig(id="
             + r1.getRoomConfig().getId() + ", studentRefreshRate=5, "
             + "modRefreshRate=5, questionCooldown=300, paceCooldown=300), moderators=[User(id="
