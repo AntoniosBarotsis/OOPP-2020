@@ -28,13 +28,13 @@ public class PollModAskCommunication {
      */
     public static void createPoll(PollHelper pollHelper) {
         //Add checker for if poll already created, update information instead.
-        String url = "http://localhost:8080/api/v1/polls/createPoll?";
+        String url = "http://localhost:8080/api/v1/polls/create?";
 
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
                 .header("Content-Type", "application/json")
-                .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(pollHelper)))
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(pollHelper)))
                 .build();
 
         HttpResponse<String> response = null;
@@ -52,13 +52,13 @@ public class PollModAskCommunication {
     /**
      * Sets the status of the poll to the given one in the parameters.
      *
-     * @param poll the poll to change.
+     * @param pollId the poll to change.
      * @param status The new status.
      */
-    public static void setStatus(Poll poll, Poll.PollStatus status) {
+    public static void setStatus(long pollId, Poll.PollStatus status) {
         String url = "http://localhost:8080/api/v1/polls/status?";
 
-        url = url + "&pollId=" + poll.getId();
+        url = url + "pollId=" + pollId;
         url = url + "&status=" + status.toString();
 
         HttpRequest request = HttpRequest

@@ -123,10 +123,18 @@ public class ModAskPollController {
             }
         }
 
-        closePollButton.setDisable(false);
-        showStatisticsButton.setDisable(false);
+        for (int index = 0; index < selectorList.size(); index++) {
+            if (selected.get(index)) {
+                selectorList.get(index).setText("True");
+                selectorList.get(index).setStyle("-fx-background-color: #AAFFAA; -fx-background-width:1; -fx-border-color:#AAAAAA");
+            } else {
+                selectorList.get(index).setText("False");
+                selectorList.get(index).setStyle("-fx-background-color:#FFAAAA; -fx-background-width:1; -fx-border-color:#AAAAAA");
+            }
+        }
 
-
+        closePollButton.setDisable(true);
+        showStatisticsButton.setDisable(true);
     }
 
     /**
@@ -139,8 +147,10 @@ public class ModAskPollController {
         selected.set(index, !selected.get(index));
         if (selected.get(index)) {
             selectorList.get(index).setText("True");
+            selectorList.get(index).setStyle("-fx-background-color: #AAFFAA; -fx-background-width:1; -fx-border-color:#AAAAAA");
         } else {
             selectorList.get(index).setText("False");
+            selectorList.get(index).setStyle("-fx-background-color:#FFAAAA; -fx-background-width:1; -fx-border-color:#AAAAAA");
         }
 
     }
@@ -221,8 +231,10 @@ public class ModAskPollController {
      * Then creates a new poll with the info in the backend.
      */
     public void submit() {
-        submitButton.setDisable(true);
-        submitButton.setVisible(false);
+        if (questionText.getText().equals("")) {
+            // For Roy to implement
+            return;
+        }
 
         int trueCounter = 0;
         for (boolean a : selected) {
@@ -238,6 +250,15 @@ public class ModAskPollController {
             a.show();
             return;
         }
+
+        questionText.setEditable(false);
+        for(TextArea a: textList){
+            a.setEditable(false);
+        }
+        for(Button a: selectorList){
+            a.setDisable(true);
+        }
+        submitButton.setVisible(false);
 
         List<String> options = new ArrayList<>();
         List<String> correctAnswers = new ArrayList<>();
@@ -263,20 +284,25 @@ public class ModAskPollController {
         // Remember to check if the poll already exists :)
         PollModAskCommunication.createPoll(pollHelper);
 
-        closePollButton.setDisable(true);
-        showStatisticsButton.setDisable(true);
+        closePollButton.setDisable(false);
+        showStatisticsButton.setDisable(false);
     }
 
     /**
      * Sets the status of the poll to closed.
      */
     public void closePoll() {
-        submitButton.setDisable(false);
         submitButton.setVisible(true);
 
-        closePollButton.setDisable(true);
-        showStatisticsButton.setDisable(true);
+        questionText.setEditable(true);
+        for(TextArea a: textList){
+            a.setEditable(true);
+        }
+        for(Button a: selectorList){
+            a.setDisable(false);
+        }
 
-        PollModAskCommunication.setStatus(poll, Poll.PollStatus.CLOSED);
+        closePollButton.setDisable(true);
+        PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.CLOSED);
     }
 }

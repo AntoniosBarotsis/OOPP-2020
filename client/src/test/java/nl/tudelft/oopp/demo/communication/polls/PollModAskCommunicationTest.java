@@ -15,4 +15,14 @@ class PollModAskCommunicationTest {
         PollHelper testPoll = new PollHelper("poll", new ArrayList<>(), new ArrayList<>());
         assertDoesNotThrow(() -> PollModAskCommunication.createPoll(testPoll));
     }
+
+    @Test
+    void setStatusClosed() {
+        assertDoesNotThrow(() -> PollModAskCommunication.setStatus(1, Poll.PollStatus.CLOSED));
+    }
+
+    @Test
+    void setStatusOpen() {
+        assertDoesNotThrow(() -> PollModAskCommunication.setStatus(1, Poll.PollStatus.OPEN));
+    }
 }
