@@ -340,16 +340,14 @@ public class ModAskPollController {
 
         // Remember to check if the poll already exists :)
         Boolean exists = PollModAskCommunication.doesExist(room.getId(), poll.getId());
-        String pollMap = PollModAskCommunication.createPoll(pollHelper, room);
+        if (exists) {
+        //todo
+        } else {
+            String pollMap = PollModAskCommunication.createPoll(pollHelper, room);
 
-        String id = pollMap.substring(pollMap.indexOf(":") +1, pollMap.indexOf(",") );
-        System.out.println(id);
-        System.out.println(pollMap);
-
-        poll.setId(Long.parseLong(id));
-
-
-
+            String id = pollMap.substring(pollMap.indexOf(":") + 1, pollMap.indexOf(","));
+            poll.setId(Long.parseLong(id));
+        }
         closePollButton.setDisable(false);
         showStatisticsButton.setDisable(false);
     }

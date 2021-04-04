@@ -86,6 +86,13 @@ public class PollModAskCommunication {
 
     }
 
+    /**
+     * Checks whether the poll already exists in the backend.
+     *
+     * @param roomId the room id
+     * @param pollId the poll id
+     * @return A boolean of weather the poll already exists or not
+     */
     public static Boolean doesExist(long roomId, long pollId) {
         String url = "http://localhost:8080/api/v1/polls/exists?";
         url = url + "roomId=" + roomId;

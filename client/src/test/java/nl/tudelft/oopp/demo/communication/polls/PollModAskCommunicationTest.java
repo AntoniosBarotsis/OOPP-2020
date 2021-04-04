@@ -15,9 +15,9 @@ class PollModAskCommunicationTest {
     @Test
     void createPoll() {
         PollHelper testPoll = new PollHelper("poll", new ArrayList<>(), new ArrayList<>());
-        assertDoesNotThrow(() -> PollModAskCommunication.createPoll(testPoll, new Room(1
-                ,"roomTitle", new Date(), false, 0, 0 ,0
-        ,true, new RoomConfig(300,300,300,300))));
+        assertDoesNotThrow(() -> PollModAskCommunication.createPoll(testPoll, new Room(1,
+                "roomTitle", new Date(), false, 0, 0,0,
+                true, new RoomConfig(300,300,300,300))));
     }
 
     @Test
