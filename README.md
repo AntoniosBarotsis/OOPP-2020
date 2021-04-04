@@ -3,7 +3,7 @@ Server: ![Server coverage](https://gitlab.ewi.tudelft.nl/cse1105/2019-2020/organ
 
 ## Description of project
 
-zoom but bad
+TU&A is an application, which combines the best from Zoom and Stackoverflow, specially made for Technical University of Delft to increase the interaction between students and lecturers during classes. Lecturers can create rooms and invite students, who can actively participate during sessions by asking questions.
 
 ## Group members
 
