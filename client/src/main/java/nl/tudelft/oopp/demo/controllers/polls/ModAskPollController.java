@@ -112,29 +112,68 @@ public class ModAskPollController {
             selected.add(false);
         }
 
-        for (int i = 0; i < poll.getOptions().size(); i++) {
-            if (!poll.getOptions().get(i).equals("")) {
-                String currentOption = poll.getOptions().get(i);
-                textList.get(i).setText(currentOption);
-                if (poll.getCorrectAnswer().contains(currentOption)) {
-                    selected.set(i, true);
-                    selectorList.get(i).setText("True");
+        populateView(poll);
+
+        closePollButton.setDisable(true);
+        showStatisticsButton.setDisable(true);
+    }
+
+    /**
+     * Populates the view in a way where empty answers are ignored.
+     *
+     * @param poll the poll which the view will show.
+     */
+    private void populateView(Poll poll) {
+        if (poll.getText().isEmpty()) {
+            questionText.setText("");
+        } else {
+            questionText.setText(poll.getText());
+        }
+
+        int currentOption = 0;
+        for (int i = 0; i < 10; i++) {
+            if (poll.getOptions().size() > i) {
+                String option = poll.getOptions().get(i);
+                if (!option.isEmpty()) {
+                    textList.get(currentOption).setText(option);
+
+                    if (poll.getCorrectAnswer().contains(option)) {
+                        setTrue(selectorList.get(currentOption));
+                    } else {
+                        setFalse(selectorList.get(currentOption));
+                    }
+                    currentOption++;
                 }
             }
         }
 
-        for (int index = 0; index < selectorList.size(); index++) {
-            if (selected.get(index)) {
-                selectorList.get(index).setText("True");
-                selectorList.get(index).setStyle("-fx-background-color: #AAFFAA; -fx-background-width:1; -fx-border-color:#AAAAAA");
-            } else {
-                selectorList.get(index).setText("False");
-                selectorList.get(index).setStyle("-fx-background-color:#FFAAAA; -fx-background-width:1; -fx-border-color:#AAAAAA");
-            }
+        for (int i = currentOption; i < 10; i++) {
+            textList.get(i).setText("");
+            setFalse(selectorList.get(i));
         }
+    }
 
-        closePollButton.setDisable(true);
-        showStatisticsButton.setDisable(true);
+    /**
+     * Changes the text and colour to be true and green respectively.
+     *
+     * @param button the button that is changed.
+     */
+    private void setFalse(Button button) {
+        button.setText("False");
+        button.setStyle("-fx-background-color:#FFAAAA; -fx-background-width:1; "
+                + "-fx-border-color:#AAAAAA");
+    }
+
+    /**
+     * Changes the text and colour to be false and red respectively.
+     *
+     * @param button the button that is changed.
+     */
+    private void setTrue(Button button) {
+        button.setText("True");
+        button.setStyle("-fx-background-color: #AAFFAA; "
+                + "-fx-background-width:1; -fx-border-color:#AAAAAA");
+
     }
 
     /**
@@ -146,11 +185,9 @@ public class ModAskPollController {
     public void selectorClicked(int index) {
         selected.set(index, !selected.get(index));
         if (selected.get(index)) {
-            selectorList.get(index).setText("True");
-            selectorList.get(index).setStyle("-fx-background-color: #AAFFAA; -fx-background-width:1; -fx-border-color:#AAAAAA");
+            setTrue(selectorList.get(index));
         } else {
-            selectorList.get(index).setText("False");
-            selectorList.get(index).setStyle("-fx-background-color:#FFAAAA; -fx-background-width:1; -fx-border-color:#AAAAAA");
+            setFalse(selectorList.get(index));
         }
 
     }
@@ -252,10 +289,10 @@ public class ModAskPollController {
         }
 
         questionText.setEditable(false);
-        for(TextArea a: textList){
+        for (TextArea a: textList) {
             a.setEditable(false);
         }
-        for(Button a: selectorList){
+        for (Button a: selectorList) {
             a.setDisable(true);
         }
         submitButton.setVisible(false);
@@ -295,10 +332,10 @@ public class ModAskPollController {
         submitButton.setVisible(true);
 
         questionText.setEditable(true);
-        for(TextArea a: textList){
+        for (TextArea a: textList) {
             a.setEditable(true);
         }
-        for(Button a: selectorList){
+        for (Button a: selectorList) {
             a.setDisable(false);
         }
 
