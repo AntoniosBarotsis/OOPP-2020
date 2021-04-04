@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.controllers.startscreen;
 
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -68,6 +69,9 @@ public class JoinController {
         stage.setScene(new Scene(root));
         stage.setTitle("Main menu");
         stage.setResizable(false);
+        stage.setOnCloseRequest(e -> {
+            Platform.exit();
+        });
         stage.show();
 
         // Closing old Stage
@@ -112,7 +116,7 @@ public class JoinController {
     public void buttonBack() throws Exception {
         Stage stage = (Stage) inputUsername.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/startView/startScene.fxml"));
-        Scene scene = new Scene(root, 960, 540);
+        Scene scene = new Scene(root, 960, 574);
         stage.setScene(scene);
         stage.show();
     }
