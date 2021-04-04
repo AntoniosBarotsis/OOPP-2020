@@ -2,15 +2,13 @@ package nl.tudelft.oopp.demo.data.helper;
 
 import nl.tudelft.oopp.demo.data.RoomConfig;
 
-import java.util.Date;
-
 public class RoomHelper {
     private String title;
     private String username;
     private boolean repeatingLecture;
     private RoomConfig roomConfig;
-    private Date startingDate;
-    private Date endingDate;
+    private String startingDate;
+    private String endingDate;
 
     /**
      * Instantiates a new Room helper.
@@ -23,7 +21,7 @@ public class RoomHelper {
      * @param endingDate       the ending date
      */
     public RoomHelper(String title, String username, boolean repeatingLecture,
-                      RoomConfig roomConfig, Date startingDate, Date endingDate) {
+                      RoomConfig roomConfig, String startingDate, String endingDate) {
         this.title = title;
         this.username = username;
         this.repeatingLecture = repeatingLecture;
@@ -96,7 +94,7 @@ public class RoomHelper {
      * Getter for starting date of room.
      * @return starting date of room
      */
-    public Date getStartingDate() {
+    public String getStartingDate() {
         return startingDate;
     }
 
@@ -104,7 +102,7 @@ public class RoomHelper {
      * Setter for starting date of room.
      * @param startingDate new starting date
      */
-    public void setStartingDate(Date startingDate) {
+    public void setStartingDate(String startingDate) {
         this.startingDate = startingDate;
     }
 
@@ -112,7 +110,7 @@ public class RoomHelper {
      * Getter for ending date of room.
      * @return ending date of room
      */
-    public Date getEndingDate() {
+    public String getEndingDate() {
         return endingDate;
     }
 
@@ -120,7 +118,7 @@ public class RoomHelper {
      * Setter for ending date of room.
      * @param endingDate new ending date
      */
-    public void setEndingDate(Date endingDate) {
+    public void setEndingDate(String endingDate) {
         this.endingDate = endingDate;
     }
 }

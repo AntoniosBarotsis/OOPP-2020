@@ -13,7 +13,7 @@ import java.util.HashSet;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.User;
-import nl.tudelft.oopp.demo.data.deserializers.RoomInstanceCreator;
+import nl.tudelft.oopp.demo.data.helper.RoomHelper;
 
 public class StartCommunication {
 
@@ -21,50 +21,19 @@ public class StartCommunication {
 
     private static Gson gson = new Gson();
 
+    private static final String url = "http://localhost:8080/api/v2/";
+
     /**
      * Create a room.
-     * @param roomName Name of the room
+     * @param roomHelper room object
      * @return new Room
      */
-    public static Room createRoom(String roomName, String username) {
-        String url = "http://localhost:8080/api/v2/rooms/create?username=" + username.trim()
-                + "&title=" + roomName.trim();
+    public static Room createRoom(RoomHelper roomHelper) {
+        String link = url + "rooms/create";
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .PUT(HttpRequest.BodyPublishers.ofString(""))
-                .build();
-
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
-            return new Room(0, "Error loading room", new Date(),
-                    false, -1, -1, -1, false, roomConfig);
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode());
-            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
-            return new Room(0, "Error loading room", new Date(),
-                    false, -1, -1, -1, false, roomConfig);
-        }
-        return gson.fromJson(response.body(), Room.class);
-    }
-
-    /**
-     * Create a scheduled room.
-     * @param roomName Name of the room
-     * @param date the date for the scheduling
-     * @return newly created scheduled room
-     */
-    public static Room createScheduledRoom(String roomName, String username, Date date) {
-        String url = "http://localhost:8080/api/v2/rooms/schedule?username=" + username.trim()
-                        + "&title=" + roomName.trim()
-                        + "&date=" + date.getTime();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .uri(URI.create(link))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(roomHelper)))
                 .build();
 
         HttpResponse<String> response = null;
@@ -89,13 +58,14 @@ public class StartCommunication {
      * Joins a room and creates a new user.
      * @param code code of the room
      * @param username name of the new user
-     * @return
+     * @return user object
      */
     public static User joinRoom(String code, String username) {
-        String url = "http://localhost:8080/api/v2/rooms/join?password=" + code.trim()
+        String link = url + "rooms/join?password=" + code.trim()
                 + "&username=" + username.trim();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(link))
+                .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
                 .build();
 
@@ -119,9 +89,9 @@ public class StartCommunication {
      * @return A room
      */
     public static Room getRoom(String code) {
+        String link = url + "rooms/getFromPass?password=" + code.trim();
         HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v2/rooms/getFromPass?password="
-                        + code.trim())).build();
+                .uri(URI.create(link)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -146,8 +116,9 @@ public class StartCommunication {
      * @return String containing the private code
      */
     public static String getPrivateCode(Long roomId) {
+        String link = url + "rooms/private?roomId=" + roomId;
         HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v2/rooms/private?roomId=" + roomId)).build();
+                .uri(URI.create(link)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
