@@ -1,6 +1,9 @@
 package nl.tudelft.oopp.demo.entities.helpers;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -17,7 +20,9 @@ public class RoomHelper {
     private String username;
     private boolean repeatingLecture;
     private RoomConfig roomConfig;
+    @JsonFormat (pattern = "yyyy-MM-dd hh:mm:ss")
     private Date startingDate;
+    @JsonFormat (pattern = "yyyy-MM-dd hh:mm:ss")
     private Date endingDate;
 
     /**
