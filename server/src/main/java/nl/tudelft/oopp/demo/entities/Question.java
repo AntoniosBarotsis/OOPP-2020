@@ -1,9 +1,6 @@
 package nl.tudelft.oopp.demo.entities;
 
-import static javax.persistence.GenerationType.SEQUENCE;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
@@ -14,16 +11,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
+import org.hibernate.annotations.GenericGenerator;
+
+
 
 /**
- * The Question class.
+ * The Question class. This is used to represent questions users ask during lectures.
  */
 @Entity(name = "Question")
 @Table(name = "questions")
@@ -32,14 +31,12 @@ import nl.tudelft.oopp.demo.entities.users.User;
 @JsonSerialize(using = QuestionSerializer.class)
 public class Question {
     @Id
-    @SequenceGenerator(
-        name = "question_sequence",
-        sequenceName = "question_sequence",
-        allocationSize = 1
-    )
     @GeneratedValue(
-        strategy = SEQUENCE,
         generator = "question_sequence"
+    )
+    @GenericGenerator(
+        strategy = "nl.tudelft.oopp.demo.entities.RandomIdGenerator",
+        name = "question_sequence"
     )
     @Column(name = "id", updatable = false)
     private long id;
@@ -59,6 +56,8 @@ public class Question {
     private QuestionStatus status;
     @Column(name = "answer")
     private String answer;
+    @Column(name = "beingAnswered")
+    private boolean beingAnswered;
 
     /**
      * Instantiates a new Question.
@@ -74,10 +73,11 @@ public class Question {
         this.score = 0;
         this.status = QuestionStatus.OPEN;
         this.timeCreated = new Date();
+        this.beingAnswered = false;
     }
 
     /**
-     * Export question to txt string.
+     * Export question to txt format.
      *
      * @return the string
      */
@@ -86,7 +86,7 @@ public class Question {
     }
 
     /**
-     * Export question to json string.
+     * Export question to json format.
      *
      * @return the string
      * @throws JsonProcessingException the json processing exception
@@ -125,7 +125,7 @@ public class Question {
     }
 
     /**
-     * Status to factor int.
+     * Status to String mapping.
      *
      * @return the int
      */

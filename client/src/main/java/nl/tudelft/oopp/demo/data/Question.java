@@ -4,6 +4,7 @@ import com.google.gson.annotations.JsonAdapter;
 import java.util.Date;
 import nl.tudelft.oopp.demo.data.deserializers.QuestionInstanceCreator;
 
+
 @JsonAdapter(QuestionInstanceCreator.class)
 public class Question {
     private long id;
@@ -14,6 +15,7 @@ public class Question {
     private Date timeCreated;
     private QuestionStatus status;
     private String answer;
+    private boolean isBeingAnswered;
 
 
     /**
@@ -28,7 +30,8 @@ public class Question {
      * @param answer answer of question
      */
     public Question(long id, String text, QuestionAuthor author, int upvotes, int score,
-                    Date timeCreated, QuestionStatus status, String answer) {
+                    Date timeCreated, QuestionStatus status,
+                    String answer, boolean isBeingAnswered) {
         this.id = id;
         this.text = text;
         this.author = author;
@@ -37,6 +40,7 @@ public class Question {
         this.timeCreated = timeCreated;
         this.status = status;
         this.answer = answer;
+        this.isBeingAnswered = isBeingAnswered;
     }
 
     /**
@@ -167,6 +171,21 @@ public class Question {
         this.answer = answer;
     }
 
+    /**
+     * Getter for the beingAnswered field.
+     * @return the state of the question
+     */
+    public boolean getIsBeingAnswered() {
+        return isBeingAnswered;
+    }
+
+    /**
+     * Setter for the boolean beingAnswered.
+     * @param beingAnswered whether a question is being answered or not
+     */
+    public void setBeingAnswered(boolean beingAnswered) {
+        isBeingAnswered = beingAnswered;
+    }
 
     /**
      * The enum Question status.

@@ -7,11 +7,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import nl.tudelft.oopp.demo.communication.mainmenu.MainStudentCommunication;
 import nl.tudelft.oopp.demo.communication.questionview.QuestionViewCommunication;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
@@ -27,13 +25,14 @@ public class ModQuestionController {
     private boolean modified;
     private boolean hasPressedOption;
     private String answer;
-
+    int counter;
 
     @FXML
     private MenuItem markAsAnsweredOption;
 
     @FXML
     private MenuItem answerOption;
+
     @FXML
     private Label date;
 
@@ -69,15 +68,32 @@ public class ModQuestionController {
         this.user = user;
         this.question = question;
         this.answer = question.getAnswer();
+        counter = 0;
 
         //Adds the answer to the answerBox only if question is answered
-        if (answer != "") {
+        if (!answer.equals("")) {
             answerBox.setText(answer);
             answerOption.setText("Edit Answer");
         } else {
             answerOption.setText("Answer");
-            answerBox.setText("Write answer here:");
+            answerBox.setText("Write answer here: ");
+        }
 
+        //Check if another moderator is answering the question in order to avoid dual work
+        if (question.getIsBeingAnswered()) {
+            answerBox.setText("This question is already being answered. "
+                    + "If you want to edit it, press Answer twice.");
+            answerBox.setDisable(true);
+        }
+        if (!question.getIsBeingAnswered()) {
+            if (!answer.equals("")) {
+                answerBox.setText(answer);
+                answerOption.setText("Edit Answer");
+            } else {
+                answerOption.setText("Answer");
+                answerBox.setText("Write answer here: ");
+            }
+            answerBox.setDisable(false);
         }
 
         String simplifiedDate  = new SimpleDateFormat("HH:mm").format(question.getTimeCreated());
@@ -117,6 +133,7 @@ public class ModQuestionController {
 
                     hasPressedOption = false;
                     modified = false;
+                    question.setText(questionText.getText().replaceAll("\n", " "));
                     StudentHelper studentHelper = new StudentHelper(user.getUsername(), "");
 
                     QuestionHelper questionHelper = new QuestionHelper(
@@ -128,10 +145,7 @@ public class ModQuestionController {
                             .setText(question.getId(), questionHelper);
                 }
             }
-
         });
-
-
     }
 
 
@@ -148,7 +162,7 @@ public class ModQuestionController {
      * Bans the user in the backend.
      */
     public void banUser() {
-        QuestionViewCommunication.ban(room.getId(), user.getId());
+        QuestionViewCommunication.ban(room.getId(), user.getId(), question.getAuthor().getId());
 
     }
 
@@ -157,25 +171,54 @@ public class ModQuestionController {
      */
     public void answer() {
 
+        if (QuestionViewCommunication.getBeingAnswered(question.getId())) {
+            if (counter == 0) {
+                answerBox.setText("This question is already being answered. "
+                        + "If you want to edit it, press Answer twice.");
+                answerBox.setDisable(true);
+                counter++;
+                return;
+            }
+
+            if (counter == 1) {
+                answerBox.setText(answerBox.getText().replace("Write answer here: ", ""));
+                answerBox.setText(answerBox.getText().replace(
+                        "This question is already being answered. "
+                                + "If you want to edit it, press Answer twice.", "\n"));
+
+                hasPressedOption = true;
+                modified = true;
+
+                answerBox.setDisable(false);
+                answerBox.setEditable(true);
+                answerBox.requestFocus();
+
+                counter = 0;
+            }
+        }
+        answerBox.setText(answerBox.getText().replace("Write answer here: ", ""));
+
+        question.setBeingAnswered(true);
         hasPressedOption = true;
         modified = true;
 
+        QuestionViewCommunication.setBeingAnswered(question.getId(), true);
+
+        answerBox.setDisable(false);
         answerBox.setEditable(true);
-        if (answerBox.getText().equals("Write answer here:")) {
-            answerBox.setText("");
-        }
         answerBox.requestFocus();
-        answerOption.setText("Edit Answer");
 
         answerBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
+
                     answerBox.setEditable(false);
                     answerBox.setText(answerBox.getText().replaceAll("\n", " "));
 
                     hasPressedOption = false;
                     modified = false;
+                    question.setBeingAnswered(false);
 
                     answer = answerBox.getText();
 
@@ -187,7 +230,9 @@ public class ModQuestionController {
                             answerBox.getText(), studentHelper);
 
                     QuestionViewCommunication.setAnswer(question.getId(), questionHelper);
+                    QuestionViewCommunication.setBeingAnswered(question.getId(), false);
 
+                    answerOption.setText("Edit Answer");
                 }
             }
 

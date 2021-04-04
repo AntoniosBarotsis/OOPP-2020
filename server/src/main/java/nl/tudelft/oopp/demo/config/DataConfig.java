@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,17 +29,22 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * The type Data config. Adds some test data to the database.
+ */
 @Configuration
 public class DataConfig {
 
     /**
      * Command line runner command line runner.
      *
-     * @param quoteRepository    the quote repository
-     * @param userRepository     the user repository
-     * @param roomRepository     the room repository
-     * @param questionRepository the question repository
-     * @param pollRepository     the poll repository
+     * @param quoteRepository      the quote repository
+     * @param userRepository       the user repository
+     * @param roomRepository       the room repository
+     * @param questionRepository   the question repository
+     * @param pollRepository       the poll repository
+     * @param logEntryRepository   the log entry repository
+     * @param roomConfigRepository the room config repository
      * @return the command line runner
      */
     @Bean
@@ -84,9 +88,16 @@ public class DataConfig {
             User u3 = new Student("Student", ip);
             userRepository.saveAll(List.of(u1, u2, u3, u22));
 
-            Poll p1 = new Poll("Poll title", "Poll text", new ArrayList<>(),
-                List.of("Correct answer"));
-            pollRepository.saveAll(List.of(p1));
+            Poll p1 = new Poll("Poll text",
+                    List.of("A", "B", "Correct answer", "D", "E", "F", "7", "8", "9"),
+                    List.of("Correct answer"));
+
+            Poll p2 = new Poll("Poll text",
+                    List.of("A", "B", "Correct answer", "D", "E", "F", "7", "8", "9"),
+                    List.of("Correct answer"));
+            p2.setStatus(Poll.PollStatus.CLOSED);
+
+            pollRepository.saveAll(List.of(p1, p2));
 
             final Question q1 = new Question("Question text 1", u1);
             final Question q2 = new Question("Question text 2", u2);
@@ -104,7 +115,7 @@ public class DataConfig {
             r1.setQuestions(Stream.of(q1, q2, q3, q4)
                 .collect(Collectors.toSet())
             );
-            r1.setPolls(Stream.of(p1)
+            r1.setPolls(Stream.of(p1, p2)
                 .collect(Collectors.toSet())
             );
             Set<ElevatedUser> mods = new HashSet<>();

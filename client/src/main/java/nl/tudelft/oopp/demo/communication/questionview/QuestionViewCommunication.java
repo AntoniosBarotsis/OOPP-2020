@@ -1,15 +1,13 @@
 package nl.tudelft.oopp.demo.communication.questionview;
 
 import com.google.gson.Gson;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-
 import nl.tudelft.oopp.demo.communication.mainmenu.SettingsCommunication;
 import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
-
-
 
 public class QuestionViewCommunication {
 
@@ -46,7 +44,6 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
 
-    // Not finished
     public static void upvote(long id) {
         String url = "http://localhost:8080/api/v2/questions/upvote?";
         url = url + "questionId=" + id;
@@ -76,16 +73,6 @@ public class QuestionViewCommunication {
         url = url + "questionId=" + id;
         sendEmptyPutRequest(url);
 
-    }
-
-    /**
-     * Adds the ip of user to bannedIps.
-     * NOT FINISHED
-     *
-     * @param id the question id.
-     */
-
-    public static void banUser(long id) {
     }
 
 
@@ -229,29 +216,71 @@ public class QuestionViewCommunication {
      * Bans the user.
      *
      * @param roomId the room id
-     * @param userId the user id
+     * @param modId the moderator id
+     * @param authorId the id of the author
      */
-    public static void ban(long roomId, long userId) {
-        String elevatedPassword = SettingsCommunication.getAdminPassword(roomId);
+    public static void ban(long roomId, long modId, long authorId) {
+        String elevatedPassword;
+        try {
+            elevatedPassword = SettingsCommunication.getAdminPassword(roomId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        
+        
         String url = "http://localhost:8080/api/v2/rooms/ban?";
-        url = url + "userId=" + userId;
+        url = url + "userId=" + modId;
         url = url + "&elevatedPassword=" + elevatedPassword;
+        url = url + "&roomId=" + roomId;
+        url = url + "&idToBeBanned=" + authorId;
+
+        if (!isBanned(roomId, authorId)) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson("")))
+                    .uri(URI.create(url)).build();
+            HttpResponse<String> response = null;
+            try {
+                response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            if (response.statusCode() != 200) {
+                System.out.println("Status: " + response.statusCode());
+                System.out.println(response.body());
+            }
+        }
+    }
+
+    /**
+     * Returns wether a user is banned or not.
+     *
+     * @param roomId the room id.
+     * @param authorId the id of the user.
+     * @return boolean of is the user banned.
+     */
+    public static boolean isBanned(Long roomId, Long authorId) {
+        String url = "http://localhost:8080/api/v2/rooms/isBanned?";
+        url = url + "id=" + authorId;
         url = url + "&roomId=" + roomId;
 
         HttpRequest request = HttpRequest.newBuilder()
-                .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson("")))
+                .GET()
                 .uri(URI.create(url)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-
+            return new Boolean(null);
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
         }
+        return Boolean.parseBoolean(response.body());
+
     }
 
     /**\
@@ -266,7 +295,12 @@ public class QuestionViewCommunication {
         url = url + "questionId=" + questionId;
         url = url + "&roomId=" + roomId;
 
-        HttpRequest request = HttpRequest.newBuilder().DELETE().uri(URI.create(url)).build();
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .DELETE()
+                .uri(URI.create(url))
+                .build();
+
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -279,5 +313,66 @@ public class QuestionViewCommunication {
             System.out.println(response.body());
         }
 
+
+    }
+
+    /**
+     * Sets a question to true or false depending on
+     * whether it is being modified by the moderators.
+     *
+     * @param id the question id
+     * @param b the status of the field
+     */
+    public static void setBeingAnswered(long id, boolean b) {
+        String url = "http://localhost:8080/api/v2/questions/setBeingAnswered?";
+        url = url + "questionId=" + id;
+        url = url + "&status=" + b;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+        }
+    }
+
+    /**
+     * Retrieves the BeingAnswered boolean field from a question.
+     *
+     * @param id the id of the question
+     * @return whether a question is being answered
+     */
+    public static boolean getBeingAnswered(long id) {
+        String url = "http://localhost:8080/api/v2/questions/getBeingAnswered?";
+        url = url + "questionId=" + id;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .GET()
+                .uri(URI.create(url))
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Boolean(null);
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+        }
+        return Boolean.parseBoolean(response.body());
     }
 }

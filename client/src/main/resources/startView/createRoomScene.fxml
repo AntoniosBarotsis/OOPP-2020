@@ -73,7 +73,7 @@
             <Font size="29.0" />
          </font>
          <cursor>
-            <Cursor fx:constant="OPEN_HAND" />
+            <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
       <TextField fx:id="inputUsername" alignment="CENTER" prefHeight="134.0" prefWidth="768.0" promptText="Please insert username" GridPane.columnIndex="1" GridPane.rowIndex="4">
