@@ -113,6 +113,7 @@ public class ModAskPollController {
         }
 
         populateView(poll);
+        poll = refreshPoll(poll);
 
         closePollButton.setDisable(true);
         showStatisticsButton.setDisable(true);
@@ -139,8 +140,10 @@ public class ModAskPollController {
 
                     if (poll.getCorrectAnswer().contains(option)) {
                         setTrue(selectorList.get(currentOption));
+                        selected.set(currentOption, true);
                     } else {
                         setFalse(selectorList.get(currentOption));
+                        selected.set(currentOption, false);
                     }
                     currentOption++;
                 }
@@ -151,6 +154,30 @@ public class ModAskPollController {
             textList.get(i).setText("");
             setFalse(selectorList.get(i));
         }
+    }
+
+    /**
+     * Edits the poll to have the information from the view.
+     *
+     * @param poll the current poll
+     * @return the poll after being refreshed to have the information from the view.
+     */
+    private Poll refreshPoll(Poll poll) {
+        List<String> options = new ArrayList<>();
+        List<String> correctAnswers = new ArrayList<>();
+        poll.setText(questionText.getText());
+
+        for (int i = 0; i < 10; i++) {
+            if (!textList.get(i).getText().isEmpty()) {
+                options.add(textList.get(i).getText());
+                if (selected.get(i)) {
+                    correctAnswers.add(textList.get(i).getText());
+                }
+            }
+        }
+        poll.setOptions(options);
+        poll.setCorrectAnswer(correctAnswers);
+        return poll;
     }
 
     /**
@@ -268,8 +295,11 @@ public class ModAskPollController {
      * Then creates a new poll with the info in the backend.
      */
     public void submit() {
-        if (questionText.getText().equals("")) {
-            // For Roy to implement
+        if (questionText.getText().isEmpty()) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("The poll must have a question text.");
+            a.setHeaderText("No question text");
+            a.show();
             return;
         }
 
@@ -297,29 +327,28 @@ public class ModAskPollController {
         }
         submitButton.setVisible(false);
 
-        List<String> options = new ArrayList<>();
-        List<String> correctAnswers = new ArrayList<>();
-        for (TextArea text: textList) {
-            if (!text.equals("")) {
-                options.add(text.getText());
-            }
-        }
-        for (int i = 0; i < 10; i++) {
-            if (selected.get(i) && !textList.get(i).getText().equals("")) {
-                correctAnswers.add(textList.get(i).getText());
-            }
-        }
-        poll.setCorrectAnswer(correctAnswers);
-        poll.setOptions(options);
-        poll.setText(questionText.getText());
+
+        poll = refreshPoll(poll);
+        populateView(poll);
+
+        poll = refreshPoll(poll);
         poll.setStatus(Poll.PollStatus.OPEN);
 
         String text = questionText.getText();
 
-        PollHelper pollHelper = new PollHelper(text, options, correctAnswers);
+        PollHelper pollHelper = new PollHelper(text, poll.getOptions(), poll.getCorrectAnswer());
 
         // Remember to check if the poll already exists :)
-        PollModAskCommunication.createPoll(pollHelper);
+        Boolean exists = PollModAskCommunication.doesExist(room.getId(), poll.getId());
+        String pollMap = PollModAskCommunication.createPoll(pollHelper, room);
+
+        String id = pollMap.substring(pollMap.indexOf(":") +1, pollMap.indexOf(",") );
+        System.out.println(id);
+        System.out.println(pollMap);
+
+        poll.setId(Long.parseLong(id));
+
+
 
         closePollButton.setDisable(false);
         showStatisticsButton.setDisable(false);
