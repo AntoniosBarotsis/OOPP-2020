@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 import nl.tudelft.oopp.demo.communication.polls.PollModAskCommunication;
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
@@ -47,6 +50,9 @@ public class ModAskPollController {
     private TextArea answerTenText;
 
     @FXML
+    private TextArea nrAnswered;
+
+    @FXML
     private Button answerOneSelector;
     @FXML
     private Button answerTwoSelector;
@@ -78,6 +84,7 @@ public class ModAskPollController {
     private Poll poll;
     private User user;
     private Room room;
+    private Timeline refreshPoll;
 
     private ArrayList<TextArea> textList;
     private ArrayList<Button>  selectorList;
@@ -116,7 +123,9 @@ public class ModAskPollController {
         poll = refreshPoll(poll);
 
         closePollButton.setDisable(true);
-        showStatisticsButton.setDisable(true);
+        //showStatisticsButton.setDisable(true);
+
+        nrAnswered.setText(getNumAnswers() + "");
     }
 
     /**
@@ -318,16 +327,6 @@ public class ModAskPollController {
             return;
         }
 
-        questionText.setEditable(false);
-        for (TextArea a: textList) {
-            a.setEditable(false);
-        }
-        for (Button a: selectorList) {
-            a.setDisable(true);
-        }
-        submitButton.setVisible(false);
-
-
         poll = refreshPoll(poll);
         populateView(poll);
 
@@ -341,21 +340,76 @@ public class ModAskPollController {
         // Remember to check if the poll already exists :)
         Boolean exists = PollModAskCommunication.doesExist(room.getId(), poll.getId());
         if (exists) {
-        //todo
+            PollModAskCommunication.updatePoll(poll.getId(), pollHelper);
+
         } else {
             String pollMap = PollModAskCommunication.createPoll(pollHelper, room);
 
             String id = pollMap.substring(pollMap.indexOf(":") + 1, pollMap.indexOf(","));
             poll.setId(Long.parseLong(id));
         }
+
         closePollButton.setDisable(false);
-        showStatisticsButton.setDisable(false);
+        //showStatisticsButton.setDisable(false);
+        showStatisticsButton.setDisable(true);
+
+
+        refreshStatistics(2);
+
+        questionText.setEditable(false);
+        for (TextArea a: textList) {
+            a.setEditable(false);
+        }
+        for (Button a: selectorList) {
+            a.setDisable(true);
+        }
+        submitButton.setVisible(false);
+    }
+
+
+    /**
+     * Calls replaceStatistics every refreshRate number of seconds.
+     *
+     * @param refreshRate how oftend refreshing statistics.
+     */
+    private void refreshStatistics(int refreshRate) {
+        refreshPoll = new Timeline(
+                new KeyFrame(Duration.seconds(refreshRate), e -> replaceStatistics())
+        );
+    }
+
+    /**
+     * Replaces statistics with refreshed statistics.
+     */
+    private void replaceStatistics() {
+        for (int i = 0; i < poll.getOptions().size(); i++) {
+            TextArea currentButton = textList.get(i);
+            String answerOccurences = "" + PollModAskCommunication
+                    .getAnswerOccurences(poll.getId(), poll.getOptions().get(i));
+            currentButton.setText(poll.getOptions().get(i) + "\n - " + answerOccurences
+                    + " selected");
+        }
+        nrAnswered.setText(getNumAnswers() + "");
+    }
+
+    /**
+     * Gets the number of people who answered the poll.
+     * @return the number of people who answered the poll.
+     */
+    private int getNumAnswers() {
+        return PollModAskCommunication.getNumAnswers(poll.getId());
     }
 
     /**
      * Sets the status of the poll to closed.
      */
     public void closePoll() {
+        PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.CLOSED);
+
+        showStatisticsButton.setDisable(false);
+
+        refreshPoll.stop();
+        populateView(poll);
         submitButton.setVisible(true);
 
         questionText.setEditable(true);
@@ -367,6 +421,29 @@ public class ModAskPollController {
         }
 
         closePollButton.setDisable(true);
-        PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.CLOSED);
+    }
+
+    /**
+     * Sets the status of the poll to statistics.
+     */
+    public void showStatisticsClicked() {
+        PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.STATISTICS);
+        poll.setStatus(Poll.PollStatus.STATISTICS);
+
+        closePollButton.setDisable(false);
+        //showStatisticsButton.setDisable(false);
+        showStatisticsButton.setDisable(true);
+
+
+        refreshStatistics(2);
+
+        questionText.setEditable(false);
+        for (TextArea a: textList) {
+            a.setEditable(false);
+        }
+        for (Button a: selectorList) {
+            a.setDisable(true);
+        }
+        submitButton.setVisible(false);
     }
 }

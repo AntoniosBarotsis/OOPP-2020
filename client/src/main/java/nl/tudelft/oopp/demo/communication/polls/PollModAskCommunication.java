@@ -2,7 +2,6 @@ package nl.tudelft.oopp.demo.communication.polls;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -111,5 +110,87 @@ public class PollModAskCommunication {
             System.out.println(response.body());
         }
         return Boolean.parseBoolean(response.body());
+    }
+
+    /**
+     * Updates the text, answers, and correct answers of the poll with id pollId.
+     *
+     * @param pollId the poll id
+     * @param pollHelper the poll helper
+     */
+    public static void updatePoll(Long pollId, PollHelper pollHelper) {
+        String url = "http://localhost:8080/api/v1/polls/update?";
+        url = url + "pollId=" + pollId;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(pollHelper)))
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+        }
+
+
+    }
+
+    /**
+     * Gets the number of times students choose a specific answer in a question.
+     * Add pollHelper
+     *
+     * @param pollId the poll id.
+     * @param answer the answer.
+     * @return the number of people who selected that answer.
+     */
+    public static int getAnswerOccurences(long pollId, String answer) {
+        String url = "http://localhost:8080/api/v1/polls/answerOccurences?";
+        url = url + "pollId=" + pollId;
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
+        }
+        return Integer.parseInt(response.body());
+    }
+
+    /**
+     * Gets the number of students answered the poll.
+     *
+     * @param pollId the poll id.
+     * @return the number of students who answered the poll.
+     */
+    public static int getNumAnswers(long pollId) {
+        String url = "http://localhost:8080/api/v1/polls/getNumAnswers?";
+        url = url + "pollId=" + pollId;
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
+        }
+        return Integer.parseInt(response.body());
     }
 }
