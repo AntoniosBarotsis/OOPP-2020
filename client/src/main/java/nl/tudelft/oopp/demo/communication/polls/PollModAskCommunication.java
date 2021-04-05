@@ -2,10 +2,13 @@ package nl.tudelft.oopp.demo.communication.polls;
 
 import com.google.gson.Gson;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
@@ -151,8 +154,16 @@ public class PollModAskCommunication {
      * @return the number of people who selected that answer.
      */
     public static int getAnswerOccurences(long pollId, String answer) {
+        try {
+            answer = URLEncoder.encode(answer, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return -1;
+        }
         String url = "http://localhost:8080/api/v1/polls/answerOccurences?";
         url = url + "pollId=" + pollId;
+        url = url + "&answer=" + answer;
+
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
 
         HttpResponse<String> response = null;

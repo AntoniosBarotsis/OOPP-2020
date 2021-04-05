@@ -386,6 +386,16 @@ public class ModAskPollController {
             TextArea currentButton = textList.get(i);
             String answerOccurences = "" + PollModAskCommunication
                     .getAnswerOccurences(poll.getId(), poll.getOptions().get(i));
+            if (answerOccurences.equals("-1")) {
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setContentText("The answer \"" + poll.getOptions().get(i)
+                        + "\" Has unsupported character");
+                a.setHeaderText("Unsupported character");
+                a.show();
+                refreshPoll.stop();
+                closePoll();
+                return;
+            }
             currentButton.setText(poll.getOptions().get(i) + "\n - " + answerOccurences
                     + " selected");
         }
