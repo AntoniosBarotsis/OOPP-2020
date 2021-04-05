@@ -82,9 +82,9 @@ public class PollController {
      * @throws JsonProcessingException the json processing exception
      */
     @PutMapping("create")
-    public String createPoll(@RequestBody PollHelper pollHelper)
+    public String createPoll(@PathParam("roomId") long roomId, @RequestBody PollHelper pollHelper)
             throws JsonProcessingException {
-        return pollService.createPoll(pollHelper);
+        return pollService.createPoll(roomId, pollHelper);
     }
 
     /**
@@ -97,4 +97,39 @@ public class PollController {
     public void setStatus(@PathParam("pollId") long pollId, @PathParam("status") String status) {
         pollService.setStatus(pollId, status);
     }
+
+    /**
+     * Update a Poll.
+     *
+     * @param pollId the Poll's ID
+     * @param pollHelper the PollHelper
+     */
+    @PostMapping("update")
+    public void update(@PathParam("pollId") long pollId, @RequestBody PollHelper pollHelper) {
+        pollService.update(pollId, pollHelper);
+    }
+
+    /**
+     * Get the number of occurence of an Answer.
+     *
+     * @param pollId the Poll's ID
+     * @param answer the Answer
+     * @return the number of occurence of an Answer
+     */
+    @GetMapping("answerOccurences")
+    public int getAnswerOccurences(@PathParam("pollId") long pollId, String answer) {
+        return pollService.getAnswerOccurences(pollId, answer);
+    }
+
+    /**
+     * Get the number of students who have answered.
+     *
+     * @param pollId the Poll's ID
+     * @return the number of students who have answered
+     */
+    @GetMapping("numAnswers")
+    public int getNumAnswers(@PathParam("pollId") long pollId) {
+        return pollService.getNumAnswers(pollId);
+    }
+
 }
