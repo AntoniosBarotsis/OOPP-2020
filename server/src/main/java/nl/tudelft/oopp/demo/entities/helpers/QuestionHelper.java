@@ -5,7 +5,8 @@ import lombok.NoArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 
 /**
- * The Question helper class.
+ * The Question helper class. Used for deserializing in the controllers. Only has the Question
+ * constructor fields as attributes.
  */
 @Data
 @NoArgsConstructor

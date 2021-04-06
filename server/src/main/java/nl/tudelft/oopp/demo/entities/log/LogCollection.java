@@ -8,7 +8,7 @@ import lombok.Data;
 import nl.tudelft.oopp.demo.entities.serializers.LogCollectionSerializer;
 
 /**
- * The type Log collection.
+ * The type Log collection. A collection of all types of LogEntries.
  */
 @Data
 @AllArgsConstructor

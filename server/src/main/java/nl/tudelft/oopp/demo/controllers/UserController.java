@@ -1,22 +1,20 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import java.util.HashSet;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.helpers.StudentHelper;
+import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.services.UserService;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 
 /**
@@ -29,18 +27,17 @@ public class UserController {
     private final UserService userService;
 
     /**
-     * Find all string.
+     * Returns a list of all users.
      *
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
+     * @return the list
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAll() throws JsonProcessingException {
+    @GetMapping
+    public List<User> findAll() {
         return userService.findAll();
     }
 
     /**
-     * Add long.
+     * Adds a user given a StudentHelper.
      *
      * @param student the student
      * @param request the request
@@ -57,7 +54,7 @@ public class UserController {
      * Adds questionId to the ids of question user with userId upvoted,
      * if he did not upvote it before.
      *
-     * @param userId the user id
+     * @param userId     the user id
      * @param questionId the question id
      */
     @PostMapping(value = "addUpvotedQuestion")
@@ -70,7 +67,7 @@ public class UserController {
      * Removes questionId from the ids of questions user with userId upvoted,
      * if user upvoted the question before.
      *
-     * @param userId the user id
+     * @param userId     the user id
      * @param questionId the question id
      */
     @DeleteMapping(value = "removeUpvotedQuestion")
@@ -83,19 +80,30 @@ public class UserController {
      * Gets the set of questions user with userId upvoted.
      *
      * @param userId the user id
+     * @return the upvoted question
      */
     @GetMapping(value = "getUpvotedQuestion")
     public HashSet<Question> getUpvotedQuestion(@PathParam("userId") Long userId) {
         return userService.getUpvotedQuestion(userId);
     }
 
-    @GetMapping(value = "findAllStudents", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAllStudents() throws JsonProcessingException {
+    /**
+     * Find all students string.
+     *
+     * @return the list
+     */
+    @GetMapping(value = "findAllStudents")
+    public List<User> findAllStudents() {
         return userService.findAllStudents();
     }
 
-    @GetMapping(value = "findAllElevatedUsers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAllElevatedUsers() throws JsonProcessingException {
+    /**
+     * Returns all elevated users.
+     *
+     * @return the list
+     */
+    @GetMapping(value = "findAllElevatedUsers")
+    public List<User> findAllElevatedUsers() {
         return userService.findAllElevatedUsers();
     }
 }

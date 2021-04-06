@@ -14,9 +14,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
- * The type Mc question.
+ * The type Mc question. Used to represent multiple choice questions the lecturer creates.
  */
 @Entity(name = "Poll")
 @Table(name = "polls")
@@ -24,14 +25,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Poll {
     @Id
-    @SequenceGenerator(
-        name = "poll_sequence",
-        sequenceName = "poll_sequence",
-        allocationSize = 1
-    )
     @GeneratedValue(
-        strategy = SEQUENCE,
         generator = "poll_sequence"
+    )
+    @GenericGenerator(
+        strategy = "nl.tudelft.oopp.demo.entities.RandomIdGenerator",
+        name = "poll_sequence"
     )
     @Column(name = "id", updatable = false)
     private long id;
@@ -65,6 +64,9 @@ public class Poll {
         this.status = PollStatus.OPEN;
     }
 
+    /**
+     * The enum Poll status.
+     */
     public enum PollStatus {
         /**
          * Open poll status.

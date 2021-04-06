@@ -1,15 +1,10 @@
 package nl.tudelft.oopp.demo.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
-import nl.tudelft.oopp.demo.entities.serializers.UserSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -23,7 +18,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     /**
-     * Add long.
+     * Adds a user.
      *
      * @param user the user
      * @return the long
@@ -48,36 +43,19 @@ public class UserService {
     }
 
     /**
-     * Find all string.
+     * Finds all users.
      *
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
+     * @return the list
      */
-    public String findAll() throws JsonProcessingException {
-        return mapUser(userRepository.findAll());
-    }
-
-    /**
-     * Map user string.
-     *
-     * @param users the users
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String mapUser(Collection<User> users) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(User.class, new UserSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(users);
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     /**
      * Adds questionId to the ids of question user with userId upvoted,
      * if he did not upvote it before.
      *
-     * @param userId the user id
+     * @param userId     the user id
      * @param questionId the question id
      */
     public void addUpvotedQuestion(Long userId, Long questionId) {
@@ -98,7 +76,7 @@ public class UserService {
      * Removes questionId from the ids of questions user with userId upvoted,
      * if user upvoted the question before.
      *
-     * @param userId the user id
+     * @param userId     the user id
      * @param questionId the question id
      */
     public void removeUpvotedQuestion(Long userId, Long questionId) {
@@ -118,9 +96,10 @@ public class UserService {
 
 
     /**
-     * Gets the set of questions user with userId upvoted.
+     * Gets the set of questions that have been upvoted by the user.
      *
      * @param userId the user id
+     * @return the upvoted question
      */
     public HashSet<Question> getUpvotedQuestion(Long userId) {
         return userRepository.getUpvotedQuestion(userId);
@@ -130,20 +109,18 @@ public class UserService {
      * Get all students.
      *
      * @return json representation of all students
-     * @throws JsonProcessingException the json processing exception
      */
-    public String findAllStudents() throws JsonProcessingException {
-        return mapUser(userRepository.findAllStudents());
+    public List<User> findAllStudents() {
+        return userRepository.findAllStudents();
     }
 
     /**
      * Get all elevated users.
      *
      * @return json representation of all elevated users
-     * @throws JsonProcessingException the json processing exception
      */
-    public String findAllElevatedUsers() throws JsonProcessingException {
-        return mapUser(userRepository.findAllElevateUsers());
+    public List<User> findAllElevatedUsers() {
+        return userRepository.findAllElevateUsers();
     }
 
     /**

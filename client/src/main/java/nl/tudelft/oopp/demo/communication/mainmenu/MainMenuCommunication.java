@@ -42,6 +42,7 @@ public abstract class MainMenuCommunication {
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
+            return new ArrayList<>();
         }
         return gson.fromJson(response.body(), new TypeToken<ArrayList<Question>>(){}.getType());
     }
@@ -90,6 +91,9 @@ public abstract class MainMenuCommunication {
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
+            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
+            return new Room(0, "Error loading room", new Date(),
+                    false, -1, -1, -1, false, roomConfig);
         }
         return gson.fromJson(response.body(), Room.class);
     }
