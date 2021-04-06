@@ -343,7 +343,15 @@ public class MainStudentController {
         QuestionHelper question = new QuestionHelper(text, studentHelper);
 
         // Send the data to server.
-        MainStudentCommunication.sendQuestion(room.getId(), user.getId(), question);
+        String response = MainStudentCommunication.sendQuestion(room.getId(),
+                user.getId(), question);
+
+        if (response.equals("error")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("You have been banned and cannot ask new questions.");
+            alert.show();
+        }
 
         // Clear textQuestion contents.
         textQuestion.setText("");

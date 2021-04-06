@@ -123,7 +123,7 @@ public abstract class MainMenuCommunication {
      * @param url endpoint of request
      * @param question question to be added.
      */
-    public static void sendPostRequest(String url, QuestionHelper question) {
+    public static String sendPostRequest(String url, QuestionHelper question) {
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
@@ -136,12 +136,15 @@ public abstract class MainMenuCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return;
+            return "error";
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
+            return "error";
         }
+
+        return "success";
     }
 
     /**
