@@ -63,7 +63,6 @@ public class CreateController {
     @FXML
     public void createButton() throws IOException {
         String roomName = inputRoomName.getText();
-        Room room = null;
         if (roomName.equals("")) {
             showAlert("Insert a room name, please.", Alert.AlertType.ERROR);
             return;
@@ -80,33 +79,9 @@ public class CreateController {
             return;
         }
 
-        try {
-            //Fetch date.
-            String startDate = inputDate.getValue() == null ? "" : inputDate.getValue().toString();
-            String startTime = inputTime.getText();
-            String endDate = inputDate.getValue() == null ? "" : inputDate.getValue().toString();
-            String endTime = inputTimeEnd.getText();
-
-            DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
-            String start = LocalDateTime.now().format(pattern);
-            String end = LocalDateTime.now().format(pattern);
-
-            if (inputSchedule.isSelected()) {
-                start = startDate + " " + startTime + ":00";
-                end = endDate + " " + endTime + ":00";
-
-            }
-
-            Date checkStart = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(start);
-            Date checkEnd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(end);
-
-            room = StartCommunication.createRoom(new RoomHelper(roomName, username,
-                    inputRepeating.isSelected(), roomConfig, start, end));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            showAlert("Error parsing date and time.", Alert.AlertType.ERROR);
-            return;
-        }
+        // Try to create a room.
+        Room room = null;
+        room = createRoom(roomConfig, roomName, username);
 
         // Check if a room was fetched from server.
         if (room == null) {
@@ -132,6 +107,47 @@ public class CreateController {
         alert.showAndWait();
     }
 
+    /**
+     * Creates and fetches new room from server.
+     * @param roomConfig room configuration
+     * @param roomName name of room
+     * @param username name of admin
+     * @return fetched room from server
+     */
+    protected Room createRoom(RoomConfig roomConfig, String roomName, String username) {
+        try {
+            //Fetch date.
+            String startDate = inputDate.getValue() == null ? "" : inputDate.getValue().toString();
+            String startTime = inputTime.getText();
+            String endDate = inputDate.getValue() == null ? "" : inputDate.getValue().toString();
+            String endTime = inputTimeEnd.getText();
+
+            DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+            String start = LocalDateTime.now().format(pattern);
+            String end = LocalDateTime.now().format(pattern);
+
+            if (inputSchedule.isSelected()) {
+                start = startDate + " " + startTime + ":00";
+                end = endDate + " " + endTime + ":00";
+
+            }
+
+            Date checkStart = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(start);
+            Date checkEnd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(end);
+
+            return StartCommunication.createRoom(new RoomHelper(roomName, username,
+                    inputRepeating.isSelected(), roomConfig, start, end));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            showAlert("Error parsing date and time.", Alert.AlertType.ERROR);
+            return null;
+        }
+    }
+
+    /**
+     * Validates room configurations are set correctly.
+     * @return configurations of new room
+     */
     protected RoomConfig validatePaceSetting() {
         try {
             // Validate student refresh rate.
