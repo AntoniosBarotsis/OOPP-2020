@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import nl.tudelft.oopp.demo.entities.Answer;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -17,6 +19,7 @@ import nl.tudelft.oopp.demo.entities.log.LogJoin;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
+import nl.tudelft.oopp.demo.repositories.AnswerRepository;
 import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.PollRepository;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
@@ -33,6 +36,7 @@ public class DataConfig {
     /**
      * Command line runner command line runner.
      *
+     * @param answerRepository   the answer repository
      * @param userRepository     the user repository
      * @param roomRepository     the room repository
      * @param questionRepository the question repository
@@ -40,7 +44,8 @@ public class DataConfig {
      * @return the command line runner
      */
     @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository,
+    CommandLineRunner commandLineRunner(AnswerRepository answerRepository,
+                                        UserRepository userRepository,
                                         RoomRepository roomRepository,
                                         QuestionRepository questionRepository,
                                         PollRepository pollRepository,
@@ -51,7 +56,7 @@ public class DataConfig {
             try {
                 // Get the public IP address of the user.
                 ip = new BufferedReader(new InputStreamReader(
-                    new URL("http://checkip.amazonaws.com").openStream())).readLine();
+                        new URL("http://checkip.amazonaws.com").openStream())).readLine();
             } catch (IOException e) {
                 System.out.println(e);
             }
@@ -63,7 +68,7 @@ public class DataConfig {
             userRepository.saveAll(List.of(u1, u2, u3, u22));
 
             Poll p1 = new Poll("Poll text",
-                    List.of("A", "B", "Correct answer", "D", "E", "F", "7", "8", "9"),
+                    List.of("A", "B", "Correct answer", "D", "E", "F"),
                     List.of("Correct answer"));
 
             Poll p2 = new Poll("Poll text",
@@ -87,10 +92,10 @@ public class DataConfig {
             Room r1 = new Room("Room Title", false, u1);
 
             r1.setQuestions(Stream.of(q1, q2, q3, q4)
-                .collect(Collectors.toSet())
+                    .collect(Collectors.toSet())
             );
             r1.setPolls(Stream.of(p1, p2)
-                .collect(Collectors.toSet())
+                    .collect(Collectors.toSet())
             );
             Set<ElevatedUser> mods = new HashSet<>();
             mods.add(u1);
@@ -104,6 +109,18 @@ public class DataConfig {
 
             LogJoin logJoin = new LogJoin(u1, r1);
             logEntryRepository.save(logJoin);
+
+            Answer answer1 = new Answer(List.of("A"), p1.getId(), u3.getId());
+            Answer answer2 = new Answer(List.of("A", "B"), p1.getId(), u3.getId());
+            Answer answer3 = new Answer(List.of("A", "B", "Correct Answer"), p1.getId(),
+                    u3.getId());
+            Answer answer4 = new Answer(List.of("D"), p1.getId(), u3.getId());
+            answerRepository.saveAll(List.of(answer1, answer2, answer3, answer4));
+            p1.addAnswer(answer1);
+            p1.addAnswer(answer2);
+            p1.addAnswer(answer3);
+            p1.addAnswer(answer4);
+            pollRepository.save(p1);
         };
     }
 

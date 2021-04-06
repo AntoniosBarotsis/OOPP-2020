@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.entities;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
@@ -46,6 +47,9 @@ public class Poll {
     private List<String> correctAnswer;
     @Column(name = "status")
     private Poll.PollStatus status;
+    @ElementCollection
+    @Column(name = "answers")
+    private List<Answer> answers;
 
     /**
      * Instantiates a new Poll.
@@ -59,9 +63,19 @@ public class Poll {
         this.text = text;
         this.options = options;
         this.correctAnswer = correctAnswer;
+        this.answers = new ArrayList<>();
 
         this.timeCreated = new Date();
         this.status = PollStatus.OPEN;
+    }
+
+    /**
+     * Add answer.
+     *
+     * @param answer the answer
+     */
+    public void addAnswer(Answer answer) {
+        answers.add(answer);
     }
 
     /**

@@ -106,7 +106,8 @@ public class PollController {
      * @return the number of occurence of an Answer
      */
     @GetMapping("answerOccurences")
-    public int getAnswerOccurences(@PathParam("pollId") long pollId, String answer) {
+    public int getAnswerOccurences(@PathParam("pollId") long pollId,
+                                   @PathParam("answer") String answer) {
         return pollService.getAnswerOccurences(pollId, answer);
     }
 

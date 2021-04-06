@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
+import nl.tudelft.oopp.demo.entities.Answer;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.PollHelper;
 import nl.tudelft.oopp.demo.entities.serializers.PollSerializer;
 import nl.tudelft.oopp.demo.exceptions.InvalidPollStatusException;
+import nl.tudelft.oopp.demo.repositories.AnswerRepository;
 import nl.tudelft.oopp.demo.repositories.PollRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class PollService {
 
     @Autowired
     private final RoomRepository roomRepository;
+
+    @Autowired
+    private final AnswerRepository answerRepository;
 
     public String findAll() throws JsonProcessingException {
         return mapPolls(pollRepository.findAll());
@@ -164,7 +169,15 @@ public class PollService {
      * @return the number of occurence of an Answer
      */
     public int getAnswerOccurences(long pollId, String answer) {
-        return 0;
+        Poll poll = pollRepository.getOne(pollId);
+        List<Answer> answers = poll.getAnswers();
+        int count = 0;
+        for (Answer a : answers) {
+            if (a.getAnswers().contains(answer)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     /**
@@ -174,7 +187,7 @@ public class PollService {
      * @return the number of students who have answered
      */
     public int getNumAnswers(long pollId) {
-        return 0;
+        return answerRepository.getNumAnswers(pollId);
     }
 
 }
