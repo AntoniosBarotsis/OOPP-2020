@@ -157,16 +157,6 @@ public class PollService {
     }
 
     /**
-     * Update a Poll.
-     *
-     * @param pollId the Poll's ID
-     * @param pollHelper the PollHelper
-     */
-    public void update(long pollId, PollHelper pollHelper) {
-
-    }
-
-    /**
      * Get the number of occurence of an Answer.
      *
      * @param pollId the Poll's ID

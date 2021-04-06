@@ -99,17 +99,6 @@ public class PollController {
     }
 
     /**
-     * Update a Poll.
-     *
-     * @param pollId the Poll's ID
-     * @param pollHelper the PollHelper
-     */
-    @PostMapping("update")
-    public void update(@PathParam("pollId") long pollId, @RequestBody PollHelper pollHelper) {
-        pollService.update(pollId, pollHelper);
-    }
-
-    /**
      * Get the number of occurence of an Answer.
      *
      * @param pollId the Poll's ID
