@@ -17,6 +17,11 @@ class MainMenuCommunicationTest {
     }
 
     @Test
+    void getPolls() {
+        assertNotNull(MainMenuCommunication.getPolls(1));
+    }
+
+    @Test
     void getRoom() {
         assertNotNull(MainMenuCommunication.getRoom(1));
     }

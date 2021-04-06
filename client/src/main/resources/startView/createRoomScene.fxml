@@ -138,7 +138,7 @@
             <Font size="29.0" />
          </font>
          <cursor>
-            <Cursor fx:constant="OPEN_HAND" />
+            <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
       <Text strokeType="OUTSIDE" strokeWidth="0.0">

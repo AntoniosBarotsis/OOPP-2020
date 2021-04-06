@@ -58,12 +58,24 @@ class MainModControllerTest {
 
     @Test
     void buttonMakePollsClicked() {
-        //To be implemented.
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if pressing "Ask multiple choice question" works:
+        1. Upon pressing the button, a new poll window should launch.
+         */
     }
 
     @Test
     void buttonShowPollsClicked() {
-        //To be implemented.
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if buttonShowPolls works:
+        1. Launch the client application.
+        2. Join a room.
+        3. This button should be visible in top left of the window.
+        4. Upon pressing the button, polls should appear and buttons's text should change.
+        5. Button "Show Unanswered/Answered" should become disabled.
+        6. Upon pressing again, the questions should load and the text should change.
+        7. The disabled button should become enabled again.
+         */
     }
 
     @Test
@@ -184,6 +196,22 @@ class MainModControllerTest {
      * See {@link #loadData()}.
      */
     @Test
+    void loadQuestions() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void loadPolls() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
     void loadModQuestionView() {
         // Since this method cannot be tested on it's own, follow the linked test plan.
     }
@@ -193,6 +221,14 @@ class MainModControllerTest {
      */
     @Test
     void loadSimpleQuestionView() {
+        // Since this method cannot be tested on it's own, follow the linked test plan.
+    }
+
+    /**
+     * See {@link #loadData()}.
+     */
+    @Test
+    void loadPollView() {
         // Since this method cannot be tested on it's own, follow the linked test plan.
     }
 

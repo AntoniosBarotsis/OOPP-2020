@@ -57,7 +57,7 @@ class RoomTest {
         //userRepository.saveAll(List.of(u1, u2, u3, u22));
         userRepository.saveAll(List.of(u1));
 
-        p1 = new Poll("Poll title", "Poll text", new ArrayList<>(),
+        p1 = new Poll("Poll text", new ArrayList<>(),
             List.of("Correct answer"));
         pollRepository.saveAll(List.of(p1));
 

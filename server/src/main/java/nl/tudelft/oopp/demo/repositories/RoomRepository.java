@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
+
     /**
      * Gets public password.
      *
@@ -169,4 +170,5 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Transactional
     @Query(value = "SELECT r.id FROM Room r WHERE r.normalPassword = ?1")
     Long getNormalRoomId(String normalPassword);
+
 }
