@@ -196,7 +196,7 @@ public class CreateController {
         // Load the Stage
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
-        stage.setTitle("Main menu");
+        stage.setTitle(room.getTitle());
         stage.setResizable(false);
         stage.setOnCloseRequest(e -> {
             Platform.exit();

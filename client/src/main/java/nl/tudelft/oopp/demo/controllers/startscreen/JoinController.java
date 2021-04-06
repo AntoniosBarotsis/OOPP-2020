@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
@@ -35,11 +36,20 @@ public class JoinController {
     @FXML
     public void joinButton() throws IOException {
         if (inputRoomCode.getText().isEmpty() || inputUsername.getText().isEmpty()) {
-            //TODO: Error popup if 1 or both fields are not filled in
+            showAlert("Input username and room code, please!", Alert.AlertType.WARNING);
         }
         User user = StartCommunication.joinRoom(inputRoomCode.getText(),
                     inputUsername.getText());
         Room room = StartCommunication.getRoom(inputRoomCode.getText());
+
+        // Check if room and user were successfully fetched.
+        if (room == null || user == null || room.getId() == 0 || user.getId() == 0) {
+            showAlert("Error joining a room. "
+                    + "The room has not started yet or you have provided a wrong room code!",
+                    Alert.AlertType.ERROR);
+            return;
+        }
+
         if (user.getUserType() == User.UserType.STUDENT) {
             startMainStudentMenu(room, user);
         } else {
@@ -67,7 +77,7 @@ public class JoinController {
         // Load the Stage
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
-        stage.setTitle("Main menu");
+        stage.setTitle(room.getTitle());
         stage.setResizable(false);
         stage.setOnCloseRequest(e -> {
             Platform.exit();
@@ -99,7 +109,7 @@ public class JoinController {
         // Load the Stage
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
-        stage.setTitle("Student menu");
+        stage.setTitle(room.getTitle());
         stage.setResizable(false);
         stage.show();
 
@@ -119,5 +129,17 @@ public class JoinController {
         Scene scene = new Scene(root, 960, 574);
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * Shows a warning alert on screen.
+     * @param text text to display on alert
+     * @param alertType the type of alert to display
+     */
+    protected void showAlert(String text, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setHeaderText(null);
+        alert.setContentText(text);
+        alert.showAndWait();
     }
 }

@@ -74,6 +74,8 @@ public class StartCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return new User(0, "error", new HashSet<>(), new HashSet<>(),
+                    User.UserType.STUDENT);
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
@@ -124,6 +126,7 @@ public class StartCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return "ErrorFetchingCode";
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
