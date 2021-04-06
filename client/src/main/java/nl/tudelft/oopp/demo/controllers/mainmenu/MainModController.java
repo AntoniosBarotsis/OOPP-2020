@@ -11,6 +11,7 @@ import java.util.List;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -104,6 +105,22 @@ public class MainModController {
         // Fetch room data from server.
         this.room = MainModCommunication.getRoom(room.getId());
         this.user = user;
+
+        // Check if data was successfully fetched.
+        if (this.room == null || this.user == null
+                || this.room.getId() == 0 || this.user.getId() == 0) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Error connecting to room and fetching data. "
+                    + "The application will close!");
+            alert.show();
+            alert.setOnCloseRequest(e -> {
+                Platform.exit();
+            });
+
+            return;
+        }
 
         // Changing "Start/End lecture" text is only required if user is lecturer.
         if (user.getUserType().equals(User.UserType.LECTURER)) {
@@ -252,6 +269,7 @@ public class MainModController {
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.setResizable(false);
+        stage.setTitle("Room settings");
         stage.setOnCloseRequest(e -> {
             // Set Settings window as closed.
             isSettingsOpen = false;
