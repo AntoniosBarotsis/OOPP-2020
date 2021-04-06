@@ -5,10 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gson.Gson;
+import java.text.SimpleDateFormat;
 import nl.tudelft.oopp.demo.data.Room;
 import org.junit.jupiter.api.Test;
-
-import java.text.SimpleDateFormat;
 
 class RoomInstanceCreatorTest {
 

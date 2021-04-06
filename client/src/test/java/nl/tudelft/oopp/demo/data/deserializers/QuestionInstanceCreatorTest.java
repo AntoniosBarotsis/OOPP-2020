@@ -1,14 +1,12 @@
 package nl.tudelft.oopp.demo.data.deserializers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gson.Gson;
+import java.text.SimpleDateFormat;
 import nl.tudelft.oopp.demo.data.Question;
 import org.junit.jupiter.api.Test;
-
-import java.text.SimpleDateFormat;
 
 class QuestionInstanceCreatorTest {
 
@@ -16,13 +14,13 @@ class QuestionInstanceCreatorTest {
 
     @Test
     void testDeserialization() {
-        String json = "{ \"answer\": \"text answer\", \"answered\": true, " +
-                "\"author\": { \"id\": 2, \"questionsAsked\": [ 1, 2 ], " +
-                "\"questionsUpvoted\": [ 1 ], \"type\": \"STUDENT\", " +
-                "\"username\": \"name\" }, \"BeingAnswered\": true, " +
-                "\"id\": 1, \"score\": 10, \"QuestionStatus\": \"OPEN\", " +
-                "\"text\": \"questionText\", " +
-                "\"timeCreated\": \"2021-04-06 03:42:48\", \"upvotes\": 5 }";
+        String json = "{ \"answer\": \"text answer\", \"answered\": true, "
+                + "\"author\": { \"id\": 2, \"questionsAsked\": [ 1, 2 ], "
+                + "\"questionsUpvoted\": [ 1 ], \"type\": \"STUDENT\", "
+                + "\"username\": \"name\" }, \"BeingAnswered\": true, "
+                + "\"id\": 1, \"score\": 10, \"QuestionStatus\": \"OPEN\", "
+                + "\"text\": \"questionText\", "
+                + "\"timeCreated\": \"2021-04-06 03:42:48\", \"upvotes\": 5 }";
 
         Question question = gson.fromJson(json, Question.class);
         assertEquals(1L, question.getId());

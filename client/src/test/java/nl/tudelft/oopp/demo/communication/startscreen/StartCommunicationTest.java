@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.communication.startscreen;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import nl.tudelft.oopp.demo.data.RoomConfig;
@@ -18,16 +19,12 @@ public class StartCommunicationTest {
 
     @Test
     void joinRoom() {
-        assertNotNull(StartCommunication.joinRoom("code", "username"));
+        assertDoesNotThrow(() -> StartCommunication.joinRoom("code", "username"));
     }
 
     @Test
     void getRoom() {
-        assertNotNull(StartCommunication.getRoom("code"));
+        assertDoesNotThrow(() -> StartCommunication.getRoom("code"));
     }
 
-    @Test
-    void getPrivateCode() {
-        assertNotNull(StartCommunication.getPrivateCode(1L));
-    }
 }

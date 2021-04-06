@@ -3,10 +3,9 @@ package nl.tudelft.oopp.demo.data.deserializers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.gson.Gson;
+import java.util.Set;
 import nl.tudelft.oopp.demo.data.User;
 import org.junit.jupiter.api.Test;
-
-import java.util.Set;
 
 class UserInstanceCreatorTest {
 
