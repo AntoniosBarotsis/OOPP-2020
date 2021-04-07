@@ -34,7 +34,6 @@ public class AnswerPollCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
@@ -50,7 +49,13 @@ public class AnswerPollCommunication {
      */
     public static Poll getPoll(long pollId) {
         String url = "http://localhost:8080/api/v1/polls/get?id=" + pollId;
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .GET()
+                .uri(URI.create(url))
+                .build();
+
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -62,5 +67,61 @@ public class AnswerPollCommunication {
         }
         return gson.fromJson(response.body(), Poll.class);
     }
+
+    /**
+     * Gets the amount of answers of 1 answer.
+     * @param pollId The poll the question was asked in
+     * @param answer The answer
+     * @return Amount of answers
+     */
+    public static int getAnswerAmount(long pollId, String answer) {
+        String url = "http://localhost:8080/api/v1/polls/answerOccurences?pollId=" + pollId
+                + "&answer=" + answer;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .GET()
+                .uri(URI.create(url))
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+        }
+        return gson.fromJson(response.body(), int.class);
+    }
+
+    /**
+     * Get the total amount of answers from a poll.
+     * @param pollId The id of the poll
+     * @return the total amount of answers
+     */
+    public static int getTotalAnswerAmount(long pollId) {
+        String url = "http://localhost:8080/api/v1/polls/numAnswers?pollId=" + pollId;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .GET()
+                .uri(URI.create(url))
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+        }
+        return gson.fromJson(response.body(), int.class);
+    }
 }
+
+
 
