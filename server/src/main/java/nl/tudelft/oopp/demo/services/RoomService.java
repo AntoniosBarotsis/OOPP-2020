@@ -386,11 +386,6 @@ public class RoomService {
             return null; // TODO Throw error
         }
         Room room = roomRepository.getOne(id);
-        Date currentDate = new Date();
-        if (!isElevated && currentDate.before(room.getStartingDate())) {
-            // Joining before start date
-            return null; // TODO Better error handling
-        }
         User user;
         if (isElevated) {
             user = new ElevatedUser(username, ip);

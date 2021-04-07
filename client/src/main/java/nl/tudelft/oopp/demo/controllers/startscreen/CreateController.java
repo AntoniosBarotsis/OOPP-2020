@@ -3,12 +3,8 @@ package nl.tudelft.oopp.demo.controllers.startscreen;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -22,7 +18,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 import javafx.stage.Stage;
-import nl.tudelft.oopp.demo.communication.mainmenu.SettingsCommunication;
 import nl.tudelft.oopp.demo.communication.startscreen.StartCommunication;
 import nl.tudelft.oopp.demo.controllers.mainmenu.MainModController;
 import nl.tudelft.oopp.demo.data.Room;
@@ -122,18 +117,18 @@ public class CreateController {
             String endDate = inputDate.getValue() == null ? "" : inputDate.getValue().toString();
             String endTime = inputTimeEnd.getText();
 
-            DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
-            String start = LocalDateTime.now().format(pattern);
-            String end = LocalDateTime.now().format(pattern);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Amsterdam"));
+            String start = dateFormat.format(new Date());
+            String end = dateFormat.format(new Date());
 
             if (inputSchedule.isSelected()) {
                 start = startDate + " " + startTime + ":00";
                 end = endDate + " " + endTime + ":00";
-
             }
 
-            Date checkStart = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(start);
-            Date checkEnd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(end);
+            Date checkStart = dateFormat.parse(start);
+            Date checkEnd = dateFormat.parse(end);
 
             return StartCommunication.createRoom(new RoomHelper(roomName, username,
                     inputRepeating.isSelected(), roomConfig, start, end));

@@ -382,7 +382,8 @@ public class MainStudentController {
         if (response.equals("error")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
-            alert.setContentText("You have been banned and cannot ask new questions.");
+            alert.setContentText("Either the lecture is over or you have been "
+                    + "banned and cannot ask new questions.");
             alert.show();
         }
 

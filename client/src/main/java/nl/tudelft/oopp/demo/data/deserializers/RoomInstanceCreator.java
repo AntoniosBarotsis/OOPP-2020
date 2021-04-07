@@ -40,7 +40,7 @@ public class RoomInstanceCreator implements JsonDeserializer<Room> {
         // Try to parse the input Date format.
         Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                     .parse(jsonObject.get("startingDate").getAsString());
         } catch (ParseException e) {
             date = new Date();
