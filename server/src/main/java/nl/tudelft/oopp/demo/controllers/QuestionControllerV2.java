@@ -11,8 +11,11 @@ import nl.tudelft.oopp.demo.entities.helpers.QuestionExportHelper;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
+import nl.tudelft.oopp.demo.exceptions.LectureIsOverException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
+import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.services.QuestionService;
+import nl.tudelft.oopp.demo.services.RoomService;
 import nl.tudelft.oopp.demo.services.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class QuestionControllerV2 {
     private final QuestionService questionService;
     private final UserService userService;
+    private final RoomRepository roomRepository;
 
     /**
      * Add question to the given room.
