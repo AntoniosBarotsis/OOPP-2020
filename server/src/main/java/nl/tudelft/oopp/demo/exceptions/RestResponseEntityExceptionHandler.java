@@ -36,6 +36,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 break;
             case "LectureIsOverException":
                 status = HttpStatus.EXPECTATION_FAILED;
+                break;
             default:
                 status = HttpStatus.BAD_REQUEST;
         }
