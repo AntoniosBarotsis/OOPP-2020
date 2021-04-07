@@ -31,7 +31,7 @@
          <font>
             <Font size="14.0" />
          </font></Button>
-       <Button fx:id="showStatisticsButton" layoutX="394.0" layoutY="443.0" mnemonicParsing="false" onAction="#showStatisticsClicked" prefHeight="28.0" prefWidth="123.0" style="-fx-background-color: #eb7245;" text="Show statistics">
+       <Button fx:id="showStatisticsButton" layoutX="394.0" layoutY="443.0" mnemonicParsing="false" onAction="#showStatisticsClicked" prefHeight="28.0" prefWidth="123.0" style="-fx-background-color: #eb7245;" text="Send statistics">
          <font>
             <Font size="14.0" />
          </font></Button>
