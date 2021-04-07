@@ -187,7 +187,7 @@ public class AnswerPollController {
     public void submitButton() {
         if (poll.getStatus() == Poll.PollStatus.OPEN) {
             List<String> answers = formatButtons();
-            AnswerHelper answerHelper = new AnswerHelper(user.getId(), poll.getId(), answers);
+            AnswerHelper answerHelper = new AnswerHelper(poll.getId(), user.getId(), answers);
             AnswerPollCommunication.createAnswer(answerHelper);
             Stage oldStage = (Stage) listLeft.getScene().getWindow();
             oldStage.close();
