@@ -91,7 +91,7 @@ public class ModAskPollController {
     private ArrayList<Button>  selectorList;
     private ArrayList<Boolean> selected;
 
-    private boolean alreadySubmitted;
+    private boolean showingStatistics;
 
 
     /**
@@ -129,7 +129,7 @@ public class ModAskPollController {
 
 
         if (poll.getId() == 0L) {
-            alreadySubmitted = false;
+            showingStatistics = false;
             submitButton.setVisible(true);
             closePollButton.setVisible(false);
             showStatisticsButton.setVisible(false);
@@ -137,7 +137,6 @@ public class ModAskPollController {
         } else {
             nrAnswered.setText(getNumAnswers() + "");
 
-            alreadySubmitted = true;
             for (TextArea a: textList) {
                 a.setEditable(false);
             }
@@ -149,13 +148,18 @@ public class ModAskPollController {
             if (poll.getStatus().equals(Poll.PollStatus.CLOSED)) {
                 closePollButton.setVisible(false);
                 showStatisticsButton.setVisible(true);
+                showingStatistics = false;
             } else if (poll.getStatus().equals(Poll.PollStatus.STATISTICS)) {
                 closePollButton.setVisible(false);
                 showStatisticsButton.setVisible(true);
                 showStatisticsButton.setText("Unsend Statistics");
+                showingStatistics = true;
+
             } else {
                 closePollButton.setVisible(true);
-                showStatisticsButton.setVisible(true);
+                showStatisticsButton.setVisible(false);
+                showingStatistics = false;
+
             }
             refreshStatistics(2);
         }
@@ -346,11 +350,13 @@ public class ModAskPollController {
         }
 
         int trueCounter = 0;
+        int currentPosition = 0;
         for (boolean a : selected) {
-            if (a) {
+            if (a && !textList.get(currentPosition).getText().equals("")) {
                 trueCounter++;
                 break;
             }
+            currentPosition++;
         }
         if (trueCounter == 0) {
             Alert a = new Alert(Alert.AlertType.ERROR);
@@ -452,10 +458,15 @@ public class ModAskPollController {
      * Sets the status of the poll to statistics.
      */
     public void showStatisticsClicked() {
-        PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.STATISTICS);
-        poll.setStatus(Poll.PollStatus.STATISTICS);
-
-        showStatisticsButton.setVisible(false);
+        if (showingStatistics) {
+            PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.CLOSED);
+            poll.setStatus(Poll.PollStatus.CLOSED);
+            showStatisticsButton.setText("Send Statistics");
+        } else {
+            PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.STATISTICS);
+            poll.setStatus(Poll.PollStatus.STATISTICS);
+            showStatisticsButton.setText("Unsend Statistics");
+        }
 
     }
 }
