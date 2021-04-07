@@ -27,7 +27,7 @@ public class RoomSerializer extends StdSerializer<Room> {
         throws IOException {
         roomService.refreshOngoing(value.getId());
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         gen.writeStartObject();
         gen.writeNumberField("id", value.getId());

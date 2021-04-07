@@ -20,9 +20,9 @@ public class RoomHelper {
     private String username;
     private boolean repeatingLecture;
     private RoomConfig roomConfig;
-    @JsonFormat (pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startingDate;
-    @JsonFormat (pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endingDate;
 
     /**
