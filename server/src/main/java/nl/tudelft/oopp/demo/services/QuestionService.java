@@ -19,6 +19,7 @@ import nl.tudelft.oopp.demo.entities.log.LogQuestion;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
+import nl.tudelft.oopp.demo.exceptions.LectureIsOverException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
@@ -47,9 +48,14 @@ public class QuestionService {
      * @param roomId   the room id
      * @throws InvalidIdException    the invalid id exception
      * @throws UnauthorizedException the unauthorized exception
+     * @throws LectureIsOverException the lecture is over exception
      */
     public void addQuestion(Question question, long roomId)
         throws InvalidIdException, UnauthorizedException {
+        if (!roomRepository.getOne(roomId).isOngoing()) {
+            throw new LectureIsOverException("You cant ask questions after the lecture is over");
+        }
+
         if (userService.isInvalidAuthorId(question.getAuthor())) {
             throw new InvalidIdException("The supplied author id is invalid");
         }
