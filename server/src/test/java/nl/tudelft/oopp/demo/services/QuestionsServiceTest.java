@@ -116,7 +116,7 @@ class QuestionsServiceTest {
         calendar.setTime(date);
         calendar.add(Calendar.MINUTE, 5);
         Date endingDate = calendar.getTime();
-        calendar.add(Calendar.MINUTE, -6);
+        calendar.add(Calendar.MINUTE, -7);
         Date startingDate = calendar.getTime();
 
         RoomHelper rh = new RoomHelper("title", "admin", false,
