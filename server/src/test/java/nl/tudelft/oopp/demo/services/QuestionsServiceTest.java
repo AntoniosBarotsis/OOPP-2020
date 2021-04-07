@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -109,9 +110,17 @@ class QuestionsServiceTest {
         question3 = new Question("This is the text 3", user2);
         question4 = new Question("This is the text 4", user3);
 
+        // Make ending date currentDate + a few minutes so no exceptions are thrown.
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MINUTE, 5);
+        Date endingDate = calendar.getTime();
+
         RoomHelper rh = new RoomHelper("title", "admin", false,
-            new Date(), new Date());
+            new Date(), endingDate);
         room = roomService.createRoom(rh,"IP 4");
+        room.refreshOngoing(); // update this so tests dont fail.
 
         userRepository.save(user1);
         userRepository.save(user2);
