@@ -428,6 +428,8 @@ public class RoomService {
     public String isOngoing(long roomId) throws JsonProcessingException {
         ObjectMapper obj = new ObjectMapper();
         Room room = roomRepository.getOne(roomId);
+        room.refreshOngoing();
+        roomRepository.save(room);
 
         Object tmp = new Object() {
             final Date startingDate = room.getStartingDate();
