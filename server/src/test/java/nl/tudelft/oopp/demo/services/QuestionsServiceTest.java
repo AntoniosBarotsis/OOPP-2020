@@ -116,9 +116,11 @@ class QuestionsServiceTest {
         calendar.setTime(date);
         calendar.add(Calendar.MINUTE, 5);
         Date endingDate = calendar.getTime();
+        calendar.add(Calendar.MINUTE, -6);
+        Date startingDate = calendar.getTime();
 
         RoomHelper rh = new RoomHelper("title", "admin", false,
-            new Date(), endingDate);
+            startingDate, endingDate);
         room = roomService.createRoom(rh,"IP 4");
         room.refreshOngoing(); // update this so tests dont fail.
 
