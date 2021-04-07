@@ -185,5 +185,8 @@ public class Room {
         if (startingDate.before(new Date())) {
             this.isOngoing = true;
         }
+        if (endingDate.before(new Date())) {
+            this.isOngoing = false;
+        }
     }
 }
