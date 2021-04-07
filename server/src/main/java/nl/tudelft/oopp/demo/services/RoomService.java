@@ -267,6 +267,27 @@ public class RoomService {
         roomRepository.setOngoing(roomId, isOngoing);
     }
 
+    /**
+     * Ends a lecture.
+     *
+     * @param roomId the room id
+     * @param userId the user id
+     */
+    public void endLecture(long roomId, long userId) {
+        if (isNotAuthorized(roomId, userId)) {
+            throw new UnauthorizedException("User not authorized (not an elevated user)");
+        }
+
+        if (roomRepository.getOne(roomId).getAdmin() != userId) {
+            throw new UnauthorizedException("User not authorized (not the room admin)");
+        }
+
+        Room room = roomRepository.getOne(roomId);
+        room.setEndingDate(new Date());
+        room.setOngoing(false);
+        roomRepository.save(room);
+    }
+
 
     /**
      * Sets config.

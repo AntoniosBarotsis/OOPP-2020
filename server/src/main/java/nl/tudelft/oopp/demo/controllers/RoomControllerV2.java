@@ -222,17 +222,31 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Sets whether the room is ongoing or not.
+     * Sets whether the room is ongoing or not. NO LONGER WORKS
      *
      * @param roomId    the room id
      * @param isOngoing the is ongoing
      * @param userId    the user id
+     * @deprecated due to the new approach of using refreshOngoing
      */
+    @Deprecated
     @PutMapping("setOngoing")
     void setOngoing(@PathParam("roomId") long roomId,
                     @PathParam("isOngoing") boolean isOngoing,
                     @PathParam("userId") long userId) {
         roomService.setOngoing(roomId, isOngoing, userId);
+    }
+
+    /**
+     * Ends a lecture.
+     *
+     * @param roomId the room id
+     * @param userId the user id
+     */
+    @PutMapping("endLecture")
+    void endLecture(@PathParam("roomId") long roomId,
+                    @PathParam("userId") long userId) {
+        roomService.endLecture(roomId, userId);
     }
 
     /**
