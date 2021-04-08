@@ -122,6 +122,12 @@ public class AnswerPollCommunication {
         return gson.fromJson(response.body(), int.class);
     }
 
+    /**
+     * Check if the question has already been answered by a user.
+     * @param pollId The poll
+     * @param userId The user trying to answer
+     * @return
+     */
     public static boolean hasAnswered(long pollId, long userId) {
         String url = "http://localhost:8080/api/v1/answers/hasAnswered?pollId=" + pollId
                 + "&userId=" + userId;

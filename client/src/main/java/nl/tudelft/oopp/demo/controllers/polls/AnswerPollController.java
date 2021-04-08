@@ -200,7 +200,7 @@ public class AnswerPollController {
             //Check if the user has already answered the poll.
             if (!AnswerPollCommunication.hasAnswered(poll.getId(), user.getId())) {
                 List<String> answers = formatButtons();
-                AnswerHelper answerHelper = new AnswerHelper(user.getId(), poll.getId(), answers);
+                AnswerHelper answerHelper = new AnswerHelper(poll.getId(), user.getId(), answers);
                 AnswerPollCommunication.createAnswer(answerHelper);
                 Stage oldStage = (Stage) listLeft.getScene().getWindow();
                 oldStage.close();

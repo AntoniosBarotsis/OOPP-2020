@@ -38,7 +38,8 @@ public class AnswerPollControllerTest {
         /* Manual test plan to be carried out when testing if everything works correctly.
         Test plan for testing if loading a closed poll loads in a special poll:
         1. Have a poll that is set to closed
-        2. Load it into the answerPoll (This should normally not happen since it is already prevented).
+        2. Load it into the answerPoll
+           (This should normally not happen since it is already prevented).
         3. Make sure you get the special closed poll poll.
          */
     }
