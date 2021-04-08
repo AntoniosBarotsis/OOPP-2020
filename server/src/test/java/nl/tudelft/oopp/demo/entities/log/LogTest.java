@@ -42,6 +42,8 @@ class LogTest {
 
     private Question question;
 
+    private Date date;
+
     @Autowired
     private RoomRepository roomRepository;
     @Autowired
@@ -59,7 +61,7 @@ class LogTest {
 
         userRepository.saveAll(List.of(u1, u2, u3));
 
-        Date date = new Date();
+        date = new Date();
 
         RoomConfig roomConfig = new RoomConfig();
         roomConfigRepository.save(roomConfig);
@@ -78,36 +80,65 @@ class LogTest {
 
     @Test
     void getId() {
-        assertTrue(true);
-//        assertTrue(b1.getId() instanceof long);
+        assertNotNull(b1.getId());
+        assertNotNull(j1.getId());
+        assertNotNull(q1.getId());
+
     }
 
     @Test
     void getUser() {
         assertEquals(u1, b1.getUser());
         assertEquals(u1, j1.getUser());
-        assertEquals(u3, j1.getUser());
+        assertEquals(u3, q1.getUser());
     }
 
     @Test
     void getRoom() {
-        assertEquals(1,1);
+        assertEquals(r1, b1.getRoom());
+        assertEquals(r1, j1.getRoom());
+        assertEquals(r1, q1.getRoom());
+
     }
 
     @Test
     void getAction() {
+        assertEquals(LogEntry.ActionType.BANNED, b1.getAction());
+        assertEquals(LogEntry.ActionType.JOINED, j1.getAction());
+        assertEquals(LogEntry.ActionType.ASKED, q1.getAction());
     }
 
     @Test
     void getDate() {
+        assertEquals(date, b1.getDate());
+        assertEquals(date, j1.getDate());
+        assertEquals(date, q1.getDate());
     }
 
     @Test
     void setId() {
+        b1.setId(0);
+        j1.setId(1);
+        q1.setId(2);
+
+        assertEquals(0, b1.getId());
+        assertEquals(1, j1.getId());
+        assertEquals(2, q1.getId());
     }
 
     @Test
     void setUser() {
+        User secondElevatedUser = new ElevatedUser("Admin", "ip", true);
+        User secondStudent = new Student("Student", "ip");
+
+        b1.setUser(secondElevatedUser);
+        j1.setUser(secondElevatedUser);
+        q1.setUser(secondStudent);
+
+        assertEquals(secondElevatedUser, b1.getUser());
+        assertEquals(secondElevatedUser, j1.getUser());
+        assertEquals(secondStudent, q1.getUser());
+
     }
 
     @Test
