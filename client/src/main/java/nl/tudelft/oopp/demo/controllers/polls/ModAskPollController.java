@@ -466,7 +466,8 @@ public class ModAskPollController {
     }
 
     /**
-     * Sets the status of the poll to statistics.
+     * Sets the status of the poll to statistics, unless the status is statistics
+     * already and then instead it sets it to closed.
      */
     public void showStatisticsClicked() {
         if (showingStatistics) {
