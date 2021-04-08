@@ -10,6 +10,7 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
+import nl.tudelft.oopp.demo.repositories.QuestionRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +42,8 @@ class LogTest {
     private RoomRepository roomRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private QuestionRepository questionRepository;
 
     @BeforeEach
     void setUp() {
