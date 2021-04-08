@@ -46,26 +46,42 @@ public class AnswerPollController {
         this.user = user;
         this.room = room;
 
-        loadView(poll.getOptions());
+        //Making sure the lists cant be selected.
+        listLeft.setSelectionModel(new NoSelectionModel<>());
+        listRight.setSelectionModel(new NoSelectionModel<>());
+
         textQuestion.setText(poll.getText());
+
+        //Checks what type of poll needs to be loaded.
+        if (poll.getStatus() == Poll.PollStatus.OPEN) {
+            loadOpenView();
+        } else if (poll.getStatus() == Poll.PollStatus.STATISTICS) {
+            loadStatView();
+        } else {
+            //If somehow a closed poll gets loaded, load a custom view
+            loadClosedView();
+        }
+
     }
 
     /**
      * Load data into the poll.
-     * @param questions List containing all the questions
      */
-    public void loadView(List<String> questions) {
+    public void loadOpenView() {
+        List<String> questions = poll.getOptions();
+        //Call the fillButtonsLists function with the correct height (So it scales dynamically)
         if (questions.size() <= 2) {
-            fillLists(questions, 342);
+            fillButtonLists(questions, 342);
         } else if (questions.size() <= 4) {
-            fillLists(questions, 168);
+            fillButtonLists(questions, 168);
         } else if (questions.size() <= 6) {
-            fillLists(questions, 110);
+            fillButtonLists(questions, 110);
         } else if (questions.size() <= 8) {
-            fillLists(questions, 81);
+            fillButtonLists(questions, 81);
         } else if (questions.size() <= 10) {
-            fillLists(questions, 63);
+            fillButtonLists(questions, 63);
         } else {
+            //If a list with more than 10 options somehow gets loaded in, load a error.
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setContentText("Error inserting questions!");
@@ -74,16 +90,76 @@ public class AnswerPollController {
     }
 
     /**
+     * Load stat data into the poll.
+     */
+    public void loadStatView() {
+        List<String> questions = poll.getOptions();
+        //Call the fillStatLists function with the correct height (So it scales dynamically)
+        if (questions.size() <= 2) {
+            fillStatList(questions, 342);
+        } else if (questions.size() <= 4) {
+            fillStatList(questions, 168);
+        } else if (questions.size() <= 6) {
+            fillStatList(questions, 110);
+        } else if (questions.size() <= 8) {
+            fillStatList(questions, 81);
+        } else if (questions.size() <= 10) {
+            fillStatList(questions, 63);
+        } else {
+            //If a list with more than 10 options somehow gets loaded in, show a alert.
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Error loading statistics!");
+            alert.showAndWait();
+        }
+    }
+
+    /**
+     * Load custom screen for when poll is closed.
+     */
+    public void loadClosedView() {
+        Button button = new Button("The poll is currently closed.");
+        button.setPrefHeight(342);
+        button.setPrefWidth(230);
+        button.setStyle(background);
+        button.setDisable(true);
+        listLeft.getItems().add(button);
+        listRight.getItems().add(button);
+    }
+
+    /**
      * Fills the listviews with buttons.
      * @param questions List containing the questions
      * @param height The height that a button can be
      */
-    public void fillLists(List<String> questions, int height) {
+    public void fillButtonLists(List<String> questions, int height) {
         for (int i = 0; i < questions.size(); i++) {
+            //Even buttons go in left list, uneven go in right.
             if (i % 2 == 0) {
-                listLeft.getItems().add(buttonCreator(questions.get(i), height));
+                listLeft.getItems().add(buttonCreator(questions.get(i), height, false));
             } else {
-                listRight.getItems().add(buttonCreator(questions.get(i), height));
+                listRight.getItems().add(buttonCreator(questions.get(i), height, false));
+            }
+        }
+    }
+
+    /**
+     * Filling of the stats list.
+     * @param questions The questions that need to be loaded in
+     * @param height The height of the questions
+     */
+    public void fillStatList(List<String> questions, int height) {
+        int totalAnswers = AnswerPollCommunication.getTotalAnswerAmount(poll.getId());
+        for (int i = 0; i < questions.size(); i++) {
+            //Add the Chosen by how many percent of the people.
+            String answer = questions.get(i) + "\n Chosen by: "
+                    + (int) Math.round(AnswerPollCommunication
+                    .getAnswerAmount(poll.getId(), questions.get(i))
+                    * 100.0 / totalAnswers) + "%";
+            if (i % 2 == 0) {
+                listLeft.getItems().add(buttonCreator(answer, height, true));
+            } else {
+                listRight.getItems().add(buttonCreator(answer, height, true));
             }
         }
     }
@@ -92,14 +168,16 @@ public class AnswerPollController {
      * Creates a button based on height.
      * @param value the questions that the button represents
      * @param height the height that the button can be
+     * @param disable if the buttons needs to be clickable
      * @return
      */
-    public Button buttonCreator(String value, int height) {
+    public Button buttonCreator(String value, int height, Boolean disable) {
         Button button = new Button(value);
         button.setPrefHeight(height);
         button.setPrefWidth(230);
         button.setStyle(background);
         button.setCursor(Cursor.HAND);
+        button.setDisable(disable);
         button.setOnAction(e -> {
             Button button1 = (Button) e.getSource();
             if (selected.contains(button1)) {
@@ -117,11 +195,27 @@ public class AnswerPollController {
      * Submit button.
      */
     public void submitButton() {
-        List<String> answers = formatButtons();
-        AnswerHelper answerHelper = new AnswerHelper(user.getId(), poll.getId(), answers);
-        AnswerPollCommunication.createAnswer(answerHelper);
-        Stage oldStage = (Stage) listLeft.getScene().getWindow();
-        oldStage.close();
+        //Check if the poll is still open.
+        if (poll.getStatus() == Poll.PollStatus.OPEN) {
+            //Check if the user has already answered the poll.
+            if (!AnswerPollCommunication.hasAnswered(poll.getId(), user.getId())) {
+                List<String> answers = formatButtons();
+                AnswerHelper answerHelper = new AnswerHelper(poll.getId(), user.getId(), answers);
+                AnswerPollCommunication.createAnswer(answerHelper);
+                Stage oldStage = (Stage) listLeft.getScene().getWindow();
+                oldStage.close();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Error, you have already answered!");
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Error, poll is not open!");
+            alert.showAndWait();
+        }
     }
 
     /**

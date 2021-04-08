@@ -25,6 +25,11 @@ public class StudentPollController extends PollController {
 
         // Options button should be visible only if the poll is open or if statistics are shown.
         buttonOptions.setVisible(!poll.getStatus().equals(Poll.PollStatus.CLOSED));
+        if (poll.getStatus().equals(Poll.PollStatus.OPEN)) {
+            buttonOptions.setText("Answer");
+        } else if (poll.getStatus().equals(Poll.PollStatus.STATISTICS)) {
+            buttonOptions.setText("Statistics");
+        }
     }
 
     /**

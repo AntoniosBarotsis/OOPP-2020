@@ -402,7 +402,7 @@ public class MainModController {
 
 
         // Inject the data.
-        Poll poll = new Poll(1L, "text", new Date(),
+        Poll poll = new Poll(0L, "", new Date(),
                 Arrays.asList("", "", "", "", "", "", "", "", "", ""),
                 new ArrayList<>(), Poll.PollStatus.OPEN);
         controller.loadData(poll, user, room);

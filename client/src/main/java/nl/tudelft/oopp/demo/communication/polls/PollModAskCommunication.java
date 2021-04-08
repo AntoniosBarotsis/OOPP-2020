@@ -17,30 +17,31 @@ import nl.tudelft.oopp.demo.data.helper.PollHelper;
 
 public class PollModAskCommunication {
 
+    private static final String url = "http://localhost:8080/api/v1/";
+
     private static HttpClient client = HttpClient.newBuilder().build();
+
     private static Gson gson = new Gson();
 
 
-
     /**
-     * Checks if a poll is already created, and if it isn't creates that poll.
-     * Otherwise updates the information of the poll.
+     * Creates a new poll in the backend with pollHelper as its values.
+     * It creates this poll in room room.
      *
-     * @param pollHelper the poll that is added in the backend.
+     * @param pollHelper the poll helper used to create the new poll
+     * @param room the room
+     * @return String mapping of poll
      */
     public static String createPoll(PollHelper pollHelper, Room room) {
-        //Add checker for if poll already created, update information instead.
-        String url = "http://localhost:8080/api/v1/polls/create?";
-        url = url + "roomId=" + room.getId();
+        String link = url + "polls/create?"
+                + "roomId=" + room.getId();
 
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(link))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(pollHelper)))
                 .build();
-
-
 
         HttpResponse<String> response = null;
         try {
@@ -64,14 +65,13 @@ public class PollModAskCommunication {
      * @param status The new status.
      */
     public static void setStatus(long pollId, Poll.PollStatus status) {
-        String url = "http://localhost:8080/api/v1/polls/status?";
-
-        url = url + "pollId=" + pollId;
-        url = url + "&status=" + status.toString();
+        String link = url + "polls/status?"
+                + "pollId=" + pollId
+                + "&status=" + status.toString();
 
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(link))
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
                 .build();
 
@@ -88,66 +88,10 @@ public class PollModAskCommunication {
 
     }
 
-    /**
-     * Checks whether the poll already exists in the backend.
-     *
-     * @param roomId the room id
-     * @param pollId the poll id
-     * @return A boolean of weather the poll already exists or not
-     */
-    public static Boolean doesExist(long roomId, long pollId) {
-        String url = "http://localhost:8080/api/v1/polls/exists?";
-        url = url + "roomId=" + roomId;
-        url = url + "&pollId=" + pollId;
-
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode());
-            System.out.println(response.body());
-        }
-        return Boolean.parseBoolean(response.body());
-    }
 
     /**
-     * Updates the text, answers, and correct answers of the poll with id pollId.
-     *
-     * @param pollId the poll id
-     * @param pollHelper the poll helper
-     */
-    public static void updatePoll(Long pollId, PollHelper pollHelper) {
-        String url = "http://localhost:8080/api/v1/polls/update?";
-        url = url + "pollId=" + pollId;
-
-        HttpRequest request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(pollHelper)))
-                .build();
-
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (response.statusCode() != 200) {
-            System.out.println("Status: " + response.statusCode());
-        }
-
-
-    }
-
-    /**
-     * Gets the number of times students choose a specific answer in a question.
-     * Add pollHelper
+     * Gets the number of times students chose a specific answer to the poll
+     * with id pollId.
      *
      * @param pollId the poll id.
      * @param answer the answer.
@@ -160,11 +104,15 @@ public class PollModAskCommunication {
             e.printStackTrace();
             return -1;
         }
-        String url = "http://localhost:8080/api/v1/polls/answerOccurences?";
-        url = url + "pollId=" + pollId;
-        url = url + "&answer=" + answer;
+        String link = url + "polls/answerOccurrences?"
+                + "pollId=" + pollId
+                + "&answer=" + answer;
 
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(link))
+                .GET()
+                .build();
 
         HttpResponse<String> response = null;
         try {
@@ -177,7 +125,7 @@ public class PollModAskCommunication {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
         }
-        return Integer.parseInt(response.body());
+        return gson.fromJson(response.body(), Integer.class);
     }
 
     /**
@@ -187,9 +135,14 @@ public class PollModAskCommunication {
      * @return the number of students who answered the poll.
      */
     public static int getNumAnswers(long pollId) {
-        String url = "http://localhost:8080/api/v1/polls/getNumAnswers?";
-        url = url + "pollId=" + pollId;
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+        String link = url + "polls/numAnswers?"
+                + "pollId=" + pollId;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(link))
+                .GET()
+                .build();
 
         HttpResponse<String> response = null;
         try {
@@ -202,6 +155,6 @@ public class PollModAskCommunication {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
         }
-        return Integer.parseInt(response.body());
+        return gson.fromJson(response.body(), Integer.class);
     }
 }

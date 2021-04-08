@@ -57,4 +57,15 @@ public class AnswerController {
     public void create(@RequestBody AnswerHelper answerHelper) throws JsonProcessingException {
         answerService.create(answerHelper);
     }
+
+    /**
+     * Check whether a student has answered a poll.
+     *
+     * @param pollId the poll id
+     * @param userId the user id
+     */
+    @GetMapping("hasAnswered")
+    public boolean hasAnswered(@PathParam("pollId") long pollId, @PathParam("userId") long userId) {
+        return answerService.hasAnswered(pollId, userId);
+    }
 }

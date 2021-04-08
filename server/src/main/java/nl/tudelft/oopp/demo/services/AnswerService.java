@@ -9,9 +9,11 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Answer;
+import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.helpers.AnswerHelper;
 import nl.tudelft.oopp.demo.entities.serializers.AnswerSerializer;
 import nl.tudelft.oopp.demo.repositories.AnswerRepository;
+import nl.tudelft.oopp.demo.repositories.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,9 @@ public class AnswerService {
 
     @Autowired
     private final AnswerRepository answerRepository;
+
+    @Autowired
+    private final PollRepository pollRepository;
 
     /**
      * Find all.
@@ -89,6 +94,25 @@ public class AnswerService {
             throws JsonProcessingException {
         Answer answer = answerHelper.createAnswer();
         answerRepository.save(answer);
+        Poll poll = pollRepository.getOne(answerHelper.getPollId());
+        poll.addAnswer(answer);
+        pollRepository.save(poll);
         return mapAnswer(answer);
+    }
+
+    /**
+     * Check whether a student has answered a poll.
+     *
+     * @param pollId the poll id
+     * @param userId the user id
+     */
+    public boolean hasAnswered(long pollId, long userId) {
+        Poll poll = pollRepository.getOne(pollId);
+        for (Answer answer : poll.getAnswers()) {
+            if (answer.getUserId() == userId) {
+                return true;
+            }
+        }
+        return false;
     }
 }
