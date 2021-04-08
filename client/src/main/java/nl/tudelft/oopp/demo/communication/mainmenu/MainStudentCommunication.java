@@ -64,10 +64,10 @@ public class MainStudentCommunication extends MainMenuCommunication {
      * @param roomId id of room
      * @param userId id of user
      */
-    public static void sendQuestion(long roomId, long userId, QuestionHelper question) {
+    public static String sendQuestion(long roomId, long userId, QuestionHelper question) {
         String link = url + "questions/add?";
         link = link + "roomId=" + roomId;
         link = link + "&authorId=" + userId;
-        sendPostRequest(link, question);
+        return sendPostRequest(link, question);
     }
 }

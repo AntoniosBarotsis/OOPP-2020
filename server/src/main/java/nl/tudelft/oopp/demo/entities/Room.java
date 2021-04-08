@@ -53,6 +53,10 @@ public class Room {
     private String title;
     @Column(name = "starting_date")
     private Date startingDate;
+    @Column(name = "ending_date")
+    private Date endingDate;
+    @Column(name = "timeCreated")
+    private Date timeCreated;
     @Column(name = "repeating_lecture")
     private boolean repeatingLecture;
     @OneToOne(cascade = CascadeType.MERGE, optional = false)
@@ -89,10 +93,10 @@ public class Room {
     private boolean isOngoing;
 
     /**
-     * Instantiates a new Room. `startingDate` becomes the current date,
+     * Instantiates a new Room. `timeCreated` becomes the current date,
      * `bannedIps`, `moderators`, `questions` and `polls` get instantiated as empty HashSets,
      * `tooFast`, `tooSlow` as well as `normalSpeed` get initialized to 0. Lastly, passwords and a
-     *  RoomConfig are generated. The admin's IP gets added to the moderator IPs
+     * RoomConfig are generated. The admin's IP gets added to the moderator IPs
      *
      * @param title            the title
      * @param repeatingLecture the repeating lecture
@@ -103,7 +107,9 @@ public class Room {
         this.repeatingLecture = repeatingLecture;
         this.admin = admin;
 
+        this.timeCreated = new Date();
         this.startingDate = new Date();
+        this.endingDate = new Date();
         this.bannedIps = new HashSet<>();
         this.roomConfig = new RoomConfig();
         Set<ElevatedUser> ips = new HashSet<>();
@@ -132,7 +138,9 @@ public class Room {
         this.repeatingLecture = repeatingLecture;
         this.admin = admin;
 
+        this.timeCreated = new Date();
         this.startingDate = new Date();
+        this.endingDate = new Date();
         this.bannedIps = new HashSet<>();
         this.roomConfig = roomConfig;
         Set<ElevatedUser> ips = new HashSet<>();
@@ -170,6 +178,18 @@ public class Room {
     @JsonProperty("AdminId")
     public long getAdmin() {
         return admin.getId();
+    }
+
+    /**
+     * Refresh ongoing.
+     */
+    public void refreshOngoing() {
+        if (startingDate.before(new Date())) {
+            this.isOngoing = true;
+        }
+        if (endingDate.before(new Date())) {
+            this.isOngoing = false;
+        }
     }
 
     /**

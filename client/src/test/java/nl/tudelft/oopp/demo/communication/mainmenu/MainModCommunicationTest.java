@@ -29,6 +29,6 @@ class MainModCommunicationTest {
 
     @Test
     void setOngoingLecture() {
-        assertDoesNotThrow(() -> MainModCommunication.setOngoingLecture(1, false, 1));
+        assertDoesNotThrow(() -> MainModCommunication.setOngoingLecture(1, 1));
     }
 }
