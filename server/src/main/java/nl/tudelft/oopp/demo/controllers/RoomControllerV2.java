@@ -238,15 +238,15 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Ends a lecture.
+     * Starts or ends a lecture manually.
      *
      * @param roomId the room id
      * @param userId the user id
      */
-    @PutMapping("endLecture")
+    @PutMapping("startEndLecture")
     void endLecture(@PathParam("roomId") long roomId,
                     @PathParam("userId") long userId) {
-        roomService.endLecture(roomId, userId);
+        roomService.startEndLecture(roomId, userId);
     }
 
     /**

@@ -374,7 +374,7 @@ public class MainModController {
     @FXML
     public void buttonStartEndClicked() {
         room.setOngoing(!room.isOngoing());
-        MainModCommunication.setOngoingLecture(room.getId(), room.isOngoing(), user.getId());
+        MainModCommunication.setOngoingLecture(room.getId(), user.getId());
         changeOngoingLecture();
     }
 

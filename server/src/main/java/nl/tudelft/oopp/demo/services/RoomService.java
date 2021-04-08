@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -268,12 +269,12 @@ public class RoomService {
     }
 
     /**
-     * Ends a lecture.
+     * Starts or ends a lecture manually.
      *
      * @param roomId the room id
      * @param userId the user id
      */
-    public void endLecture(long roomId, long userId) {
+    public void startEndLecture(long roomId, long userId) {
         if (isNotAuthorized(roomId, userId)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
@@ -283,9 +284,19 @@ public class RoomService {
         }
 
         Room room = roomRepository.getOne(roomId);
-        room.setEndingDate(new Date());
-        room.setOngoing(false);
+
+        //Check if a room is ongoing.
+        if (room.isOngoing()) {
+            room.setEndingDate(new Date());
+            room.setOngoing(false);
+        } else {
+            // If lecture is manually reopened, set ending time to after 24 hours.
+            Date now = new Date();
+            room.setEndingDate(new Date(now.getTime() + TimeUnit.HOURS.toMillis(24)));
+            room.setOngoing(true);
+        }
         roomRepository.save(room);
+
     }
 
 
