@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -170,6 +173,7 @@ public class PollService {
      */
     public int getAnswerOccurences(long pollId, String answer) {
         Poll poll = pollRepository.getOne(pollId);
+        answer = URLDecoder.decode(answer, StandardCharsets.UTF_8);
         List<Answer> answers = poll.getAnswers();
         int count = 0;
         for (Answer a : answers) {
