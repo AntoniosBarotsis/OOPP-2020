@@ -2,9 +2,12 @@ package nl.tudelft.oopp.demo.communication.polls;
 
 import com.google.gson.Gson;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.helper.AnswerHelper;
 import nl.tudelft.oopp.demo.data.helper.PollHelper;
@@ -76,7 +79,7 @@ public class AnswerPollCommunication {
      */
     public static int getAnswerAmount(long pollId, String answer) {
         String url = "http://localhost:8080/api/v1/polls/answerOccurences?pollId=" + pollId
-                + "&answer=" + answer;
+                + "&answer=" + URLEncoder.encode(answer, StandardCharsets.UTF_8);
 
         HttpRequest request = HttpRequest
                 .newBuilder()
