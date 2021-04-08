@@ -118,6 +118,7 @@ public class MainStudentController {
 
         // Disable textbox if lecture is not ongoing.
         textQuestion.setDisable(!this.room.isOngoing());
+        buttonSend.setDisable(!this.room.isOngoing());
 
         // Fetch questions from database.
         this.questionData = MainStudentCommunication.getQuestions(this.room.getId());

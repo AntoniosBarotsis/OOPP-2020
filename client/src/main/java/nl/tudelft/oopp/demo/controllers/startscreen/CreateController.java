@@ -84,7 +84,7 @@ public class CreateController {
         room = createRoom(roomConfig, roomName, username);
 
         // Check if a room was fetched from server.
-        if (room == null) {
+        if (room == null || room.getId() == 0) {
             showAlert("Error creating a room.", Alert.AlertType.ERROR);
             return;
         }
