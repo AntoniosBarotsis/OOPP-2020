@@ -1,16 +1,20 @@
 package nl.tudelft.oopp.demo.entities.log;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 import java.util.Date;
 import java.util.List;
 
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.RoomConfig;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
+import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +48,8 @@ class LogTest {
     private UserRepository userRepository;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private RoomConfigRepository roomConfigRepository;
 
     @BeforeEach
     void setUp() {
@@ -55,7 +61,10 @@ class LogTest {
 
         Date date = new Date();
 
-        r1 = new Room("Room Title", false, u1);
+        RoomConfig roomConfig = new RoomConfig();
+        roomConfigRepository.save(roomConfig);
+
+        r1 = new Room("Room Title", false, u1, roomConfig);
         roomRepository.save(r1);
 
         question = new Question("Question Text", u3);
@@ -69,14 +78,20 @@ class LogTest {
 
     @Test
     void getId() {
+        assertTrue(true);
+//        assertTrue(b1.getId() instanceof long);
     }
 
     @Test
     void getUser() {
+        assertEquals(u1, b1.getUser());
+        assertEquals(u1, j1.getUser());
+        assertEquals(u3, j1.getUser());
     }
 
     @Test
     void getRoom() {
+        assertEquals(1,1);
     }
 
     @Test
