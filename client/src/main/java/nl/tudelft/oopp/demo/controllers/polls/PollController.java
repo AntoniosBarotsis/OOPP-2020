@@ -20,8 +20,6 @@ public abstract class PollController {
     @FXML
     private Label labelStatus;
     @FXML
-    private Label labelParticipants;
-    @FXML
     private Label labelText;
     @FXML
     protected Button buttonOptions;
