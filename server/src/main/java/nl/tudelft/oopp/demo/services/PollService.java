@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
+import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.helpers.PollHelper;
 import nl.tudelft.oopp.demo.entities.serializers.PollSerializer;
 import nl.tudelft.oopp.demo.exceptions.InvalidPollStatusException;
@@ -124,11 +125,14 @@ public class PollService {
      * @return the newly created Poll
      * @throws JsonProcessingException the json processing exception
      */
-    public String createPoll(PollHelper pollHelper)
+    public String createPoll(long roomId, PollHelper pollHelper)
             throws JsonProcessingException {
         Poll poll = new Poll(pollHelper.getText(), pollHelper.getOptions(),
                 pollHelper.getCorrectAnswer());
         pollRepository.save(poll);
+        Room room = roomRepository.getOne(roomId);
+        room.addPoll(poll);
+        roomRepository.save(room);
         return mapPoll(poll);
     }
 
@@ -151,4 +155,26 @@ public class PollService {
         }
         pollRepository.updateStatus(pollId, pollStatus);
     }
+
+    /**
+     * Get the number of occurence of an Answer.
+     *
+     * @param pollId the Poll's ID
+     * @param answer the Answer
+     * @return the number of occurence of an Answer
+     */
+    public int getAnswerOccurences(long pollId, String answer) {
+        return 0;
+    }
+
+    /**
+     * Get the number of students who have answered.
+     *
+     * @param pollId the Poll's ID
+     * @return the number of students who have answered
+     */
+    public int getNumAnswers(long pollId) {
+        return 0;
+    }
+
 }

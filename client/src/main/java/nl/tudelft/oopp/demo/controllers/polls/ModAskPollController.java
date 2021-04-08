@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 import nl.tudelft.oopp.demo.communication.polls.PollModAskCommunication;
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Room;
@@ -47,6 +50,9 @@ public class ModAskPollController {
     private TextArea answerTenText;
 
     @FXML
+    private TextArea nrAnswered;
+
+    @FXML
     private Button answerOneSelector;
     @FXML
     private Button answerTwoSelector;
@@ -78,6 +84,7 @@ public class ModAskPollController {
     private Poll poll;
     private User user;
     private Room room;
+    private Timeline refreshPoll;
 
     private ArrayList<TextArea> textList;
     private ArrayList<Button>  selectorList;
@@ -112,20 +119,96 @@ public class ModAskPollController {
             selected.add(false);
         }
 
-        for (int i = 0; i < poll.getOptions().size(); i++) {
-            if (!poll.getOptions().get(i).equals("")) {
-                String currentOption = poll.getOptions().get(i);
-                textList.get(i).setText(currentOption);
-                if (poll.getCorrectAnswer().contains(currentOption)) {
-                    selected.set(i, true);
-                    selectorList.get(i).setText("True");
+        populateView(poll);
+        poll = refreshPoll(poll);
+
+        closePollButton.setDisable(true);
+        //showStatisticsButton.setDisable(true);
+
+        nrAnswered.setText(getNumAnswers() + "");
+    }
+
+    /**
+     * Populates the view in a way where empty answers are ignored.
+     *
+     * @param poll the poll which the view will show.
+     */
+    private void populateView(Poll poll) {
+        if (poll.getText().isEmpty()) {
+            questionText.setText("");
+        } else {
+            questionText.setText(poll.getText());
+        }
+
+        int currentOption = 0;
+        for (int i = 0; i < 10; i++) {
+            if (poll.getOptions().size() > i) {
+                String option = poll.getOptions().get(i);
+                if (!option.isEmpty()) {
+                    textList.get(currentOption).setText(option);
+
+                    if (poll.getCorrectAnswer().contains(option)) {
+                        setTrue(selectorList.get(currentOption));
+                        selected.set(currentOption, true);
+                    } else {
+                        setFalse(selectorList.get(currentOption));
+                        selected.set(currentOption, false);
+                    }
+                    currentOption++;
                 }
             }
         }
 
-        closePollButton.setDisable(false);
-        showStatisticsButton.setDisable(false);
+        for (int i = currentOption; i < 10; i++) {
+            textList.get(i).setText("");
+            setFalse(selectorList.get(i));
+        }
+    }
 
+    /**
+     * Edits the poll to have the information from the view.
+     *
+     * @param poll the current poll
+     * @return the poll after being refreshed to have the information from the view.
+     */
+    private Poll refreshPoll(Poll poll) {
+        List<String> options = new ArrayList<>();
+        List<String> correctAnswers = new ArrayList<>();
+        poll.setText(questionText.getText());
+
+        for (int i = 0; i < 10; i++) {
+            if (!textList.get(i).getText().isEmpty()) {
+                options.add(textList.get(i).getText());
+                if (selected.get(i)) {
+                    correctAnswers.add(textList.get(i).getText());
+                }
+            }
+        }
+        poll.setOptions(options);
+        poll.setCorrectAnswer(correctAnswers);
+        return poll;
+    }
+
+    /**
+     * Changes the text and colour to be true and green respectively.
+     *
+     * @param button the button that is changed.
+     */
+    private void setFalse(Button button) {
+        button.setText("False");
+        button.setStyle("-fx-background-color:#FFAAAA; -fx-background-width:1; "
+                + "-fx-border-color:#AAAAAA");
+    }
+
+    /**
+     * Changes the text and colour to be false and red respectively.
+     *
+     * @param button the button that is changed.
+     */
+    private void setTrue(Button button) {
+        button.setText("True");
+        button.setStyle("-fx-background-color: #AAFFAA; "
+                + "-fx-background-width:1; -fx-border-color:#AAAAAA");
 
     }
 
@@ -138,9 +221,9 @@ public class ModAskPollController {
     public void selectorClicked(int index) {
         selected.set(index, !selected.get(index));
         if (selected.get(index)) {
-            selectorList.get(index).setText("True");
+            setTrue(selectorList.get(index));
         } else {
-            selectorList.get(index).setText("False");
+            setFalse(selectorList.get(index));
         }
 
     }
@@ -221,8 +304,13 @@ public class ModAskPollController {
      * Then creates a new poll with the info in the backend.
      */
     public void submit() {
-        submitButton.setDisable(true);
-        submitButton.setVisible(false);
+        if (questionText.getText().isEmpty()) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("The poll must have a question text.");
+            a.setHeaderText("No question text");
+            a.show();
+            return;
+        }
 
         int trueCounter = 0;
         for (boolean a : selected) {
@@ -239,44 +327,133 @@ public class ModAskPollController {
             return;
         }
 
-        List<String> options = new ArrayList<>();
-        List<String> correctAnswers = new ArrayList<>();
-        for (TextArea text: textList) {
-            if (!text.equals("")) {
-                options.add(text.getText());
-            }
-        }
-        for (int i = 0; i < 10; i++) {
-            if (selected.get(i) && !textList.get(i).getText().equals("")) {
-                correctAnswers.add(textList.get(i).getText());
-            }
-        }
-        poll.setCorrectAnswer(correctAnswers);
-        poll.setOptions(options);
-        poll.setText(questionText.getText());
+        poll = refreshPoll(poll);
+        populateView(poll);
+
+        poll = refreshPoll(poll);
         poll.setStatus(Poll.PollStatus.OPEN);
 
         String text = questionText.getText();
 
-        PollHelper pollHelper = new PollHelper(text, options, correctAnswers);
+        PollHelper pollHelper = new PollHelper(text, poll.getOptions(), poll.getCorrectAnswer());
 
         // Remember to check if the poll already exists :)
-        PollModAskCommunication.createPoll(pollHelper);
+        Boolean exists = PollModAskCommunication.doesExist(room.getId(), poll.getId());
+        if (exists) {
+            PollModAskCommunication.updatePoll(poll.getId(), pollHelper);
 
-        closePollButton.setDisable(true);
+        } else {
+            String pollMap = PollModAskCommunication.createPoll(pollHelper, room);
+
+            String id = pollMap.substring(pollMap.indexOf(":") + 1, pollMap.indexOf(","));
+            poll.setId(Long.parseLong(id));
+        }
+
+        closePollButton.setDisable(false);
+        //showStatisticsButton.setDisable(false);
         showStatisticsButton.setDisable(true);
+
+
+        refreshStatistics(2);
+
+        questionText.setEditable(false);
+        for (TextArea a: textList) {
+            a.setEditable(false);
+        }
+        for (Button a: selectorList) {
+            a.setDisable(true);
+        }
+        submitButton.setVisible(false);
+    }
+
+
+    /**
+     * Calls replaceStatistics every refreshRate number of seconds.
+     *
+     * @param refreshRate how oftend refreshing statistics.
+     */
+    private void refreshStatistics(int refreshRate) {
+        refreshPoll = new Timeline(
+                new KeyFrame(Duration.seconds(refreshRate), e -> replaceStatistics())
+        );
+    }
+
+    /**
+     * Replaces statistics with refreshed statistics.
+     */
+    private void replaceStatistics() {
+        for (int i = 0; i < poll.getOptions().size(); i++) {
+            TextArea currentButton = textList.get(i);
+            String answerOccurences = "" + PollModAskCommunication
+                    .getAnswerOccurences(poll.getId(), poll.getOptions().get(i));
+            if (answerOccurences.equals("-1")) {
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setContentText("The answer \"" + poll.getOptions().get(i)
+                        + "\" Has unsupported character");
+                a.setHeaderText("Unsupported character");
+                a.show();
+                refreshPoll.stop();
+                closePoll();
+                return;
+            }
+            currentButton.setText(poll.getOptions().get(i) + "\n - " + answerOccurences
+                    + " selected");
+        }
+        nrAnswered.setText(getNumAnswers() + "");
+    }
+
+    /**
+     * Gets the number of people who answered the poll.
+     * @return the number of people who answered the poll.
+     */
+    private int getNumAnswers() {
+        return PollModAskCommunication.getNumAnswers(poll.getId());
     }
 
     /**
      * Sets the status of the poll to closed.
      */
     public void closePoll() {
-        submitButton.setDisable(false);
+        PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.CLOSED);
+
+        showStatisticsButton.setDisable(false);
+
+        refreshPoll.stop();
+        populateView(poll);
         submitButton.setVisible(true);
 
+        questionText.setEditable(true);
+        for (TextArea a: textList) {
+            a.setEditable(true);
+        }
+        for (Button a: selectorList) {
+            a.setDisable(false);
+        }
+
         closePollButton.setDisable(true);
+    }
+
+    /**
+     * Sets the status of the poll to statistics.
+     */
+    public void showStatisticsClicked() {
+        PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.STATISTICS);
+        poll.setStatus(Poll.PollStatus.STATISTICS);
+
+        closePollButton.setDisable(false);
+        //showStatisticsButton.setDisable(false);
         showStatisticsButton.setDisable(true);
 
-        PollModAskCommunication.setStatus(poll, Poll.PollStatus.CLOSED);
+
+        refreshStatistics(2);
+
+        questionText.setEditable(false);
+        for (TextArea a: textList) {
+            a.setEditable(false);
+        }
+        for (Button a: selectorList) {
+            a.setDisable(true);
+        }
+        submitButton.setVisible(false);
     }
 }

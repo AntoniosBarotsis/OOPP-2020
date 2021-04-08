@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,12 @@ public class RoomSerializer extends StdSerializer<Room> {
         gen.writeNumberField("questionCooldown", value.getRoomConfig().getQuestionCooldown());
         gen.writeNumberField("paceCooldown", value.getRoomConfig().getPaceCooldown());
         gen.writeEndObject();
+
+        gen.writeArrayFieldStart("poll_ids");
+        for (Poll poll : value.getPolls()) {
+            gen.writeNumber(poll.getId());
+        }
+        gen.writeEndArray();
 
         gen.writeNumberField("admin_id", value.getAdmin());
         gen.writeStringField("normal_password", value.getNormalPassword());
