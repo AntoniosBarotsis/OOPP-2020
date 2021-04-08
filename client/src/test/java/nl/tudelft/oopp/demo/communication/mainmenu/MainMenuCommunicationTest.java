@@ -51,4 +51,10 @@ class MainMenuCommunicationTest {
         assertNotNull(MainMenuCommunication.sendPutRequestRoomConfig(link,
             new RoomConfig(1,2,3,4)));
     }
+
+    @Test
+    void sendDeleteRequest() {
+        String link = url + "rooms/deleteQuestions?roomId=1&authorId=1";
+        assertDoesNotThrow(() -> MainMenuCommunication.sendDeleteRequest(link));
+    }
 }

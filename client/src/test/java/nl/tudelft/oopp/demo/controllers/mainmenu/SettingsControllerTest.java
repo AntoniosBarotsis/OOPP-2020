@@ -26,7 +26,22 @@ class SettingsControllerTest {
         4. A new window with Settings should appear.
         5. The room codes and the room configurations should appear.
         6. Upon pressing the button, if textBoxes contain illegal chars, an alert will appear.
-        7. If data is successfully/unsuccessfully saved, an alert will apear.
+        7. If data is successfully/unsuccessfully saved, an alert will appear.
+         */
+    }
+
+    @Test
+    void buttonDeleteClicked() {
+        /* Manual test plan to be carried out when testing if everything works correctly.
+        Test plan for testing if buttonDelete works:
+        1. Launch the client application.
+        2. Join a room.
+        3. Click on top-right button "Settings".
+        4. A new window with Settings should appear.
+        5. The room codes and the room configurations should appear.
+        6. Upon pressing the button, a confirmation alert should appear.
+        7. If "OK" is pressed, all questions will be deleted.
+        8. If data is successfully/unsuccessfully deleted, an alert will appear.
          */
     }
 
