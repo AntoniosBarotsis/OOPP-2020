@@ -348,7 +348,7 @@ public class ModAskPollController {
             submitButton.setVisible(false);
             closePollButton.setVisible(true);
             showStatisticsButton.setVisible(false);
-          return;
+            return;
         }
         if (questionText.getText().isEmpty()) {
             Alert a = new Alert(Alert.AlertType.ERROR);
