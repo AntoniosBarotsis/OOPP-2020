@@ -1,8 +1,8 @@
 package nl.tudelft.oopp.demo.entities.log;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 
 import java.util.Date;
 import java.util.List;
@@ -110,9 +110,9 @@ class LogTest {
 
     @Test
     void getDate() {
-        assertEquals(date, b1.getDate());
-        assertEquals(date, j1.getDate());
-        assertEquals(date, q1.getDate());
+        assertThat(b1.getDate()).isCloseTo(new Date(), 1000);
+        assertThat(j1.getDate()).isCloseTo(new Date(), 1000);
+        assertThat(q1.getDate()).isCloseTo(new Date(), 1000);
     }
 
     @Test
