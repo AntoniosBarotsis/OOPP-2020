@@ -6,12 +6,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.QuestionAuthor;
+
+
 
 public class QuestionInstanceCreator implements JsonDeserializer<Question> {
 
@@ -40,6 +44,7 @@ public class QuestionInstanceCreator implements JsonDeserializer<Question> {
         int upvotes = jsonObject.get("upvotes").getAsInt();
         int score = jsonObject.get("score").getAsInt();
         String statusString = jsonObject.get("QuestionStatus").getAsString();
+        boolean beingAnswered = jsonObject.get("BeingAnswered").getAsBoolean();
 
         // Check if answer is null.
         JsonElement nullableText = jsonObject.get("answer");
@@ -58,13 +63,14 @@ public class QuestionInstanceCreator implements JsonDeserializer<Question> {
         // Try to parse the input Date format.
         Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss")
+            date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                     .parse(jsonObject.get("timeCreated").getAsString());
         } catch (ParseException e) {
             date = new Date();
         }
 
         QuestionAuthor questionAuthor = new QuestionAuthor(authorId, authorUsername);
-        return new Question(id, text, questionAuthor, upvotes, score, date, status, answer);
+        return new Question(id, text, questionAuthor, upvotes, score,
+                date, status, answer, beingAnswered);
     }
 }

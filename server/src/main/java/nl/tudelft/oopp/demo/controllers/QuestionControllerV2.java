@@ -1,18 +1,21 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
+
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionExportHelper;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
+import nl.tudelft.oopp.demo.exceptions.LectureIsOverException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
+import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.services.QuestionService;
+import nl.tudelft.oopp.demo.services.RoomService;
 import nl.tudelft.oopp.demo.services.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 /**
  * The type Question controller.
  */
@@ -32,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class QuestionControllerV2 {
     private final QuestionService questionService;
     private final UserService userService;
+    private final RoomRepository roomRepository;
 
     /**
      * Add question to the given room.
@@ -84,11 +89,9 @@ public class QuestionControllerV2 {
      *
      * @param questionId the question id
      * @return the question
-     * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping(value = "export", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String export(@PathParam("questionId") long questionId)
-        throws JsonProcessingException {
+    @GetMapping("export")
+    public List<QuestionExportHelper> export(@PathParam("questionId") long questionId) {
         return questionService.export(questionId);
     }
 
@@ -97,11 +100,9 @@ public class QuestionControllerV2 {
      *
      * @param roomId the room id
      * @return the set
-     * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping(value = "exportAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String exportAll(@PathParam("roomId") long roomId)
-        throws JsonProcessingException {
+    @GetMapping("exportAll")
+    public List<QuestionExportHelper> exportAll(@PathParam("roomId") long roomId) {
         return questionService.exportAll(roomId);
     }
 
@@ -112,11 +113,10 @@ public class QuestionControllerV2 {
      * @param roomId the room id
      * @param amount the amount
      * @return the list
-     * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping(value = "exportTop", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String exportTop(@PathParam("roomId") long roomId,
-                            @PathParam("amount") int amount) throws JsonProcessingException {
+    @GetMapping("exportTop")
+    public List<QuestionExportHelper> exportTop(@PathParam("roomId") long roomId,
+                                                @PathParam("amount") int amount) {
         return questionService.exportTop(roomId, amount);
     }
 
@@ -125,12 +125,21 @@ public class QuestionControllerV2 {
      *
      * @param roomId the room id
      * @return the list
-     * @throws JsonProcessingException the json processing exception
      */
-    @GetMapping(value = "exportAnswered", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String exportAnswered(@PathParam("roomId") long roomId)
-        throws JsonProcessingException {
+    @GetMapping("exportAnswered")
+    public List<QuestionExportHelper> exportAnswered(@PathParam("roomId") long roomId) {
         return questionService.exportAnswered(roomId);
+    }
+
+    /**
+     * Sort questions by score.
+     *
+     * @param roomId the room id
+     * @return the list
+     */
+    @GetMapping("sortByScore")
+    public List<Question> sortByScore(@PathParam("roomId") long roomId) {
+        return questionService.sortByScore(roomId);
     }
 
     /**
@@ -357,4 +366,26 @@ public class QuestionControllerV2 {
         questionService.setAnswer(questionId, questionHelper);
     }
 
+    /**
+     * Sets the BeingAnswered field of a question to the associated boolean value.
+     *
+     * @param questionId the id of the corresponding question
+     * @param status     the boolean value of the field
+     */
+    @PutMapping(value = "setBeingAnswered")
+    public void setBeingAnswered(@PathParam("questionId") long questionId,
+                                 @PathParam("status") boolean status) {
+        questionService.setBeingAnswered(questionId, status);
+    }
+
+    /**
+     * Retireves the beingAnswered field of a question.
+     *
+     * @param questionId the id of the corresponding question
+     * @return the being answered
+     */
+    @GetMapping(value = "getBeingAnswered")
+    public boolean getBeingAnswered(@PathParam("questionId") long questionId) {
+        return questionService.getBeingAnswered(questionId);
+    }
 }

@@ -1,5 +1,6 @@
 package nl.tudelft.oopp.demo.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +11,16 @@ import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.RoomConfig;
+import nl.tudelft.oopp.demo.entities.helpers.RoomHelper;
 import nl.tudelft.oopp.demo.entities.log.LogCollection;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.RoomService;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,6 +92,18 @@ public class RoomControllerV2 {
     @GetMapping(value = "questions")
     public Set<Question> findAllQuestions(@PathParam("roomId") long roomId) {
         return roomService.findAllQuestions(roomId);
+    }
+
+    /**
+     * Delete all questions.
+     *
+     * @param roomId the room id
+     * @param userId the user id
+     */
+    @DeleteMapping(value = "deleteQuestions")
+    public void deleteAllQuestions(@PathParam("roomId") long roomId,
+                                   @PathParam("userId") long userId) {
+        roomService.deleteAllQuestions(roomId, userId);
     }
 
     /**
@@ -186,10 +203,10 @@ public class RoomControllerV2 {
      * @throws UnauthorizedException the unauthorized exception
      */
     @PutMapping("ban")
-    public void ban(@PathParam("roomId") long roomId,
-                    @PathParam("userId") long userId,
+    public void ban(@PathParam("roomId") Long roomId,
+                    @PathParam("userId") Long userId,
                     @PathParam("elevatedPassword") String elevatedPassword,
-                    @PathParam("idToBeBanned") long idToBeBanned,
+                    @PathParam("idToBeBanned") Long idToBeBanned,
                     HttpServletRequest request)
             throws UnauthorizedException {
         roomService.banUser(roomId, userId, idToBeBanned, elevatedPassword);
@@ -218,17 +235,43 @@ public class RoomControllerV2 {
     }
 
     /**
-     * Sets whether the room is ongoing or not.
+     * Sets whether the room is ongoing or not. NO LONGER WORKS
      *
      * @param roomId    the room id
      * @param isOngoing the is ongoing
      * @param userId    the user id
+     * @deprecated due to the new approach of using refreshOngoing
      */
+    @Deprecated
     @PutMapping("setOngoing")
     void setOngoing(@PathParam("roomId") long roomId,
                     @PathParam("isOngoing") boolean isOngoing,
                     @PathParam("userId") long userId) {
         roomService.setOngoing(roomId, isOngoing, userId);
+    }
+
+    /**
+     * Starts or ends a lecture manually.
+     *
+     * @param roomId the room id
+     * @param userId the user id
+     */
+    @PutMapping("startEndLecture")
+    void endLecture(@PathParam("roomId") long roomId,
+                    @PathParam("userId") long userId) {
+        roomService.startEndLecture(roomId, userId);
+    }
+
+    /**
+     * Is ongoing object.
+     *
+     * @param roomId the room id
+     * @return the object
+     * @throws JsonProcessingException the json processing exception
+     */
+    @GetMapping(value = "isOngoing", produces = MediaType.APPLICATION_JSON_VALUE)
+    Object isOngoing(@PathParam("roomId") long roomId) throws JsonProcessingException {
+        return roomService.isOngoing(roomId);
     }
 
     /**
@@ -263,15 +306,14 @@ public class RoomControllerV2 {
     /**
      * Creates a new room.
      *
-     * @param username the admin's username
-     * @param title    the title of the room
-     * @param request  the request
+     * @param roomHelper the room helper
+     * @param request    the request
      * @return the newly created room
      */
-    @PutMapping("create")
-    public Room createRoom(@PathParam("username") String username, @PathParam("title") String title,
+    @PostMapping("create")
+    public Room createRoom(@RequestBody RoomHelper roomHelper,
                            HttpServletRequest request) {
-        return roomService.createRoom(username, request.getRemoteAddr(), title);
+        return roomService.createRoom(roomHelper, request.getRemoteAddr());
     }
 
     /**
@@ -299,19 +341,19 @@ public class RoomControllerV2 {
         return roomService.getRoom(password);
     }
 
-    /**
-     * Schedule a new room.
-     *
-     * @param username the admin's username
-     * @param title    the title of the room
-     * @param date     the starting date/time for the room
-     * @param request  the request
-     * @return the newly created room
-     */
-    @PutMapping("schedule")
-    public Room scheduleRoom(@PathParam("username") String username,
-                             @PathParam("title") String title,
-                             @PathParam("date") long date, HttpServletRequest request) {
-        return roomService.scheduleRoom(username, request.getRemoteAddr(), title, date);
-    }
+    //    /**
+    //     * Schedule a new room.
+    //     *
+    //     * @param username the admin's username
+    //     * @param title    the title of the room
+    //     * @param date     the starting date/time for the room
+    //     * @param request  the request
+    //     * @return the newly created room
+    //     */
+    //    @PutMapping("schedule")
+    //    public Room scheduleRoom(@PathParam("username") String username,
+    //                             @PathParam("title") String title,
+    //                             @PathParam("date") long date, HttpServletRequest request) {
+    //        return roomService.scheduleRoom(username, request.getRemoteAddr(), title, date);
+    //    }
 }

@@ -1,21 +1,16 @@
 package nl.tudelft.oopp.demo.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.LinkedList;
 import java.util.List;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
-import nl.tudelft.oopp.demo.repositories.QuestionRepository;
-import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-
 
 @DataJpaTest
 class QuestionRepositoryTest {
@@ -170,5 +165,17 @@ class QuestionRepositoryTest {
         assertEquals(question1.getAnswer(), repository.getAnswer(id1));
         repository.setAnswer(id1, "Some New Answer");
         assertEquals(repository.getAnswer(id1), "Some New Answer");
+    }
+
+    @Test
+    void setBeingAnswered() {
+        assertEquals(question1.isBeingAnswered(), repository.getBeingAnswered(id1));
+        repository.setBeingAnswered(id1, true);
+        assertEquals(true, repository.getBeingAnswered(id1));
+    }
+
+    @Test
+    void getBeingAnswered() {
+        assertEquals(question1.isBeingAnswered(), repository.getBeingAnswered(id1));
     }
 }

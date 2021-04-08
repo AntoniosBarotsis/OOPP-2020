@@ -4,14 +4,14 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
-import nl.tudelft.oopp.demo.entities.Question;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionExportHelper;
 
 
 /**
- * The type Question serializer. This limits the Question files to
+ * The type QuestionExportSerializer serializer. This limits the Question files to
  * text, answer and timeCreated
  */
-public class QuestionExportSerializer extends StdSerializer<Question> {
+public class QuestionExportSerializer extends StdSerializer<QuestionExportHelper> {
 
     /**
      * Instantiates a new Question serializer.
@@ -25,12 +25,13 @@ public class QuestionExportSerializer extends StdSerializer<Question> {
      *
      * @param t the t
      */
-    protected QuestionExportSerializer(Class<Question> t) {
+    protected QuestionExportSerializer(Class<QuestionExportHelper> t) {
         super(t);
     }
 
     @Override
-    public void serialize(Question value, JsonGenerator gen, SerializerProvider provider)
+    public void serialize(QuestionExportHelper value, JsonGenerator gen,
+                          SerializerProvider provider)
         throws IOException {
 
         gen.writeStartObject();

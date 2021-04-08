@@ -21,4 +21,9 @@ class SettingsCommunicationTest {
     void saveSettings() {
         assertNotNull(SettingsCommunication.saveSettings(1, 1, new RoomConfig(1,2,3,4)));
     }
+
+    @Test
+    void deleteQuestions() {
+        assertNotNull(SettingsCommunication.deleteQuestions(1, 1));
+    }
 }

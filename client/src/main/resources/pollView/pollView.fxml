@@ -17,7 +17,6 @@
       </Label>
       <Label fx:id="labelTimeCreated" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="466.0" layoutY="72.0" prefHeight="35.0" prefWidth="287.0" />
       <Label fx:id="labelStatus" layoutX="14.0" layoutY="72.0" prefHeight="35.0" prefWidth="226.0" text="Status: " />
-      <Label fx:id="labelParticipants" layoutX="240.0" layoutY="72.0" prefHeight="35.0" prefWidth="226.0" text="Participants: " />
       <Button fx:id="buttonOptions" layoutX="640.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#buttonOptionsClicked" prefHeight="58.0" prefWidth="116.0" style="-fx-background-color: white; -fx-border-color: #00A6D6; -fx-border-width: 2;" text="Options" textAlignment="CENTER">
          <cursor>
             <Cursor fx:constant="DEFAULT" />

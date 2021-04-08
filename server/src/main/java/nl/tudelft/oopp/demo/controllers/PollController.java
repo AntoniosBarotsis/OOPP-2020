@@ -99,15 +99,15 @@ public class PollController {
     }
 
     /**
-     * Get the number of occurence of an Answer.
+     * Get the number of occurrence of an Answer.
      *
      * @param pollId the Poll's ID
      * @param answer the Answer
-     * @return the number of occurence of an Answer
+     * @return the number of occurrence of an Answer
      */
-    @GetMapping("answerOccurences")
-    public int getAnswerOccurences(@PathParam("pollId") long pollId,
-                                   @PathParam("answer") String answer) {
+    @GetMapping("answerOccurrences")
+    public int getAnswerOccurrences(@PathParam("pollId") long pollId,
+                                    @PathParam("answer") String answer) {
         return pollService.getAnswerOccurences(pollId, answer);
     }
 
