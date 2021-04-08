@@ -1,13 +1,13 @@
 package nl.tudelft.oopp.demo.entities.helpers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 import nl.tudelft.oopp.demo.entities.Poll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.parameters.P;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class PollHelperTest {
 
@@ -53,7 +53,14 @@ class PollHelperTest {
 
     @Test
     void createPoll() {
-        assertThat(a.createPoll()).isEqualTo(a2);
+        Poll createdPoll = a.createPoll();
+        assertEquals(createdPoll.getAnswers(), a2.getAnswers());
+        assertEquals(createdPoll.getOptions(), a2.getOptions());
+        assertEquals(createdPoll.getCorrectAnswer(), a2.getCorrectAnswer());
+        assertEquals(createdPoll.getStatus(), a2.getStatus());
+        assertEquals(createdPoll.getText(), a2.getText());
+        assertEquals(createdPoll.getTimeCreated(), a2.getTimeCreated());
+        assertEquals(createdPoll.getClass(), a2.getClass());
     }
 
     @Test
