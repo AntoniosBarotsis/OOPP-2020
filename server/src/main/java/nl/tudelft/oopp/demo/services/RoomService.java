@@ -99,6 +99,20 @@ public class RoomService {
     }
 
     /**
+     * Delete all questions. Can only be used by the room's admin.
+     *
+     * @param roomId the room id
+     * @param userId the user id
+     */
+    public void deleteAllQuestions(long roomId, long userId) {
+        if (roomRepository.getOne(roomId).getAdmin() == userId) {
+            throw new UnauthorizedException("Only the room admin can remove the questions");
+        }
+
+        roomRepository.deleteAllQuestions(roomId);
+    }
+
+    /**
      * Find all polls.
      *
      * @param roomId the room id

@@ -47,6 +47,17 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     Set<Question> findAllQuestions(long roomId);
 
     /**
+     * Delete all questions.
+     *
+     * @param roomId the room id
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM rooms_questions WHERE room_id = ?1",
+        nativeQuery = true)
+    void deleteAllQuestions(long roomId);
+
+    /**
      * Find all polls set.
      *
      * @param roomId the room id

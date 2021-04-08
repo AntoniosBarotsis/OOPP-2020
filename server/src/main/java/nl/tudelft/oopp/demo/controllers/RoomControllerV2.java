@@ -18,6 +18,7 @@ import nl.tudelft.oopp.demo.exceptions.InvalidPasswordException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.services.RoomService;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -91,6 +92,18 @@ public class RoomControllerV2 {
     @GetMapping(value = "questions")
     public Set<Question> findAllQuestions(@PathParam("roomId") long roomId) {
         return roomService.findAllQuestions(roomId);
+    }
+
+    /**
+     * Delete all questions.
+     *
+     * @param roomId the room id
+     * @param userId the user id
+     */
+    @DeleteMapping(value = "deleteQuestions")
+    public void deleteAllQuestions(@PathParam("roomId") long roomId,
+                                   @PathParam("userId") long userId) {
+        roomService.deleteAllQuestions(roomId, userId);
     }
 
     /**
