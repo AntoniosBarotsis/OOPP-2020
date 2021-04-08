@@ -122,9 +122,9 @@ public class AnswerPollCommunication {
         return gson.fromJson(response.body(), int.class);
     }
 
-    public static boolean hasAnswered(long userId, long pollId) {
-        String url = "http://http://localhost:8080/api/v1/polls/hasAnswered?userId=" + userId
-                + "&pollId = pollId";
+    public static boolean hasAnswered(long pollId, long userId) {
+        String url = "http://localhost:8080/api/v1/answers/hasAnswered?pollId=" + pollId
+                + "&userId=" + userId;
 
         HttpRequest request = HttpRequest
                 .newBuilder()

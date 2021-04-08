@@ -198,16 +198,12 @@ public class AnswerPollController {
         //Check if the poll is still open.
         if (poll.getStatus() == Poll.PollStatus.OPEN) {
             //Check if the user has already answered the poll.
-            if (!AnswerPollCommunication.hasAnswered(user.getId(), poll.getId())) {
+            if (!AnswerPollCommunication.hasAnswered(poll.getId(), user.getId())) {
                 List<String> answers = formatButtons();
                 AnswerHelper answerHelper = new AnswerHelper(user.getId(), poll.getId(), answers);
                 AnswerPollCommunication.createAnswer(answerHelper);
                 Stage oldStage = (Stage) listLeft.getScene().getWindow();
                 oldStage.close();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(null);
-                alert.setContentText("Answer submitted successfully!");
-                alert.showAndWait();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(null);
