@@ -20,6 +20,8 @@ public class PollModAskCommunication {
     private static HttpClient client = HttpClient.newBuilder().build();
     private static Gson gson = new Gson();
 
+    private static final String link = "http://localhost:8080/api/v1/";
+
 
     /**
      * Creates a new poll in the backend with pollHelper as its values.
@@ -30,7 +32,7 @@ public class PollModAskCommunication {
      * @return String mapping of poll
      */
     public static String createPoll(PollHelper pollHelper, Room room) {
-        String url = "http://localhost:8080/api/v1/polls/create?";
+        String url = link + "polls/create?";
         url = url + "roomId=" + room.getId();
 
         HttpRequest request = HttpRequest
@@ -64,7 +66,7 @@ public class PollModAskCommunication {
      * @param status The new status.
      */
     public static void setStatus(long pollId, Poll.PollStatus status) {
-        String url = "http://localhost:8080/api/v1/polls/status?";
+        String url = link + "polls/status?";
 
         url = url + "pollId=" + pollId;
         url = url + "&status=" + status.toString();
@@ -104,7 +106,7 @@ public class PollModAskCommunication {
             e.printStackTrace();
             return -1;
         }
-        String url = "http://localhost:8080/api/v1/polls/answerOccurences?";
+        String url = link + "polls/answerOccurences?";
         url = url + "pollId=" + pollId;
         url = url + "&answer=" + answer;
 
@@ -131,7 +133,7 @@ public class PollModAskCommunication {
      * @return the number of students who answered the poll.
      */
     public static int getNumAnswers(long pollId) {
-        String url = "http://localhost:8080/api/v1/polls/numAnswers?";
+        String url = link + "polls/numAnswers?";
         url = url + "pollId=" + pollId;
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
 
