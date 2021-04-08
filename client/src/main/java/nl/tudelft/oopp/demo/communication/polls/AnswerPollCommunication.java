@@ -121,6 +121,28 @@ public class AnswerPollCommunication {
         }
         return gson.fromJson(response.body(), int.class);
     }
+
+    public static boolean hasAnswered(long userId, long pollId) {
+        String url = "http://http://localhost:8080/api/v1/polls/hasAnswered?userId=" + userId
+                + "&pollId = pollId";
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .GET()
+                .uri(URI.create(url))
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+        }
+        return gson.fromJson(response.body(), boolean.class);
+    }
 }
 
 

@@ -51,11 +51,14 @@ public class AnswerPollController {
         listRight.setSelectionModel(new NoSelectionModel<>());
 
         textQuestion.setText(poll.getText());
+
+        //Checks what type of poll needs to be loaded.
         if (poll.getStatus() == Poll.PollStatus.OPEN) {
             loadOpenView();
         } else if (poll.getStatus() == Poll.PollStatus.STATISTICS) {
             loadStatView();
         } else {
+            //If somehow a closed poll gets loaded, load a custom view
             loadClosedView();
         }
 
@@ -66,6 +69,7 @@ public class AnswerPollController {
      */
     public void loadOpenView() {
         List<String> questions = poll.getOptions();
+        //Call the fillButtonsLists function with the correct height (So it scales dynamically)
         if (questions.size() <= 2) {
             fillButtonLists(questions, 342);
         } else if (questions.size() <= 4) {
@@ -77,6 +81,7 @@ public class AnswerPollController {
         } else if (questions.size() <= 10) {
             fillButtonLists(questions, 63);
         } else {
+            //If a list with more than 10 options somehow gets loaded in, load a error.
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setContentText("Error inserting questions!");
@@ -89,6 +94,7 @@ public class AnswerPollController {
      */
     public void loadStatView() {
         List<String> questions = poll.getOptions();
+        //Call the fillStatLists function with the correct height (So it scales dynamically)
         if (questions.size() <= 2) {
             fillStatList(questions, 342);
         } else if (questions.size() <= 4) {
@@ -100,6 +106,7 @@ public class AnswerPollController {
         } else if (questions.size() <= 10) {
             fillStatList(questions, 63);
         } else {
+            //If a list with more than 10 options somehow gets loaded in, show a alert.
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setContentText("Error loading statistics!");
@@ -127,6 +134,7 @@ public class AnswerPollController {
      */
     public void fillButtonLists(List<String> questions, int height) {
         for (int i = 0; i < questions.size(); i++) {
+            //Even buttons go in left list, uneven go in right.
             if (i % 2 == 0) {
                 listLeft.getItems().add(buttonCreator(questions.get(i), height, false));
             } else {
@@ -143,6 +151,7 @@ public class AnswerPollController {
     public void fillStatList(List<String> questions, int height) {
         int totalAnswers = AnswerPollCommunication.getTotalAnswerAmount(poll.getId());
         for (int i = 0; i < questions.size(); i++) {
+            //Add the Chosen by how many percent of the people.
             String answer = questions.get(i) + "\n Chosen by: "
                     + (int) Math.round(AnswerPollCommunication
                     .getAnswerAmount(poll.getId(), questions.get(i))
@@ -159,6 +168,7 @@ public class AnswerPollController {
      * Creates a button based on height.
      * @param value the questions that the button represents
      * @param height the height that the button can be
+     * @param disable if the buttons needs to be clickable
      * @return
      */
     public Button buttonCreator(String value, int height, Boolean disable) {
@@ -185,12 +195,21 @@ public class AnswerPollController {
      * Submit button.
      */
     public void submitButton() {
+        //Check if the poll is still open.
         if (poll.getStatus() == Poll.PollStatus.OPEN) {
-            List<String> answers = formatButtons();
-            AnswerHelper answerHelper = new AnswerHelper(poll.getId(), user.getId(), answers);
-            AnswerPollCommunication.createAnswer(answerHelper);
-            Stage oldStage = (Stage) listLeft.getScene().getWindow();
-            oldStage.close();
+            //Check if the user has already answered the poll.
+            if (!AnswerPollCommunication.hasAnswered(user.getId(), poll.getId())) {
+                List<String> answers = formatButtons();
+                AnswerHelper answerHelper = new AnswerHelper(user.getId(), poll.getId(), answers);
+                AnswerPollCommunication.createAnswer(answerHelper);
+                Stage oldStage = (Stage) listLeft.getScene().getWindow();
+                oldStage.close();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Error, you have already answered!");
+                alert.showAndWait();
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
