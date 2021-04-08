@@ -118,15 +118,6 @@ public class PollService {
     }
 
     /**
-     * Close a poll.
-     *
-     * @param pollId the Poll's ID
-     */
-    public void closePoll(long pollId) {
-        pollRepository.updateStatus(pollId, Poll.PollStatus.CLOSED);
-    }
-
-    /**
      * Create a poll.
      *
      * @param pollHelper the pollhelper
