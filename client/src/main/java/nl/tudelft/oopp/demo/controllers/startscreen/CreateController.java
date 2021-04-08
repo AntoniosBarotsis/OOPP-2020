@@ -68,6 +68,11 @@ public class CreateController {
             return;
         }
 
+        if (username.contains(" ")) {
+            showAlert("Username cannot contains spaces.", Alert.AlertType.ERROR);
+            return;
+        }
+
         // Fetch room configurations.
         RoomConfig roomConfig = validatePaceSetting();
         if (roomConfig == null) {

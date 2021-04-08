@@ -116,6 +116,9 @@ public class MainStudentController {
             return;
         }
 
+        // Disable textbox if lecture is not ongoing.
+        textQuestion.setDisable(!this.room.isOngoing());
+
         // Fetch questions from database.
         this.questionData = MainStudentCommunication.getQuestions(this.room.getId());
 
@@ -382,8 +385,8 @@ public class MainStudentController {
         if (response.equals("error")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
-            alert.setContentText("Either the lecture is over or you have been "
-                    + "banned and cannot ask new questions.");
+            alert.setContentText("You have been banned from the room "
+                    + "and cannot ask new questions.");
             alert.show();
         }
 
