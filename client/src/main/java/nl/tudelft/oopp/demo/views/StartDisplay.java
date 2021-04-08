@@ -12,7 +12,7 @@ public class StartDisplay extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/startView/startScene.fxml"));
         primaryStage.setTitle("Launch Screen");
-        primaryStage.setScene(new Scene(root, 960, 540));
+        primaryStage.setScene(new Scene(root, 960, 574));
         //primaryStage.setResizable(false);
         primaryStage.show();
     }

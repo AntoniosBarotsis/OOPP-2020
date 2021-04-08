@@ -1,9 +1,8 @@
 package nl.tudelft.oopp.demo.entities;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,9 +15,12 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionExportHelper;
+import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
 import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
 import nl.tudelft.oopp.demo.entities.users.User;
 import org.hibernate.annotations.GenericGenerator;
+
 
 /**
  * The Question class. This is used to represent questions users ask during lectures.
@@ -55,6 +57,8 @@ public class Question {
     private QuestionStatus status;
     @Column(name = "answer")
     private String answer;
+    @Column(name = "beingAnswered")
+    private boolean beingAnswered;
 
     /**
      * Instantiates a new Question.
@@ -70,6 +74,7 @@ public class Question {
         this.score = 0;
         this.status = QuestionStatus.OPEN;
         this.timeCreated = new Date();
+        this.beingAnswered = false;
     }
 
     /**
@@ -85,12 +90,9 @@ public class Question {
      * Export question to json format.
      *
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    public String exportToJson() throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-
-        return objMapper.writeValueAsString(this);
+    public String exportToJson() {
+        return QuestionExportHelper.of(this).toString();
     }
 
     /**
@@ -133,6 +135,16 @@ public class Question {
         } else {
             return "SPAM";
         }
+    }
+
+    /**
+     * Updates the score. The formula used is upvotes + minutes since creation.
+     */
+    public void updateScore() {
+        long timeDifference = new Date().getTime() - timeCreated.getTime();
+        int minutesDifference = (int) ((timeDifference / (1000 * 60)) % 60);
+
+        this.score = minutesDifference + upvotes;
     }
 }
 

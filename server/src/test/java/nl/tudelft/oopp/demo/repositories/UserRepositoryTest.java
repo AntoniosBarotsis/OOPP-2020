@@ -6,8 +6,6 @@ import java.util.HashSet;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
-import nl.tudelft.oopp.demo.repositories.QuestionRepository;
-import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

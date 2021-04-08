@@ -24,7 +24,7 @@ public class StartController {
     public void buttonCreate() throws Exception {
         Stage stage = (Stage) buttonJoin.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/startView/createRoomScene.fxml"));
-        Scene scene = new Scene(root, 960, 540);
+        Scene scene = new Scene(root, 960, 574);
         stage.setScene(scene);
         stage.show();
     }
@@ -37,7 +37,7 @@ public class StartController {
     public void buttonJoin() throws Exception {
         Stage stage = (Stage) buttonJoin.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/startView/joinRoomScene.fxml"));
-        Scene scene = new Scene(root, 960, 540);
+        Scene scene = new Scene(root, 960, 574);
         stage.setScene(scene);
         stage.show();
     }

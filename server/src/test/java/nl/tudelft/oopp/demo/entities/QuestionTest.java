@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+
+
 @DataJpaTest
 class QuestionTest {
     @Autowired
@@ -48,11 +50,9 @@ class QuestionTest {
 
     @Test
     @DirtiesContext(methodMode = BEFORE_METHOD)
-    void exportToJson() throws JsonProcessingException {
-        assertThat(q1.exportToJson()).isEqualTo("{\"id\":" + q1.getId()
-            + ",\"text\":\"Question text\",\"answer\":null,\"upvotes\":0,\"score\":0,\""
-            + "timeCreated\":\"" + q1.getTimeCreated() + "\",\"QuestionStatus\":\"OPEN\","
-            + "\"author\":{\"id\":" + q1.getAuthor().getId() + ",\"username\":\"Admin\"}}");
+    void exportToJson() {
+        assertThat(q1.exportToJson()).isEqualTo("QuestionExportHelper(text=Question text,"
+            + " answer=null, timeCreated=" + q1.getTimeCreated() + ")");
     }
 
     @Test
@@ -190,6 +190,6 @@ class QuestionTest {
             + "author=User(id=" + u1.getId() + ", "
             + "username=Admin, ip=ip, questionsAsked=[], questionsUpvoted=[], type=ADMIN), "
             + "upvotes=0, score=0, timeCreated=" + q1.getTimeCreated() + ", status=OPEN, "
-            + "answer=null)");
+            + "answer=null, beingAnswered="  + q1.isBeingAnswered() + ")");
     }
 }

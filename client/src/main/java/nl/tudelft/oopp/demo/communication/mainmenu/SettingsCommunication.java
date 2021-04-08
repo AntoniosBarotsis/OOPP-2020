@@ -38,4 +38,16 @@ public class SettingsCommunication extends  MainMenuCommunication {
         link = link + "&userId=" + userId;
         return sendPutRequestRoomConfig(link, roomConfig);
     }
+
+    /**
+     * Delete all questions in a room.
+     * @param roomId id of room
+     * @param userId id of user
+     */
+    public static String deleteQuestions(long roomId, long userId) {
+        String link = url + "rooms/deleteQuestions?";
+        link = link + "roomId=" + roomId;
+        link = link + "&userId=" + userId;
+        return sendDeleteRequest(link);
+    }
 }

@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+
+
 /**
  * The interface Question repository.
  */
@@ -63,6 +65,10 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
         + "rooms_questions.questions_id = ?2",
         nativeQuery = true)
     void deleteOneQuestion(long roomId, long questionId);
+
+
+
+
 
     /**
      * Delete all questions.
@@ -227,4 +233,23 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query(value = "UPDATE Question q SET q.answer = ?2 WHERE q.id = ?1")
     void setAnswer(long questionId, String answer);
 
+    /**
+     * Sets the beingAnswered status of a question to true or false.
+     * @param questionId the question to modify
+     * @param answer the value to set the question field to
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Question q SET q.beingAnswered = ?2 WHERE q.id = ?1")
+    void setBeingAnswered(long questionId, boolean answer);
+
+    /**
+     * Gets the beingAnswered field of the question.
+     *
+     * @param questionId the question id
+     * @return the answer
+     */
+    @Transactional
+    @Query(value = "SELECT q.beingAnswered FROM Question q WHERE q.id = ?1")
+    boolean getBeingAnswered(long questionId);
 }

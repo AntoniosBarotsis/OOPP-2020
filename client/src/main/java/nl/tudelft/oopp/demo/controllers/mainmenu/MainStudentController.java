@@ -7,8 +7,10 @@ import java.util.List;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -97,6 +99,26 @@ public class MainStudentController {
         // Fetch room data from server.
         this.room = MainStudentCommunication.getRoom(room.getId());
         this.user = user;
+
+        // Check if data was successfully fetched.
+        if (this.room == null || this.user == null
+                || this.room.getId() == 0 || this.user.getId() == 0) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Error connecting to room and fetching data. "
+                    + "The application will close!");
+            alert.show();
+            alert.setOnCloseRequest(e -> {
+                Platform.exit();
+            });
+
+            return;
+        }
+
+        // Disable textbox if lecture is not ongoing.
+        textQuestion.setDisable(!this.room.isOngoing());
+        buttonSend.setDisable(!this.room.isOngoing());
 
         // Fetch questions from database.
         this.questionData = MainStudentCommunication.getQuestions(this.room.getId());
@@ -358,7 +380,16 @@ public class MainStudentController {
         QuestionHelper question = new QuestionHelper(text, studentHelper);
 
         // Send the data to server.
-        MainStudentCommunication.sendQuestion(room.getId(), user.getId(), question);
+        String response = MainStudentCommunication.sendQuestion(room.getId(),
+                user.getId(), question);
+
+        if (response.equals("error")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("You have been banned from the room "
+                    + "and cannot ask new questions.");
+            alert.show();
+        }
 
         // Clear textQuestion contents.
         textQuestion.setText("");
