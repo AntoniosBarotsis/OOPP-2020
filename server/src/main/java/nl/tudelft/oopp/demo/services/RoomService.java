@@ -105,7 +105,7 @@ public class RoomService {
      * @param userId the user id
      */
     public void deleteAllQuestions(long roomId, long userId) {
-        if (roomRepository.getOne(roomId).getAdmin() == userId) {
+        if (roomRepository.getOne(roomId).getAdmin() != userId) {
             throw new UnauthorizedException("Only the room admin can remove the questions");
         }
 
