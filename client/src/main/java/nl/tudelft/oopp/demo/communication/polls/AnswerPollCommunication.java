@@ -80,7 +80,7 @@ public class AnswerPollCommunication {
      * @return Amount of answers
      */
     public static int getAnswerAmount(long pollId, String answer) {
-        String link = url + "polls/answerOccurences?pollId=" + pollId
+        String link = url + "polls/answerOccurrences?pollId=" + pollId
                 + "&answer=" + URLEncoder.encode(answer, StandardCharsets.UTF_8);
 
         HttpRequest request = HttpRequest

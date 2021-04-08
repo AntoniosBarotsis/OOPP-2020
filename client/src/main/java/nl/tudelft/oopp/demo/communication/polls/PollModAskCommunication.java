@@ -17,7 +17,7 @@ import nl.tudelft.oopp.demo.data.helper.PollHelper;
 
 public class PollModAskCommunication {
 
-    private final static String url = "http://localhost:8080/api/v1/";
+    private static final String url = "http://localhost:8080/api/v1/";
 
     private static HttpClient client = HttpClient.newBuilder().build();
 
@@ -104,7 +104,7 @@ public class PollModAskCommunication {
             e.printStackTrace();
             return -1;
         }
-        String link = url + "polls/answerOccurences?"
+        String link = url + "polls/answerOccurrences?"
                 + "pollId=" + pollId
                 + "&answer=" + answer;
 
