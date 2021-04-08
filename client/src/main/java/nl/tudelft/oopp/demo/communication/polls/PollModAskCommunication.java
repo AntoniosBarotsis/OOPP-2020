@@ -21,15 +21,15 @@ public class PollModAskCommunication {
     private static Gson gson = new Gson();
 
 
-
     /**
-     * Checks if a poll is already created, and if it isn't creates that poll.
-     * Otherwise updates the information of the poll.
+     * Creates a new poll in the backend with pollHelper as its values.
+     * It creates this poll in room room.
      *
-     * @param pollHelper the poll that is added in the backend.
+     * @param pollHelper the poll helper used to create the new poll
+     * @param room the room
+     * @return String mapping of poll
      */
     public static String createPoll(PollHelper pollHelper, Room room) {
-        //Add checker for if poll already created, update information instead.
         String url = "http://localhost:8080/api/v1/polls/create?";
         url = url + "roomId=" + room.getId();
 
@@ -90,8 +90,8 @@ public class PollModAskCommunication {
 
 
     /**
-     * Gets the number of times students choose a specific answer in a question.
-     * Add pollHelper
+     * Gets the number of times students chose a specific answer to the poll
+     * with id pollId.
      *
      * @param pollId the poll id.
      * @param answer the answer.
