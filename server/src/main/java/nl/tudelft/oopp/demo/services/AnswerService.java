@@ -99,4 +99,20 @@ public class AnswerService {
         pollRepository.save(poll);
         return mapAnswer(answer);
     }
+
+    /**
+     * Check whether a student has answered a poll.
+     *
+     * @param pollId the poll id
+     * @param userId the user id
+     */
+    public boolean hasAnswered(long pollId, long userId) {
+        Poll poll = pollRepository.getOne(pollId);
+        for (Answer answer : poll.getAnswers()) {
+            if (answer.getUserId() == userId) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
