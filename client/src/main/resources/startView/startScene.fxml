@@ -12,9 +12,9 @@
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="192.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="108.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" prefHeight="216.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" prefHeight="216.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="230.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="230.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
         <Button fx:id="buttonCreate" mnemonicParsing="false" onMouseClicked="#buttonCreate" prefHeight="135.0" prefWidth="240.0" style="-fx-background-color: #FFFFFF;" text="Create room" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
@@ -22,14 +22,14 @@
                 <Font size="30.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="OPEN_HAND" />
+                <Cursor fx:constant="HAND" />
             </cursor></Button>
         <Button fx:id="buttonJoin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#buttonJoin" prefHeight="135.0" prefWidth="240.0" style="-fx-background-color: #FFFFFF;" text="Join room" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
             <font>
                 <Font size="30.0" />
             </font>
             <cursor>
-                <Cursor fx:constant="OPEN_HAND" />
+                <Cursor fx:constant="HAND" />
             </cursor></Button>
         <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" />
         <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" GridPane.columnIndex="1" />

@@ -19,6 +19,7 @@ public interface LogEntryRepository extends JpaRepository<LogEntry, Long> {
      * Find all bans.
      *
      * @param roomId the room id
+     * @return the list
      */
     @Transactional
     @Query(value = "SELECT * FROM LOG_BAN WHERE room = ?1", nativeQuery = true)
@@ -28,6 +29,7 @@ public interface LogEntryRepository extends JpaRepository<LogEntry, Long> {
      * Find all joins.
      *
      * @param roomId the room id
+     * @return the list
      */
     @Transactional
     @Query(value = "SELECT * FROM LOG_JOIN WHERE room = ?1", nativeQuery = true)
@@ -37,6 +39,7 @@ public interface LogEntryRepository extends JpaRepository<LogEntry, Long> {
      * Find all questions.
      *
      * @param roomId the room id
+     * @return the list
      */
     @Transactional
     @Query(value = "SELECT * FROM LOG_QUESTION WHERE room = ?1", nativeQuery = true)

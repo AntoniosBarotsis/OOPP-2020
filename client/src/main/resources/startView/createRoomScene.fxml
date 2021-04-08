@@ -26,9 +26,9 @@
       <RowConstraints minHeight="10.0" prefHeight="12.0" vgrow="SOMETIMES" />
     </rowConstraints>
    <children>
+      <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" />
       <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" GridPane.columnIndex="2" />
-      <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" />
       <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00A6D6;" GridPane.columnIndex="1" />
       <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="TU&amp;A" GridPane.columnIndex="1" GridPane.halignment="CENTER">
          <font>
@@ -68,12 +68,12 @@
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" GridPane.columnIndex="2" />
          </children>
       </GridPane>
-      <Button fx:id="buttonCreateRoom" mnemonicParsing="false" onMouseClicked="#createButton" prefHeight="66.0" prefWidth="157.0" style="-fx-background-color: #FFFFFF;" text="Join" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="10">
+      <Button fx:id="buttonCreateRoom" mnemonicParsing="false" onMouseClicked="#createButton" prefHeight="66.0" prefWidth="157.0" style="-fx-background-color: #FFFFFF;" text="Create" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="10">
          <font>
             <Font size="29.0" />
          </font>
          <cursor>
-            <Cursor fx:constant="OPEN_HAND" />
+            <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
       <TextField fx:id="inputUsername" alignment="CENTER" prefHeight="134.0" prefWidth="768.0" promptText="Please insert username" GridPane.columnIndex="1" GridPane.rowIndex="4">
@@ -86,5 +86,6 @@
             <Font size="20.0" />
          </font>
       </CheckBox>
+      <Button fx:id="buttonBack2" mnemonicParsing="false" onMouseClicked="#buttonBack" prefHeight="44.0" prefWidth="67.0" style="-fx-background-color: #FFFFFF;" text="Back" GridPane.halignment="CENTER" />
    </children>
 </GridPane>

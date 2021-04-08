@@ -17,8 +17,10 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import nl.tudelft.oopp.demo.communication.mainmenu.MainStudentCommunication;
+import nl.tudelft.oopp.demo.controllers.polls.StudentPollController;
 import nl.tudelft.oopp.demo.controllers.questions.OthersQuestionController;
 import nl.tudelft.oopp.demo.controllers.questions.OwnQuestionController;
+import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.Question;
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.User;
@@ -27,8 +29,10 @@ import nl.tudelft.oopp.demo.data.helper.StudentHelper;
 
 public class MainStudentController {
 
+    private boolean filterPolls;
     private boolean filterAnswered;
     private List<Question> questionData;
+    private List<Poll> pollData;
     private Room room;
     private User user;
     private int refreshRate;
@@ -46,6 +50,8 @@ public class MainStudentController {
     private Button buttonSend;
     @FXML
     private Button buttonAnswered;
+    @FXML
+    private Button buttonShowPolls;
     @FXML
     private Text labelPaceMin;
     @FXML
@@ -92,11 +98,17 @@ public class MainStudentController {
         this.room = MainStudentCommunication.getRoom(room.getId());
         this.user = user;
 
-        // Fetch questions from database and load them into the ListView.
+        // Fetch questions from database.
         this.questionData = MainStudentCommunication.getQuestions(this.room.getId());
+
+        // Fetch polls from database.
+        this.pollData = MainStudentCommunication.getPolls(this.room.getId());
 
         // Sort questions by score.
         questionData.sort(Comparator.comparing(Question::getScore).reversed());
+
+        // Sort polls by status.
+        pollData.sort(Comparator.comparing(Poll::getStatus));
 
         // Populate the ListView with the fetched data.
         populateListView();
@@ -128,9 +140,30 @@ public class MainStudentController {
     }
 
     /**
-     * Populates ListView with Questions data.
+     * Populates ListView with data.
      */
     protected void populateListView() {
+        if (filterPolls) {
+            loadPolls();
+        } else {
+            loadQuestions();
+        }
+    }
+
+    /**
+     * Populates ListView with Poll data.
+     */
+    protected void loadPolls() {
+        questionList.getItems().clear();
+        for (Poll poll : pollData) {
+            questionList.getItems().add(loadPollView(poll));
+        }
+    }
+
+    /**
+     * Populates ListView with Questions data.
+     */
+    protected void loadQuestions() {
         questionList.getItems().clear();
         for (Question question : questionData) {
 
@@ -346,6 +379,22 @@ public class MainStudentController {
     }
 
     /**
+     * Handles button "Show polls" clicks.
+     */
+    @FXML
+    public void buttonShowPollsClicked() {
+        filterPolls = !filterPolls;
+        populateListView();
+        if (filterPolls) {
+            buttonShowPolls.setText("Show questions");
+            buttonAnswered.setDisable(true);
+        } else {
+            buttonShowPolls.setText("Show polls");
+            buttonAnswered.setDisable(false);
+        }
+    }
+
+    /**
      * Loads an OwnQuestionView.
      * @param question question to be injected
      * @return anchorPane with injected question
@@ -377,6 +426,29 @@ public class MainStudentController {
             AnchorPane pane = loader.load();
             OthersQuestionController controller = loader.getController();
             controller.loadData(question, user, room);
+            return pane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new AnchorPane();
+    }
+
+    /**
+     * Loads a PollView for students.
+     * @param poll poll to be injected
+     * @return anchorPane with injected poll
+     */
+    protected AnchorPane loadPollView(Poll poll) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("/pollView/pollView.fxml"));
+        try {
+            StudentPollController controller = new StudentPollController();
+            loader.setController(controller);
+
+            AnchorPane pane = loader.load();
+            controller.loadData(poll, user, room);
+
             return pane;
         } catch (IOException e) {
             e.printStackTrace();

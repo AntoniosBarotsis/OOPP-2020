@@ -8,10 +8,12 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import java.util.Date;
+import java.util.HashSet;
 
 import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.User;
+import nl.tudelft.oopp.demo.data.deserializers.RoomInstanceCreator;
 
 public class StartCommunication {
 
@@ -25,9 +27,13 @@ public class StartCommunication {
      * @return new Room
      */
     public static Room createRoom(String roomName, String username) {
-        HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v2/rooms/create?username=" + username
-                         + "&ip=ip&title=" + roomName)).build();
+        String url = "http://localhost:8080/api/v2/rooms/create?username=" + username.trim()
+                + "&title=" + roomName.trim();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .build();
+
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -39,6 +45,9 @@ public class StartCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
+            return new Room(0, "Error loading room", new Date(),
+                    false, -1, -1, -1, false, roomConfig);
         }
         return gson.fromJson(response.body(), Room.class);
     }
@@ -50,10 +59,14 @@ public class StartCommunication {
      * @return newly created scheduled room
      */
     public static Room createScheduledRoom(String roomName, String username, Date date) {
-        HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v2/rooms/schedule?username=" + username
-                        + "ip=ip&title=" + roomName
-                        + "&date=" + date.getTime())).build();
+        String url = "http://localhost:8080/api/v2/rooms/schedule?username=" + username.trim()
+                        + "&title=" + roomName.trim()
+                        + "&date=" + date.getTime();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .build();
+
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -65,6 +78,9 @@ public class StartCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
+            return new Room(0, "Error loading room", new Date(),
+                    false, -1, -1, -1, false, roomConfig);
         }
         return gson.fromJson(response.body(), Room.class);
     }
@@ -76,9 +92,62 @@ public class StartCommunication {
      * @return
      */
     public static User joinRoom(String code, String username) {
+        String url = "http://localhost:8080/api/v2/rooms/join?password=" + code.trim()
+                + "&username=" + username.trim();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+            return new User(0, "error", new HashSet<>(), new HashSet<>(),
+                    User.UserType.STUDENT);
+        }
+        return gson.fromJson(response.body(), User.class);
+    }
+
+    /**
+     * Get a room based on the code given.
+     * @param code password for the room
+     * @return A room
+     */
+    public static Room getRoom(String code) {
         HttpRequest request =  HttpRequest.newBuilder().GET()
-                .uri(URI.create("http://localhost:8080/api/v2/rooms/join?password=" + code
-                        + "&username=" + username + "&ip=ip")).build();
+                .uri(URI.create("http://localhost:8080/api/v2/rooms/getFromPass?password="
+                        + code.trim())).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
+            return new Room(0, "Error loading room", new Date(),
+                    false, -1, -1, -1, false, roomConfig);
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+            RoomConfig roomConfig = new RoomConfig(5, 5, 300, 300);
+            return new Room(0, "Error loading room", new Date(),
+                    false, -1, -1, -1, false, roomConfig);
+        }
+        return gson.fromJson(response.body(), Room.class);
+    }
+
+    /**
+     * Get the private code of a room using roomId.
+     * @param roomId the roomId for the room
+     * @return String containing the private code
+     */
+    public static String getPrivateCode(Long roomId) {
+        HttpRequest request =  HttpRequest.newBuilder().GET()
+                .uri(URI.create("http://localhost:8080/api/v2/rooms/private?roomId=" + roomId)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -88,6 +157,6 @@ public class StartCommunication {
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
         }
-        return gson.fromJson(response.body(), User.class);
+        return gson.fromJson(response.body(), String.class);
     }
 }

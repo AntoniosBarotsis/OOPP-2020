@@ -10,7 +10,7 @@ import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.users.User;
 
 /**
- * The type Log join. A [USER] joins a [ROOM]
+ * The type Log join. A [USER] joins a [ROOM].
  */
 @NoArgsConstructor
 @Entity(name = "LogJoin")

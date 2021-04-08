@@ -1,13 +1,10 @@
 package nl.tudelft.oopp.demo.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
@@ -17,9 +14,6 @@ import nl.tudelft.oopp.demo.entities.log.LogBan;
 import nl.tudelft.oopp.demo.entities.log.LogCollection;
 import nl.tudelft.oopp.demo.entities.log.LogJoin;
 import nl.tudelft.oopp.demo.entities.log.LogQuestion;
-import nl.tudelft.oopp.demo.entities.serializers.LogCollectionSerializer;
-import nl.tudelft.oopp.demo.entities.serializers.QuestionSerializer;
-import nl.tudelft.oopp.demo.entities.serializers.RoomSerializer;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
@@ -29,7 +23,6 @@ import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,24 +31,19 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class RoomService {
-
-    @Autowired
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
     private final LogEntryRepository logEntryRepository;
     private final RoomConfigRepository roomConfigRepository;
-
-    @Autowired
     private final UserService userService;
 
     /**
      * Returns a list of all rooms.
      *
      * @return the list
-     * @throws JsonProcessingException the json processing exception
      */
-    public String findAll() throws JsonProcessingException {
-        return mapRoom(roomRepository.findAll());
+    public List<Room> findAll() {
+        return roomRepository.findAll();
     }
 
     /**
@@ -63,15 +51,9 @@ public class RoomService {
      *
      * @param id the id
      * @return the one
-     * @throws JsonProcessingException the json processing exception
      */
-    public String getOne(long id) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Room.class, new RoomSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(roomRepository.getOne(id));
+    public Room getOne(long id) {
+        return roomRepository.getOne(id);
     }
 
     /**
@@ -105,10 +87,9 @@ public class RoomService {
      *
      * @param roomId the room id
      * @return the set
-     * @throws JsonProcessingException the json processing exception
      */
-    public String findAllQuestions(long roomId) throws JsonProcessingException {
-        return mapQuestion(roomRepository.findAllQuestions(roomId));
+    public Set<Question> findAllQuestions(long roomId) {
+        return roomRepository.findAllQuestions(roomId);
     }
 
     /**
@@ -179,11 +160,12 @@ public class RoomService {
      * Returns true if the user has been banned in the given room.
      *
      * @param roomId the room id
-     * @param ip     the ip
+     * @param id     the id
      * @return boolean boolean
      */
-    public boolean isBanned(long roomId, String ip) {
-        return roomRepository.getOne(roomId).getBannedIps().contains(ip);
+    public boolean isBanned(long roomId, long id) {
+        User userToBan = userRepository.getOne(id);
+        return roomRepository.getOne(roomId).getBannedIps().contains(userToBan.getIp());
     }
 
     /**
@@ -191,13 +173,13 @@ public class RoomService {
      *
      * @param roomId           the room id
      * @param userId           the user id
-     * @param ip               the ip
+     * @param idToBeBanned     the to be banned id
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException the unauthorized exception
      */
-    public void banUser(long roomId, long userId, String ip, String elevatedPassword)
-        throws UnauthorizedException {
-        if (isNotAuthorized(roomId, ip)) {
+    public void banUser(long roomId, long userId, long idToBeBanned, String elevatedPassword)
+            throws UnauthorizedException {
+        if (isNotAuthorized(roomId, userId)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
 
@@ -207,10 +189,11 @@ public class RoomService {
             return;
         }
 
-        roomRepository.banUser(roomId, ip);
+        User userToBan = userRepository.getOne(idToBeBanned);
+        roomRepository.banUser(roomId, userToBan.getIp());
 
-        User user = userRepository.getOne(userId);
-        LogBan logBan = new LogBan(room, user, ip, new Date());
+        User userThatBans = userRepository.getOne(userId);
+        LogBan logBan = new LogBan(room, userThatBans, userToBan.getIp(), new Date());
         logEntryRepository.save(logBan);
     }
 
@@ -218,15 +201,15 @@ public class RoomService {
      * Unbans a user in the given room given the correct elevated password.
      *
      * @param roomId           the room id
-     * @param id               the id
-     * @param ip               the ip
+     * @param userId           the id
+     * @param idToBeBanned     the to be banned id
      * @param elevatedPassword the elevated password
      * @throws UnauthorizedException    the unauthorized exception
      * @throws InvalidPasswordException the invalid password exception
      */
-    public void unbanUser(long roomId, long id, String ip, String elevatedPassword)
-        throws UnauthorizedException, InvalidPasswordException {
-        if (isNotAuthorized(roomId, id)) {
+    public void unbanUser(long roomId, long userId, long idToBeBanned, String elevatedPassword)
+            throws UnauthorizedException, InvalidPasswordException {
+        if (isNotAuthorized(roomId, userId)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
 
@@ -237,7 +220,8 @@ public class RoomService {
                     + " does not match the Room's Elevated password'");
         }
 
-        roomRepository.unbanUser(roomId, ip);
+        User userToBan = userRepository.getOne(idToBeBanned);
+        roomRepository.unbanUser(roomId, userToBan.getIp());
     }
 
     /**
@@ -246,9 +230,8 @@ public class RoomService {
      * @param roomId the room id
      * @param ip     the ip
      * @return the log collection
-     * @throws JsonProcessingException the json processing exception
      */
-    public String exportLog(long roomId, String ip) throws JsonProcessingException {
+    public LogCollection exportLog(long roomId, String ip) {
         if (isNotAuthorized(roomId, ip)) {
             throw new UnauthorizedException("User not authorized (not an elevated user)");
         }
@@ -257,7 +240,7 @@ public class RoomService {
         List<LogJoin> joins = logEntryRepository.findAllJoins(roomId);
         List<LogQuestion> questions = logEntryRepository.findAllQuestions(roomId);
 
-        return mapLogCollection(new LogCollection(bans, joins, questions));
+        return new LogCollection(bans, joins, questions);
     }
 
     /**
@@ -298,59 +281,11 @@ public class RoomService {
         int paceCooldown = roomConfig.getPaceCooldown();
 
         roomConfigRepository.setConfig(roomId, studentRefreshRate, modRefreshRate,
-            questionCooldown, paceCooldown);
+                questionCooldown, paceCooldown);
     }
 
     /**
-     * Map question string.
-     *
-     * @param questions the questions
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String mapQuestion(Collection<Question> questions) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Question.class, new QuestionSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(questions);
-    }
-
-    /**
-     * Map user string.
-     *
-     * @param rooms the users
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String mapRoom(Collection<Room> rooms) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Room.class, new RoomSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(rooms);
-    }
-
-    /**
-     * Map log collection string.
-     *
-     * @param logCollection the log collection
-     * @return the string
-     * @throws JsonProcessingException the json processing exception
-     */
-    public String mapLogCollection(LogCollection logCollection) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(LogCollection.class, new LogCollectionSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(logCollection);
-    }
-
-    /**
-     * Is not authorized boolean.
+     * Returns true if the user's IP is not a moderator IP.
      *
      * @param roomId the room id
      * @param ip     the ip
@@ -368,7 +303,7 @@ public class RoomService {
     }
 
     /**
-     * Is not authorized boolean.
+     * Returns true if the user's id is not a moderator id.
      *
      * @param roomId the room id
      * @param id     the id
@@ -376,22 +311,22 @@ public class RoomService {
      */
     public boolean isNotAuthorized(long roomId, long id) {
         List<Long> authorizedIps = roomRepository
-            .getOne(roomId)
-            .getModerators()
-            .stream()
-            .map(User::getId)
-            .collect(Collectors.toList());
+                .getOne(roomId)
+                .getModerators()
+                .stream()
+                .map(User::getId)
+                .collect(Collectors.toList());
 
         return !authorizedIps.contains(id);
     }
 
-     /**
+    /**
      * Schedule a new room.
      *
      * @param username the lecturer's username
-     * @param ip the lecturer's ip
-     * @param title the title of the room
-     * @param date the starting date/time for the room
+     * @param ip       the lecturer's ip
+     * @param title    the title of the room
+     * @param date     the starting date/time for the room
      * @return the newly created room
      */
     public Room scheduleRoom(String username, String ip, String title, long date) {
@@ -404,13 +339,16 @@ public class RoomService {
      * Create a new room.
      *
      * @param username the lecturer's username
-     * @param ip the lecturer's ip
-     * @param title the title of the room
+     * @param ip       the lecturer's ip
+     * @param title    the title of the room
      * @return the newly created room
      */
     public Room createRoom(String username, String ip, String title) {
         ElevatedUser user = new ElevatedUser(username, ip, true);
-        Room room = new Room(title, false, user);
+        userRepository.save(user);
+        RoomConfig roomConfig = new RoomConfig();
+        roomConfigRepository.save(roomConfig);
+        Room room = new Room(title, false, user, roomConfig);
         roomRepository.save(room);
         return room;
     }
@@ -420,22 +358,27 @@ public class RoomService {
      *
      * @param password the room's password
      * @param username the user's username
-     * @param ip the user's ip
+     * @param ip       the user's ip
      * @return the user
      */
     public User join(String password, String username, String ip) {
+        Long userId = userRepository.getUser(username, ip);
+        if (userId != null) {
+            return userRepository.getOne(userId);
+        }
         boolean isElevated = true;
         Long id = roomRepository.getElevatedRoomId(password);
         if (id == null) {
             id = roomRepository.getNormalRoomId(password);
             isElevated = false;
         }
-        if (id == null) {
+        if (id == null) { // Incorrect password
             return null; // TODO Throw error
         }
         Room room = roomRepository.getOne(id);
         Date currentDate = new Date();
         if (!isElevated && currentDate.before(room.getStartingDate())) {
+            // Joining before start date
             return null; // TODO Better error handling
         }
         User user;

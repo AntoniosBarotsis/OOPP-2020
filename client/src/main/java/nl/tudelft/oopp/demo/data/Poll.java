@@ -1,8 +1,11 @@
 package nl.tudelft.oopp.demo.data;
 
+import com.google.gson.annotations.JsonAdapter;
 import java.util.Date;
 import java.util.List;
+import nl.tudelft.oopp.demo.data.deserializers.PollInstanceCreator;
 
+@JsonAdapter(PollInstanceCreator.class)
 public class Poll {
     private long id;
     private String text;
@@ -27,6 +30,23 @@ public class Poll {
         this.timeCreated = timeCreated;
         this.options = options;
         this.correctAnswer = correctAnswer;
+        this.status = status;
+    }
+
+    /**
+     * Initializes a new poll.
+     *
+     * @param text the poll text
+     * @param options the options of the poll
+     * @param correctAnswer the correct answers of the poll
+     * @param status the status of the poll
+     */
+    public Poll(String text, List<String> options, List<String> correctAnswer,
+                Poll.PollStatus status) {
+        this.text = text;
+        this.options = options;
+        this.correctAnswer = correctAnswer;
+        this.timeCreated = new Date();
         this.status = status;
     }
 
@@ -135,6 +155,9 @@ public class Poll {
         OPEN,
         /** Closed poll status.
          */
-        CLOSED
+        CLOSED,
+        /** Statistics poll status.
+         */
+        STATISTICS
     }
 }

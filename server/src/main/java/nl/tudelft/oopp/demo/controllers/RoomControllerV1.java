@@ -1,6 +1,5 @@
 package nl.tudelft.oopp.demo.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Poll;
@@ -33,28 +32,28 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Find all list.
+     * Returns a list of all rooms.
      *
      * @return the list
      */
     @GetMapping
-    public String findAll() throws JsonProcessingException {
+    public List<Room> findAll() {
         return roomService.findAll();
     }
 
     /**
-     * Gets one.
+     * Gets the room that has the passed id.
      *
      * @param id the id
      * @return the one
      */
     @GetMapping("{id}")
-    public String getOne(@PathVariable long id) throws JsonProcessingException {
+    public Room getOne(@PathVariable long id) {
         return roomService.getOne(id);
     }
 
     /**
-     * Gets public password.
+     * Gets a room's public password.
      *
      * @param roomId the room id
      * @return the public password
@@ -65,8 +64,10 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Gets private password.
+     * Gets a room's private password if the request comes from an ip registered as a moderator
+     * in said room.
      *
+     * @param ip     the ip
      * @param roomId the room id
      * @return the private password
      */
@@ -77,13 +78,13 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Find all questions set.
+     * Gets a room's list of questions.
      *
      * @param roomId the room id
      * @return the set
      */
     @GetMapping("questions/{roomId}")
-    public String findAllQuestions(@PathVariable long  roomId) throws JsonProcessingException {
+    public Set<Question> findAllQuestions(@PathVariable long  roomId) {
         return roomService.findAllQuestions(roomId);
     }
 
@@ -99,7 +100,7 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Increment too fast.
+     * Increments the too the tooFast attribute of the room.
      *
      * @param roomId the room id
      */
@@ -109,7 +110,7 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Increment too fast.
+     * Decrements the too the tooFast attribute of the room.
      *
      * @param roomId the room id
      */
@@ -119,7 +120,7 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Increment too fast.
+     * Increment the tooSlow attribute of the room.
      *
      * @param roomId the room id
      */
@@ -129,7 +130,7 @@ public class RoomControllerV1 {
     }
 
     /**
-     * Increment too fast.
+     * Decrement the tooSlow attribute of the room.
      *
      * @param roomId the room id
      */
