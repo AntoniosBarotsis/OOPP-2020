@@ -204,6 +204,10 @@ public class AnswerPollController {
                 AnswerPollCommunication.createAnswer(answerHelper);
                 Stage oldStage = (Stage) listLeft.getScene().getWindow();
                 oldStage.close();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Answer submitted successfully!");
+                alert.showAndWait();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(null);
