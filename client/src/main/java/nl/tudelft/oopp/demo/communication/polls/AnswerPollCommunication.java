@@ -7,6 +7,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Date;
 
 import nl.tudelft.oopp.demo.data.Poll;
 import nl.tudelft.oopp.demo.data.helper.AnswerHelper;
@@ -39,9 +41,11 @@ public class AnswerPollCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
         }
     }
 
@@ -66,9 +70,14 @@ public class AnswerPollCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return new Poll("Error loading poll", Arrays.asList("Error"),
+                    Arrays.asList("Error"), Poll.PollStatus.CLOSED);
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
+            return new Poll("Error loading poll", Arrays.asList("Error"),
+                    Arrays.asList("Error"), Poll.PollStatus.CLOSED);
         }
         return gson.fromJson(response.body(), Poll.class);
     }
@@ -94,9 +103,12 @@ public class AnswerPollCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return -1;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println();
+            return -1;
         }
         return gson.fromJson(response.body(), int.class);
     }
@@ -120,9 +132,12 @@ public class AnswerPollCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return -1;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
+            return -1;
         }
         return gson.fromJson(response.body(), int.class);
     }
@@ -148,9 +163,12 @@ public class AnswerPollCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
+            return false;
         }
         return gson.fromJson(response.body(), boolean.class);
     }

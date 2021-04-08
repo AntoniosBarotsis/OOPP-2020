@@ -117,7 +117,7 @@ public class StartCommunication {
      * @param roomId the roomId for the room
      * @return String containing the private code
      */
-    public static String getPrivateCode(Long roomId) {
+    public static String getPrivateCode(long roomId) {
         String link = url + "rooms/private?roomId=" + roomId;
         HttpRequest request =  HttpRequest.newBuilder().GET()
                 .uri(URI.create(link)).build();
