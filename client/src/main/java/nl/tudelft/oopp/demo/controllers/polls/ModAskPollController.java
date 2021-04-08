@@ -146,6 +146,7 @@ public class ModAskPollController {
             submitButton.setVisible(false);
 
             if (poll.getStatus().equals(Poll.PollStatus.CLOSED)) {
+                submitButton.setVisible(true);
                 closePollButton.setVisible(false);
                 showStatisticsButton.setVisible(true);
                 showingStatistics = false;
@@ -341,6 +342,14 @@ public class ModAskPollController {
      * Then creates a new poll with the info in the backend.
      */
     public void submit() {
+        if (poll.getId() != 0L) {
+            PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.OPEN);
+            poll.setStatus(Poll.PollStatus.OPEN);
+            submitButton.setVisible(false);
+            closePollButton.setVisible(true);
+            showStatisticsButton.setVisible(false);
+            return;
+        }
         if (questionText.getText().isEmpty()) {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setContentText("The poll must have a question text.");
@@ -452,6 +461,7 @@ public class ModAskPollController {
         poll.setStatus(Poll.PollStatus.CLOSED);
         showStatisticsButton.setVisible(true);
         closePollButton.setVisible(false);
+        submitButton.setVisible(true);
     }
 
     /**
@@ -462,10 +472,15 @@ public class ModAskPollController {
             PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.CLOSED);
             poll.setStatus(Poll.PollStatus.CLOSED);
             showStatisticsButton.setText("Send Statistics");
+            showingStatistics = !showingStatistics;
+            submitButton.setVisible(true);
         } else {
             PollModAskCommunication.setStatus(poll.getId(), Poll.PollStatus.STATISTICS);
             poll.setStatus(Poll.PollStatus.STATISTICS);
             showStatisticsButton.setText("Unsend Statistics");
+            showingStatistics = !showingStatistics;
+            submitButton.setVisible(false);
+            closePollButton.setVisible(false);
         }
 
     }
