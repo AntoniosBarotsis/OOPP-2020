@@ -17,10 +17,11 @@ import nl.tudelft.oopp.demo.data.helper.PollHelper;
 
 public class PollModAskCommunication {
 
-    private static HttpClient client = HttpClient.newBuilder().build();
-    private static Gson gson = new Gson();
+    private final static String url = "http://localhost:8080/api/v1/";
 
-    private static final String link = "http://localhost:8080/api/v1/";
+    private static HttpClient client = HttpClient.newBuilder().build();
+
+    private static Gson gson = new Gson();
 
 
     /**
@@ -32,17 +33,15 @@ public class PollModAskCommunication {
      * @return String mapping of poll
      */
     public static String createPoll(PollHelper pollHelper, Room room) {
-        String url = link + "polls/create?";
-        url = url + "roomId=" + room.getId();
+        String link = url + "polls/create?"
+                + "roomId=" + room.getId();
 
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(link))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(pollHelper)))
                 .build();
-
-
 
         HttpResponse<String> response = null;
         try {
@@ -66,14 +65,13 @@ public class PollModAskCommunication {
      * @param status The new status.
      */
     public static void setStatus(long pollId, Poll.PollStatus status) {
-        String url = link + "polls/status?";
-
-        url = url + "pollId=" + pollId;
-        url = url + "&status=" + status.toString();
+        String link = url + "polls/status?"
+                + "pollId=" + pollId
+                + "&status=" + status.toString();
 
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(link))
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
                 .build();
 
@@ -106,11 +104,15 @@ public class PollModAskCommunication {
             e.printStackTrace();
             return -1;
         }
-        String url = link + "polls/answerOccurences?";
-        url = url + "pollId=" + pollId;
-        url = url + "&answer=" + answer;
+        String link = url + "polls/answerOccurences?"
+                + "pollId=" + pollId
+                + "&answer=" + answer;
 
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(link))
+                .GET()
+                .build();
 
         HttpResponse<String> response = null;
         try {
@@ -123,7 +125,7 @@ public class PollModAskCommunication {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
         }
-        return Integer.parseInt(response.body());
+        return gson.fromJson(response.body(), Integer.class);
     }
 
     /**
@@ -133,9 +135,14 @@ public class PollModAskCommunication {
      * @return the number of students who answered the poll.
      */
     public static int getNumAnswers(long pollId) {
-        String url = link + "polls/numAnswers?";
-        url = url + "pollId=" + pollId;
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+        String link = url + "polls/numAnswers?"
+                + "pollId=" + pollId;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(link))
+                .GET()
+                .build();
 
         HttpResponse<String> response = null;
         try {
@@ -148,6 +155,6 @@ public class PollModAskCommunication {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
         }
-        return Integer.parseInt(response.body());
+        return gson.fromJson(response.body(), Integer.class);
     }
 }

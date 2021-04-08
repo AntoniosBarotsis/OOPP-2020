@@ -14,6 +14,8 @@ import nl.tudelft.oopp.demo.data.helper.PollHelper;
 
 public class AnswerPollCommunication {
 
+    private static final String url = "http://localhost:8080/api/v1/";
+
     private static HttpClient client = HttpClient.newBuilder().build();
 
     private static Gson gson = new Gson();
@@ -23,11 +25,11 @@ public class AnswerPollCommunication {
      * @param answerHelper The helper used for creating answers
      */
     public static void createAnswer(AnswerHelper answerHelper) {
-        String url = "http://localhost:8080/api/v1/answers/create?";
+        String link = url + "answers/create?";
 
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(link))
                 .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(answerHelper)))
                 .build();
@@ -51,12 +53,12 @@ public class AnswerPollCommunication {
      * @return the poll
      */
     public static Poll getPoll(long pollId) {
-        String url = "http://localhost:8080/api/v1/polls/get?id=" + pollId;
+        String link = url + "polls/get?id=" + pollId;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
+                .uri(URI.create(link))
                 .GET()
-                .uri(URI.create(url))
                 .build();
 
         HttpResponse<String> response = null;
@@ -78,13 +80,13 @@ public class AnswerPollCommunication {
      * @return Amount of answers
      */
     public static int getAnswerAmount(long pollId, String answer) {
-        String url = "http://localhost:8080/api/v1/polls/answerOccurences?pollId=" + pollId
+        String link = url + "polls/answerOccurences?pollId=" + pollId
                 + "&answer=" + URLEncoder.encode(answer, StandardCharsets.UTF_8);
 
         HttpRequest request = HttpRequest
                 .newBuilder()
+                .uri(URI.create(link))
                 .GET()
-                .uri(URI.create(url))
                 .build();
 
         HttpResponse<String> response = null;
@@ -105,12 +107,12 @@ public class AnswerPollCommunication {
      * @return the total amount of answers
      */
     public static int getTotalAnswerAmount(long pollId) {
-        String url = "http://localhost:8080/api/v1/polls/numAnswers?pollId=" + pollId;
+        String link = url + "polls/numAnswers?pollId=" + pollId;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
+                .uri(URI.create(link))
                 .GET()
-                .uri(URI.create(url))
                 .build();
 
         HttpResponse<String> response = null;
@@ -132,13 +134,13 @@ public class AnswerPollCommunication {
      * @return
      */
     public static boolean hasAnswered(long pollId, long userId) {
-        String url = "http://localhost:8080/api/v1/answers/hasAnswered?pollId=" + pollId
+        String link = url + "answers/hasAnswered?pollId=" + pollId
                 + "&userId=" + userId;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
+                .uri(URI.create(link))
                 .GET()
-                .uri(URI.create(url))
                 .build();
 
         HttpResponse<String> response = null;
