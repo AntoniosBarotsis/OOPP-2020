@@ -93,7 +93,8 @@ class RoomServiceTest {
 
         roomRepository.saveAll(rooms);
 
-        roomService = new RoomService(roomRepository, userRepository, logEntryRepository, roomConfigRepository);
+        roomService = new RoomService(roomRepository, userRepository, logEntryRepository,
+                roomConfigRepository);
     }
 
     @Test
@@ -113,7 +114,8 @@ class RoomServiceTest {
 
     @Test
     void getPrivatePassword() {
-        assertEquals(room1.getElevatedPassword(), roomService.getPrivatePassword(room1.getId(), "ip"));
+        assertEquals(room1.getElevatedPassword(),
+                roomService.getPrivatePassword(room1.getId(), "ip"));
     }
 
     @Test
