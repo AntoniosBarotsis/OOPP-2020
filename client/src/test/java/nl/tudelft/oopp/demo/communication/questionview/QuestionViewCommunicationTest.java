@@ -80,11 +80,6 @@ class QuestionViewCommunicationTest {
     }
 
     @Test
-    void delete() {
-        assertDoesNotThrow(() -> QuestionViewCommunication.delete(id, userId));
-    }
-
-    @Test
     void setBeingAnswered() {
         assertDoesNotThrow(() -> QuestionViewCommunication.setBeingAnswered(id, true));
     }
