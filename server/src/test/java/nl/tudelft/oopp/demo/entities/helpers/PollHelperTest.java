@@ -126,7 +126,7 @@ class PollHelperTest {
     @Test
     void testToString() {
         String expected = "PollHelper(text=Question 1,"
-                + "options=[Answer 1, Answer 2], correctAnswer=[Answer 1])";
+                + " options=[Answer 1, Answer 2], correctAnswer=[Answer 1])";
         assertThat(a1.toString()).isEqualTo(expected);
     }
 }
