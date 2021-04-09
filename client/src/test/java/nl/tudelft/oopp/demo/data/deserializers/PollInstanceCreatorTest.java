@@ -13,18 +13,18 @@ class PollInstanceCreatorTest {
 
     @Test
     void testDeserialization() {
-        String json = "{ \"id\": 1, \"text\": \"Text\", "
-                + "\"status\": \"CLOSED\", \"timeCreated\": \"2021-04-06 03:42:48\", "
-                + "\"correctAnswer\": [\"Answer 1\"], "
-                + "\"options\": [\"Answer 1\", \"Answer 2\"] "
-                + " }";
-
         Object[] expectedOptions = new String[2];
         expectedOptions[0] = "Answer 1";
         expectedOptions[1] = "Answer 2";
 
         Object[] expectedCorrect = new String[1];
         expectedCorrect[0] = "Answer 1";
+
+        String json = "{ \"id\": 1, \"text\": \"Text\", "
+                + "\"status\": \"CLOSED\", \"timeCreated\": \"2021-04-06 03:42:48\", "
+                + "\"correctAnswer\": [\"Answer 1\"], "
+                + "\"options\": [\"Answer 1\", \"Answer 2\"] "
+                + " }";
 
         Poll newPoll = gson.fromJson(json, Poll.class);
 

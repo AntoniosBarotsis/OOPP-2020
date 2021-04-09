@@ -1,13 +1,12 @@
 package nl.tudelft.oopp.demo.entities.helpers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Date;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionExportHelperTest {
 

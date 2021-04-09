@@ -13,8 +13,8 @@ class PollHelperTest {
 
     PollHelper a1 = new PollHelper();
     Poll a2;
-    PollHelper b = new PollHelper();
-    PollHelper c = new PollHelper();
+    PollHelper b1 = new PollHelper();
+    PollHelper c1 = new PollHelper();
 
     List<String> choice1;
     List<String> choice2;
@@ -40,15 +40,15 @@ class PollHelperTest {
 
         a2 = new Poll("Question 1", choice1, corrects);
 
-        b = new PollHelper();
-        b.setText("Question 1");
-        b.setOptions(choice1);
-        b.setCorrectAnswer(corrects);
+        b1 = new PollHelper();
+        b1.setText("Question 1");
+        b1.setOptions(choice1);
+        b1.setCorrectAnswer(corrects);
 
-        c = new PollHelper();
-        c.setText("Question 2");
-        c.setOptions(choice2);
-        c.setCorrectAnswer(corrects);
+        c1 = new PollHelper();
+        c1.setText("Question 2");
+        c1.setOptions(choice2);
+        c1.setCorrectAnswer(corrects);
     }
 
     @Test
@@ -113,14 +113,14 @@ class PollHelperTest {
 
     @Test
     void testEquals() {
-        assertThat(a1).isEqualTo(b);
-        assertThat(a1).isNotEqualTo(c);
+        assertThat(a1).isEqualTo(b1);
+        assertThat(a1).isNotEqualTo(c1);
     }
 
     @Test
     void testHashCode() {
-        assertThat(a1.hashCode()).isEqualTo(b.hashCode());
-        assertThat(a1.hashCode()).isNotEqualTo(c.hashCode());
+        assertThat(a1.hashCode()).isEqualTo(b1.hashCode());
+        assertThat(a1.hashCode()).isNotEqualTo(c1.hashCode());
     }
 
     @Test
