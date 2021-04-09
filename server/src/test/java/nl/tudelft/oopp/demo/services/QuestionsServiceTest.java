@@ -161,14 +161,6 @@ class QuestionsServiceTest {
     }
 
     @Test
-    void addQuestionUnauthorisedUser() {
-        //Assertions.assertThrows(UnauthorizedException.class, () -> {
-            //questionService.addQuestion(question5, room.getId());
-        //});
-    }
-
-
-    @Test
     void getQuestion() {
         assertEquals(questionService.getQuestion(question1.getId()), question1);
     }
