@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -125,7 +126,8 @@ public class CreateController {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Amsterdam"));
             String start = dateFormat.format(new Date());
-            String end = dateFormat.format(new Date());
+            String end = dateFormat.format(new Date().getTime()
+                    + TimeUnit.HOURS.toMillis(2));
 
             if (inputSchedule.isSelected()) {
                 start = startDate + " " + startTime + ":00";
