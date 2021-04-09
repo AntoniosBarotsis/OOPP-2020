@@ -69,7 +69,7 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
     public static void modMarkAsAnswer(long id) {
-        String link = urlV2 + "/questions/setAnswered?questionId=" + id;
+        String link = urlV2 + "questions/setAnswered?questionId=" + id;
         sendEmptyPutRequest(link);
     }
 
@@ -92,7 +92,7 @@ public class QuestionViewCommunication {
      * @param questionHelper questionHelper with the edited question text
      */
     public static void setText(long id, QuestionHelper questionHelper)  {
-        String link = urlV2 + "/questions/setText?questionId=" + id;
+        String link = urlV2 + "questions/setText?questionId=" + id;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
@@ -219,7 +219,7 @@ public class QuestionViewCommunication {
             return;
         }
 
-        String link = "http://localhost:8080/api/v2/rooms/ban?userId=" + modId
+        String link = urlV2 + "rooms/ban?userId=" + modId
             + "&elevatedPassword=" + elevatedPassword
             + "&roomId=" + roomId
             + "&idToBeBanned=" + authorId;
