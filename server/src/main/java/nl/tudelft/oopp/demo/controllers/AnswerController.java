@@ -1,8 +1,10 @@
 package nl.tudelft.oopp.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.List;
 import javax.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
+import nl.tudelft.oopp.demo.entities.Answer;
 import nl.tudelft.oopp.demo.entities.helpers.AnswerHelper;
 import nl.tudelft.oopp.demo.services.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ public class AnswerController {
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String findAll() throws JsonProcessingException {
+    public List<Answer> findAll() throws JsonProcessingException {
         return answerService.findAll();
     }
 
@@ -43,7 +45,7 @@ public class AnswerController {
      * @throws JsonProcessingException the json processing exception
      */
     @GetMapping(value = "get", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getOne(@PathParam("id") long id) throws JsonProcessingException {
+    public Answer getOne(@PathParam("id") long id) {
         return answerService.getOne(id);
     }
 
@@ -51,10 +53,9 @@ public class AnswerController {
      * Create an Answer.
      *
      * @param answerHelper the AnswerHelper
-     * @throws JsonProcessingException the json processing exception
      */
     @PutMapping("create")
-    public void create(@RequestBody AnswerHelper answerHelper) throws JsonProcessingException {
+    public void create(@RequestBody AnswerHelper answerHelper) {
         answerService.create(answerHelper);
     }
 
