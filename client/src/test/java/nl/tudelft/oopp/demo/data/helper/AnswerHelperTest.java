@@ -1,10 +1,9 @@
 package nl.tudelft.oopp.demo.data.helper;
 
-import java.util.List;
-import nl.tudelft.oopp.demo.communication.polls.AnswerPollCommunication;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 class AnswerHelperTest {
     @Test

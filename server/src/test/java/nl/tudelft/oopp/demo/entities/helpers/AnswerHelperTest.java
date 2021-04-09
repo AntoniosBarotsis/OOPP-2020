@@ -1,20 +1,19 @@
 package nl.tudelft.oopp.demo.entities.helpers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.ArrayList;
 import java.util.List;
 import nl.tudelft.oopp.demo.entities.Answer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-
 class AnswerHelperTest {
 
-    AnswerHelper a;
+    AnswerHelper a1;
     Answer a2;
-    AnswerHelper b;
-    AnswerHelper c;
+    AnswerHelper b1;
+    AnswerHelper c1;
     AnswerHelper a3;
 
     List<String> choice1;
@@ -33,22 +32,22 @@ class AnswerHelperTest {
         choice2.add("Answer 1");
         choice3.add("Answer 3");
 
-        a = new AnswerHelper();
-        a.setAnswers(choice1);
-        a.setPollId(1);
-        a.setUserId(1);
+        a1 = new AnswerHelper();
+        a1.setAnswers(choice1);
+        a1.setPollId(1);
+        a1.setUserId(1);
 
         a2 = new Answer(choice1, 1, 1);
 
-        b = new AnswerHelper();
-        b.setAnswers(choice2);
-        b.setPollId(1);
-        b.setUserId(2);
+        b1 = new AnswerHelper();
+        b1.setAnswers(choice2);
+        b1.setPollId(1);
+        b1.setUserId(2);
 
-        c = new AnswerHelper();
-        c.setAnswers(choice3);
-        c.setPollId(2);
-        c.setUserId(3);
+        c1 = new AnswerHelper();
+        c1.setAnswers(choice3);
+        c1.setPollId(2);
+        c1.setUserId(3);
 
         a3 = new AnswerHelper();
         a3.setUserId(1);
@@ -58,73 +57,73 @@ class AnswerHelperTest {
 
     @Test
     void createAnswer() {
-        assertThat(a.createAnswer()).isEqualTo(a2);
+        assertThat(a1.createAnswer()).isEqualTo(a2);
     }
 
     @Test
     void getAnswers() {
-        assertThat(a.getAnswers()).isEqualTo(choice1);
-        assertThat(b.getAnswers()).isEqualTo(choice2);
-        assertThat(c.getAnswers()).isEqualTo(choice3);
+        assertThat(a1.getAnswers()).isEqualTo(choice1);
+        assertThat(b1.getAnswers()).isEqualTo(choice2);
+        assertThat(c1.getAnswers()).isEqualTo(choice3);
     }
 
     @Test
     void getPollId() {
-        assertThat(a.getPollId()).isEqualTo(1);
-        assertThat(b.getPollId()).isEqualTo(1);
-        assertThat(c.getPollId()).isEqualTo(2);
+        assertThat(a1.getPollId()).isEqualTo(1);
+        assertThat(b1.getPollId()).isEqualTo(1);
+        assertThat(c1.getPollId()).isEqualTo(2);
     }
 
     @Test
     void getUserId() {
-        assertThat(a.getUserId()).isEqualTo(1);
-        assertThat(b.getUserId()).isEqualTo(2);
-        assertThat(c.getUserId()).isEqualTo(3);
+        assertThat(a1.getUserId()).isEqualTo(1);
+        assertThat(b1.getUserId()).isEqualTo(2);
+        assertThat(c1.getUserId()).isEqualTo(3);
     }
 
     @Test
     void setAnswers() {
         List<String> newAnswers = new ArrayList<>();
         newAnswers.add("Answer 4");
-        a.setAnswers(newAnswers);
+        a1.setAnswers(newAnswers);
 
-        assertThat(a.getAnswers()).isEqualTo(newAnswers);
+        assertThat(a1.getAnswers()).isEqualTo(newAnswers);
     }
 
     @Test
     void setPollId() {
         int newId = 9;
-        a.setPollId(newId);
+        a1.setPollId(newId);
 
-        assertThat(a.getPollId()).isEqualTo(newId);
+        assertThat(a1.getPollId()).isEqualTo(newId);
     }
 
     @Test
     void setUserId() {
         int newId = 9;
-        a.setUserId(newId);
+        a1.setUserId(newId);
 
-        assertThat(a.getUserId()).isEqualTo(newId);
+        assertThat(a1.getUserId()).isEqualTo(newId);
     }
 
     @Test
     void testEquals() {
-        assertThat(a).isNotEqualTo(b);
-        assertThat(a).isEqualTo(a3);
+        assertThat(a1).isNotEqualTo(b1);
+        assertThat(a1).isEqualTo(a3);
     }
 
     @Test
     void testHashCode() {
-        int hashed = a.hashCode();
+        int hashed = a1.hashCode();
         assertThat(hashed).isNotNull();
-        assertThat(a.hashCode()).isEqualTo(a3.hashCode());
-        assertThat(a.createAnswer().hashCode()).isEqualTo(a3.createAnswer().hashCode());
+        assertThat(a1.hashCode()).isEqualTo(a3.hashCode());
+        assertThat(a1.createAnswer().hashCode()).isEqualTo(a3.createAnswer().hashCode());
     }
 
     @Test
     void testToString() {
         String expected = "AnswerHelper(pollId=1, userId=1, answers=[Answer 1, Answer 2])";
-        assertThat(a.toString()).isEqualTo(expected);
+        assertThat(a1.toString()).isEqualTo(expected);
     }
 }
 

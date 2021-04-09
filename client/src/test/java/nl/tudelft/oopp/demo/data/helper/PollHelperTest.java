@@ -1,10 +1,10 @@
 package nl.tudelft.oopp.demo.data.helper;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PollHelperTest {
     @Test
