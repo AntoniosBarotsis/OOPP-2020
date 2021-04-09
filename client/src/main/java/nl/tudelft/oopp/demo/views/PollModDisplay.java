@@ -31,8 +31,8 @@ public class PollModDisplay extends Application {
                 "", "answer4", "");
         List<String> listAnswers = Arrays.asList("", "", "answer1");
 
-        Poll poll = new Poll(1, "text", new Date(), list,
-                listAnswers, Poll.PollStatus.CLOSED);
+        Poll poll = new Poll(0, "text", new Date(), list,
+                listAnswers, Poll.PollStatus.OPEN);
         RoomConfig settings = new RoomConfig(5, 5, 300, 300);
 
         Room room = new Room(1, "room", new Date(), false, 0,0,

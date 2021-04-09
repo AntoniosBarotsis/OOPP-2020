@@ -29,8 +29,13 @@ public abstract class MainMenuCommunication {
      * @return list of questions in a room
      */
     public static ArrayList<Question> getQuestions(long id) {
-        String link = url + "rooms/questions?roomId=";
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(link + id)).build();
+        String link = url + "rooms/questions?roomId=" + id;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(link))
+                .GET()
+                .build();
 
         HttpResponse<String> response = null;
         try {
@@ -53,8 +58,13 @@ public abstract class MainMenuCommunication {
      * @return list of polls in a room
      */
     public static ArrayList<Poll> getPolls(long id) {
-        String link = url + "rooms/polls?roomId=";
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(link + id)).build();
+        String link = url + "rooms/polls?roomId=" + id;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(link))
+                .GET()
+                .build();
 
         HttpResponse<String> response = null;
         try {
@@ -76,8 +86,13 @@ public abstract class MainMenuCommunication {
      * @return room information
      */
     public static Room getRoom(long id) {
-        String link = url + "rooms/get?id=";
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(link + id)).build();
+        String link = url + "rooms/get?id=" + id;
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(link))
+                .GET()
+                .build();
 
         HttpResponse<String> response = null;
         try {
@@ -104,7 +119,12 @@ public abstract class MainMenuCommunication {
      * @return response body of request made
      */
     public static String requestStringData(String url) {
-        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -124,7 +144,8 @@ public abstract class MainMenuCommunication {
      * @param url endpoint of request
      */
     public static void sendEmptyPutRequest(String url) {
-        HttpRequest request = HttpRequest.newBuilder()
+        HttpRequest request = HttpRequest
+                .newBuilder()
                 .uri(URI.create(url))
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
                 .build();
@@ -147,7 +168,7 @@ public abstract class MainMenuCommunication {
      * @param url endpoint of request
      * @param question question to be added.
      */
-    public static void sendPostRequest(String url, QuestionHelper question) {
+    public static String sendPostRequest(String url, QuestionHelper question) {
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
@@ -160,12 +181,15 @@ public abstract class MainMenuCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return;
+            return "error";
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
+            return "error";
         }
+
+        return "success";
     }
 
     /**
@@ -180,6 +204,34 @@ public abstract class MainMenuCommunication {
                 .uri(URI.create(url))
                 .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(roomConfig)))
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+        if (response.statusCode() != 200) {
+            System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
+        }
+
+        return String.valueOf(response.statusCode());
+    }
+
+    /**
+     * Sends a DELETE request to server.
+     * @param url endpoint of request
+     * @return status code or exception message
+     */
+    public static String sendDeleteRequest(String url) {
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .DELETE()
                 .build();
 
         HttpResponse<String> response = null;

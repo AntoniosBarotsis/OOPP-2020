@@ -1,8 +1,5 @@
 package nl.tudelft.oopp.demo.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -11,17 +8,18 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionExportHelper;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
 import nl.tudelft.oopp.demo.entities.log.LogQuestion;
-import nl.tudelft.oopp.demo.entities.serializers.QuestionExportSerializer;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.exceptions.InvalidIdException;
+import nl.tudelft.oopp.demo.exceptions.LectureIsOverException;
 import nl.tudelft.oopp.demo.exceptions.UnauthorizedException;
 import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.QuestionRepository;
@@ -30,12 +28,12 @@ import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 
-
 /**
  * The type Question service.
  */
 @Service
 @AllArgsConstructor
+@Log4j2
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
@@ -50,9 +48,14 @@ public class QuestionService {
      * @param roomId   the room id
      * @throws InvalidIdException    the invalid id exception
      * @throws UnauthorizedException the unauthorized exception
+     * @throws LectureIsOverException the lecture is over exception
      */
     public void addQuestion(Question question, long roomId)
         throws InvalidIdException, UnauthorizedException {
+        if (!roomRepository.getOne(roomId).isOngoing()) {
+            throw new LectureIsOverException("You cant ask questions after the lecture is over");
+        }
+
         if (userService.isInvalidAuthorId(question.getAuthor())) {
             throw new InvalidIdException("The supplied author id is invalid");
         }
@@ -331,7 +334,7 @@ public class QuestionService {
      * @param questionId the question id
      * @return the question
      */
-    public String export(long questionId) throws JsonProcessingException {
+    public List<QuestionExportHelper> export(long questionId) {
         return mapQuestionExport(List.of(questionRepository.findById(questionId).get()));
     }
 
@@ -341,18 +344,18 @@ public class QuestionService {
      * @param roomId the room id
      * @return the set
      */
-    public String exportAll(long roomId) throws JsonProcessingException {
+    public List<QuestionExportHelper> exportAll(long roomId) {
         return mapQuestionExport(roomRepository.findAllQuestions(roomId));
     }
 
     /**
-     * Exports a given amount of questions in JSON format sorted by score.
+     * Exports a given amount of questions in JSON format sorted by upvotes.
      *
      * @param roomId - the room id
      * @param amount - the amount of questions
      * @return the list
      */
-    public String exportTop(long roomId, int amount) throws JsonProcessingException {
+    public List<QuestionExportHelper> exportTop(long roomId, int amount) {
         if (amount < 1) {
             throw new IllegalArgumentException("Invalid amount supplied");
         }
@@ -373,7 +376,7 @@ public class QuestionService {
      * @param roomId the room id
      * @return the list
      */
-    public String exportAnswered(long roomId) throws JsonProcessingException {
+    public List<QuestionExportHelper> exportAnswered(long roomId) {
         List<Question> questions = roomRepository
             .findAllQuestions(roomId)
             .stream()
@@ -385,20 +388,36 @@ public class QuestionService {
 
 
     /**
+     * Sort questions by score.
+     *
+     * @param roomId the room id
+     * @return the list
+     */
+    public List<Question> sortByScore(long roomId) {
+        refreshScoreByRoom(roomId);
+
+        Comparator<Question> comp = Comparator.comparing(Question::getScore)
+            .thenComparing(q -> q.getTimeCreated().getTime())
+            .reversed();
+
+        return roomRepository
+            .findAllQuestions(roomId)
+            .stream()
+            .sorted(comp)
+            .collect(Collectors.toList());
+    }
+
+    /**
      * Maps a collection of questions using a custom mapper.
      *
      * @param questions the questions
      * @return the string
-     * @throws JsonProcessingException the json processing exception
      */
-    public String mapQuestionExport(Collection<Question> questions) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Question.class, new QuestionExportSerializer());
-        objMapper.registerModule(module);
-
-        return objMapper.writeValueAsString(questions);
-
+    public List<QuestionExportHelper> mapQuestionExport(Collection<Question> questions) {
+        return questions
+            .stream()
+            .map(QuestionExportHelper::of)
+            .collect(Collectors.toList());
     }
 
     /**
@@ -417,7 +436,7 @@ public class QuestionService {
      * sets the field beingAnswered of the question to false or true.
      *
      * @param questionId the question to modify
-     * @param status the boolean value of the question.
+     * @param status     the boolean value of the question.
      */
     public void setBeingAnswered(long questionId, boolean status) {
         questionRepository.setBeingAnswered(questionId, status);
@@ -428,9 +447,33 @@ public class QuestionService {
      * Retrieves the boolean beingAnswered field from a question.
      *
      * @param questionId the id from the question to modify
+     * @return the being answered
      */
     public boolean getBeingAnswered(long questionId) {
         return questionRepository.getBeingAnswered(questionId);
     }
 
+    /**
+     * Refreshes score.
+     *
+     * @param roomId the room id
+     */
+    public void refreshScoreByRoom(long roomId) {
+        roomRepository.findAllQuestions(roomId)
+            .forEach(q -> {
+                q.updateScore();
+                questionRepository.save(q);
+            });
+    }
+
+    /**
+     * Refresh score.
+     *
+     * @param questionId the question id
+     */
+    public void refreshScore(long questionId) {
+        Question question = questionRepository.getOne(questionId);
+        question.updateScore();
+        questionRepository.save(question);
+    }
 }

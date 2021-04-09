@@ -31,7 +31,7 @@
          <font>
             <Font size="14.0" />
          </font></Button>
-       <Button fx:id="showStatisticsButton" layoutX="394.0" layoutY="443.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="123.0" style="-fx-background-color: #eb7245;" text="Show statistics">
+       <Button fx:id="showStatisticsButton" layoutX="394.0" layoutY="443.0" mnemonicParsing="false" onAction="#showStatisticsClicked" prefHeight="30.0" prefWidth="131.0" style="-fx-background-color: #eb7245;" text="Send statistics">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -40,7 +40,10 @@
             <Font size="14.0" />
          </font></Button>
       <Label layoutX="537.0" layoutY="438.0" prefHeight="30.0" prefWidth="55.0" style="-fx-background-color: white;" text="Answered:" />
-       <Label fx:id="nrAnswered" layoutX="550.0" layoutY="458.0" prefHeight="30.0" prefWidth="55.0" style="-fx-background-color: white; -fx-text-alignment: center;" text="100" />
+      <Label fx:id="nrAnswered" layoutX="534.0" layoutY="462.0" prefHeight="26.0" prefWidth="60.0" style="-fx-alignment: center;" textAlignment="CENTER">
+         <font>
+            <Font size="11.0" />
+         </font></Label>
 
 
 

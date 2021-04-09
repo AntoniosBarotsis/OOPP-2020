@@ -11,6 +11,8 @@ import nl.tudelft.oopp.demo.data.helper.QuestionHelper;
 
 public class QuestionViewCommunication {
 
+    private static final String url = "http://localhost:8080/api/v1/";
+    private static final String urlV2 = "http://localhost:8080/api/v2/";
     private static HttpClient client = HttpClient.newBuilder().build();
     private static Gson gson = new Gson();
 
@@ -20,7 +22,8 @@ public class QuestionViewCommunication {
      * @param url endpoint of request
      */
     public static void sendEmptyPutRequest(String url) {
-        HttpRequest request = HttpRequest.newBuilder()
+        HttpRequest request = HttpRequest
+                .newBuilder()
                 .uri(URI.create(url))
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
                 .build();
@@ -45,9 +48,8 @@ public class QuestionViewCommunication {
      */
 
     public static void upvote(long id) {
-        String url = "http://localhost:8080/api/v2/questions/upvote?";
-        url = url + "questionId=" + id;
-        sendEmptyPutRequest(url);
+        String link = urlV2 + "questions/upvote?questionId=" + id;
+        sendEmptyPutRequest(link);
     }
 
     /**
@@ -57,10 +59,8 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
     public static void studentMarkAsAnswer(long id) {
-        String url = "http://localhost:8080/api/v2/questions/studentSetAsAnswered?";
-        url = url + "questionId=" + id;
-        sendEmptyPutRequest(url);
-
+        String link = urlV2 + "questions/studentSetAsAnswered?questionId=" + id;
+        sendEmptyPutRequest(link);
     }
 
     /**
@@ -69,10 +69,8 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
     public static void modMarkAsAnswer(long id) {
-        String url = "http://localhost:8080/api/v2/questions/setAnswered?";
-        url = url + "questionId=" + id;
-        sendEmptyPutRequest(url);
-
+        String link = urlV2 + "questions/setAnswered?questionId=" + id;
+        sendEmptyPutRequest(link);
     }
 
 
@@ -83,10 +81,8 @@ public class QuestionViewCommunication {
      * @param id the question id
      */
     public static void downvote(long id) {
-        String url = "http://localhost:8080/api/v2/questions/downvote?";
-        url = url + "questionId=" + id;
-        sendEmptyPutRequest(url);
-
+        String link = urlV2 + "questions/downvote?questionId=" + id;
+        sendEmptyPutRequest(link);
     }
 
     /**
@@ -96,12 +92,11 @@ public class QuestionViewCommunication {
      * @param questionHelper questionHelper with the edited question text
      */
     public static void setText(long id, QuestionHelper questionHelper)  {
-        String url = "http://localhost:8080/api/v2/questions/setText?";
-        url = url + "questionId=" + id;
+        String link = urlV2 + "questions/setText?questionId=" + id;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(link))
                 .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(questionHelper)))
                 .build();
@@ -125,12 +120,11 @@ public class QuestionViewCommunication {
      * @param questionHelper questionHelper with the answer text
      */
     public static void setAnswer(long id, QuestionHelper questionHelper)  {
-        String url = "http://localhost:8080/api/v2/questions/setAnswer?";
-        url = url + "questionId=" + id;
+        String link = urlV2 + "questions/setAnswer?questionId=" + id;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(link))
                 .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(questionHelper)))
                 .build();
@@ -156,13 +150,12 @@ public class QuestionViewCommunication {
      */
     public static void addQuestionUpvoted(long questionId, long userId) {
 
-        String url = "http://localhost:8080/api/v1/users/addUpvotedQuestion?";
-        url = url + "userId=" + userId;
-        url = url + "&questionId=" + questionId;
+        String link = url + "users/addUpvotedQuestion?userId=" + userId
+            + "&questionId=" + questionId;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(link))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(""))
                 .build();
@@ -187,14 +180,12 @@ public class QuestionViewCommunication {
      * @param userId the user id.
      */
     public static void removeQuestionUpvoted(long questionId, long userId) {
-
-        String url = "http://localhost:8080/api/v1/users/removeUpvotedQuestion?";
-        url = url + "userId=" + userId;
-        url = url + "&questionId=" + questionId;
+        String link = url + "users/removeUpvotedQuestion?userId=" + userId
+            + "&questionId=" + questionId;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(link))
                 .header("Content-Type", "application/json")
                 .DELETE()
                 .build();
@@ -227,18 +218,18 @@ public class QuestionViewCommunication {
             e.printStackTrace();
             return;
         }
-        
-        
-        String url = "http://localhost:8080/api/v2/rooms/ban?";
-        url = url + "userId=" + modId;
-        url = url + "&elevatedPassword=" + elevatedPassword;
-        url = url + "&roomId=" + roomId;
-        url = url + "&idToBeBanned=" + authorId;
+
+        String link = urlV2 + "rooms/ban?userId=" + modId
+            + "&elevatedPassword=" + elevatedPassword
+            + "&roomId=" + roomId
+            + "&idToBeBanned=" + authorId;
 
         if (!isBanned(roomId, authorId)) {
-            HttpRequest request = HttpRequest.newBuilder()
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .uri(URI.create(link))
                     .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson("")))
-                    .uri(URI.create(url)).build();
+                    .build();
             HttpResponse<String> response = null;
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -261,13 +252,15 @@ public class QuestionViewCommunication {
      * @return boolean of is the user banned.
      */
     public static boolean isBanned(Long roomId, Long authorId) {
-        String url = "http://localhost:8080/api/v2/rooms/isBanned?";
-        url = url + "id=" + authorId;
-        url = url + "&roomId=" + roomId;
+        String link = urlV2 + "rooms/isBanned?id=" + authorId
+            + "&roomId=" + roomId;
 
-        HttpRequest request = HttpRequest.newBuilder()
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(link))
                 .GET()
-                .uri(URI.create(url)).build();
+                .build();
+
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -291,14 +284,13 @@ public class QuestionViewCommunication {
      */
     public static void delete(long roomId, long questionId) {
 
-        String url = "http://localhost:8080/api/v2/questions/deleteOne?";
-        url = url + "questionId=" + questionId;
-        url = url + "&roomId=" + roomId;
+        String link = urlV2 + "questions/deleteOne?questionId=" + questionId
+            + "&roomId=" + roomId;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
+                .uri(URI.create(link))
                 .DELETE()
-                .uri(URI.create(url))
                 .build();
 
         HttpResponse<String> response = null;
@@ -324,13 +316,12 @@ public class QuestionViewCommunication {
      * @param b the status of the field
      */
     public static void setBeingAnswered(long id, boolean b) {
-        String url = "http://localhost:8080/api/v2/questions/setBeingAnswered?";
-        url = url + "questionId=" + id;
-        url = url + "&status=" + b;
+        String link = urlV2 + "questions/setBeingAnswered?questionId=" + id
+            + "&status=" + b;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(link))
                 .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
                 .build();
@@ -354,13 +345,12 @@ public class QuestionViewCommunication {
      * @return whether a question is being answered
      */
     public static boolean getBeingAnswered(long id) {
-        String url = "http://localhost:8080/api/v2/questions/getBeingAnswered?";
-        url = url + "questionId=" + id;
+        String link = urlV2 + "questions/getBeingAnswered?questionId=" + id;
 
         HttpRequest request = HttpRequest
                 .newBuilder()
+                .uri(URI.create(link))
                 .GET()
-                .uri(URI.create(url))
                 .build();
 
         HttpResponse<String> response = null;

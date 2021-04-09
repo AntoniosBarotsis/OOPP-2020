@@ -9,12 +9,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
+import nl.tudelft.oopp.demo.entities.helpers.QuestionExportHelper;
 import nl.tudelft.oopp.demo.entities.helpers.QuestionHelper;
+import nl.tudelft.oopp.demo.entities.helpers.RoomHelper;
 import nl.tudelft.oopp.demo.entities.helpers.StudentHelper;
 
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
@@ -91,7 +96,7 @@ class QuestionsServiceTest {
         questionService = new QuestionService(questionRepository, userRepository,
                 roomRepository, logEntryRepository, userService);
         roomService = new RoomService(roomRepository, userRepository,
-                logEntryRepository, roomConfigRepository, userService);
+                logEntryRepository, roomConfigRepository);
 
         user1 = new Student("UserName 1", "IP 1");
         user2 = new Student("UserName 2", "IP 2");
@@ -105,7 +110,19 @@ class QuestionsServiceTest {
         question3 = new Question("This is the text 3", user2);
         question4 = new Question("This is the text 4", user3);
 
-        room = roomService.createRoom("admin", "IP 4", "roomName");
+        // Make ending date currentDate + a few minutes so no exceptions are thrown.
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MINUTE, 5);
+        Date endingDate = calendar.getTime();
+        calendar.add(Calendar.MINUTE, -7);
+        Date startingDate = calendar.getTime();
+
+        RoomHelper rh = new RoomHelper("title", "admin", false,
+            startingDate, endingDate);
+        room = roomService.createRoom(rh,"IP 4");
+        room.refreshOngoing(); // update this so tests dont fail.
 
         userRepository.save(user1);
         userRepository.save(user2);
@@ -142,14 +159,6 @@ class QuestionsServiceTest {
             questionService.addQuestion(question4, room.getId());
         });
     }
-
-    @Test
-    void addQuestionUnauthorisedUser() {
-        //Assertions.assertThrows(UnauthorizedException.class, () -> {
-            //questionService.addQuestion(question5, room.getId());
-        //});
-    }
-
 
     @Test
     void getQuestion() {
@@ -335,7 +344,7 @@ class QuestionsServiceTest {
     @Test
     void exportError() throws JsonProcessingException {
         Assertions.assertThrows(Exception.class, () -> {
-            String error =  questionService.export(382911230);
+            List<QuestionExportHelper> error =  questionService.export(382911230);
 
         });
     }
@@ -343,17 +352,17 @@ class QuestionsServiceTest {
     @Test
     void export() throws JsonProcessingException {
         String expected = "[" + question1.exportToJson() + "]";
-        String actual = questionService.export(id1);
-        assertEquals(expected, actual);
+        List<QuestionExportHelper> actual = questionService.export(id1);
+        assertEquals(expected, actual.toString());
     }
 
     @Test
     void exportAll() throws JsonProcessingException {
-        Boolean actual = questionService.exportAll(room.getId())
+        boolean actual = questionService.exportAll(room.getId()).toString()
                 .contains(question1.exportToJson());
-        actual = actual && questionService.exportAll(room.getId())
+        actual = actual && questionService.exportAll(room.getId()).toString()
                 .contains(question2.exportToJson());
-        actual = actual && questionService.exportAll(room.getId())
+        actual = actual && questionService.exportAll(room.getId()).toString()
                 .contains(question3.exportToJson());
         assertTrue(actual);
     }
@@ -361,7 +370,7 @@ class QuestionsServiceTest {
     @Test
     void exportTopError() throws JsonProcessingException {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            String error =  questionService.exportTop(room.getId(), 0);
+            List<QuestionExportHelper> error =  questionService.exportTop(room.getId(), 0);
         });
     }
 
@@ -369,19 +378,19 @@ class QuestionsServiceTest {
     void exportTop() throws JsonProcessingException {
         questionService.upvote(id1);
         question1.setUpvotes(1);
-        String actual =  questionService.exportTop(room.getId(), 1);
+        List<QuestionExportHelper> actual =  questionService.exportTop(room.getId(), 1);
         String expected = "[" + question1.exportToJson() + "]";
-        assertEquals(expected, actual);
+        assertEquals(expected, actual.toString());
     }
 
     @Test
     void exportAnswered() throws JsonProcessingException {
-        assertEquals("[]", questionService.exportAnswered(room.getId()));
+        assertEquals("[]", questionService.exportAnswered(room.getId()).toString());
         questionService.setAnswer(id1, "This question is answered");
         question1.setAnswer("This question is answered");
         String expected = "[" + question1.exportToJson() + "]";
-        String actual = questionService.exportAnswered(room.getId());
-        assertEquals(expected, actual);
+        List<QuestionExportHelper> actual = questionService.exportAnswered(room.getId());
+        assertEquals(expected, actual.toString());
     }
 
     @Test
@@ -389,8 +398,8 @@ class QuestionsServiceTest {
         String expected = "[" + question1.exportToJson() + "]";
         Set<Question> questions = new HashSet<Question>();
         questions.add(question1);
-        String actual = questionService.mapQuestionExport(questions);
-        assertEquals(expected, actual);
+        List<QuestionExportHelper> actual = questionService.mapQuestionExport(questions);
+        assertEquals(expected, actual.toString());
     }
 
     @Test
@@ -400,8 +409,8 @@ class QuestionsServiceTest {
 
     @Test
     void setBeingAnswered() {
-        assertEquals(false, question1.isBeingAnswered());
+        assertFalse(question1.isBeingAnswered());
         assertDoesNotThrow(() -> questionService.setBeingAnswered(id1, true));
-        assertEquals(true, questionService.getBeingAnswered(id1));
+        assertTrue(questionService.getBeingAnswered(id1));
     }
 }

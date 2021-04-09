@@ -75,20 +75,8 @@ class QuestionViewCommunicationTest {
     }
 
     @Test
-    void ban() {
-        // Will work properly when the server is initiated
-        // assertDoesNotThrow(() -> QuestionViewCommunication.ban(id, 1, userId));
-    }
-
-    @Test
     void isBanned() {
-        assertNotNull(QuestionViewCommunication.isBanned(id, userId));
-    }
-
-    @Test
-    void delete() {
-        // Will work properly when the server is initiated
-        // assertDoesNotThrow(() -> QuestionViewCommunication.delete(id, userId));
+        assertDoesNotThrow(() -> QuestionViewCommunication.isBanned(id, userId));
     }
 
     @Test

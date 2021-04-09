@@ -1,7 +1,11 @@
 package nl.tudelft.oopp.demo.controllers.mainmenu;
 
+import java.util.Optional;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import nl.tudelft.oopp.demo.communication.mainmenu.SettingsCommunication;
@@ -9,11 +13,14 @@ import nl.tudelft.oopp.demo.data.Room;
 import nl.tudelft.oopp.demo.data.RoomConfig;
 import nl.tudelft.oopp.demo.data.User;
 
+
 public class SettingsController {
 
     private Room room;
     private User user;
 
+    @FXML
+    Button buttonDelete;
     @FXML
     TextArea tbCodes;
     @FXML
@@ -44,6 +51,10 @@ public class SettingsController {
         tbModRefresh.setText(String.valueOf(room.getSettings().getModRefreshRate()));
         tbQuestionCd.setText(String.valueOf(room.getSettings().getQuestionCooldown()));
         tbPaceCd.setText(String.valueOf(room.getSettings().getPaceCooldown()));
+
+        if (!user.getUserType().equals(User.UserType.LECTURER)) {
+            buttonDelete.setVisible(false);
+        }
     }
 
     /**
@@ -104,14 +115,35 @@ public class SettingsController {
     }
 
     /**
+     * Deletes all questions in a room.
+     */
+    @FXML
+    public void buttonDeleteClicked() {
+        Optional<ButtonType> result = showAlert(
+                "Are you sure you want to delete all questions in a room?",
+                Alert.AlertType.CONFIRMATION);
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            String response = SettingsCommunication
+                    .deleteQuestions(room.getId(), user.getId());
+            if (response.equals("200")) {
+                showAlert("Questions deleted!", Alert.AlertType.INFORMATION);
+            } else {
+                showAlert("Error deleting questions!", Alert.AlertType.ERROR);
+            }
+
+        }
+    }
+
+    /**
      * Shows a warning alert on screen.
      * @param text text to display on alert
      * @param alertType the type of alert to display
+     * @return alert response
      */
-    protected void showAlert(String text, Alert.AlertType alertType) {
+    protected Optional<ButtonType> showAlert(String text, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setHeaderText(null);
         alert.setContentText(text);
-        alert.showAndWait();
+        return alert.showAndWait();
     }
 }
