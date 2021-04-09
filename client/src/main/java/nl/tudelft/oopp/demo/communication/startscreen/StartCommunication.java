@@ -130,6 +130,8 @@ public class StartCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
+            return "ErrorFetchingCode";
         }
         return gson.fromJson(response.body(), String.class);
     }
