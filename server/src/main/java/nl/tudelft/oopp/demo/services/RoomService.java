@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +29,7 @@ import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -37,11 +39,18 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @Log4j2
 public class RoomService {
+
+    @Autowired
     private final RoomRepository roomRepository;
+
+    @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
     private final LogEntryRepository logEntryRepository;
+
+    @Autowired
     private final RoomConfigRepository roomConfigRepository;
-    private final UserService userService;
 
     /**
      * Returns a list of all rooms.
