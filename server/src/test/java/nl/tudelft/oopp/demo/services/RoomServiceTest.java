@@ -3,14 +3,17 @@ package nl.tudelft.oopp.demo.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.RoomConfig;
+import nl.tudelft.oopp.demo.entities.helpers.RoomHelper;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
+import nl.tudelft.oopp.demo.entities.users.User;
 import nl.tudelft.oopp.demo.repositories.AnswerRepository;
 import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.PollRepository;
@@ -160,14 +163,24 @@ class RoomServiceTest {
 
     @Test
     void createRoom() {
+        RoomConfig roomConfig = new RoomConfig();
+        roomConfigRepository.save(roomConfig);
+        RoomHelper roomHelper = new RoomHelper("Title", "Username", false,
+                roomConfig, new Date(), new Date(new Date().getTime() + 3600000));
+        Room room = roomService.createRoom(roomHelper, "ip");
+        assertEquals(room, roomService.getOne(room.getId()));
     }
 
     @Test
     void join() {
+        User user = roomService.join(room1.getNormalPassword(), "Username3", "IP3");
+        assertEquals(user, userRepository.getOne(user.getId()));
+
     }
 
     @Test
     void getRoom() {
+        assertEquals(room1, roomService.getRoom(room1.getNormalPassword()));
     }
 
     @Test
