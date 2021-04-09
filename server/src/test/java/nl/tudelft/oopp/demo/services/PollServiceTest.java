@@ -73,7 +73,6 @@ public class PollServiceTest {
         RoomConfig roomConfig = new RoomConfig();
         roomConfigRepository.save(roomConfig);
 
-
         poll1 = new Poll("Text1", List.of("A", "B", "Correct answer"),
                 List.of("Correct answer"));
 

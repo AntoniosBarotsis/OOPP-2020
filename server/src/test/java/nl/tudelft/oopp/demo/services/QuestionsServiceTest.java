@@ -96,7 +96,7 @@ class QuestionsServiceTest {
         questionService = new QuestionService(questionRepository, userRepository,
                 roomRepository, logEntryRepository, userService);
         roomService = new RoomService(roomRepository, userRepository,
-                logEntryRepository, roomConfigRepository, userService);
+                logEntryRepository, roomConfigRepository);
 
         user1 = new Student("UserName 1", "IP 1");
         user2 = new Student("UserName 2", "IP 2");
