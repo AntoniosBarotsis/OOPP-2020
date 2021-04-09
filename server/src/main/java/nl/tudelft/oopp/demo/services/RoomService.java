@@ -437,9 +437,9 @@ public class RoomService {
      * @return the user
      */
     public User join(String password, String username, String ip) {
-        Long userId = userRepository.getUser(username, ip).getId();
-        if (userId != null) {
-            return userRepository.getOne(userId);
+        User user = userRepository.getUser(username, ip);
+        if (user != null) {
+            return userRepository.getOne(user.getId());
         }
         boolean isElevated = true;
         Long id = roomRepository.getElevatedRoomId(password);
@@ -451,7 +451,6 @@ public class RoomService {
             return null; // TODO Throw error
         }
         Room room = roomRepository.getOne(id);
-        User user;
         if (isElevated) {
             user = new ElevatedUser(username, ip);
         } else {
