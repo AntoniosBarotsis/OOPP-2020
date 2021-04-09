@@ -1,5 +1,8 @@
 package nl.tudelft.oopp.demo.entities.helpers;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import java.util.Date;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.RoomConfig;
@@ -7,15 +10,12 @@ import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-
 class RoomHelperTest {
 
-    RoomHelper a;
+    RoomHelper a1;
     Room a2;
-    RoomHelper b;
-    RoomHelper c;
+    RoomHelper b1;
+    RoomHelper c1;
     ElevatedUser admin;
     RoomConfig settings;
 
@@ -29,72 +29,72 @@ class RoomHelperTest {
         settings = new RoomConfig();
         endTime = new Date();
 
-        a = new RoomHelper("Title", "username", false, time, null);
-        b = new RoomHelper("Title", "username", false, time, null);
-        c = new RoomHelper("Title", "username", false, settings, time, endTime);
+        a1 = new RoomHelper("Title", "username", false, time, null);
+        b1 = new RoomHelper("Title", "username", false, time, null);
+        c1 = new RoomHelper("Title", "username", false, settings, time, endTime);
         a2 = new Room("Title", false, admin);
 
     }
 
     @Test
     void createRoom() {
-        assertDoesNotThrow(() -> a.createRoom(admin));
-        assertThat(a.createRoom(admin)).isNotNull();
+        assertDoesNotThrow(() -> a1.createRoom(admin));
+        assertThat(a1.createRoom(admin)).isNotNull();
     }
 
     @Test
     void getTitle() {
-        assertThat(a.getTitle()).isEqualTo("Title");
+        assertThat(a1.getTitle()).isEqualTo("Title");
     }
 
     @Test
     void getUsername() {
-        assertThat(a.getUsername()).isEqualTo("username");
+        assertThat(a1.getUsername()).isEqualTo("username");
     }
 
     @Test
     void isRepeatingLecture() {
-        assertThat(a.isRepeatingLecture()).isFalse();
+        assertThat(a1.isRepeatingLecture()).isFalse();
     }
 
     @Test
     void getRoomConfig() {
-        assertThat(a.getRoomConfig()).isNull();
-        assertThat(c.getRoomConfig()).isEqualTo(settings);
+        assertThat(a1.getRoomConfig()).isNull();
+        assertThat(c1.getRoomConfig()).isEqualTo(settings);
     }
 
     @Test
     void getStartingDate() {
-        assertThat(a.getStartingDate()).isEqualTo(time);
+        assertThat(a1.getStartingDate()).isEqualTo(time);
     }
 
     @Test
     void getEndingDate() {
-        assertThat(c.getEndingDate()).isEqualTo(endTime);
+        assertThat(c1.getEndingDate()).isEqualTo(endTime);
     }
 
     @Test
     void setTitle() {
         String expected = "New Title";
-        a.setTitle(expected);
+        a1.setTitle(expected);
 
-        assertThat(a.getTitle()).isEqualTo(expected);
+        assertThat(a1.getTitle()).isEqualTo(expected);
     }
 
     @Test
     void setUsername() {
         String expected = "New user";
-        a.setUsername(expected);
+        a1.setUsername(expected);
 
-        assertThat(a.getUsername()).isEqualTo(expected);
+        assertThat(a1.getUsername()).isEqualTo(expected);
     }
 
     @Test
     void setRepeatingLecture() {
         boolean expected = true;
-        a.setRepeatingLecture(expected);
+        a1.setRepeatingLecture(expected);
 
-        assertThat(a.isRepeatingLecture()).isEqualTo(true);
+        assertThat(a1.isRepeatingLecture()).isEqualTo(true);
     }
 
     @Test
@@ -105,41 +105,41 @@ class RoomHelperTest {
         newsettings.setModRefreshRate(2);
         newsettings.setStudentRefreshRate(2);
 
-        a.setRoomConfig(newsettings);
+        a1.setRoomConfig(newsettings);
 
-        assertThat(a.getRoomConfig()).isEqualTo(newsettings);
+        assertThat(a1.getRoomConfig()).isEqualTo(newsettings);
     }
 
     @Test
     void setStartingDate() {
         Date newDate = new Date();
-        a.setStartingDate(newDate);
+        a1.setStartingDate(newDate);
 
-        assertThat(a.getStartingDate()).isEqualTo(newDate);
+        assertThat(a1.getStartingDate()).isEqualTo(newDate);
     }
 
     @Test
     void setEndingDate() {
         Date newDate = new Date();
-        a.setEndingDate(newDate);
+        a1.setEndingDate(newDate);
 
-        assertThat(a.getEndingDate()).isEqualTo(newDate);
+        assertThat(a1.getEndingDate()).isEqualTo(newDate);
     }
 
     @Test
     void testEquals() {
-        assertThat(a).isEqualTo(b);
+        assertThat(a1).isEqualTo(b1);
     }
 
     @Test
     void testHashCode() {
-        assertThat(a.hashCode()).isEqualTo(b.hashCode());
+        assertThat(a1.hashCode()).isEqualTo(b1.hashCode());
     }
 
     @Test
     void testToString() {
-        String expected = "RoomHelper(title=Title, username=username, repeatingLecture=false, " +
-                "roomConfig=null, startingDate=" + a.getStartingDate() + ", endingDate=null)";
-        assertThat(a.toString()).isEqualTo(expected);
+        String expected = "RoomHelper(title=Title, username=username, repeatingLecture=false, "
+                + "roomConfig=null, startingDate=" + a1.getStartingDate() + ", endingDate=null)";
+        assertThat(a1.toString()).isEqualTo(expected);
     }
 }
