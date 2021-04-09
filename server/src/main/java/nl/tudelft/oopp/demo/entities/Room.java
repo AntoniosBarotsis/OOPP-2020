@@ -17,6 +17,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -57,13 +59,13 @@ public class Room {
     private Date timeCreated;
     @Column(name = "repeating_lecture")
     private boolean repeatingLecture;
-    @OneToOne(cascade = CascadeType.MERGE, optional = false)
+    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "admin_id")
     private ElevatedUser admin;
     @OneToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "room_config_id")
     private RoomConfig roomConfig;
-    @OneToMany
+    @ManyToMany
     @Column(name = "moderators")
     private Set<ElevatedUser> moderators;
     @JsonIgnore

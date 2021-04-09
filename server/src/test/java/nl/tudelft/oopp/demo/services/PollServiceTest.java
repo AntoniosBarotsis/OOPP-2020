@@ -128,7 +128,8 @@ public class PollServiceTest {
 
     @Test
     void findAllPolls() throws JsonProcessingException {
-        assertEquals(getIds(Set.of(poll2)), getIds(deserializeCollection(pollService.findAllPolls(room1.getId()))));
+        assertEquals(getIds(Set.of(poll2)),
+                getIds(deserializeCollection(pollService.findAllPolls(room1.getId()))));
     }
 
     @Test

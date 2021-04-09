@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 
 class PollHelperTest {
 
-    PollHelper a = new PollHelper();
+    PollHelper a1 = new PollHelper();
     Poll a2;
-    PollHelper b = new PollHelper();
-    PollHelper c = new PollHelper();
+    PollHelper b1 = new PollHelper();
+    PollHelper c1 = new PollHelper();
 
     List<String> choice1;
     List<String> choice2;
@@ -33,27 +33,27 @@ class PollHelperTest {
         choice2.add("Answer 1");
         corrects.add("Answer 1");
 
-        a = new PollHelper();
-        a.setText("Question 1");
-        a.setOptions(choice1);
-        a.setCorrectAnswer(corrects);
+        a1 = new PollHelper();
+        a1.setText("Question 1");
+        a1.setOptions(choice1);
+        a1.setCorrectAnswer(corrects);
 
         a2 = new Poll("Question 1", choice1, corrects);
 
-        b = new PollHelper();
-        b.setText("Question 1");
-        b.setOptions(choice1);
-        b.setCorrectAnswer(corrects);
+        b1 = new PollHelper();
+        b1.setText("Question 1");
+        b1.setOptions(choice1);
+        b1.setCorrectAnswer(corrects);
 
-        c = new PollHelper();
-        c.setText("Question 2");
-        c.setOptions(choice2);
-        c.setCorrectAnswer(corrects);
+        c1 = new PollHelper();
+        c1.setText("Question 2");
+        c1.setOptions(choice2);
+        c1.setCorrectAnswer(corrects);
     }
 
     @Test
     void createPoll() {
-        Poll createdPoll = a.createPoll();
+        Poll createdPoll = a1.createPoll();
         assertEquals(createdPoll.getAnswers(), a2.getAnswers());
         assertEquals(createdPoll.getOptions(), a2.getOptions());
         assertEquals(createdPoll.getCorrectAnswer(), a2.getCorrectAnswer());
@@ -65,7 +65,7 @@ class PollHelperTest {
 
     @Test
     void getText() {
-        assertThat(a.getText()).isEqualTo("Question 1");
+        assertThat(a1.getText()).isEqualTo("Question 1");
     }
 
     @Test
@@ -74,7 +74,7 @@ class PollHelperTest {
         d.add("Answer 1");
         d.add("Answer 2");
 
-        assertThat(a.getOptions()).isEqualTo(d);
+        assertThat(a1.getOptions()).isEqualTo(d);
     }
 
     @Test
@@ -82,50 +82,51 @@ class PollHelperTest {
         List<String> d = new ArrayList<>();
         d.add("Answer 1");
 
-        assertThat(a.getCorrectAnswer()).isEqualTo(d);
+        assertThat(a1.getCorrectAnswer()).isEqualTo(d);
     }
 
     @Test
     void setText() {
         String newQuestion = "New question";
-        a.setText(newQuestion);
+        a1.setText(newQuestion);
 
-        assertThat(a.getText()).isEqualTo(newQuestion);
+        assertThat(a1.getText()).isEqualTo(newQuestion);
     }
 
     @Test
     void setOptions() {
         List<String> newOptions = new ArrayList<>();
         newOptions.add("Answer 4");
-        a.setOptions(newOptions);
+        a1.setOptions(newOptions);
 
-        assertThat(a.getOptions()).isEqualTo(newOptions);
+        assertThat(a1.getOptions()).isEqualTo(newOptions);
     }
 
     @Test
     void setCorrectAnswer() {
         List<String> newCorrect = new ArrayList<>();
         newCorrect.add("Answer 4");
-        a.setCorrectAnswer(newCorrect);
+        a1.setCorrectAnswer(newCorrect);
 
-        assertThat(a.getCorrectAnswer()).isEqualTo(newCorrect);
+        assertThat(a1.getCorrectAnswer()).isEqualTo(newCorrect);
     }
 
     @Test
     void testEquals() {
-        assertThat(a).isEqualTo(b);
-        assertThat(a).isNotEqualTo(c);
+        assertThat(a1).isEqualTo(b1);
+        assertThat(a1).isNotEqualTo(c1);
     }
 
     @Test
     void testHashCode() {
-        assertThat(a.hashCode()).isEqualTo(b.hashCode());
-        assertThat(a.hashCode()).isNotEqualTo(c.hashCode());
+        assertThat(a1.hashCode()).isEqualTo(b1.hashCode());
+        assertThat(a1.hashCode()).isNotEqualTo(c1.hashCode());
     }
 
     @Test
     void testToString() {
-        String expected = "PollHelper(text=Question 1, options=[Answer 1, Answer 2], correctAnswer=[Answer 1])";
-        assertThat(a.toString()).isEqualTo(expected);
+        String expected = "PollHelper(text=Question 1,"
+                + "options=[Answer 1, Answer 2], correctAnswer=[Answer 1])";
+        assertThat(a1.toString()).isEqualTo(expected);
     }
 }

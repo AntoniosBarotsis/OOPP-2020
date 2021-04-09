@@ -180,7 +180,8 @@ public class UserTest {
 
     @Test
     void testToString() {
-        String expected = "User(id=0, username=Student, ip=ip, questionsAsked=[], questionsUpvoted=[], type=STUDENT)";
+        String expected = "User(id=0, username=Student, ip=ip, questionsAsked=[], "
+                + "questionsUpvoted=[], type=STUDENT)";
         assertThat(s1.toString()).isEqualTo(expected);
     }
 }
