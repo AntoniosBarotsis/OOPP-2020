@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Set;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -79,7 +79,7 @@ public class UserServiceTest {
     @Test
     void add() {
         Student student2 = new Student("UserName 2", "IP 1");
-        assertEquals (userService.add(student2), student2.getId());
+        assertEquals(userService.add(student2), student2.getId());
     }
 
     @Test
@@ -121,13 +121,12 @@ public class UserServiceTest {
         assertEquals(expected, userService.getUpvotedQuestion(student.getId()));
         userService.addUpvotedQuestion(student.getId(), question.getId());
         assertEquals(expected, userService.getUpvotedQuestion(student.getId()));
-
-
     }
 
     @Test
     void removeUpvotedQuestionEmpty() {
-        assertDoesNotThrow( () -> userService.removeUpvotedQuestion(student.getId(), question.getId()));
+        assertDoesNotThrow(() -> userService.removeUpvotedQuestion(student.getId(),
+                question.getId()));
     }
 
     @Test
