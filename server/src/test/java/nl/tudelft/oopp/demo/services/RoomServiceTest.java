@@ -1,9 +1,14 @@
 package nl.tudelft.oopp.demo.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import nl.tudelft.oopp.demo.entities.Poll;
@@ -11,6 +16,8 @@ import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.RoomConfig;
 import nl.tudelft.oopp.demo.entities.helpers.RoomHelper;
+import nl.tudelft.oopp.demo.entities.log.LogBan;
+import nl.tudelft.oopp.demo.entities.log.LogCollection;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
@@ -64,10 +71,10 @@ class RoomServiceTest {
 
     @BeforeEach
     void setup() {
-        elevatedUser1 = new ElevatedUser("Username1", "ip", true);
-        elevatedUser2 = new ElevatedUser("Username2", "ip", true);
-        student1 = new Student("Username1", "ip");
-        student2 = new Student("Username2", "ip");
+        elevatedUser1 = new ElevatedUser("Username1", "elevated-ip", true);
+        elevatedUser2 = new ElevatedUser("Username2", "elevated-ip", true);
+        student1 = new Student("Username1", "normal-ip");
+        student2 = new Student("Username2", "banned-ip");
 
         userRepository.saveAll(List.of(elevatedUser1, elevatedUser2, student1, student2));
 
@@ -80,16 +87,22 @@ class RoomServiceTest {
 
         question1 = new Question("This is the text 1", student1);
         questionRepository.save(question1);
-        room1.setQuestions(Set.of(question1));
+        Set<Question> questions = new HashSet<>();
+        questions.add(question1);
+        room1.setQuestions(questions);
 
         poll1 = new Poll("Text1", List.of("A", "B", "Correct answer"),
                 List.of("Correct answer"));
         pollRepository.save(poll1);
-        room1.setPolls(Set.of(poll1));
+        Set<Poll> polls = new HashSet<>();
+        polls.add(poll1);
+        room1.setPolls(polls);
 
         rooms = Set.of(room1, room2);
 
-        room1.setBannedIps(Set.of("ip"));
+        Set<String> ips = new HashSet<>();
+        ips.add("banned-ip");
+        room1.setBannedIps(ips);
 
         roomRepository.saveAll(rooms);
 
@@ -115,7 +128,7 @@ class RoomServiceTest {
     @Test
     void getPrivatePassword() {
         assertEquals(room1.getElevatedPassword(),
-                roomService.getPrivatePassword(room1.getId(), "ip"));
+                roomService.getPrivatePassword(room1.getId(), "elevated-ip"));
     }
 
     @Test
@@ -140,27 +153,43 @@ class RoomServiceTest {
     }
 
     @Test
-    void exportLog() {
+    void exportLogAndBanUser() {
+        boolean contains = false;
+        roomService.banUser(room1.getId(), elevatedUser1.getId(), student2.getId(),
+                room1.getElevatedPassword());
+        LogCollection logCollection = roomService.exportLog(room1.getId(), "elevated-ip");
+        for (LogBan logBan : logCollection.getBans()) {
+            if (logBan.getIp().equals("banned-ip")) {
+                contains = true;
+                break;
+            }
+        }
+        assertTrue(contains);
     }
 
     @Test
     void setOngoing() {
+        roomService.setOngoing(room1.getId(), false, elevatedUser1.getId());
+        assertFalse(room1.isOngoing());
     }
 
     @Test
     void startEndLecture() {
+        boolean isOngoing = room1.isOngoing();
+        roomService.startEndLecture(room1.getId(), elevatedUser1.getId());
+        assertTrue(room1.isOngoing() != isOngoing);
     }
 
     @Test
-    void setConfig() {
+    void isNotAuthorizedIp() {
+        assertTrue(roomService.isNotAuthorized(room1.getId(), "normal-ip"));
+        assertFalse(roomService.isNotAuthorized(room1.getId(), "elevated-ip"));
     }
 
     @Test
-    void isNotAuthorized() {
-    }
-
-    @Test
-    void testIsNotAuthorized() {
+    void isNotAuthorizedId() {
+        assertTrue(roomService.isNotAuthorized(room1.getId(), student1.getId()));
+        assertFalse(roomService.isNotAuthorized(room1.getId(), elevatedUser1.getId()));
     }
 
     @Test
@@ -186,10 +215,16 @@ class RoomServiceTest {
     }
 
     @Test
-    void isOngoing() {
+    void isOngoing() throws JsonProcessingException {
+        String json = roomService.isOngoing(room1.getId());
+        JsonNode jsonNode = new ObjectMapper().readTree(json);
+        assertTrue(jsonNode.get("ongoing").asBoolean());
     }
 
     @Test
     void refreshOngoing() {
+        room1.setEndingDate(new Date(new Date().getTime() - 100));
+        roomService.refreshOngoing(room1.getId());
+        assertFalse(room1.isOngoing());
     }
 }

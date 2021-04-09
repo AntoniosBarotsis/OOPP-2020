@@ -109,7 +109,7 @@ public class Room {
 
         this.timeCreated = new Date();
         this.startingDate = new Date();
-        this.endingDate = new Date();
+        this.endingDate = new Date(new Date().getTime() + 3600000);
         this.bannedIps = new HashSet<>();
         this.roomConfig = new RoomConfig();
         Set<ElevatedUser> ips = new HashSet<>();
@@ -140,7 +140,7 @@ public class Room {
 
         this.timeCreated = new Date();
         this.startingDate = new Date();
-        this.endingDate = new Date();
+        this.endingDate = new Date(new Date().getTime() + 3600000);
         this.bannedIps = new HashSet<>();
         this.roomConfig = roomConfig;
         Set<ElevatedUser> ips = new HashSet<>();
