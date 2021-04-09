@@ -1,13 +1,19 @@
 package nl.tudelft.oopp.demo.services;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Set;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 import nl.tudelft.oopp.demo.entities.Question;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.RoomConfig;
-import nl.tudelft.oopp.demo.entities.helpers.RoomHelper;
-import nl.tudelft.oopp.demo.entities.log.LogBan;
-import nl.tudelft.oopp.demo.entities.log.LogJoin;
-import nl.tudelft.oopp.demo.entities.log.LogQuestion;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
 import nl.tudelft.oopp.demo.entities.users.User;
@@ -19,11 +25,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 
 @DataJpaTest
 public class UserServiceTest {
