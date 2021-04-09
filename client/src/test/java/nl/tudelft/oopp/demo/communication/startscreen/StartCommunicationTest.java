@@ -29,7 +29,7 @@ public class StartCommunicationTest {
 
     @Test
     void getPrivateCode() {
-        assertDoesNotThrow(() -> StartCommunication.getPrivateCode((long) 1));
+        assertNotNull(StartCommunication.getPrivateCode((long) 1));
     }
 
 }
