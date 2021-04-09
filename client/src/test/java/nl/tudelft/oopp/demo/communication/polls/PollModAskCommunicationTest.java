@@ -43,8 +43,8 @@ class PollModAskCommunicationTest {
         answer.add("TrueOption");
 
         Poll test = new Poll(1, "Question", new Date(), optionsTest, answer, Poll.PollStatus.OPEN);
-        // assertNotNull(PollModAskCommunication.getAnswerOccurences(1, "TrueOption"));
-        // assertDoesNotThrow(() -> PollModAskCommunication.getAnswerOccurences(1, "TrueOption"));
+        assertNotNull(PollModAskCommunication.getAnswerOccurences(1, "TrueOption"));
+        assertDoesNotThrow(() -> PollModAskCommunication.getAnswerOccurences(1, "TrueOption"));
     }
 
     @Test

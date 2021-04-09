@@ -182,7 +182,7 @@ public class PollService {
      * @return the number of students who have answered
      */
     public int getNumAnswers(long pollId) {
-        return answerRepository.getNumAnswers(pollId);
+        return pollRepository.getOne(pollId).getAnswers().size();
     }
 
 }

@@ -1,11 +1,17 @@
 package nl.tudelft.oopp.demo.services;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import nl.tudelft.oopp.demo.entities.Answer;
 import nl.tudelft.oopp.demo.entities.Poll;
 import nl.tudelft.oopp.demo.entities.Room;
@@ -14,22 +20,15 @@ import nl.tudelft.oopp.demo.entities.helpers.PollHelper;
 import nl.tudelft.oopp.demo.entities.serializers.PollSerializer;
 import nl.tudelft.oopp.demo.entities.users.ElevatedUser;
 import nl.tudelft.oopp.demo.entities.users.Student;
-import nl.tudelft.oopp.demo.repositories.*;
-import org.aspectj.lang.annotation.Before;
+import nl.tudelft.oopp.demo.repositories.AnswerRepository;
+import nl.tudelft.oopp.demo.repositories.PollRepository;
+import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
+import nl.tudelft.oopp.demo.repositories.RoomRepository;
+import nl.tudelft.oopp.demo.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 public class PollServiceTest {
@@ -86,8 +85,8 @@ public class PollServiceTest {
 
         answerRepository.saveAll(List.of(answer1, answer2));
 
-        poll1.setAnswers(null);
-        poll2.setAnswers(null);
+        poll1.addAnswer(answer1);
+        poll2.addAnswer(answer2);
 
         polls = Set.of(poll1, poll2);
 
@@ -95,17 +94,10 @@ public class PollServiceTest {
 
         room1 = new Room("Title", false, elevatedUser1, roomConfig);
 
-        room1.setPolls(Set.of(poll2));
+        room1.addPoll(poll2);
 
         roomRepository.save(room1);
         pollService = new PollService(pollRepository, roomRepository, answerRepository);
-
-        System.out.println(pollRepository.findAll());
-        try {
-            System.out.println(pollService.findAll());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
     }
 
     @Test
@@ -132,7 +124,7 @@ public class PollServiceTest {
     void getOpenPolls() throws JsonProcessingException {
         String expected = pollService.getOpenPolls(room1.getId());
         Set<Poll> expectedSet = deserializeCollection(expected);
-        assertEquals(getIds(polls), getIds(expectedSet));
+        assertEquals(getIds(Set.of(poll2)), getIds(expectedSet));
     }
 
     @Test
@@ -140,11 +132,43 @@ public class PollServiceTest {
         assertEquals(getIds(Set.of(poll2)), getIds(deserializeCollection(pollService.findAllPolls(room1.getId()))));
     }
 
-//    @Test
-//    void createPoll() {
-//        PollHelper
-//        pollService.createPoll(room1.getId(), );
-//    }
+    @Test
+    void createPoll() throws JsonProcessingException {
+        String text = "Text3";
+        List<String> options = List.of("A", "B", "Correct answer", "D", "E");
+        List<String> correctAnswers = List.of("Correct answer");
+        PollHelper pollHelper = new PollHelper(text, options, correctAnswers);
+        pollService.createPoll(room1.getId(), pollHelper);
+        boolean contains = false;
+        List<Poll> polls = pollRepository.findAll();
+        System.out.println(polls);
+        for (Poll poll : polls) {
+            if (poll.getText().equals(text) && correctAnswers.equals(poll.getCorrectAnswer())
+                    && options.equals(poll.getOptions())) {
+                contains = true;
+                break;
+            }
+        }
+        assertTrue(contains);
+    }
+
+    @Test
+    void setStatus() {
+        pollService.setStatus(poll1.getId(), "CLOSED");
+        assertEquals("CLOSED", pollRepository.getStatus(poll1.getId()));
+    }
+
+    @Test
+    void getAnswerOccurences() {
+        int answerOccurences = pollService.getAnswerOccurences(poll1.getId(), "A");
+        assertEquals(1, answerOccurences);
+    }
+
+    @Test
+    void getNumAnswers() {
+        int numAnswers = pollService.getNumAnswers(poll1.getId());
+        assertEquals(1, numAnswers);
+    }
 
     Poll deserializeOne(String string) throws JsonProcessingException {
         ObjectMapper objMapper = new ObjectMapper();
@@ -167,42 +191,8 @@ public class PollServiceTest {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         objMapper.setDateFormat(dateFormat);
 
-        return objMapper.readValue(string, new TypeReference<Set<Poll>>() {});
-    }
-
-    ArrayNode getObjectNode(String string) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Poll.class, new PollSerializer());
-        objMapper.registerModule(module);
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        objMapper.setDateFormat(dateFormat);
-        return (ArrayNode) objMapper.readTree(string);
-    }
-
-    String serialize(Collection<Poll> polls) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Poll.class, new PollSerializer());
-        objMapper.registerModule(module);
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        objMapper.setDateFormat(dateFormat);
-
-        return objMapper.writeValueAsString(polls);
-    }
-
-    String serialize(Poll poll) throws JsonProcessingException {
-        ObjectMapper objMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Poll.class, new PollSerializer());
-        objMapper.registerModule(module);
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        objMapper.setDateFormat(dateFormat);
-
-        return objMapper.writeValueAsString(poll);
+        return objMapper.readValue(string, new TypeReference<Set<Poll>>() {
+        });
     }
 
     Set<Long> getIds(Set<Poll> polls) {
