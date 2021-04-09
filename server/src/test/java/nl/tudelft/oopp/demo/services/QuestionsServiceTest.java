@@ -96,7 +96,7 @@ class QuestionsServiceTest {
         questionService = new QuestionService(questionRepository, userRepository,
                 roomRepository, logEntryRepository, userService);
         roomService = new RoomService(roomRepository, userRepository,
-                logEntryRepository, roomConfigRepository, userService);
+                logEntryRepository, roomConfigRepository);
 
         user1 = new Student("UserName 1", "IP 1");
         user2 = new Student("UserName 2", "IP 2");
@@ -159,14 +159,6 @@ class QuestionsServiceTest {
             questionService.addQuestion(question4, room.getId());
         });
     }
-
-    @Test
-    void addQuestionUnauthorisedUser() {
-        //Assertions.assertThrows(UnauthorizedException.class, () -> {
-            //questionService.addQuestion(question5, room.getId());
-        //});
-    }
-
 
     @Test
     void getQuestion() {

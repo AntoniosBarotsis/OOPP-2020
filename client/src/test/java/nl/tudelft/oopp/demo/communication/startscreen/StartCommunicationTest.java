@@ -27,4 +27,9 @@ public class StartCommunicationTest {
         assertDoesNotThrow(() -> StartCommunication.getRoom("code"));
     }
 
+    @Test
+    void getPrivateCode() {
+        assertNotNull(StartCommunication.getPrivateCode((long) 1));
+    }
+
 }

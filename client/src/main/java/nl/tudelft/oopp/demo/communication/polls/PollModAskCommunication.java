@@ -119,11 +119,12 @@ public class PollModAskCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
+            return -1;
         }
         return gson.fromJson(response.body(), Integer.class);
     }
@@ -149,11 +150,12 @@ public class PollModAskCommunication {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
             System.out.println(response.body());
+            return -1;
         }
         return gson.fromJson(response.body(), Integer.class);
     }

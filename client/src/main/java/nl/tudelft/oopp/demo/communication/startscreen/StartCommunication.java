@@ -117,7 +117,7 @@ public class StartCommunication {
      * @param roomId the roomId for the room
      * @return String containing the private code
      */
-    public static String getPrivateCode(Long roomId) {
+    public static String getPrivateCode(long roomId) {
         String link = url + "rooms/private?roomId=" + roomId;
         HttpRequest request =  HttpRequest.newBuilder().GET()
                 .uri(URI.create(link)).build();
@@ -130,6 +130,8 @@ public class StartCommunication {
         }
         if (response.statusCode() != 200) {
             System.out.println("Status: " + response.statusCode());
+            System.out.println(response.body());
+            return "ErrorFetchingCode";
         }
         return gson.fromJson(response.body(), String.class);
     }

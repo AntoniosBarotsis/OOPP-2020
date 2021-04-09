@@ -42,14 +42,13 @@ class PollModAskCommunicationTest {
         List<String> answer = new ArrayList<>();
         answer.add("TrueOption");
 
-        Poll test = new Poll(1, "Question", new Date(), optionsTest, answer, Poll.PollStatus.OPEN);
-        // assertNotNull(PollModAskCommunication.getAnswerOccurences(1, "TrueOption"));
-        // assertDoesNotThrow(() -> PollModAskCommunication.getAnswerOccurences(1, "TrueOption"));
+        Poll test = new Poll(1, "Question", new Date(),
+                optionsTest, answer, Poll.PollStatus.STATISTICS);
+        assertNotNull(PollModAskCommunication.getAnswerOccurences(1, "TrueOption"));
     }
 
     @Test
     void getAnswers() {
-        assertDoesNotThrow(() -> PollModAskCommunication.getNumAnswers(1));
         assertNotNull(PollModAskCommunication.getNumAnswers(1));
     }
 }

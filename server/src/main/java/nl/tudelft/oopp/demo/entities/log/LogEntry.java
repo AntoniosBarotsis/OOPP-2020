@@ -14,8 +14,10 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import nl.tudelft.oopp.demo.entities.Room;
 import nl.tudelft.oopp.demo.entities.users.User;
 
@@ -45,6 +47,7 @@ public abstract class LogEntry {
     @JoinColumn(name = "room")
     private Room room;
     @Column(name = "type")
+    @Setter(AccessLevel.NONE)
     private ActionType action;
     @Column(name = "date")
     private Date date;

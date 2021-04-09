@@ -2,6 +2,7 @@ package nl.tudelft.oopp.demo.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +29,7 @@ import nl.tudelft.oopp.demo.repositories.LogEntryRepository;
 import nl.tudelft.oopp.demo.repositories.RoomConfigRepository;
 import nl.tudelft.oopp.demo.repositories.RoomRepository;
 import nl.tudelft.oopp.demo.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -37,11 +39,18 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @Log4j2
 public class RoomService {
+
+    @Autowired
     private final RoomRepository roomRepository;
+
+    @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
     private final LogEntryRepository logEntryRepository;
+
+    @Autowired
     private final RoomConfigRepository roomConfigRepository;
-    private final UserService userService;
 
     /**
      * Returns a list of all rooms.
@@ -394,8 +403,10 @@ public class RoomService {
      * @return the newly created room
      */
     public Room createRoom(RoomHelper roomHelper, String ip) {
-        ElevatedUser user = new ElevatedUser(roomHelper.getUsername(), ip, true);
-        userRepository.save(user);
+        User user = findUser(new ElevatedUser(roomHelper.getUsername(), ip, true));
+        if (!user.typeToString().equals("LECTURER")) {
+            throw new UnauthorizedException("You are not a lecturer");
+        }
 
         if (roomHelper.getRoomConfig() == null) {
             roomHelper.setRoomConfig(new RoomConfig());
@@ -403,10 +414,27 @@ public class RoomService {
 
         roomConfigRepository.save(roomHelper.getRoomConfig());
 
-        Room room = roomHelper.createRoom(user);
+        Room room = roomHelper.createRoom((ElevatedUser) user);
         roomRepository.save(room);
 
         return room;
+    }
+
+    /**
+     * Finds and returns user from the database if he exists, else adds him. The ip and username
+     * combination are checked.
+     *
+     * @param user the user
+     * @return the user
+     */
+    public User findUser(ElevatedUser user) {
+        if (userRepository.getUser(user.getUsername(), user.getIp()) != null) {
+            return userRepository.getOne(
+                userRepository.getUser(user.getUsername(), user.getIp()).getId()
+            );
+        } else {
+            return userRepository.save(user);
+        }
     }
 
     /**
@@ -418,9 +446,9 @@ public class RoomService {
      * @return the user
      */
     public User join(String password, String username, String ip) {
-        Long userId = userRepository.getUser(username, ip);
-        if (userId != null) {
-            return userRepository.getOne(userId);
+        User user = userRepository.getUser(username, ip);
+        if (user != null) {
+            return userRepository.getOne(user.getId());
         }
         boolean isElevated = true;
         Long id = roomRepository.getElevatedRoomId(password);
@@ -432,7 +460,6 @@ public class RoomService {
             return null; // TODO Throw error
         }
         Room room = roomRepository.getOne(id);
-        User user;
         if (isElevated) {
             user = new ElevatedUser(username, ip);
         } else {

@@ -17,6 +17,19 @@ public class AnswerHelper {
     private List<String> answers;
 
     /**
+     * Constructor for AnswerHelper.
+     *
+     * @param pollId poll id
+     * @param userId user id
+     * @param answers answers
+     */
+    public AnswerHelper(long pollId, long userId, List<String> answers) {
+        this.pollId = pollId;
+        this.userId = userId;
+        this.answers = answers;
+    }
+
+    /**
      * Create an Answer.
      *
      * @return the Answer
